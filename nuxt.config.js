@@ -49,6 +49,8 @@ export default {
         '@nuxtjs/axios',
         // https://i18n.nuxtjs.org/
         'nuxt-i18n',
+        // https://sentry.nuxtjs.org/
+        '@nuxtjs/sentry',
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios

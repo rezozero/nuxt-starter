@@ -27,7 +27,7 @@ export default Vue.extend({
     name: 'DefaultPage',
     async asyncData(context: Context): Promise<AsyncData> {
         const data = {} as AsyncData
-        const { store, error } = context
+        const { store, error, $sentry } = context
 
         if (process.server) {
             // during server rendering the page data has been already loaded by the nuxtServerInit action
@@ -57,7 +57,7 @@ export default Vue.extend({
                     }
                 })
                 .catch((requestError: AxiosError) => {
-                    // $sentry.captureException(requestError)
+                    $sentry.captureException(requestError)
 
                     error({
                         statusCode: requestError.response?.status,

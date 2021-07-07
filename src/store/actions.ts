@@ -9,7 +9,7 @@ import { PageResponse } from '~/types/api'
 
 const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }: ActionContext<RootState, RootState>, context: Context) {
-        const { app, $api } = context
+        const { app, $api, $sentry } = context
 
         await dispatch('fetchPage', context)
             .then((response: RoadizNodesSources) => {
@@ -20,7 +20,7 @@ const actions: ActionTree<RootState, RootState> = {
                 }
             })
             .catch((requestError: AxiosError) => {
-                // $sentry.captureException(requestError)
+                $sentry.captureException(requestError)
 
                 commit(MutationType.FIRST_PAGE_ERROR, {
                     statusCode: requestError.response?.status,
