@@ -1,0 +1,56 @@
+.grid {
+    display: grid;
+    width: var(--grid-width);
+    max-width: var(--grid-max-width);
+    margin: 0 auto;
+    gap: 0 var(--gutter);
+    grid-template-columns: repeat(12, 1fr);
+}
+
+// remove the autoprefixer warning about the gap property
+// warning: for IE 11 compatibility the gap property has to be used with the grid-template-areas
+// @see https://css-tricks.com/css-grid-in-ie-css-grid-and-the-new-autoprefixer/
+// @see https://github.com/postcss/autoprefixer#grid-autoplacement-support-in-ie
+/* stylelint-disable no-duplicate-selectors */
+//.grid {
+//    /* autoprefixer grid: off */
+//    gap: 0 var(--gutter);
+//}
+/* stylelint-enable no-duplicate-selectors */
+
+:root {
+    @each $breakpoint, $value in $grid-widths {
+        @if $breakpoint == 0 {
+            --grid-width: #{$value};
+        }
+        @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                --grid-width: #{$value};
+            }
+        }
+    }
+
+    @each $breakpoint, $value in $grid-max-widths {
+        @if $breakpoint == 0 {
+            --grid-max-width: #{$value};
+        }
+        @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                --grid-max-width: #{$value};
+            }
+        }
+    }
+
+    // Gutters
+    @each $breakpoint, $value in $gutters {
+        @if $breakpoint == 0 {
+            --gutter: #{$value};
+        }
+
+        @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                --gutter: #{$value};
+            }
+        }
+    }
+}
