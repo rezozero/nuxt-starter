@@ -17,7 +17,7 @@ export default {
     srcDir: 'src',
 
     // Global CSS: https://go.nuxtjs.dev/config-css
-    css: [],
+    css: ['@/scss/main.scss'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: ['@/plugins/api.ts', '@/plugins/polyfills.client.ts'],
@@ -51,7 +51,20 @@ export default {
     axios: {},
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
-    build: {},
+    build: {
+        loaders: {
+            css: {
+                modules: {
+                    compileType: 'icss',
+                },
+            },
+            cssModules: {
+                modules: {
+                    localIdentName: '[name]__[local]--[hash:base64:5]',
+                },
+            },
+        },
+    },
 
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
