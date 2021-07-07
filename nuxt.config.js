@@ -71,6 +71,6 @@ export default {
         apiKey: process.env.API_KEY,
         apiUrl: process.env.API_URL,
         assetsUrl: process.env.ASSETS_URL,
-        hostname: process.env.HOSTNAME,
+        baseUrl: process.env.BASE_URL,
     },
 }
