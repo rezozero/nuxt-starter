@@ -68,6 +68,11 @@ export default {
         },
     },
 
+    // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-server
+    server: {
+        host: '0.0.0.0', // allow external access in dev mode
+    },
+
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
         apiKey: process.env.API_KEY,
