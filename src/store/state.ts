@@ -10,4 +10,5 @@ export default (): RootState => ({
     alternateUrls: '',
     windowWidth: 0,
     windowHeight: 0,
+    prefersReducedMotion: false,
 })

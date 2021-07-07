@@ -1,15 +1,15 @@
-import {ActionTree, ActionContext} from 'vuex'
-import {Context, NuxtError} from '@nuxt/types'
-import {AxiosError} from 'axios'
-import {RootState} from '~/types/store'
+import { ActionTree, ActionContext } from 'vuex'
+import { Context, NuxtError } from '@nuxt/types'
+import { AxiosError } from 'axios'
+import { RoadizApiNSParams } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
+import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { RootState } from '~/types/store'
 import MutationType from '~/constants/mutation-type'
-import {RoadizApiNSParams} from "@roadiz/abstract-api-client/dist/types/roadiz-api";
-import {RoadizNodesSources} from "@roadiz/abstract-api-client/dist/types/roadiz";
-import {PageResponse} from "~/types/api";
+import { PageResponse } from '~/types/api'
 
 const actions: ActionTree<RootState, RootState> = {
-    async nuxtServerInit({commit, dispatch, state}: ActionContext<RootState, RootState>, context: Context) {
-        const {app, $api} = context
+    async nuxtServerInit({ commit, dispatch }: ActionContext<RootState, RootState>, context: Context) {
+        const { app, $api } = context
 
         await dispatch('fetchPage', context)
             .then((response: RoadizNodesSources) => {
@@ -34,10 +34,7 @@ const actions: ActionTree<RootState, RootState> = {
                 'node.visible': true,
             } as RoadizApiNSParams)
             .then((response) => {
-                const {
-                    mainMenuWalker,
-                    head,
-                } = response.data
+                const { mainMenuWalker, head } = response.data
 
                 if (head) commit(MutationType.HEAD_DATA, head)
                 if (mainMenuWalker) commit(MutationType.MAIN_MENU_DATA, mainMenuWalker)
@@ -47,11 +44,11 @@ const actions: ActionTree<RootState, RootState> = {
         return context.$api.getSingleNodesSourcesByPath(context.params.pathMatch).then((response) => {
             return {
                 page: response.data,
-                alternateUrls: context.$api.getAlternateLinks(response)
+                alternateUrls: context.$api.getAlternateLinks(response),
             }
         })
     },
-    updatePageData({commit}: ActionContext<RootState, RootState>, data: PageResponse) {
+    updatePageData({ commit }: ActionContext<RootState, RootState>, data: PageResponse) {
         commit(MutationType.ALTERNATE_URLS, data.alternateUrls || [])
     },
 }
