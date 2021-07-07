@@ -15,9 +15,9 @@ const actions: ActionTree<RootState, RootState> = {
             .then((response: RoadizNodesSources) => {
                 commit(MutationType.FIRST_PAGE_DATA, response)
 
-                // if (response.translation) {
-                //     app.i18n.locale = response.translation.locale
-                // }
+                if (response.translation) {
+                    app.i18n.locale = response.translation.locale
+                }
             })
             .catch((requestError: AxiosError) => {
                 // $sentry.captureException(requestError)
@@ -30,7 +30,7 @@ const actions: ActionTree<RootState, RootState> = {
 
         return $api
             .getCommonContent({
-                // _locale: app.i18n.locale,
+                _locale: app.i18n.locale,
                 'node.visible': true,
             } as RoadizApiNSParams)
             .then((response) => {

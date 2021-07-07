@@ -45,6 +45,8 @@ export default {
     modules: [
         // https://go.nuxtjs.dev/axios
         '@nuxtjs/axios',
+        // https://i18n.nuxtjs.org/
+        'nuxt-i18n'
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -73,4 +75,20 @@ export default {
         assetsUrl: process.env.ASSETS_URL,
         baseUrl: process.env.BASE_URL,
     },
+
+    // https://i18n.nuxtjs.org/
+    i18n: {
+        detectBrowserLanguage: false,
+        strategy: 'no_prefix',
+        defaultLocale: process.env.I18N_DEFAULT_LOCALE || 'fr',
+        parsePages: false,
+        vuex: false,
+        vueI18n: {
+            fallbackLocale: process.env.I18N_FALLBACK_LOCALE || 'fr',
+            messages: {
+                // en: require('./src/assets/locales/en.json'),
+                // fr: require('./src/assets/locales/fr.json'),
+            },
+        },
+    }
 }

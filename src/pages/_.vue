@@ -166,9 +166,9 @@ export default Vue.extend({
       },
     }
   },
-  // created() {
-  //   // set the locale for first render on the client side (without asyncData)
-  //   if (this.pageData && this.pageData.translation) this.$i18n.locale = this.pageData.translation.locale
-  // },
+  created() {
+    // set the locale for first render on the client side (without asyncData)
+    if (this.pageData && this.pageData.translation) this.$i18n.locale = this.pageData.translation.locale
+  },
 })
 </script>
