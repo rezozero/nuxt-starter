@@ -38,7 +38,9 @@ export default {
         // https://go.nuxtjs.dev/stylelint
         '@nuxtjs/stylelint-module',
         // https://image.nuxtjs.org/getting-started/installation
-        '@nuxt/image'
+        '@nuxt/image',
+        // https://github.com/nuxt-community/style-resources-module#setup
+        '@nuxtjs/style-resources'
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
@@ -95,5 +97,17 @@ export default {
                 // fr: require('./src/assets/locales/fr.json'),
             },
         },
-    }
+    },
+
+    // https://github.com/nuxt-community/style-resources-module#setup
+    styleResources: {
+        scss: [
+            './node_modules/include-media/dist/_include-media.scss',
+            '@/scss/vendors/_include-media.scss',
+            '@/scss/_variables.scss',
+            '@/scss/functions/_color.scss',
+            '@/scss/mixins/_fluid.scss',
+            '@/scss/_ease.scss',
+        ],
+    },
 }
