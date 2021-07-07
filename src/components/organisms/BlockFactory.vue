@@ -1,6 +1,6 @@
 <script lang="ts">
 import Vue, { PropType, VNode } from 'vue'
-import {RoadizWalker} from "@roadiz/abstract-api-client/dist/types/roadiz";
+import { RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
 
 export default Vue.extend({
     name: 'BlockFactory',

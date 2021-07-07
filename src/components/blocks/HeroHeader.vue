@@ -1,11 +1,10 @@
 <template>
-  <div>{{ walker.item.title }}</div>
+    <div>{{ walker.item.title }}</div>
 </template>
 
 <script lang="ts">
-import Block from "~/mixins/Block";
-import mixins from "vue-typed-mixins";
+import mixins from 'vue-typed-mixins'
+import Block from '~/mixins/Block'
 
-export default mixins(Block).extend({
-})
+export default mixins(Block).extend({})
 </script>

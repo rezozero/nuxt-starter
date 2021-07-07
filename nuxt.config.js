@@ -3,13 +3,13 @@ export default {
     head: {
         title: 'nuxt-starter',
         htmlAttrs: {
-            lang: process.env.I18N_DEFAULT_LOCALE
+            lang: process.env.I18N_DEFAULT_LOCALE,
         },
         meta: [
-            {charset: 'utf-8'},
-            {name: 'viewport', content: 'width=device-width, initial-scale=1'},
-            {hid: 'description', name: 'description', content: ''},
-            {name: 'format-detection', content: 'telephone=no'}
+            { charset: 'utf-8' },
+            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+            { hid: 'description', name: 'description', content: '' },
+            { name: 'format-detection', content: 'telephone=no' },
         ],
     },
 
@@ -28,7 +28,7 @@ export default {
         '@/components/atoms',
         '@/components/molecules',
         '@/components/organisms',
-        {path: '@/components/blocks/', global: true},
+        { path: '@/components/blocks/', global: true },
     ],
 
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
@@ -40,7 +40,7 @@ export default {
         // https://image.nuxtjs.org/getting-started/installation
         '@nuxt/image',
         // https://github.com/nuxt-community/style-resources-module#setup
-        '@nuxtjs/style-resources'
+        '@nuxtjs/style-resources',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
@@ -48,7 +48,7 @@ export default {
         // https://go.nuxtjs.dev/axios
         '@nuxtjs/axios',
         // https://i18n.nuxtjs.org/
-        'nuxt-i18n'
+        'nuxt-i18n',
     ],
 
     // Axios module configuration: https://go.nuxtjs.dev/config-axios
