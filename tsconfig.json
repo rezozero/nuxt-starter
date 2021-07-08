@@ -29,7 +29,7 @@
             "@nuxtjs/axios",
             "@types/node",
             "nuxt-i18n",
-            "@roadiz/abstract-api-client",
+            "@roadiz/nuxt-module",
             "@nuxtjs/sentry"
         ]
     },

@@ -9,7 +9,7 @@ import { PageResponse } from '~/types/api'
 
 const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }: ActionContext<RootState, RootState>, context: Context) {
-        const { app, $api, $sentry } = context
+        const { app, $roadiz, $sentry } = context
 
         await dispatch('fetchPage', context)
             .then((response: RoadizNodesSources) => {
@@ -28,7 +28,7 @@ const actions: ActionTree<RootState, RootState> = {
                 } as NuxtError)
             })
 
-        return $api
+        return $roadiz
             .getCommonContent({
                 _locale: app.i18n.locale,
                 'node.visible': true,
@@ -41,10 +41,10 @@ const actions: ActionTree<RootState, RootState> = {
             })
     },
     fetchPage(actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse> {
-        return context.$api.getSingleNodesSourcesByPath(context.params.pathMatch).then((response) => {
+        return context.$roadiz.getSingleNodesSourcesByPath(context.params.pathMatch).then((response) => {
             return {
                 page: response.data,
-                alternateUrls: context.$api.getAlternateLinks(response),
+                alternateUrls: context.$roadiz.getAlternateLinks(response),
             }
         })
     },

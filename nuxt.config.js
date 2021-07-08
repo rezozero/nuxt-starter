@@ -20,7 +20,7 @@ export default {
     css: ['@/scss/main.scss'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: ['@/plugins/api.ts', '@/plugins/polyfills.client.ts'],
+    plugins: ['@/plugins/polyfills.client.ts'],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: [
@@ -49,6 +49,8 @@ export default {
         'nuxt-i18n',
         // https://sentry.nuxtjs.org/
         '@nuxtjs/sentry',
+        // https://github.com/roadiz/nuxt-module#configuration
+        '@roadiz/nuxt-module',
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -74,8 +76,10 @@ export default {
 
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
-        apiKey: process.env.API_KEY,
-        apiUrl: process.env.API_URL,
+        roadiz: {
+            baseUrl: process.env.API_URL,
+            apiKey: process.env.API_KEY,
+        },
         assetsUrl: process.env.ASSETS_URL,
         baseUrl: process.env.BASE_URL,
     },
