@@ -45,16 +45,11 @@ export default {
 
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
-        // https://go.nuxtjs.dev/axios
-        '@nuxtjs/axios',
         // https://i18n.nuxtjs.org/
         'nuxt-i18n',
         // https://sentry.nuxtjs.org/
         '@nuxtjs/sentry',
     ],
-
-    // Axios module configuration: https://go.nuxtjs.dev/config-axios
-    axios: {},
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
