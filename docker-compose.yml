@@ -1,0 +1,41 @@
+version: "3.6"
+services:
+    app:
+        env_file:
+            - .env
+        networks:
+            - default
+        build:
+            context: .
+            dockerfile: .docker/node/Dockerfile
+
+    varnish:
+        build:
+            context: .
+            dockerfile: .docker/varnish/Dockerfile
+        networks:
+            - frontproxynet
+            - default
+        tmpfs: /var/lib/varnish:exec
+        depends_on:
+            - app
+        links:
+            - app:app
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE}.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE}.loadbalancer.server.port=80"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE}.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.entrypoints=http"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.rule=Host(${TRAEFIK_HOSTNAME})"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.service=${TRAEFIK_NAMESPACE}"
+            # Listen HTTPS
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.entrypoints=https"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.tls=true"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.rule=Host(${TRAEFIK_HOSTNAME})"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.service=${TRAEFIK_NAMESPACE}"
+
+networks:
+    frontproxynet:
+        external: true
