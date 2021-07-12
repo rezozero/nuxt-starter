@@ -51,6 +51,7 @@ hard-coded in build time.
 
 ```js
 // nuxt.config.js
+import toBoolean from './src/utils/to-boolean'
 // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
 publicRuntimeConfig: {
     roadiz: {
