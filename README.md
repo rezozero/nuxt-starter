@@ -1,6 +1,18 @@
 # nuxt-starter
 Starter template for Nuxt project
 
+* [Build Setup](#build-setup)
+* [Test docker setup](#test-docker-setup)
+* [Configure Roadiz API](#configure-roadiz-api)
+    + [Required modules](#required-modules)
+    + [Runtime configuration](#runtime-configuration)
+    + [Dynamic sitemap configuration](#dynamic-sitemap-configuration)
+    + [Dynamic page data based on request.path](#dynamic-page-data-based-on-requestpath)
+* [Response uniqueness](#response-uniqueness)
+    + [Cache middleware](#cache-middleware)
+* [Simplified analytics using *Plausible*](#simplified-analytics-using-plausible)
+
+
 ## Build Setup
 
 ```bash
@@ -85,6 +97,26 @@ import { sitemapOptions } from './src/utils/roadiz'
 // https://sitemap.nuxtjs.org/guide/setup
 sitemap: () => sitemapOptions(['fr', 'en'])
 ```
+
+### Dynamic page data based on request.path
+
+All the magic happens in [`fetchPage`](https://github.com/rezozero/nuxt-starter/blob/main/src/store/actions.ts#L42) store action. 
+This method is responsible for populating **first SSR request** data with a `PageResponse` interface containing:
+
+- Current page and block data
+- Alternate links (translations) for current request
+
+These content are used in `_.vue` layout, in `asyncData()` method. Then `asyncData` will perform some checks on 
+real request `url` and will redirect users if resource path changed.
+
+`fetchPage` method can be used to fetch extra data according to your page `@type`. For example, fetch a blog-post collection
+if your current page is a `BlogPostListing`, thus you'll be able to extend `PageResponse` adding your own additional data.
+
+`fetchPage` is first called from `nuxtServerInit` where other important data can be collected from Roadiz API:
+
+- Common content response (menus, SEO content, footer content)
+
+All these data are stored in Vuex Store to be accessible from any Vue component.
 
 ## Response uniqueness
 
