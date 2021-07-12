@@ -1,5 +1,6 @@
 <template>
     <div>
+        <h1>{{ pageData.title }}</h1>
         <block-factory :blocks="pageData.blocks"></block-factory>
     </div>
 </template>
