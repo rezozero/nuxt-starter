@@ -22,7 +22,8 @@
     "murmurhash-native": "^3.5.0",
     "nuxt": "^2.15.7",
     "nuxt-i18n": "^6.27.2",
-    "throttle-debounce": "^3.0.1"
+    "throttle-debounce": "^3.0.1",
+    "vue-plausible": "^1.1.4"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",

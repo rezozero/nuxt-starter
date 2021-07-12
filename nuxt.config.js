@@ -65,6 +65,8 @@ export default {
         '@roadiz/nuxt-module',
         // https://sitemap.nuxtjs.org/guide/setup
         '@nuxtjs/sitemap',
+        // https://github.com/moritzsternemann/vue-plausible#configuration
+        'vue-plausible',
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -131,4 +133,13 @@ export default {
 
     // https://sitemap.nuxtjs.org/guide/setup
     sitemap: () => sitemapOptions(['fr', 'en']),
+
+    // https://github.com/moritzsternemann/vue-plausible#configuration
+    // Be careful, these values will be hard-coded at build-time
+    // Use publicRuntimeConfig when https://github.com/moritzsternemann/vue-plausible/pull/11 is merged
+    plausible: {
+        trackLocalhost: false,
+        domain: process.env.PLAUSIBLE_DOMAIN,
+        apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
+    },
 }

@@ -113,3 +113,12 @@ Notice that there is no invalidation tool built-in so keep TTL as low as possibl
 late. Nuxt response TTL is set up only to address traffic pikes. Make sure your Roadiz API is served behind *Varnish* in the
 first place to allow long TTL and cache-tag invalidation on your content API. Varnish in front of your Nuxt SSR is therefore
 optional.
+
+## Simplified analytics using *Plausible*
+
+[Plausible](https://plausible.io/) does not require any GDPR cookie consent and can be self-hosted.
+
+This starter embeds a *Plausible* module ready to go which listens to page views and can be configured with a self-hosted
+domain. See https://github.com/moritzsternemann/vue-plausible#integration for further integration with `trackEvent()` for
+example. Pay attention that Plausible configuration will be hard-coded at build-time until 
+[our Pull request](https://github.com/moritzsternemann/vue-plausible/pull/11) is merged.
