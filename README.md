@@ -29,3 +29,47 @@ $ yarn build
 $ docker-compose build
 $ docker-compose up -d
 ```
+
+## Configure Roadiz API
+
+Add required modules configuration:
+
+```js
+// nuxt.config.js
+// Modules: https://go.nuxtjs.dev/config-modules
+modules: [
+    // https://github.com/roadiz/nuxt-module#configuration
+    '@roadiz/nuxt-module',
+    // https://sitemap.nuxtjs.org/guide/setup
+    '@nuxtjs/sitemap',
+]
+```
+
+Provide runtime config to be able to change configuration values between
+environments. Do not use `dotenv` values elsewhere in `nuxt.config.js` or it will be
+hard-coded in build time.
+
+```js
+// nuxt.config.js
+// https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
+publicRuntimeConfig: {
+    roadiz: {
+        baseUrl: process.env.API_URL,
+        apiKey: process.env.API_KEY,
+        preview: toBoolean(process.env.API_PREVIEW),
+        debug: toBoolean(process.env.API_DEBUG),
+        origin: process.env.API_ORIGIN,
+    },
+    assetsUrl: process.env.ASSETS_URL,
+    baseUrl: process.env.BASE_URL,
+}
+```
+
+### Sitemap
+
+```js
+// nuxt.config.js
+import { sitemapOptions } from './src/utils/roadiz'
+// https://sitemap.nuxtjs.org/guide/setup
+sitemap: () => sitemapOptions(['fr', 'en'])
+```

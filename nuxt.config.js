@@ -1,3 +1,7 @@
+import { murmurHash128 } from 'murmurhash-native'
+import { sitemapOptions } from './src/utils/roadiz'
+import toBoolean from './src/utils/to-boolean'
+
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
@@ -18,6 +22,12 @@ export default {
 
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['@/scss/main.scss'],
+
+    render: {
+        etag: {
+            hash: (html) => murmurHash128(html),
+        },
+    },
 
     serverMiddleware: ['@middleware/cache.ts'],
 
@@ -53,6 +63,8 @@ export default {
         '@nuxtjs/sentry',
         // https://github.com/roadiz/nuxt-module#configuration
         '@roadiz/nuxt-module',
+        // https://sitemap.nuxtjs.org/guide/setup
+        '@nuxtjs/sitemap',
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -81,6 +93,9 @@ export default {
         roadiz: {
             baseUrl: process.env.API_URL,
             apiKey: process.env.API_KEY,
+            preview: toBoolean(process.env.API_PREVIEW),
+            debug: toBoolean(process.env.API_DEBUG),
+            origin: process.env.API_ORIGIN,
         },
         assetsUrl: process.env.ASSETS_URL,
         baseUrl: process.env.BASE_URL,
@@ -113,4 +128,7 @@ export default {
             '@/scss/_ease.scss',
         ],
     },
+
+    // https://sitemap.nuxtjs.org/guide/setup
+    sitemap: () => sitemapOptions(['fr', 'en']),
 }

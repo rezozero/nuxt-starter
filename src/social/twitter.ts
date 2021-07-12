@@ -1,7 +1,7 @@
 import { NuxtRuntimeConfig } from '@nuxt/types/config/runtime'
 import { $Img } from '@nuxt/image'
-import {RoadizNodesSources} from "@roadiz/abstract-api-client/dist/types/roadiz";
-import {getNodesSourcesTitle} from "~/utils/roadiz";
+import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { getNodesSourcesTitle } from '~/utils/roadiz'
 
 interface TwitterMeta {
     hid: string
@@ -9,11 +9,7 @@ interface TwitterMeta {
     content: string
 }
 
-export function createTwitterMeta(
-    page: RoadizNodesSources,
-    $config: NuxtRuntimeConfig,
-    $img: $Img
-): TwitterMeta[] {
+export function createTwitterMeta(page: RoadizNodesSources, $config: NuxtRuntimeConfig, $img: $Img): TwitterMeta[] {
     const meta = [
         {
             hid: 'twitter:card',
