@@ -11,4 +11,5 @@ docker-compose.yml
 .docker
 !.docker/nginx/custom-nginx.conf
 !.docker/nginx/default.conf
+!.docker/nginx-static/default.conf
 !.docker/varnish/default.vcl
