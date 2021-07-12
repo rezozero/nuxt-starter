@@ -152,5 +152,14 @@ optional.
 
 This starter embeds a *Plausible* module ready to go which listens to page views and can be configured with a self-hosted
 domain. See https://github.com/moritzsternemann/vue-plausible#integration for further integration with `trackEvent()` for
-example. Pay attention that Plausible configuration will be hard-coded at build-time until 
-[our Pull request](https://github.com/moritzsternemann/vue-plausible/pull/11) is merged.
+example.
+
+```js
+// nuxt.config.js
+publicRuntimeConfig: {
+    plausible: {
+        domain: process.env.PLAUSIBLE_DOMAIN,
+        apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
+    },
+}
+```

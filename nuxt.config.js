@@ -99,6 +99,10 @@ export default {
             debug: toBoolean(process.env.API_DEBUG),
             origin: process.env.API_ORIGIN,
         },
+        plausible: {
+            domain: process.env.PLAUSIBLE_DOMAIN,
+            apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
+        },
         assetsUrl: process.env.ASSETS_URL,
         baseUrl: process.env.BASE_URL,
     },
@@ -135,11 +139,7 @@ export default {
     sitemap: () => sitemapOptions(['fr', 'en']),
 
     // https://github.com/moritzsternemann/vue-plausible#configuration
-    // Be careful, these values will be hard-coded at build-time
-    // Use publicRuntimeConfig when https://github.com/moritzsternemann/vue-plausible/pull/11 is merged
     plausible: {
         trackLocalhost: false,
-        domain: process.env.PLAUSIBLE_DOMAIN,
-        apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
     },
 }
