@@ -85,3 +85,31 @@ import { sitemapOptions } from './src/utils/roadiz'
 // https://sitemap.nuxtjs.org/guide/setup
 sitemap: () => sitemapOptions(['fr', 'en'])
 ```
+
+## Response uniqueness
+
+Make sure you do not introduce random Vue components identifiers in order to keep a unique ETag for all requests
+on a given page.
+
+To test your response uniqueness, generate multiple md5 checksums from a given page:
+```shell
+curl -q http://192.168.1.24:3000 | md5sum
+```
+
+If the md5 sum is the same, your response will be cacheable by Varnish or any other reverse proxy caches. If the md5 sum 
+is different each time, check your component to track where you introduced randomness or incremented variables.
+
+### Cache middleware
+
+We added a server middleware to allow a very TTL on your SSR responses and make them cacheable for a reverse-proxy
+cache, such as Varnish. Feel free to update the `s-maxage` header value to the best value for your project.
+
+```js
+// nuxt.config.js
+serverMiddleware: ['@middleware/cache.ts']
+```
+
+Notice that there is no invalidation tool built-in so keep TTL as low as possible to see your backoffice changes not to
+late. Nuxt response TTL is set up only to address traffic pikes. Make sure your Roadiz API is served behind *Varnish* in the
+first place to allow long TTL and cache-tag invalidation on your content API. Varnish in front of your Nuxt SSR is therefore
+optional.
