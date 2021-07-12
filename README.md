@@ -32,6 +32,15 @@ $ docker-compose up -d
 
 ## Configure Roadiz API
 
+By default, this starter uses **dynamic routing** with a unique `_.vue` route which calls Roadiz API
+using the requested path. This way, you will be able to add / move / delete pages directly for Roadiz backoffice.
+Nuxt sitemap is set up using this dynamic routing too, then you'll need to pass `sitemapOptions(['fr', 'en'])` with
+at least hard-coded available locales to *sitemap* module options.
+
+Feel free to revert on *static routing* and manually call API in each page `asyncData` method.
+
+### Required modules
+
 Add required modules configuration:
 
 ```js
@@ -44,6 +53,8 @@ modules: [
     '@nuxtjs/sitemap',
 ]
 ```
+
+### Runtime configuration
 
 Provide runtime config to be able to change configuration values between
 environments. Do not use `dotenv` values elsewhere in `nuxt.config.js` or it will be
@@ -66,7 +77,7 @@ publicRuntimeConfig: {
 }
 ```
 
-### Sitemap
+### Dynamic sitemap configuration
 
 ```js
 // nuxt.config.js
