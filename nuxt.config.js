@@ -107,7 +107,6 @@ export default {
             '@/scss/vendors/_include-media.scss',
             '@/scss/_variables.scss',
             '@/scss/functions/_color.scss',
-            '@/scss/mixins/_fluid.scss',
             '@/scss/_ease.scss',
         ],
     },
