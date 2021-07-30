@@ -1,0 +1,17 @@
+$breakpoints: (
+    xs: 375px,
+    sm: 480px,
+    mm: 640px,
+    md: 768px,
+    lg: 1024px,
+    vl: 1280px,
+    xl: 1440px,
+    xxl: 1600px,
+    hd: 1920px,
+);
+
+@each $breakpoint, $value in $breakpoints {
+    :export {
+        breakpoint-#{$breakpoint}: $value;
+    }
+}

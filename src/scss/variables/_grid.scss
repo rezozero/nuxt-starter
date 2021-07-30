@@ -1,0 +1,48 @@
+$gutters: (
+    //0: 8px
+);
+
+$grid-widths: (
+    //0: (280 / 320) * 100%,
+) !default;
+
+$grid-max-widths: (
+    //0: 1920px,
+) !default;
+
+:root {
+    @each $breakpoint, $value in $grid-widths {
+        @if $breakpoint == 0 {
+            --grid-width: #{$value};
+        }
+        @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                --grid-width: #{$value};
+            }
+        }
+    }
+
+    @each $breakpoint, $value in $grid-max-widths {
+        @if $breakpoint == 0 {
+            --grid-max-width: #{$value};
+        }
+        @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                --grid-max-width: #{$value};
+            }
+        }
+    }
+
+    // Gutters
+    @each $breakpoint, $value in $gutters {
+        @if $breakpoint == 0 {
+            --gutter: #{$value};
+        }
+
+        @else {
+            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+                --gutter: #{$value};
+            }
+        }
+    }
+}

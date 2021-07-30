@@ -1,3 +1,9 @@
 @function breakpoint($key) {
-    @return map-get($breakpoints, $key);
+    @if map-has-key($breakpoints, $key) {
+        @return map-get($breakpoints, $key);
+    }
+
+    @warn "Unkown '#{$key}' in $breakpoints.";
+
+    @return null;
 }
