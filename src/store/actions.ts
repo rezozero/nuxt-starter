@@ -2,7 +2,6 @@ import { ActionTree, ActionContext } from 'vuex'
 import { Context, NuxtError } from '@nuxt/types'
 import { AxiosError } from 'axios'
 import { RoadizApiNSParams } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
-import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { RootState } from '~/types/store'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
@@ -12,11 +11,11 @@ const actions: ActionTree<RootState, RootState> = {
         const { app, $roadiz, $sentry } = context
 
         await dispatch('fetchPage', context)
-            .then((response: RoadizNodesSources) => {
+            .then((response: PageResponse) => {
                 commit(MutationType.FIRST_PAGE_DATA, response)
 
-                if (response.translation) {
-                    app.i18n.locale = response.translation.locale
+                if (response.page && response.page.translation) {
+                    app.i18n.locale = response.page.translation.locale
                 }
             })
             .catch((requestError: AxiosError) => {
@@ -40,11 +39,20 @@ const actions: ActionTree<RootState, RootState> = {
                 if (mainMenuWalker) commit(MutationType.MAIN_MENU_DATA, mainMenuWalker)
             })
     },
-    fetchPage(actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse> {
+    fetchPage(_actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse> {
         return context.$roadiz.getSingleNodesSourcesByPath(context.params.pathMatch).then((response) => {
-            return {
-                page: response.data,
-                alternateUrls: context.$roadiz.getAlternateLinks(response),
+            if (!response.data['@type']) {
+                throw new Error('Fetched data is not typed.')
+            }
+            /*
+             * TODO: Add custom data here according to response.data['@type']
+             */
+            switch (response.data['@type']) {
+                default:
+                    return {
+                        page: response.data,
+                        alternateUrls: context.$roadiz.getAlternateLinks(response),
+                    }
             }
         })
     },

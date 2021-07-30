@@ -1,3 +1,7 @@
+import { murmurHash128 } from 'murmurhash-native'
+import { sitemapOptions } from './src/utils/roadiz'
+import toBoolean from './src/utils/to-boolean'
+
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
@@ -18,6 +22,14 @@ export default {
 
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['@/scss/main.scss'],
+
+    render: {
+        etag: {
+            hash: (html) => murmurHash128(html),
+        },
+    },
+
+    serverMiddleware: ['@middleware/cache.ts'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: ['@/plugins/polyfills.client.ts'],
@@ -51,6 +63,10 @@ export default {
         '@nuxtjs/sentry',
         // https://github.com/roadiz/nuxt-module#configuration
         '@roadiz/nuxt-module',
+        // https://sitemap.nuxtjs.org/guide/setup
+        '@nuxtjs/sitemap',
+        // https://github.com/moritzsternemann/vue-plausible#configuration
+        'vue-plausible',
     ],
 
     // Build Configuration: https://go.nuxtjs.dev/config-build
@@ -79,6 +95,13 @@ export default {
         roadiz: {
             baseUrl: process.env.API_URL,
             apiKey: process.env.API_KEY,
+            preview: toBoolean(process.env.API_PREVIEW),
+            debug: toBoolean(process.env.API_DEBUG),
+            origin: process.env.API_ORIGIN,
+        },
+        plausible: {
+            domain: process.env.PLAUSIBLE_DOMAIN,
+            apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         },
         assetsUrl: process.env.ASSETS_URL,
         baseUrl: process.env.BASE_URL,
@@ -109,5 +132,13 @@ export default {
             '@/scss/functions/_color.scss',
             '@/scss/_ease.scss',
         ],
+    },
+
+    // https://sitemap.nuxtjs.org/guide/setup
+    sitemap: () => sitemapOptions(['fr', 'en']),
+
+    // https://github.com/moritzsternemann/vue-plausible#configuration
+    plausible: {
+        trackLocalhost: false,
     },
 }
