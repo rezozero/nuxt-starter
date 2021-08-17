@@ -13,11 +13,11 @@ import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadi
 import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
-import { getNodesSourcesTitle } from '~/utils/roadiz'
 import { createFacebookMeta } from '~/social/facebook'
 import { createTwitterMeta } from '~/social/twitter'
 import { createOrejimeConfig } from '~/tracking/orejime'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
+import getNodesSourcesTitle from '~/utils/roadiz/get-nodes-sources-title'
 
 interface AsyncData {
     pageData: RoadizNodesSources

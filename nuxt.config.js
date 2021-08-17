@@ -1,6 +1,6 @@
 import { murmurHash128 } from 'murmurhash-native'
-import { sitemapOptions } from './src/utils/roadiz'
 import toBoolean from './src/utils/to-boolean'
+import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
@@ -140,7 +140,17 @@ export default {
     },
 
     // https://sitemap.nuxtjs.org/guide/setup
-    sitemap: () => sitemapOptions(['fr', 'en']),
+    sitemap: {
+        // hostname: process.env.BASE_URL,
+        i18n: true,
+        path: '/sitemap.xml',
+        cacheTime: 1000 * 60 * 60 * 2,
+        defaults: {
+            changefreq: 'daily',
+            lastmod: new Date(),
+        },
+        sitemaps: createSitemaps(['fr', 'en']),
+    },
 
     // https://github.com/moritzsternemann/vue-plausible#configuration
     plausible: {

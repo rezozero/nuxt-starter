@@ -1,7 +1,7 @@
 import { NuxtRuntimeConfig } from '@nuxt/types/config/runtime'
 import { $Img } from '@nuxt/image'
-import {RoadizNodesSources} from "@roadiz/abstract-api-client/dist/types/roadiz";
-import {getNodesSourcesTitle} from "~/utils/roadiz";
+import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import getNodesSourcesTitle from '~/utils/roadiz/get-nodes-sources-title'
 
 interface FacebookMeta {
     hid: string
@@ -9,11 +9,7 @@ interface FacebookMeta {
     content: string
 }
 
-export function createFacebookMeta(
-    page: RoadizNodesSources,
-    $config: NuxtRuntimeConfig,
-    $img: $Img
-): FacebookMeta[] {
+export function createFacebookMeta(page: RoadizNodesSources, $config: NuxtRuntimeConfig, $img: $Img): FacebookMeta[] {
     const meta = [
         {
             hid: 'og:title',

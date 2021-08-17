@@ -1,7 +1,7 @@
 import { NuxtRuntimeConfig } from '@nuxt/types/config/runtime'
 import { $Img } from '@nuxt/image'
 import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import { getNodesSourcesTitle } from '~/utils/roadiz'
+import getNodesSourcesTitle from '~/utils/roadiz/get-nodes-sources-title'
 
 interface TwitterMeta {
     hid: string
