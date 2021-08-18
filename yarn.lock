@@ -1465,20 +1465,20 @@
   resolved "https://registry.yarnpkg.com/@polka/url/-/url-1.0.0-next.15.tgz#6a9d143f7f4f49db2d782f9e1c8839a29b43ae23"
   integrity sha512-15spi3V28QdevleWBNXE4pIls3nFZmBbUGrW9IVPwiQczuSb9n76TCB4bsk8TSel+I1OkHEdPhu5QKMfY6rQHA==
 
-"@roadiz/abstract-api-client@^0.1.12":
-  version "0.1.12"
-  resolved "https://registry.yarnpkg.com/@roadiz/abstract-api-client/-/abstract-api-client-0.1.12.tgz#2d9ba91b83ba39f6b207d15ab02c05da10bd9086"
-  integrity sha512-nprOpMI8OKLtZbgD28O0J6FwmeF41o4PzZVY4lH3aoYrO6OXXRM5VGcoGpTwDFKkeCaWE3RecIetoX8ing/GFA==
+"@roadiz/abstract-api-client@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@roadiz/abstract-api-client/-/abstract-api-client-0.2.0.tgz#eb5811df5c860ba88ac46e2393b569c3c22ebdee"
+  integrity sha512-Px21Fxn+/jFxynj61NNgjzTaWJ+yXuRzLX4QUwGN5q3lz16a/LL+C8To6u7DPCwOahoJ6vRML6VIWSqZCGlhfg==
   dependencies:
     axios "^0.21.1"
     qs "^6.10.1"
 
-"@roadiz/nuxt-module@^0.1.5":
-  version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-0.1.5.tgz#e3a844501d3a73a63ee1b1541bc2766436203129"
-  integrity sha512-vNZKDQ3wLUb9beVrfwmCHT7Z7TwOdhOykbHojIW3zrra2KlhMeY2VZo8sve3cSmxc4z4EuUor0Y2nd4n+uNisw==
+"@roadiz/nuxt-module@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-0.2.0.tgz#c7ef4ee690c18a996b6416be46c67aa83ad97b09"
+  integrity sha512-4GdHNGt2WTyCuUcAA6GkKqhKACvKtZx+aQu5LzYmZylSp3hS5xtvmqO4C7Ll8fyvUZ1i5WAFx1NUVHG3F0h9Bg==
   dependencies:
-    "@roadiz/abstract-api-client" "^0.1.12"
+    "@roadiz/abstract-api-client" "^0.2.0"
     axios "^0.21.1"
 
 "@sentry/browser@^6.2.5":
