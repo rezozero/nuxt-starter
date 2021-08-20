@@ -1,5 +1,6 @@
 import { NuxtError } from '@nuxt/types'
 import { RoadizHead, RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
 import { PageResponse } from '~/types/api'
 
 interface RootState {
@@ -11,6 +12,6 @@ interface RootState {
     mainMenuData: RoadizWalker | null
     windowWidth: number
     windowHeight: number
-    alternateUrls: string
+    alternateLinks: AlternateLink[]
     prefersReducedMotion: boolean
 }

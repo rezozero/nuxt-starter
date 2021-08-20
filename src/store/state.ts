@@ -7,7 +7,7 @@ export default (): RootState => ({
     previousPageData: null,
     headData: null,
     mainMenuData: null,
-    alternateUrls: '',
+    alternateLinks: [],
     windowWidth: 0,
     windowHeight: 0,
     prefersReducedMotion: false,

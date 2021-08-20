@@ -51,13 +51,13 @@ const actions: ActionTree<RootState, RootState> = {
                 default:
                     return {
                         page: response.data,
-                        alternateUrls: context.$roadiz.getAlternateLinks(response),
+                        alternateLinks: context.$roadiz.getAlternateLinks(response),
                     }
             }
         })
     },
     updatePageData({ commit }: ActionContext<RootState, RootState>, data: PageResponse) {
-        commit(MutationType.ALTERNATE_URLS, data.alternateUrls || [])
+        commit(MutationType.ALTERNATE_LINKS, data.alternateLinks || [])
     },
 }
 

@@ -11,6 +11,7 @@ import { AxiosError } from 'axios'
 import Vue from 'vue'
 import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
+import { Route } from 'vue-router'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
 import { createFacebookMeta } from '~/social/facebook'
@@ -21,11 +22,18 @@ import getNodesSourcesTitle from '~/utils/roadiz/get-nodes-sources-title'
 
 interface AsyncData {
     pageData: RoadizNodesSources
-    alternateUrls?: AlternateLink[]
+    alternateLinks?: AlternateLink[]
 }
 
 export default Vue.extend({
     name: 'DefaultPage',
+    beforeRouteUpdate(to: Route, from: Route, next: Function) {
+        const nextPageData = this.$store.state.nextPageData
+
+        if (nextPageData) this.$store.dispatch('updatePageData', nextPageData)
+
+        next()
+    },
     async asyncData(context: Context): Promise<AsyncData> {
         const data = {} as AsyncData
         const { store, error, $sentry } = context
@@ -36,7 +44,7 @@ export default Vue.extend({
             // but not with dev or preview mode
             if (store.state.firstPageData) {
                 data.pageData = store.state.firstPageData?.page
-                data.alternateUrls = store.state.firstPageData?.alternateUrls
+                data.alternateLinks = store.state.firstPageData?.alternateLinks
 
                 if (data.pageData.url && context.route.path && data.pageData.url !== context.route.path) {
                     context.redirect(301, data.pageData.url)
@@ -51,7 +59,7 @@ export default Vue.extend({
                 .dispatch('fetchPage', context)
                 .then((response: PageResponse) => {
                     data.pageData = response.page
-                    data.alternateUrls = response.alternateUrls
+                    data.alternateLinks = response.alternateLinks
 
                     if (data.pageData.url && context.route.path && data.pageData.url !== context.route.path) {
                         context.redirect(301, data.pageData.url)
@@ -69,7 +77,7 @@ export default Vue.extend({
 
         store.commit(MutationType.NEXT_PAGE_DATA, {
             page: data.pageData,
-            alternateUrls: data.alternateUrls,
+            alternateLinks: data.alternateLinks,
         } as PageResponse)
 
         return data
@@ -77,7 +85,7 @@ export default Vue.extend({
     data() {
         return {
             pageData: {} as RoadizNodesSources,
-            alternateUrls: [] as AlternateLink[],
+            alternateLinks: [] as AlternateLink[],
         }
     },
     head() {

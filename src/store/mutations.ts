@@ -1,6 +1,7 @@
 import { MutationTree } from 'vuex'
 import { NuxtError } from '@nuxt/types'
 import { RoadizHead, RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
 import { RootState } from '~/types/store'
 import { PageResponse } from '~/types/api'
 import MutationType from '~/constants/mutation-type'
@@ -8,7 +9,7 @@ import MutationType from '~/constants/mutation-type'
 export default {
     [MutationType.WINDOW_WIDTH]: (state, value: number) => (state.windowWidth = value),
     [MutationType.WINDOW_HEIGHT]: (state, value: number) => (state.windowHeight = value),
-    [MutationType.ALTERNATE_URLS]: (state, value: string) => (state.alternateUrls = value),
+    [MutationType.ALTERNATE_LINKS]: (state, value: AlternateLink[]) => (state.alternateLinks = value),
     [MutationType.FIRST_PAGE_DATA]: (state, value: PageResponse) => (state.firstPageData = value),
     [MutationType.FIRST_PAGE_ERROR]: (state, value: NuxtError) => (state.firstPageError = value),
     [MutationType.NEXT_PAGE_DATA]: (state, value: PageResponse) => (state.nextPageData = value),
