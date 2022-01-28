@@ -8,32 +8,22 @@
 <script lang="ts">
 import { Context, NuxtError } from '@nuxt/types'
 import { AxiosError } from 'axios'
-import Vue from 'vue'
 import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
-import { Route } from 'vue-router'
+import mixins from 'vue-typed-mixins'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
-import { createFacebookMeta } from '~/social/facebook'
-import { createTwitterMeta } from '~/social/twitter'
-import { createOrejimeConfig } from '~/tracking/orejime'
-import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
-import getNodesSourcesTitle from '~/utils/roadiz/get-nodes-sources-title'
+import BlockFactory from '~/components/organisms/BlockFactory.vue'
+import Page from '~/mixins/Page'
 
 interface AsyncData {
     pageData: RoadizNodesSources
     alternateLinks?: AlternateLink[]
 }
 
-export default Vue.extend({
+export default mixins(Page).extend({
     name: 'DefaultPage',
-    beforeRouteUpdate(to: Route, from: Route, next: Function) {
-        const nextPageData = this.$store.state.nextPageData
-
-        if (nextPageData) this.$store.dispatch('updatePageData', nextPageData)
-
-        next()
-    },
+    components: { BlockFactory },
     async asyncData(context: Context): Promise<AsyncData> {
         const data = {} as AsyncData
         const { store, error, $sentry } = context
@@ -81,99 +71,6 @@ export default Vue.extend({
         } as PageResponse)
 
         return data
-    },
-    data() {
-        return {
-            pageData: {} as RoadizNodesSources,
-            alternateLinks: [] as AlternateLink[],
-        }
-    },
-    head() {
-        const pageData = (this as any).pageData
-
-        const orejimeConfigHid = 'orejimeConfig'
-        const googleTagManagerHid = 'googleTagManager'
-        const script = []
-        // const link = [
-        //   { rel: 'apple-touch-icon', sizes: '180x180', href: '/favicon/apple-touch-icon.png' },
-        //   { rel: 'icon', type: 'image/png', sizes: '32x32', href: '/favicon/favicon-32x32.png' },
-        //   { rel: 'icon', type: 'image/png', sizes: '16x16', href: '/favicon/favicon-16x16.png' },
-        //   { rel: 'manifest', href: '/favicon/site.webmanifest' },
-        //   { rel: 'mask-icon', href: '/favicon/safari-pinned-tab.svg' },
-        //   { rel: 'shortcut icon', href: '/favicon/favicon.ico' },
-        // ]
-        const meta = [
-            // { name: 'msapplication-TileColor', content: pageData?.head?.mainColor || '' },
-            // { name: 'msapplication-config', content: '/favicon/browserconfig.xml' },
-            // { name: 'theme-color', content: pageData?.head?.mainColor || '' },
-            {
-                hid: 'description',
-                name: 'description',
-                content: pageData.metaDescription,
-            },
-            ...createFacebookMeta(pageData, this.$config, this.$img),
-            ...createTwitterMeta(pageData, this.$config, this.$img),
-        ]
-
-        // Google analytics
-        if (pageData.head?.googleAnalytics || pageData.head?.googleTagManager) {
-            const id = pageData.head.googleTagManager || pageData.head?.googleAnalytics
-
-            // gtag
-            script.push(
-                {
-                    once: true,
-                    hid: 'googletagmanager.com/gtag',
-                    async: true,
-                    defer: false,
-                    body: true,
-                    type: 'opt-in',
-                    src: '',
-                    'data-type': 'application/javascript',
-                    'data-name': 'google',
-                    'data-src': `https://www.googletagmanager.com/gtag/js?id=${id}`,
-                },
-                {
-                    once: true,
-                    hid: googleTagManagerHid,
-                    type: 'opt-in',
-                    'data-type': 'application/javascript',
-                    'data-name': 'google',
-                    innerHTML: createGoogleTagManagerScript(id),
-                }
-            )
-
-            // orejime
-            script.push(
-                {
-                    once: true,
-                    hid: orejimeConfigHid,
-                    innerHTML: createOrejimeConfig(this.$i18n.locale, pageData.head.policyUrl || ''),
-                },
-                {
-                    once: true,
-                    hid: 'unpkg.com/orejime',
-                    async: true,
-                    body: true,
-                    defer: true,
-                    src: 'https://unpkg.com/orejime@1.2.4/dist/orejime.js',
-                }
-            )
-        }
-
-        return {
-            // htmlAttrs: {
-            //   lang: this.$i18n.locale,
-            // },
-            title: getNodesSourcesTitle(pageData),
-            // link,
-            script,
-            meta,
-            __dangerouslyDisableSanitizersByTagID: {
-                [orejimeConfigHid]: ['script', 'innerHTML'],
-                [googleTagManagerHid]: ['script', 'innerHTML'],
-            },
-        }
     },
     created() {
         // set the locale for first render on the client side (without asyncData)
