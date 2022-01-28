@@ -1,0 +1,34 @@
+@use 'sass:math';
+
+@function format-width($value) {
+    @if (
+        type-of($value) == string and
+            type-of($breakpoints) == map and
+            map-has-key($breakpoints, $value)
+    ) {
+        @return rem(map-get($breakpoints, $value));
+    }
+
+    @return rem($value);
+}
+
+// @see https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+@function fluid($values) {
+    $keys: map-keys($values);
+
+    $min-key: nth($keys, 1);
+    $max-key: nth($keys, 2);
+
+    $min-value: map-get($values, $min-key);
+    $max-value: map-get($values, $max-key);
+
+    $min: rem($min-value);
+    $max: rem($max-value);
+    $min-width: format-width($min-key);
+    $max-width: format-width($max-key);
+
+    $slope: math.div(($max - $min), ($max-width - $min-width));
+    $y-axis-intersection: -$min-width * $slope + $min;
+
+    @return clamp(#{$min}, #{$y-axis-intersection} + #{$slope * 100vw}, #{$max});
+}

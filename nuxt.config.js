@@ -124,18 +124,8 @@ export default {
 
     // https://github.com/nuxt-community/style-resources-module#setup
     styleResources: {
-        scss: [
-            // vendors
-            './node_modules/include-media/dist/_include-media.scss',
-            '@/scss/vendors/_include-media.scss',
-            // variables
-            '@/scss/variables/_breakpoints.scss',
-            '@/scss/variables/_colors.scss',
-            '@/scss/variables/_ease-curves.scss',
-            // functions
-            '@/scss/functions/_color.scss',
-            '@/scss/functions/_ease.scss',
-        ],
+        scss: ['@/scss/_style-resources.scss'],
+        hoistUseStatements: true,
     },
 
     // https://sitemap.nuxtjs.org/guide/setup

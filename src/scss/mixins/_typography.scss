@@ -1,0 +1,69 @@
+@use 'sass:math';
+
+@mixin text-h1 {
+    font-family: $din-condensed;
+    font-size: rem(64); // fallback
+    font-size: fluid((xs: 40, xl: 64));
+    line-height: math.div(72, 64);
+    text-transform: uppercase;
+}
+
+@mixin text-h2 {
+    font-family: $din-condensed;
+    font-size: rem(32); // fallback
+    font-size: fluid((xs: 24, xl: 32));
+    letter-spacing: .02em;
+    line-height: math.div(40, 32);
+    text-transform: uppercase;
+}
+
+@mixin text-h3 {
+    font-size: rem(20);
+    font-weight: bold;
+    letter-spacing: .02em;
+    line-height: math.div(28, 20);
+}
+
+@mixin text-body {
+    font-family: $din;
+    font-size: rem(18); // fallback
+    font-size: fluid((xs: 16, xl: 18));
+    line-height: math.div(24, 16);
+
+    @include media('>=lg') {
+        line-height: math.div(32, 18);
+    }
+}
+
+@mixin text-body-small {
+    font-size: rem(14);
+    line-height: math.div(22, 14);
+}
+
+@mixin text-overtitle {
+    font-family: $din-condensed;
+    font-size: rem(18);
+    letter-spacing: .08em;
+    line-height: math.div(24, 18);
+    text-transform: uppercase;
+}
+
+@mixin text-subtitle {
+    font-size: rem(16); // fallback
+    font-size: fluid((xs: 12, xl: 16));
+    font-weight: bold;
+    letter-spacing: .1em;
+    line-height: math.div(24, 16);
+    text-transform: uppercase;
+}
+
+@mixin text-introduction {
+    font-size: rem(24);
+    font-size: fluid(
+            (
+                xs: 16,
+                md: 24,
+            )
+    );
+    line-height: math.div(40, 24);
+}

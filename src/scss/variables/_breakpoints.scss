@@ -9,9 +9,3 @@ $breakpoints: (
     xxl: 1600px,
     hd: 1920px,
 );
-
-@each $breakpoint, $value in $breakpoints {
-    :export {
-        breakpoint-#{$breakpoint}: $value;
-    }
-}

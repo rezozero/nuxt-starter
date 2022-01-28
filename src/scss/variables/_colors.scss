@@ -1,9 +1,2 @@
 $colors: (
-    blueee: #00f
 );
-
-@each $color, $value in $colors {
-    :export {
-        color-#{$color}: $value;
-    }
-}

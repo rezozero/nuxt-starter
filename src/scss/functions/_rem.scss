@@ -1,0 +1,9 @@
+@use 'sass:math';
+
+/*
+ * Pixel value to rem
+ * $value in px
+ */
+@function rem($value) {
+    @return math.div(strip-units($value), 16) * 1rem;
+}
