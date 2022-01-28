@@ -1,11 +1,11 @@
 import { murmurHash128 } from 'murmurhash-native'
+import { joinURL } from 'ufo'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
-        title: 'nuxt-starter',
         htmlAttrs: {
             lang: process.env.I18N_DEFAULT_LOCALE,
         },
@@ -93,7 +93,7 @@ export default {
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
         roadiz: {
-            baseUrl: process.env.API_URL,
+            baseUrl: joinURL(process.env.API_URL, process.env.API_ENDPOINT_PREFIX),
             apiKey: process.env.API_KEY,
             preview: toBoolean(process.env.API_PREVIEW),
             debug: toBoolean(process.env.API_DEBUG),
@@ -103,7 +103,6 @@ export default {
             domain: process.env.PLAUSIBLE_DOMAIN,
             apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         },
-        assetsUrl: process.env.ASSETS_URL,
         baseUrl: process.env.BASE_URL,
     },
 
