@@ -17,4 +17,5 @@ export default {
     [MutationType.MAIN_MENU_DATA]: (state, value: RoadizWalker) => (state.mainMenuData = value),
     [MutationType.HEAD_DATA]: (state, value: RoadizHead) => (state.headData = value),
     [MutationType.PREFERS_REDUCED_MOTION]: (state, value: boolean) => (state.prefersReducedMotion = value),
+    [MutationType.SCROLL_IS_DISABLED]: (state, value: boolean) => (state.scrollIsDisabled = value),
 } as MutationTree<RootState>

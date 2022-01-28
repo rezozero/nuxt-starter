@@ -8,8 +8,8 @@ enum MutationType {
     FIRST_PAGE_ERROR = 'firstPageError',
     NEXT_PAGE_DATA = 'nextPageData',
     PREVIOUS_PAGE_DATA = 'previousPageData',
-    HOME_PAGE_PATH = 'homePagePath',
     PREFERS_REDUCED_MOTION = 'prefersReducedMotion',
+    SCROLL_IS_DISABLED = 'scrollIsDisabled',
 }
 
 export default MutationType

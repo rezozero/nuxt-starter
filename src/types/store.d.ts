@@ -14,4 +14,5 @@ interface RootState {
     windowHeight: number
     alternateLinks: AlternateLink[]
     prefersReducedMotion: boolean
+    scrollIsDisabled: boolean
 }

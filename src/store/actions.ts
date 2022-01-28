@@ -2,6 +2,7 @@ import { ActionTree, ActionContext } from 'vuex'
 import { Context, NuxtError } from '@nuxt/types'
 import { AxiosError } from 'axios'
 import { RoadizApiNSParams } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
+import { BodyScrollOptions, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { RootState } from '~/types/store'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
@@ -61,6 +62,19 @@ const actions: ActionTree<RootState, RootState> = {
     },
     updateNextPageData({ state, dispatch }: ActionContext<RootState, RootState>) {
         if (state.nextPageData) return dispatch('updatePageData', state.nextPageData)
+    },
+    disableScroll(
+        { commit }: ActionContext<RootState, RootState>,
+        { element, options }: { element: HTMLElement; options?: BodyScrollOptions }
+    ) {
+        disableBodyScroll(element, options)
+
+        commit(MutationType.SCROLL_IS_DISABLED, true)
+    },
+    enableScroll({ commit }: ActionContext<RootState, RootState>, { element }: { element: HTMLElement }) {
+        enableBodyScroll(element)
+
+        commit(MutationType.SCROLL_IS_DISABLED, false)
     },
 }
 
