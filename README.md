@@ -78,11 +78,13 @@ import toBoolean from './src/utils/to-boolean'
 // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
 publicRuntimeConfig: {
     roadiz: {
-        baseUrl: process.env.API_URL,
-        apiKey: process.env.API_KEY,
-        preview: toBoolean(process.env.API_PREVIEW),
-        debug: toBoolean(process.env.API_DEBUG),
-        origin: process.env.API_ORIGIN,
+        baseURL: process.env.API_URL,
+        {
+            apiKey: process.env.API_KEY,
+            preview: toBoolean(process.env.API_PREVIEW),
+            debug: toBoolean(process.env.API_DEBUG),
+            origin: process.env.API_ORIGIN,
+        }
     },
     assetsUrl: process.env.ASSETS_URL,
     baseUrl: process.env.BASE_URL,
