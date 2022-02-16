@@ -1,3 +1,5 @@
+import { MetaPropertyName } from 'vue-meta/types/vue-meta'
+
 interface TwitterMetaOptions {
     title?: string
     description?: string
@@ -13,8 +15,6 @@ interface FacebookMetaOptions {
     siteName?: string
 }
 
-interface PageMeta {
+interface PageMetaPropertyName extends MetaPropertyName {
     hid: string
-    name: string
-    content: string
 }

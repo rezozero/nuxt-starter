@@ -8,11 +8,12 @@ import {
     ScriptPropertySrcCallback,
     ScriptPropertyText,
 } from 'vue-meta/types/vue-meta'
+import { MetaInfo } from 'vue-meta'
 import { createFacebookMeta } from '~/utils/meta/facebook'
 import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
 import { createOrejimeConfig } from '~/tracking/orejime'
-import getNodesSourcesTitle from '~/utils/roadiz/get-nodes-sources-title'
+import { FacebookMetaOptions, TwitterMetaOptions } from '~/types/meta'
 
 export default Vue.extend({
     beforeRouteEnter(_to: Route, _from: Route, next: Function) {
@@ -31,54 +32,54 @@ export default Vue.extend({
             alternateLinks: [] as RoadizAlternateLink[],
         }
     },
-    head() {
-        const pageData = (this as any).pageData
-
+    head(): MetaInfo {
         const orejimeConfigHid = 'orejimeConfig'
         const googleTagManagerHid = 'googleTagManager'
         const meta = [
             {
                 hid: 'description',
                 name: 'description',
-                content: pageData.metaDescription,
+                content: this.pageData.head.metaDescription,
             },
-            ...createFacebookMeta((this as any).getFacebookMetaOptions()),
-            ...createTwitterMeta((this as any).getTwitterMetaOptions()),
+            ...createFacebookMeta(this.getFacebookMetaOptions()),
+            ...createTwitterMeta(this.getTwitterMetaOptions()),
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
 
         // Google analytics
-        if (pageData.head?.googleAnalytics || pageData.head?.googleTagManager) {
-            const id = pageData.head.googleTagManager || pageData.head?.googleAnalytics
-            // const policyUrl = pageData.head.policyUrl || this.$store.state.homePagePath
+        if (this.pageData.head?.googleAnalytics || this.pageData.head?.googleTagManager) {
+            const id = this.pageData.head.googleTagManager || this.pageData.head?.googleAnalytics
+            // const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
 
-            // if (!pageData.head.policyUrl) {
+            // if (!this.pageData.head.policyUrl) {
             //     console.warn('🍪 Orejime needs a policy url')
             // }
 
-            // gtag
-            script.push(
-                {
-                    once: true,
-                    hid: 'googletagmanager.com/gtag',
-                    async: true,
-                    defer: false,
-                    body: true,
-                    type: 'opt-in',
-                    src: '',
-                    'data-type': 'application/javascript',
-                    'data-name': 'google',
-                    'data-src': `https://www.googletagmanager.com/gtag/js?id=${id}`,
-                },
-                {
-                    once: true,
-                    hid: googleTagManagerHid,
-                    type: 'opt-in',
-                    'data-type': 'application/javascript',
-                    'data-name': 'google',
-                    innerHTML: createGoogleTagManagerScript(id),
-                }
-            )
+            if (id) {
+                // gtag
+                script.push(
+                    {
+                        once: true,
+                        hid: 'googletagmanager.com/gtag',
+                        async: true,
+                        defer: false,
+                        body: true,
+                        type: 'opt-in',
+                        src: '',
+                        'data-type': 'application/javascript',
+                        'data-name': 'google',
+                        'data-src': `https://www.googletagmanager.com/gtag/js?id=${id}`,
+                    },
+                    {
+                        once: true,
+                        hid: googleTagManagerHid,
+                        type: 'opt-in',
+                        'data-type': 'application/javascript',
+                        'data-name': 'google',
+                        innerHTML: createGoogleTagManagerScript(id),
+                    }
+                )
+            }
 
             // orejime
             script.push(
@@ -102,7 +103,7 @@ export default Vue.extend({
             htmlAttrs: {
                 lang: this.$i18n.locale,
             },
-            title: getNodesSourcesTitle(pageData),
+            title: this.pageData.head.metaTitle,
             script,
             meta,
             __dangerouslyDisableSanitizersByTagID: {

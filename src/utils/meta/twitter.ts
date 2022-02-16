@@ -1,4 +1,6 @@
-export function createTwitterMeta(params: TwitterMetaOptions): PageMeta[] {
+import { PageMetaPropertyName, TwitterMetaOptions } from '~/types/meta'
+
+export function createTwitterMeta(params: TwitterMetaOptions): PageMetaPropertyName[] {
     const { title, description, url, image } = params
 
     const meta = [

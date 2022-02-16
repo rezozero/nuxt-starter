@@ -1,4 +1,6 @@
-export function createFacebookMeta(params: FacebookMetaOptions): PageMeta[] {
+import { FacebookMetaOptions, PageMetaPropertyName } from '~/types/meta'
+
+export function createFacebookMeta(params: FacebookMetaOptions): PageMetaPropertyName[] {
     const { title, description, url, image, siteName } = params
 
     const meta = [
