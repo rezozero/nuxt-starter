@@ -1,11 +1,11 @@
 import { ActionTree, ActionContext } from 'vuex'
 import { Context, NuxtError } from '@nuxt/types'
 import { AxiosError } from 'axios'
-import { RoadizApiNSParams } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
 import { BodyScrollOptions, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
+import { joinURL } from 'ufo'
 import { RootState } from '~/types/store'
 import MutationType from '~/constants/mutation-type'
-import { PageResponse } from '~/types/api'
+import { CommonContent, PageResponse } from '~/types/api'
 
 const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }: ActionContext<RootState, RootState>, context: Context) {
@@ -15,8 +15,10 @@ const actions: ActionTree<RootState, RootState> = {
             .then((response: PageResponse) => {
                 commit(MutationType.FIRST_PAGE_DATA, response)
 
-                if (response.page && response.page.translation) {
-                    app.i18n.locale = response.page.translation.locale
+                if (response.page && response.alternateLinks) {
+                    const locale = response.alternateLinks.find((link) => link.url === response.page.item.url)?.locale
+
+                    if (locale) app.i18n.locale = locale
                 }
             })
             .catch((requestError: AxiosError) => {
@@ -29,19 +31,22 @@ const actions: ActionTree<RootState, RootState> = {
             })
 
         return $roadiz
-            .getCommonContent({
-                _locale: app.i18n.locale,
-                'node.visible': true,
-            } as RoadizApiNSParams)
+            .get<CommonContent>('common_content', {
+                params: {
+                    _locale: app.i18n.locale,
+                },
+            })
             .then((response) => {
-                const { mainMenuWalker, head } = response.data
+                const { mainMenuWalker, home } = response.data
 
-                if (head) commit(MutationType.HEAD_DATA, head)
                 if (mainMenuWalker) commit(MutationType.MAIN_MENU_DATA, mainMenuWalker)
+                if (home) commit(MutationType.HOME_DATA, mainMenuWalker)
             })
     },
     fetchPage(_actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse> {
-        return context.$roadiz.getSingleNodesSourcesByPath(context.params.pathMatch).then((response) => {
+        const path = joinURL('/', context.params.pathMatch)
+
+        return context.$roadiz.getWebResponseByPath(path).then((response) => {
             if (!response.data['@type']) {
                 throw new Error('Fetched data is not typed.')
             }

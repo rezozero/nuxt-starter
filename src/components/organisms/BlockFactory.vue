@@ -1,6 +1,8 @@
 <script lang="ts">
 import Vue, { PropType, VNode } from 'vue'
 import { RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { HydraCollection } from '@roadiz/abstract-api-client/dist/types/hydra'
+import { JsonLdObject } from '@roadiz/abstract-api-client/dist/types/jsonld'
 import EventType from '~/constants/event-type'
 
 export default Vue.extend({
@@ -8,14 +10,18 @@ export default Vue.extend({
     functional: true,
     props: {
         blocks: {
-            type: Array as PropType<Array<RoadizWalker>>,
+            type: [Object, Array] as PropType<
+                HydraCollection<RoadizWalker> | Array<Exclude<RoadizWalker, JsonLdObject>>
+            >,
             default: () => [],
         },
     },
     render(createElement, context): VNode[] | VNode {
-        if (!context.props.blocks.length) return createElement('div') // fix DOM mismatch without blocks
+        const blocks = Array.isArray(context.props.blocks) ? context.props.blocks : context.props.blocks['hydra:member']
 
-        return context.props.blocks
+        if (!blocks.length) return createElement('div') // fix DOM mismatch without blocks
+
+        return blocks
             .filter(
                 (block: RoadizWalker) =>
                     context.parent.$root.$options.components &&

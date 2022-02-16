@@ -1,6 +1,5 @@
 import Vue from 'vue'
-import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
+import { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { Route } from 'vue-router'
 import { joinURL } from 'ufo'
 import {
@@ -28,8 +27,8 @@ export default Vue.extend({
     },
     data() {
         return {
-            pageData: {} as RoadizNodesSources,
-            alternateLinks: [] as AlternateLink[],
+            pageData: {} as RoadizWebResponse,
+            alternateLinks: [] as RoadizAlternateLink[],
         }
     },
     head() {
@@ -125,17 +124,17 @@ export default Vue.extend({
         },
         getTwitterMetaOptions(): TwitterMetaOptions {
             return {
-                title: getNodesSourcesTitle(this.pageData),
-                description: this.pageData.metaDescription,
-                url: joinURL(this.$config.baseUrl, this.pageData.url || ''),
+                title: this.pageData.head.metaTitle,
+                description: this.pageData.head.metaDescription,
+                url: joinURL(this.$config.baseURL, this.pageData.item.url || ''),
                 image: this.getMetaImage(),
             }
         },
         getFacebookMetaOptions(): FacebookMetaOptions {
             return {
-                title: getNodesSourcesTitle(this.pageData),
-                description: this.pageData.metaDescription,
-                url: joinURL(this.$config.baseUrl, this.pageData.url || ''),
+                title: this.pageData.head.metaTitle,
+                description: this.pageData.head.metaDescription,
+                url: joinURL(this.$config.baseURL, this.pageData.item.url || ''),
                 siteName: this.pageData.head?.siteName,
                 image: this.getMetaImage(),
             }

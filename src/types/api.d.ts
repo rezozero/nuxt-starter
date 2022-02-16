@@ -1,7 +1,16 @@
-import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
+import {
+    RoadizAlternateLink,
+    RoadizNodesSources,
+    RoadizWalker,
+    RoadizWebResponse,
+} from '@roadiz/abstract-api-client/dist/types/roadiz'
 
 interface PageResponse {
-    page: RoadizNodesSources
-    alternateLinks?: AlternateLink[]
+    page: RoadizWebResponse
+    alternateLinks?: RoadizAlternateLink[]
+}
+
+interface CommonContent {
+    mainMenuWalker?: RoadizWalker
+    home?: RoadizNodesSources
 }

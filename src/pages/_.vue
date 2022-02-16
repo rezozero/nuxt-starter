@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{ pageData.title }}</h1>
+        <h1>{{ pageData.item.title }}</h1>
         <block-factory :blocks="pageData.blocks"></block-factory>
     </div>
 </template>
@@ -8,8 +8,7 @@
 <script lang="ts">
 import { Context, NuxtError } from '@nuxt/types'
 import { AxiosError } from 'axios'
-import { RoadizNodesSources } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import { AlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz-api'
+import { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import mixins from 'vue-typed-mixins'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
@@ -17,8 +16,8 @@ import BlockFactory from '~/components/organisms/BlockFactory.vue'
 import Page from '~/mixins/Page'
 
 interface AsyncData {
-    pageData: RoadizNodesSources
-    alternateLinks?: AlternateLink[]
+    pageData: RoadizWebResponse
+    alternateLinks?: RoadizAlternateLink[]
 }
 
 export default mixins(Page).extend({
@@ -36,8 +35,8 @@ export default mixins(Page).extend({
                 data.pageData = store.state.firstPageData?.page
                 data.alternateLinks = store.state.firstPageData?.alternateLinks
 
-                if (data.pageData.url && context.route.path && data.pageData.url !== context.route.path) {
-                    context.redirect(301, data.pageData.url)
+                if (data.pageData.item.url && context.route.path && data.pageData.item.url !== context.route.path) {
+                    context.redirect(301, data.pageData.item.url)
                 }
 
                 store.dispatch('updatePageData', store.state.firstPageData)
@@ -51,8 +50,8 @@ export default mixins(Page).extend({
                     data.pageData = response.page
                     data.alternateLinks = response.alternateLinks
 
-                    if (data.pageData.url && context.route.path && data.pageData.url !== context.route.path) {
-                        context.redirect(301, data.pageData.url)
+                    if (data.pageData.item.url && context.route.path && data.pageData.item.url !== context.route.path) {
+                        context.redirect(301, data.pageData.item.url)
                     }
                 })
                 .catch((requestError: AxiosError) => {
@@ -72,9 +71,13 @@ export default mixins(Page).extend({
 
         return data
     },
-    created() {
-        // set the locale for first render on the client side (without asyncData)
-        if (this.pageData && this.pageData.translation) this.$i18n.locale = this.pageData.translation.locale
-    },
+    // created() {
+    //     // set the locale for first render on the client side (without asyncData)
+    //     if (this.pageData && this.alternateLinks) {
+    //         const locale = this.alternateLinks.find((link) => link.url === this.pageData.item.url)?.locale
+    //
+    //         if (locale) this.$i18n.locale = locale
+    //     }
+    // },
 })
 </script>
