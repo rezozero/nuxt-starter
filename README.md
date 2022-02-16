@@ -79,15 +79,13 @@ import toBoolean from './src/utils/to-boolean'
 publicRuntimeConfig: {
     roadiz: {
         baseURL: process.env.API_URL,
-        {
-            apiKey: process.env.API_KEY,
-            preview: toBoolean(process.env.API_PREVIEW),
-            debug: toBoolean(process.env.API_DEBUG),
-            origin: process.env.API_ORIGIN,
-        }
+        apiKey: process.env.API_KEY,
+        preview: toBoolean(process.env.API_PREVIEW),
+        debug: toBoolean(process.env.API_DEBUG),
+        origin: process.env.API_ORIGIN
     },
     assetsUrl: process.env.ASSETS_URL,
-    baseUrl: process.env.BASE_URL,
+    baseUrl: process.env.BASE_URL
 }
 ```
 
