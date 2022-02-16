@@ -13,7 +13,7 @@ import { createFacebookMeta } from '~/utils/meta/facebook'
 import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
 import { createOrejimeConfig } from '~/tracking/orejime'
-import { FacebookMetaOptions, TwitterMetaOptions } from '~/types/meta'
+import { FacebookMetaOptions, PageMetaPropertyName, TwitterMetaOptions } from '~/types/meta'
 
 export default Vue.extend({
     beforeRouteEnter(_to: Route, _from: Route, next: Function) {
@@ -40,7 +40,7 @@ export default Vue.extend({
                 hid: 'description',
                 name: 'description',
                 content: this.pageData.head.metaDescription,
-            },
+            } as PageMetaPropertyName,
             ...createFacebookMeta(this.getFacebookMetaOptions()),
             ...createTwitterMeta(this.getTwitterMetaOptions()),
         ]
