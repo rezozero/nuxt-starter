@@ -1,6 +1,6 @@
 $gutters: (
     //0: 8px
-);
+) !default;
 
 $grid-widths: (
     //0: (280 / 320) * 100%,
@@ -8,5 +8,9 @@ $grid-widths: (
 
 $grid-max-widths: (
     //0: 1920px,
+) !default;
+
+$grid-columns: (
+    0: 12,
 ) !default;
 
