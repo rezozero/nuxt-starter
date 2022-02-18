@@ -1,5 +1,6 @@
 import { murmurHash128 } from 'murmurhash-native'
 import { joinURL } from 'ufo'
+import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
@@ -53,6 +54,8 @@ export default {
         '@nuxt/image',
         // https://github.com/nuxt-community/style-resources-module#setup
         '@nuxtjs/style-resources',
+        // https://github.com/nuxt-community/svg-module
+        '@nuxtjs/svg',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
@@ -83,6 +86,14 @@ export default {
                 },
             },
         },
+        plugins: [
+            new SpriteLoaderPlugin({
+                plainSprite: true,
+                spriteAttrs: {
+                    id: 'svg-sprite',
+                },
+            }),
+        ],
     },
 
     // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-server
@@ -144,5 +155,14 @@ export default {
     // https://github.com/moritzsternemann/vue-plausible#configuration
     plausible: {
         trackLocalhost: false,
+    },
+
+    // https://github.com/nuxt-community/svg-module
+    svg: {
+        svgSpriteLoader: {
+            extract: true,
+            runtimeGenerator: require.resolve('./src/utils/svg/sprite-component-generator.js'),
+            spriteFilename: 'image/sprite.[hash:8].svg',
+        },
     },
 }
