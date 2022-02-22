@@ -117,7 +117,7 @@ export default Vue.extend({
             const image = this.pageData.head?.shareImage?.relativePath
 
             if (image) {
-                return (this as any).$img(image, {
+                return this.$img(image, {
                     width: 1200,
                     quality: 70,
                 })

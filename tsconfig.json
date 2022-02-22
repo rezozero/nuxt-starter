@@ -30,7 +30,8 @@
             "@types/node",
             "nuxt-i18n",
             "@roadiz/nuxt-module",
-            "@nuxtjs/sentry"
+            "@nuxtjs/sentry",
+            "@nuxt/image"
         ]
     },
     "exclude": [
