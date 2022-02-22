@@ -114,7 +114,7 @@ export default {
             domain: process.env.PLAUSIBLE_DOMAIN,
             apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         },
-        baseUrl: process.env.BASE_URL,
+        baseURL: process.env.BASE_URL,
     },
 
     // https://i18n.nuxtjs.org/
