@@ -114,6 +114,9 @@ export default {
             domain: process.env.PLAUSIBLE_DOMAIN,
             apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         },
+        interventionRequest: {
+            baseUrl: joinURL(process.env.API_URL, 'assets'),
+        },
         baseURL: process.env.BASE_URL,
     },
 
@@ -163,6 +166,21 @@ export default {
             extract: true,
             runtimeGenerator: require.resolve('./src/utils/svg/sprite-component-generator.js'),
             spriteFilename: 'image/sprite.[hash:8].svg',
+        },
+    },
+
+    // https://github.com/rezozero/intervention-request-provider
+    image: {
+        provider: 'interventionRequest',
+        providers: {
+            interventionRequest: {
+                name: 'interventionRequest',
+                provider: require.resolve('./node_modules/@rezo-zero/intervention-request-provider/dist/index.js'),
+            },
+        },
+        screens: {
+            '2xl': false, // remove useless 2xl size (duplicate with xxl size)
+            hd: 1920,
         },
     },
 }
