@@ -1553,10 +1553,10 @@
     deepmerge "^4.2.2"
     qs "^6.10.1"
 
-"@roadiz/nuxt-module@^2.0.0":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-2.0.1.tgz#cebf7558b7cd6299d8f1decca7db09ce6e0441f7"
-  integrity sha512-MqFTqFYNKZmFAnzcYHn2eruZNVuIUgWYzPsO0oiGZigvRN28ub1iZ8RISBaJaR8nyJIh+Tllk8nVZeyXtWtcJA==
+"@roadiz/nuxt-module@^2.1.3":
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-2.1.3.tgz#24604ca1f8ec24fca017ecc3c9c8f9c97650f0b0"
+  integrity sha512-GTQ7hZsJtg0hFBqsKFzhuFCHya2sUjL/XdhhUhJ+juA7ZfGGqKpMyJxg3nFYRxKfRLtFQoAL03mT8lkWEodMfQ==
   dependencies:
     "@roadiz/abstract-api-client" "^2.0.0"
     axios "^0.21.1"
