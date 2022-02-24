@@ -106,7 +106,7 @@ export default {
         roadiz: {
             baseURL: joinURL(process.env.API_URL, process.env.API_ENDPOINT_PREFIX),
             apiKey: process.env.API_KEY,
-            preview: toBoolean(process.env.API_PREVIEW),
+            allowClientPreview: toBoolean(process.env.API_ALLOW_CLIENT_PREVIEW),
             debug: toBoolean(process.env.API_DEBUG),
             origin: process.env.API_ORIGIN,
         },

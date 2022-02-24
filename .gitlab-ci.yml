@@ -4,12 +4,21 @@ stages:
     - build
     - docker
 
+.cache: &cache
+    cache:
+        key:
+            files:
+                - yarn.lock
+        paths:
+            - node_modules
+
 # ===========
 # SSR STAGING
 # ===========
 ssr_build_develop:
     stage: build
     interruptible: true
+    <<: *cache
     only:
         - develop
     artifacts:
@@ -52,6 +61,7 @@ ssr_docker_develop:
 ssr_build_tags:
     stage: build
     interruptible: true
+    <<: *cache
     only:
         - tags
     artifacts:
@@ -99,6 +109,7 @@ ssr_docker_tags:
 #static_build_develop:
 #    stage: build
 #    interruptible: true
+#    <<: *cache
 #    only:
 #        - develop
 #    artifacts:
@@ -139,6 +150,7 @@ ssr_docker_tags:
 #static_build_tags:
 #    stage: build
 #    interruptible: true
+#    <<: *cache
 #    only:
 #        - tags
 #    artifacts:
