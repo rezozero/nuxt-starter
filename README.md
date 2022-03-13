@@ -80,7 +80,7 @@ publicRuntimeConfig: {
     roadiz: {
         baseURL: process.env.API_URL,
         apiKey: process.env.API_KEY,
-        preview: toBoolean(process.env.API_PREVIEW),
+        allowClientPreview: toBoolean(process.env.API_ALLOW_CLIENT_PREVIEW),
         debug: toBoolean(process.env.API_DEBUG),
         origin: process.env.API_ORIGIN
     },
