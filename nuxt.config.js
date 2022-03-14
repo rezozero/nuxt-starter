@@ -4,6 +4,8 @@ import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
+const locales = ['fr', 'en']
+
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
@@ -129,10 +131,10 @@ export default {
         vuex: false,
         vueI18n: {
             fallbackLocale: process.env.I18N_FALLBACK_LOCALE || 'fr',
-            messages: {
-                // en: require('./src/assets/locales/en.json'),
-                // fr: require('./src/assets/locales/fr.json'),
-            },
+            // messages: locales.reduce(
+            //     (acc, cur) => ({ ...acc, [cur]: require(`./src/assets/locales/nuxt.${cur}.json`) }),
+            //     {}
+            // ),
         },
     },
 
