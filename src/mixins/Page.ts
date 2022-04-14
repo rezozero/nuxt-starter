@@ -14,6 +14,8 @@ import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
 import { createOrejimeConfig } from '~/tracking/orejime'
 import { FacebookMetaOptions, PageMetaPropertyName, TwitterMetaOptions } from '~/types/meta'
+import { createGoogleAnalytics4Script } from '~/tracking/google-analytics-4'
+import { createMatomoScript } from '~/tracking/matomo'
 
 export default Vue.extend({
     beforeRouteEnter(_to: Route, _from: Route, next: Function) {
@@ -35,6 +37,8 @@ export default Vue.extend({
     head(): MetaInfo {
         const orejimeConfigHid = 'orejimeConfig'
         const googleTagManagerHid = 'googleTagManager'
+        const googleAnalyticsHid = 'googleAnalytics'
+        const matomoHid = 'matomo'
         const meta = [
             {
                 hid: 'description',
@@ -46,16 +50,45 @@ export default Vue.extend({
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
 
-        // Google analytics
-        if (this.pageData.head?.googleAnalytics || this.pageData.head?.googleTagManager) {
-            const id = this.pageData.head.googleTagManager || this.pageData.head?.googleAnalytics
+        if (
+            this.pageData.head?.googleAnalytics ||
+            this.pageData.head?.googleTagManager ||
+            this.pageData.head?.matomoSiteId
+        ) {
             // const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
 
             // if (!this.pageData.head.policyUrl) {
             //     console.warn('🍪 Orejime needs a policy url')
             // }
+            if (this.pageData.head?.googleTagManager) {
+                const id = this.pageData.head?.googleTagManager
+                // gtm
+                script.push({
+                    once: true,
+                    hid: googleTagManagerHid,
+                    type: 'opt-in',
+                    'data-type': 'application/javascript',
+                    'data-name': 'google',
+                    innerHTML: createGoogleTagManagerScript(id),
+                })
+            }
 
-            if (id) {
+            if (this.pageData.head?.matomoSiteId) {
+                const id = this.pageData.head?.matomoSiteId
+                const url = this.pageData.head?.matomoUrl || 'matomo.org'
+                // matomo
+                script.push({
+                    once: true,
+                    hid: matomoHid,
+                    type: 'opt-in',
+                    'data-type': 'application/javascript',
+                    'data-name': 'matomo',
+                    innerHTML: createMatomoScript(id, url),
+                })
+            }
+
+            if (this.pageData.head?.googleAnalytics) {
+                const id = this.pageData.head?.googleAnalytics
                 // gtag
                 script.push(
                     {
@@ -72,11 +105,11 @@ export default Vue.extend({
                     },
                     {
                         once: true,
-                        hid: googleTagManagerHid,
+                        hid: googleAnalyticsHid,
                         type: 'opt-in',
                         'data-type': 'application/javascript',
                         'data-name': 'google',
-                        innerHTML: createGoogleTagManagerScript(id),
+                        innerHTML: createGoogleAnalytics4Script(id),
                     }
                 )
             }
@@ -109,6 +142,8 @@ export default Vue.extend({
             __dangerouslyDisableSanitizersByTagID: {
                 [orejimeConfigHid]: ['script', 'innerHTML'],
                 [googleTagManagerHid]: ['script', 'innerHTML'],
+                [googleAnalyticsHid]: ['script', 'innerHTML'],
+                [matomoHid]: ['script', 'innerHTML'],
             },
         }
     },
