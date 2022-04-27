@@ -5,4 +5,6 @@ interface Window {
     gtag: Function | undefined
     // Matomo
     _paq: Array<any> | undefined
+    // Matomo Tag Manager
+    _mtm: Array<any> | undefined
 }
