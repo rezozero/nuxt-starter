@@ -39,6 +39,14 @@ export default Vue.extend({
         const googleTagManagerHid = 'googleTagManager'
         const googleAnalyticsHid = 'googleAnalytics'
         const matomoHid = 'matomo'
+        const link = this.$store.getters.alternateLinks.map((alternateLink: RoadizAlternateLink) => {
+            return {
+                hid: `alternate-${alternateLink.locale}`,
+                rel: 'alternate',
+                hreflang: alternateLink.locale,
+                href: alternateLink.url,
+            }
+        })
         const meta = [
             {
                 hid: 'description',
@@ -137,6 +145,7 @@ export default Vue.extend({
                 lang: this.$i18n.locale,
             },
             title: this.pageData.head.metaTitle,
+            link,
             script,
             meta,
             __dangerouslyDisableSanitizersByTagID: {
