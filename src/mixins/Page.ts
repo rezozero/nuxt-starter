@@ -39,14 +39,17 @@ export default Vue.extend({
         const googleTagManagerHid = 'googleTagManager'
         const googleAnalyticsHid = 'googleAnalytics'
         const matomoHid = 'matomo'
-        const link = this.$store.getters.alternateLinks.map((alternateLink: RoadizAlternateLink) => {
-            return {
-                hid: `alternate-${alternateLink.locale}`,
-                rel: 'alternate',
-                hreflang: alternateLink.locale,
-                href: alternateLink.url,
-            }
-        })
+        let link = []
+        if (this.$config.baseURL) {
+            link = this.$store.getters.alternateLinks.map((alternateLink: RoadizAlternateLink) => {
+                return {
+                    hid: `alternate-${alternateLink.locale}`,
+                    rel: 'alternate',
+                    hreflang: alternateLink.locale,
+                    href: this.$config.baseURL + alternateLink.url,
+                }
+            })
+        }
         const meta = [
             {
                 hid: 'description',

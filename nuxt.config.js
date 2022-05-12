@@ -35,7 +35,7 @@ export default {
     serverMiddleware: ['@middleware/cache.ts'],
 
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: ['@/plugins/polyfills.client.ts'],
+    plugins: ['@/plugins/polyfills.client.ts', '@/plugins/document-url.ts', '@/plugins/roadiz-url.ts'],
 
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: [
@@ -117,9 +117,14 @@ export default {
             apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         },
         interventionRequest: {
-            baseUrl: joinURL(process.env.API_URL, 'assets'),
+            baseUrl: process.env.API_URL,
+            noProcessBasePath: process.env.DOCUMENT_PATH,
+            basePath: process.env.INTERVENTION_REQUEST_BASE_PATH,
         },
+        apiURL: process.env.API_URL,
+        apiEndpointPrefix: process.env.API_ENDPOINT_PREFIX,
         baseURL: process.env.BASE_URL,
+        documentPath: process.env.DOCUMENT_PATH,
     },
 
     // https://i18n.nuxtjs.org/

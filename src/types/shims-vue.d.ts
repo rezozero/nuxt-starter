@@ -11,6 +11,8 @@ declare module '*.vue' {
 declare module 'vue/types/vue' {
     interface Vue {
         $style: { [key: string]: string }
+        $documentURL(path: string | undefined): string
+        $roadizURL(path: string): string
         $resourceUrl(path: string | undefined): string | undefined
     }
 }
