@@ -23,6 +23,11 @@ function createTrans(translations: Translations): Function {
     }
 }
 
+/**
+ * @deprecated Use tarteaucitron for better GDPR integration
+ * @param locale
+ * @param privacyPolicyUrl
+ */
 export function createOrejimeConfig(locale: string, privacyPolicyUrl: string): string {
     const translations = getTranslations(locale)
     const trans = createTrans(translations)

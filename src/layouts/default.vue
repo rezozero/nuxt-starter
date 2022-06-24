@@ -10,12 +10,18 @@ import { throttle } from 'throttle-debounce'
 import MutationType from '../constants/mutation-type'
 import EventType from '../constants/event-type'
 import eventBus from '~/utils/event-bus'
+import { trackPageView } from '~/tracking/tracker'
 
 export default Vue.extend({
     data() {
         return {
             resizeCallback: throttle(200, (this as any).onResize),
         }
+    },
+    watch: {
+        $route() {
+            trackPageView(undefined, this.$route.fullPath)
+        },
     },
     beforeMount() {
         this.setWindowSize()

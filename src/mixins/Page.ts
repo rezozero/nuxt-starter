@@ -12,10 +12,8 @@ import { MetaInfo } from 'vue-meta'
 import { createFacebookMeta } from '~/utils/meta/facebook'
 import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
-import { createOrejimeConfig } from '~/tracking/orejime'
 import { FacebookMetaOptions, PageMetaPropertyName, TwitterMetaOptions } from '~/types/meta'
-import { createGoogleAnalytics4Script } from '~/tracking/google-analytics-4'
-import { createMatomoScript } from '~/tracking/matomo'
+import { createTarteaucitronConfig, TarteaucitronConfigOptions } from '~/tracking/tarteaucitron'
 
 export default Vue.extend({
     beforeRouteEnter(_to: Route, _from: Route, next: Function) {
@@ -35,10 +33,8 @@ export default Vue.extend({
         }
     },
     head(): MetaInfo {
-        const orejimeConfigHid = 'orejimeConfig'
+        const tarteaucitronConfigHid = 'tarteaucitronConfig'
         const googleTagManagerHid = 'googleTagManager'
-        const googleAnalyticsHid = 'googleAnalytics'
-        const matomoHid = 'matomo'
         let link = []
         if (this.$config.baseURL) {
             link = this.$store.getters.alternateLinks.map((alternateLink: RoadizAlternateLink) => {
@@ -61,86 +57,39 @@ export default Vue.extend({
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
 
-        if (
-            this.pageData.head?.googleAnalytics ||
-            this.pageData.head?.googleTagManager ||
-            this.pageData.head?.matomoSiteId
-        ) {
-            // const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
+        if (this.pageData.head?.googleAnalytics || this.pageData.head?.matomoSiteId) {
+            const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
 
-            // if (!this.pageData.head.policyUrl) {
-            //     console.warn('🍪 Orejime needs a policy url')
-            // }
-            if (this.pageData.head?.googleTagManager) {
-                const id = this.pageData.head?.googleTagManager
-                // gtm
-                script.push({
-                    once: true,
-                    hid: googleTagManagerHid,
-                    type: 'opt-in',
-                    'data-type': 'application/javascript',
-                    'data-name': 'google',
-                    innerHTML: createGoogleTagManagerScript(id),
-                })
-            }
-
-            if (this.pageData.head?.matomoSiteId) {
-                const id = this.pageData.head?.matomoSiteId
-                const url = this.pageData.head?.matomoUrl || 'matomo.org'
-                // matomo
-                script.push({
-                    once: true,
-                    hid: matomoHid,
-                    type: 'opt-in',
-                    'data-type': 'application/javascript',
-                    'data-name': 'matomo',
-                    innerHTML: createMatomoScript(id, url),
-                })
-            }
-
-            if (this.pageData.head?.googleAnalytics) {
-                const id = this.pageData.head?.googleAnalytics
-                // gtag
-                script.push(
-                    {
-                        once: true,
-                        hid: 'googletagmanager.com/gtag',
-                        async: true,
-                        defer: false,
-                        body: true,
-                        type: 'opt-in',
-                        src: '',
-                        'data-type': 'application/javascript',
-                        'data-name': 'google',
-                        'data-src': `https://www.googletagmanager.com/gtag/js?id=${id}`,
-                    },
-                    {
-                        once: true,
-                        hid: googleAnalyticsHid,
-                        type: 'opt-in',
-                        'data-type': 'application/javascript',
-                        'data-name': 'google',
-                        innerHTML: createGoogleAnalytics4Script(id),
-                    }
-                )
-            }
-
-            // orejime
-            script.push(
-                {
-                    once: true,
-                    hid: orejimeConfigHid,
-                    innerHTML: createOrejimeConfig(this.$i18n.locale, this.$t('policy_url').toString()),
-                },
-                {
-                    once: true,
-                    hid: 'unpkg.com/orejime',
-                    async: true,
-                    body: true,
-                    defer: true,
-                    src: 'https://unpkg.com/orejime@1.2.4/dist/orejime.js',
-                }
-            )
+            script.push({
+                hid: 'tarteaucitron',
+                src: 'https://cdnjs.cloudflare.com/ajax/libs/tarteaucitronjs/1.9.6/tarteaucitron.js',
+                once: true,
+            })
+            script.push({
+                hid: tarteaucitronConfigHid,
+                innerHTML: createTarteaucitronConfig({
+                    policyUrl,
+                    googleAnalytics: this.pageData.head?.googleAnalytics,
+                    matomoSiteId: this.pageData.head?.matomoSiteId,
+                    matomoUrl: this.pageData.head?.matomoUrl || 'matomo.org',
+                } as TarteaucitronConfigOptions),
+                once: true,
+            })
+        }
+        /*
+         * Google Tag Manager must not be loaded by tarteaucitron, it must configure tarteaucitron itself.
+         * Notice: by using GTM you must comply with GDPR and cookie consent or just use
+         * tarteaucitron with GA4, Matomo or Plausible
+         */
+        if (this.pageData.head?.googleTagManager) {
+            const id = this.pageData.head?.googleTagManager
+            // gtm
+            script.push({
+                once: true,
+                hid: googleTagManagerHid,
+                type: 'application/javascript',
+                innerHTML: createGoogleTagManagerScript(id),
+            })
         }
 
         return {
@@ -152,10 +101,8 @@ export default Vue.extend({
             script,
             meta,
             __dangerouslyDisableSanitizersByTagID: {
-                [orejimeConfigHid]: ['script', 'innerHTML'],
+                [tarteaucitronConfigHid]: ['script', 'innerHTML'],
                 [googleTagManagerHid]: ['script', 'innerHTML'],
-                [googleAnalyticsHid]: ['script', 'innerHTML'],
-                [matomoHid]: ['script', 'innerHTML'],
             },
         }
     },

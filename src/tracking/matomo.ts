@@ -1,4 +1,5 @@
 /**
+ * @deprecated Use tarteaucitron for better GDPR integration
  * @see https://developer.matomo.org/guides/tracking-javascript-guide
  * @param {string} id
  * @param {string} matomoUrl
