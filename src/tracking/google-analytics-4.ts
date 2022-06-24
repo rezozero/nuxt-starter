@@ -1,4 +1,5 @@
 /**
+ * @deprecated Use tarteaucitron for better GDPR integration
  * @see https://developers.google.com/analytics/devguides/collection/gtagjs
  * @param id
  */
