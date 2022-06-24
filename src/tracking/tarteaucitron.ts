@@ -9,7 +9,7 @@ export interface TarteaucitronConfigOptions {
  * This method initialize TAC directly on your website. If you need to use
  * Google Tag Manager, you should move this configuration to an external GTM tag.
  *
- * Override this method if you need to adjust configuration: such multi-domains cookie
+ * Override this method if you need to adjust configuration: such as multi-domains cookie
  * or exotic trackers, etc
  */
 export function createTarteaucitronConfig(options: TarteaucitronConfigOptions): string {
