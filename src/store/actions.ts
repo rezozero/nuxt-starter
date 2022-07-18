@@ -11,24 +11,29 @@ const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }: ActionContext<RootState, RootState>, context: Context) {
         const { app, $roadiz, $sentry } = context
 
-        await dispatch('fetchPage', context)
-            .then((response: PageResponse) => {
-                commit(MutationType.FIRST_PAGE_DATA, response)
+        // fetch page from Roadiz for dynamic route
+        if (context.route.name === 'all') {
+            await dispatch('fetchPage', context)
+                .then((response: PageResponse) => {
+                    commit(MutationType.FIRST_PAGE_DATA, response)
 
-                if (response.page && response.alternateLinks) {
-                    const locale = response.alternateLinks.find((link) => link.url === response.page.item.url)?.locale
+                    if (response.page && response.alternateLinks) {
+                        const locale = response.alternateLinks.find(
+                            (link) => link.url === response.page.item.url
+                        )?.locale
 
-                    if (locale) app.i18n.locale = locale
-                }
-            })
-            .catch((requestError: AxiosError) => {
-                $sentry.captureException(requestError)
+                        if (locale) app.i18n.locale = locale
+                    }
+                })
+                .catch((requestError: AxiosError) => {
+                    $sentry.captureException(requestError)
 
-                commit(MutationType.FIRST_PAGE_ERROR, {
-                    statusCode: requestError.response?.status,
-                    message: requestError.message,
-                } as NuxtError)
-            })
+                    commit(MutationType.FIRST_PAGE_ERROR, {
+                        statusCode: requestError.response?.status,
+                        message: requestError.message,
+                    } as NuxtError)
+                })
+        }
 
         return $roadiz
             .get<CommonContent>('common_content', {
