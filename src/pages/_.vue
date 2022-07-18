@@ -14,6 +14,7 @@ import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
 import BlockFactory from '~/components/organisms/BlockFactory.vue'
 import Page from '~/mixins/Page'
+import httpCache from '~/middleware/httpCache'
 
 interface AsyncData {
     pageData: RoadizWebResponse
@@ -23,6 +24,10 @@ interface AsyncData {
 export default mixins(Page).extend({
     name: 'DefaultPage',
     components: { BlockFactory },
+    middleware: httpCache({
+        's-maxage': 30,
+        'stale-while-revalidate': true,
+    }),
     async asyncData(context: Context): Promise<AsyncData> {
         const data = {} as AsyncData
         const { store, error, $sentry } = context

@@ -32,8 +32,6 @@ export default {
         },
     },
 
-    serverMiddleware: ['@middleware/cache.ts'],
-
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: ['@/plugins/polyfills.client.ts', '@/plugins/document-url.ts', '@/plugins/roadiz-url.ts'],
 

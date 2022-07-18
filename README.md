@@ -137,8 +137,14 @@ We added a server middleware to allow a very TTL on your SSR responses and make 
 cache, such as Varnish. Feel free to update the `s-maxage` header value to the best value for your project.
 
 ```js
-// nuxt.config.js
-serverMiddleware: ['@middleware/cache.ts']
+// src/pages/_.vue
+export default mixins(Page).extend({
+    // ...
+    middleware: httpCache({
+        's-maxage': 30,
+        'stale-while-revalidate': true,
+    }),
+})
 ```
 
 Notice that there is no invalidation tool built-in so keep TTL as low as possible to see your backoffice changes not to
