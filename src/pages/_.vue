@@ -24,10 +24,7 @@ interface AsyncData {
 export default mixins(Page).extend({
     name: 'DefaultPage',
     components: { BlockFactory },
-    middleware: httpCache({
-        's-maxage': 30,
-        'stale-while-revalidate': true,
-    }),
+    middleware: httpCache(),
     async asyncData(context: Context): Promise<AsyncData> {
         const data = {} as AsyncData
         const { store, error, $sentry } = context
