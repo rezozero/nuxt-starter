@@ -1,10 +1,11 @@
+import fs from 'fs'
 import { murmurHash128 } from 'murmurhash-native'
 import { joinURL } from 'ufo'
 import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
-const locales = ['fr', 'en']
+const locales = ['fr']
 
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
@@ -134,10 +135,15 @@ export default {
         vuex: false,
         vueI18n: {
             fallbackLocale: process.env.I18N_FALLBACK_LOCALE || 'fr',
-            messages: locales.reduce(
-                (acc, cur) => ({ ...acc, [cur]: require(`./src/assets/locales/nuxt.${cur}.json`) }),
-                {}
-            ),
+            messages: locales.reduce((acc, cur) => {
+                // xilofone format: if there is only one language then the file name doesn't include the locale
+                const path = `./src/assets/locales/nuxt${locales.length > 1 ? '.' + cur : ''}.json`
+
+                return {
+                    ...acc,
+                    [cur]: fs.existsSync(path) ? require(path) : {},
+                }
+            }, {}),
         },
     },
 
