@@ -165,7 +165,7 @@ export default {
             changefreq: 'daily',
             lastmod: new Date(),
         },
-        sitemaps: createSitemaps(['fr', 'en']),
+        sitemaps: createSitemaps(locales),
     },
 
     // https://github.com/moritzsternemann/vue-plausible#configuration
