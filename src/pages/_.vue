@@ -1,20 +1,21 @@
 <template>
     <div>
         <h1>{{ pageData.item.title }}</h1>
-        <block-factory :blocks="pageData.blocks"></block-factory>
+        <v-block-factory :blocks="blocks"></v-block-factory>
     </div>
 </template>
 
 <script lang="ts">
 import { Context, NuxtError } from '@nuxt/types'
 import { AxiosError } from 'axios'
-import { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { RoadizAlternateLink, RoadizWalker, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import mixins from 'vue-typed-mixins'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
-import BlockFactory from '~/components/organisms/BlockFactory.vue'
+import VBlockFactory from '~/components/organisms/VBlockFactory.vue'
 import Page from '~/mixins/Page'
 import httpCache from '~/middleware/http-cache'
+import { getBlockCollection } from '~/utils/roadiz/block'
 
 interface AsyncData {
     pageData: RoadizWebResponse
@@ -24,7 +25,7 @@ interface AsyncData {
 export default mixins(Page).extend({
     name: 'DefaultPage',
     nuxtI18n: false,
-    components: { BlockFactory },
+    components: { VBlockFactory },
     middleware: httpCache(),
     async asyncData(context: Context): Promise<AsyncData> {
         const data = {} as AsyncData
@@ -73,6 +74,11 @@ export default mixins(Page).extend({
         } as PageResponse)
 
         return data
+    },
+    computed: {
+        blocks(): RoadizWalker[] | undefined {
+            return this.pageData.blocks && getBlockCollection(this.pageData.blocks)
+        },
     },
     // created() {
     //     // set the locale for first render on the client side (without asyncData)
