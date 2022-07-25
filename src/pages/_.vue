@@ -14,7 +14,7 @@ import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
 import BlockFactory from '~/components/organisms/BlockFactory.vue'
 import Page from '~/mixins/Page'
-import httpCache from '~/middleware/httpCache'
+import httpCache from '~/middleware/http-cache'
 
 interface AsyncData {
     pageData: RoadizWebResponse
