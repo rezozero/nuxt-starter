@@ -1,6 +1,7 @@
+import type { Route } from 'vue-router'
+import type { MetaInfo } from 'vue-meta'
 import Vue from 'vue'
 import { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import type { Route } from 'vue-router'
 import { joinURL } from 'ufo'
 import {
     ScriptPropertyJson,
@@ -8,7 +9,6 @@ import {
     ScriptPropertySrcCallback,
     ScriptPropertyText,
 } from 'vue-meta/types/vue-meta'
-import type { MetaInfo } from 'vue-meta'
 import { createFacebookMeta } from '~/utils/meta/facebook'
 import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
@@ -28,6 +28,7 @@ export default Vue.extend({
     },
     data() {
         return {
+            title: '', // Fallback title for static pages meta-title
             pageData: {} as RoadizWebResponse,
             alternateLinks: [] as RoadizAlternateLink[],
         }
@@ -49,45 +50,47 @@ export default Vue.extend({
             {
                 hid: 'description',
                 name: 'description',
-                content: this.pageData.head.metaDescription,
+                content: this.pageData.head?.metaDescription || this.$store.state?.headData?.metaDescription,
             } as PageMetaPropertyName,
             ...createFacebookMeta(this.getFacebookMetaOptions()),
             ...createTwitterMeta(this.getTwitterMetaOptions()),
+            { hid: 'version', name: 'version', content: this.$config.version || '' },
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
 
         if (this.pageData.head?.googleAnalytics || this.pageData.head?.matomoSiteId) {
             const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
 
-            script.push({
-                hid: 'tarteaucitron',
-                src: 'https://cdnjs.cloudflare.com/ajax/libs/tarteaucitronjs/1.9.6/tarteaucitron.js',
-                once: true,
-            })
-            script.push({
-                hid: tarteaucitronConfigHid,
-                innerHTML: createTarteaucitronConfig({
-                    policyUrl,
-                    googleAnalytics: this.pageData.head?.googleAnalytics,
-                    matomoSiteId: this.pageData.head?.matomoSiteId,
-                    matomoUrl: this.pageData.head?.matomoUrl || 'matomo.org',
-                } as TarteaucitronConfigOptions),
-                once: true,
-            })
+            script.push(
+                {
+                    hid: 'tarteaucitron',
+                    src: 'https://cdnjs.cloudflare.com/ajax/libs/tarteaucitronjs/1.9.6/tarteaucitron.js',
+                    once: true,
+                },
+                {
+                    hid: tarteaucitronConfigHid,
+                    innerHTML: createTarteaucitronConfig({
+                        policyUrl,
+                        googleAnalytics: this.pageData.head.googleAnalytics,
+                        matomoSiteId: this.pageData.head.matomoSiteId,
+                        matomoUrl: this.pageData.head.matomoUrl || 'matomo.org',
+                    } as TarteaucitronConfigOptions),
+                    once: true,
+                }
+            )
         }
+
         /*
          * Google Tag Manager must not be loaded by tarteaucitron, it must configure tarteaucitron itself.
          * Notice: by using GTM you must comply with GDPR and cookie consent or just use
          * tarteaucitron with GA4, Matomo or Plausible
          */
         if (this.pageData.head?.googleTagManager) {
-            const id = this.pageData.head?.googleTagManager
-            // gtm
             script.push({
                 once: true,
                 hid: googleTagManagerHid,
                 type: 'application/javascript',
-                innerHTML: createGoogleTagManagerScript(id),
+                innerHTML: createGoogleTagManagerScript(this.pageData.head.googleTagManager),
             })
         }
 
@@ -95,40 +98,45 @@ export default Vue.extend({
             htmlAttrs: {
                 lang: this.$i18n.locale,
             },
-            title: this.pageData.head.metaTitle,
-            link,
+            title: this.pageData?.head?.metaTitle || this.getDefaultMetaTitle(),
             script,
+            link,
             meta,
             __dangerouslyDisableSanitizersByTagID: {
-                [tarteaucitronConfigHid]: ['script', 'innerHTML'],
                 [googleTagManagerHid]: ['script', 'innerHTML'],
             },
         }
     },
     methods: {
+        getDefaultMetaTitle(): string {
+            return (this.title ? this.title + ' – ' : '') + this.$store.state?.headData?.siteName
+        },
         getMetaImage(): string | undefined {
-            const image = this.pageData.head?.shareImage?.relativePath
+            const image =
+                this.pageData.head?.shareImage?.relativePath || this.$store.state?.headData?.shareImage?.relativePath
 
             if (image) {
                 return this.$img(image, {
                     width: 1200,
                     quality: 70,
                 })
+            } else {
+                return '/images/share.jpg'
             }
         },
         getTwitterMetaOptions(): TwitterMetaOptions {
             return {
-                title: this.pageData.head.metaTitle,
-                description: this.pageData.head.metaDescription,
-                url: joinURL(this.$config.baseURL, this.pageData.item.url || ''),
+                title: this.pageData?.head?.metaTitle || this.getDefaultMetaTitle(),
+                description: this.pageData?.head?.metaDescription || this.$store.state?.headData?.metaDescription,
+                url: joinURL(this.$config.baseURL, this.pageData?.item?.url || ''),
                 image: this.getMetaImage(),
             }
         },
         getFacebookMetaOptions(): FacebookMetaOptions {
             return {
-                title: this.pageData.head.metaTitle,
-                description: this.pageData.head.metaDescription,
-                url: joinURL(this.$config.baseURL, this.pageData.item.url || ''),
+                title: this.pageData?.head?.metaTitle || this.getDefaultMetaTitle(),
+                description: this.pageData.head?.metaDescription || this.$store.state?.headData?.metaDescription,
+                url: joinURL(this.$config.baseURL, this.pageData?.item?.url || ''),
                 siteName: this.pageData.head?.siteName,
                 image: this.getMetaImage(),
             }
