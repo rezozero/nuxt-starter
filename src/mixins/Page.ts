@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import { Route } from 'vue-router'
+import type { Route } from 'vue-router'
 import { joinURL } from 'ufo'
 import {
     ScriptPropertyJson,
@@ -8,7 +8,7 @@ import {
     ScriptPropertySrcCallback,
     ScriptPropertyText,
 } from 'vue-meta/types/vue-meta'
-import { MetaInfo } from 'vue-meta'
+import type { MetaInfo } from 'vue-meta'
 import { createFacebookMeta } from '~/utils/meta/facebook'
 import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
