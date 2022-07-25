@@ -95,6 +95,8 @@ export default {
                 },
             }),
         ],
+        // fix broken styles during live editing into dev tools https://github.com/vuejs-templates/webpack/issues/1331
+        cssSourceMap: false,
     },
 
     // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-server
