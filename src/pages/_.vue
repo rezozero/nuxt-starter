@@ -23,6 +23,7 @@ interface AsyncData {
 
 export default mixins(Page).extend({
     name: 'DefaultPage',
+    nuxtI18n: false,
     components: { BlockFactory },
     middleware: httpCache(),
     async asyncData(context: Context): Promise<AsyncData> {

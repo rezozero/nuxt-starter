@@ -127,17 +127,17 @@ export default {
 
     // https://i18n.nuxtjs.org/
     i18n: {
+        locales,
         detectBrowserLanguage: false,
-        strategy: 'no_prefix',
+        strategy: 'prefix',
         defaultLocale: process.env.I18N_DEFAULT_LOCALE || 'fr',
-        parsePages: false,
         vuex: false,
         vueI18n: {
             fallbackLocale: process.env.I18N_FALLBACK_LOCALE || 'fr',
-            // messages: locales.reduce(
-            //     (acc, cur) => ({ ...acc, [cur]: require(`./src/assets/locales/nuxt.${cur}.json`) }),
-            //     {}
-            // ),
+            messages: locales.reduce(
+                (acc, cur) => ({ ...acc, [cur]: require(`./src/assets/locales/nuxt.${cur}.json`) }),
+                {}
+            ),
         },
     },
 
