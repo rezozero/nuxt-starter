@@ -126,6 +126,7 @@ export default {
         apiEndpointPrefix: process.env.API_ENDPOINT_PREFIX,
         baseURL: process.env.BASE_URL,
         documentPath: process.env.DOCUMENT_PATH,
+        defaultTimeZone: process.env.I18N_TIMEZONE,
     },
 
     // https://i18n.nuxtjs.org/
@@ -146,6 +147,28 @@ export default {
                     [cur]: fs.existsSync(path) ? require(path) : {},
                 }
             }, {}),
+            // Date-time format presets examples including application-wide time-zone to prevent using
+            // user-browser time-zone (see README.md #define-an-application-wide-timezone)
+            dateTimeFormats: locales.reduce(
+                (acc, cur) => ({
+                    ...acc,
+                    [cur]: {
+                        short: {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            timeZone: process.env.I18N_TIMEZONE,
+                        },
+                        hour: {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            hour12: false,
+                            timeZone: process.env.I18N_TIMEZONE,
+                        },
+                    },
+                }),
+                {}
+            ),
         },
     },
 

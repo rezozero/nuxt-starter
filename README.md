@@ -1,17 +1,17 @@
 # nuxt-starter
 Starter template for Nuxt project
 
-* [Build Setup](#build-setup)
-* [Test docker setup](#test-docker-setup)
-* [Configure Roadiz API](#configure-roadiz-api)
-    + [Required modules](#required-modules)
-    + [Runtime configuration](#runtime-configuration)
-    + [Dynamic sitemap configuration](#dynamic-sitemap-configuration)
-    + [Dynamic page data based on request.path](#dynamic-page-data-based-on-requestpath)
-* [Response uniqueness](#response-uniqueness)
-    + [Cache middleware](#cache-middleware)
-* [Simplified analytics using *Plausible*](#simplified-analytics-using-plausible)
-
+- [Build Setup](#build-setup)
+- [Test docker setup](#test-docker-setup)
+- [Configure Roadiz API](#configure-roadiz-api)
+    - [Required modules](#required-modules)
+    - [Runtime configuration](#runtime-configuration)
+    - [Dynamic sitemap configuration](#dynamic-sitemap-configuration)
+    - [Dynamic page data based on request.path](#dynamic-page-data-based-on-requestpath)
+- [Response uniqueness](#response-uniqueness)
+    - [Cache middleware](#cache-middleware)
+- [Simplified analytics using *Plausible*](#simplified-analytics-using-plausible)
+- [Define an application-wide timezone](#define-an-application-wide-timezone)
 
 ## Build Setup
 
@@ -169,3 +169,17 @@ publicRuntimeConfig: {
     },
 }
 ```
+
+## Define an application-wide timezone
+
+Make sure you define a timezone and use `$i18n` preset when formatting dates and time:
+
+```dotenv
+I18N_TIMEZONE=Europe/Paris
+```
+
+If not, time will be formatted using user-browser timezone. You can test it in _Chrome Dev Tool > ... > Sensors > Location_.
+If you do not want to use `$i18n`, `$config.defaultTimeZone` will hold your current timezone configuration.
+
+Sometimes, using user browser timezone may be a wanted behaviour: to display an interactive date-time specific to user, or
+displaying live or/and online events date-time that will occur world-wide (i.e. a Youtube live event). 
