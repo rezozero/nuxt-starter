@@ -178,6 +178,11 @@ Make sure you define a timezone and use `$i18n` preset when formatting dates and
 I18N_TIMEZONE=Europe/Paris
 ```
 
+Update environment variables in following files:
+
+- `.env`
+- `.gitlab-ci.yml` if you are using Gitlab CI to build your project
+
 If not, time will be formatted using user-browser timezone. You can test it in _Chrome Dev Tool > ... > Sensors > Location_.
 If you do not want to use `$i18n`, `$config.defaultTimeZone` will hold your current timezone configuration.
 
