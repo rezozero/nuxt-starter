@@ -35,9 +35,9 @@ export default Vue.extend({
     head(): MetaInfo {
         const tarteaucitronConfigHid = 'tarteaucitronConfig'
         const googleTagManagerHid = 'googleTagManager'
-        let link = []
-        if (this.$config.baseURL) {
-            link = this.$store.getters.alternateLinks.map((alternateLink: RoadizAlternateLink) => {
+        const link =
+            this.$config.baseURL &&
+            this.$store.getters.alternateLinks?.map((alternateLink: RoadizAlternateLink) => {
                 return {
                     hid: `alternate-${alternateLink.locale}`,
                     rel: 'alternate',
@@ -45,7 +45,6 @@ export default Vue.extend({
                     href: this.$config.baseURL + alternateLink.url,
                 }
             })
-        }
         const meta = [
             {
                 hid: 'description',
