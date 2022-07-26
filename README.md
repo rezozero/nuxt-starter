@@ -172,19 +172,47 @@ publicRuntimeConfig: {
 
 ## Define an application-wide timezone
 
-Make sure you define a timezone and use `$i18n` preset when formatting dates and time:
+Make sure you define a timezone and use `$i18n` preset when formatting dates and time with `$d` method:
 
-```dotenv
-I18N_TIMEZONE=Europe/Paris
+```js
+// nuxt.config.js
+//
+// Define global app timezone here because i18n config is not editable at runtime
+const defaultTimeZone = 'Europe/Paris'
+const defaultLocale = 'fr'
+const fallbackLocale = 'fr'
 ```
 
-Update environment variables in following files:
+If you are using an `$i18n` preset without timezone, time will be formatted using **user-browser timezone**.
+You can test it in _Chrome Dev Tool > ... > Sensors > Location_.  
 
-- `.env`
-- `.gitlab-ci.yml` if you are using Gitlab CI to build your project
+If you do not want to use `$d` method or a *vueI18n* preset, `$config.defaultTimeZone` 
+will hold your current timezone configuration, then you can use Vanilla JS API to format your date:
 
-If not, time will be formatted using user-browser timezone. You can test it in _Chrome Dev Tool > ... > Sensors > Location_.
-If you do not want to use `$i18n`, `$config.defaultTimeZone` will hold your current timezone configuration.
+```js
+(new Intl.DateTimeFormat(
+  this.$i18n.locale, 
+  {
+    timestyle: 'long', 
+    timeZone: this.$config.defaultTimeZone
+  }
+)).format(new Date())
+```
+
+Or *vueI18n*:
+
+```js
+this.$i18n.d(
+  new Date(), 
+  {
+    timestyle: 'long', 
+    timeZone: this.$config.defaultTimeZone
+  }
+)
+```
 
 Sometimes, using user browser timezone may be a wanted behaviour: to display an interactive date-time specific to user, or
 displaying live or/and online events date-time that will occur world-wide (i.e. a Youtube live event). 
+
+Never alter `Date` objects themselves, always `format` them using the wanted timezone. Or this could lead to unwanted
+behaviours especially if you are using `Date` objects to filter time-based API items.

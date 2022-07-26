@@ -5,11 +5,6 @@ stages:
     - docker
     - release
 
-variables:
-    I18N_DEFAULT_LOCALE: fr
-    I18N_FALLBACK_LOCALE: fr
-    I18N_TIMEZONE: Europe/Paris
-
 .cache: &cache
     cache:
         key:
