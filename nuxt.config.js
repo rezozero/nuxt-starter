@@ -6,12 +6,16 @@ import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
 const locales = ['fr']
+// Define global app timezone here because i18n config is not editable at runtime
+const defaultTimeZone = 'Europe/Paris'
+const defaultLocale = 'fr'
+const fallbackLocale = 'fr'
 
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
     head: {
         htmlAttrs: {
-            lang: process.env.I18N_DEFAULT_LOCALE,
+            lang: defaultLocale,
         },
         meta: [
             { charset: 'utf-8' },
@@ -126,7 +130,9 @@ export default {
         apiEndpointPrefix: process.env.API_ENDPOINT_PREFIX,
         baseURL: process.env.BASE_URL,
         documentPath: process.env.DOCUMENT_PATH,
-        defaultTimeZone: process.env.I18N_TIMEZONE,
+        defaultTimeZone,
+        defaultLocale,
+        fallbackLocale,
     },
 
     // https://i18n.nuxtjs.org/
@@ -134,10 +140,10 @@ export default {
         locales,
         detectBrowserLanguage: false,
         strategy: 'prefix',
-        defaultLocale: process.env.I18N_DEFAULT_LOCALE || 'fr',
+        defaultLocale,
         vuex: false,
         vueI18n: {
-            fallbackLocale: process.env.I18N_FALLBACK_LOCALE || 'fr',
+            fallbackLocale,
             messages: locales.reduce((acc, cur) => {
                 // xilofone format: if there is only one language then the file name doesn't include the locale
                 const path = `./src/assets/locales/nuxt${locales.length > 1 ? '.' + cur : ''}.json`
@@ -157,13 +163,13 @@ export default {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric',
-                            timeZone: process.env.I18N_TIMEZONE,
+                            timeZone: defaultTimeZone,
                         },
                         hour: {
                             hour: '2-digit',
                             minute: '2-digit',
                             hour12: false,
-                            timeZone: process.env.I18N_TIMEZONE,
+                            timeZone: defaultTimeZone,
                         },
                     },
                 }),
