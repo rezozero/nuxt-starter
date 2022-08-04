@@ -1,0 +1,90 @@
+#
+# This is an example production docker-compose file
+# with Nginx running between NodeJS and Varnish to allow
+# overriding HTTP static files and configure headers
+#
+version: '3'
+services:
+    app:
+        env_file: ./.env
+        image: ${REGISTRY_BASE_URL}/node:develop
+        networks:
+            - default
+        restart: always
+        volumes:
+            - ./.env:/usr/src/nuxt-app/.env:ro
+        labels:
+            - "com.centurylinklabs.watchtower.enable=true"
+
+    nginx:
+        image: ${REGISTRY_BASE_URL}/nginx:develop
+        networks:
+            - default
+        restart: always
+        depends_on:
+            - app
+        links:
+            - app:app
+        volumes:
+            - ./robots.txt:/usr/share/nginx/app/robots.txt:ro
+            - ./custom-nginx.conf:/etc/nginx/nginx.conf:ro
+        labels:
+            - "com.centurylinklabs.watchtower.enable=true"
+
+    varnish:
+        image: ${REGISTRY_BASE_URL}/varnish:develop
+        networks:
+            - frontproxynet
+            - default
+        restart: always
+        tmpfs: /var/lib/varnish/varnishd:exec
+        # https://github.com/varnish/docker-varnish/issues/53
+        user: root
+        volumes:
+            - ./default.vcl:/etc/varnish/default.vcl:ro
+        environment:
+            VARNISH_SIZE: 2G
+        depends_on:
+            - nginx
+        links:
+            - nginx:nginx
+        labels:
+            - "traefik.enable=true"
+            - "com.centurylinklabs.watchtower.enable=true"
+            # Traefik v2 -----------------------------------------------------
+            - "traefik.http.services.${TRAEFIK_NAMESPACE}.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE}.loadbalancer.server.port=80"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE}.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.entrypoints=http"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.rule=Host(${TRAEFIK_HOSTNAME})"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.service=${TRAEFIK_NAMESPACE}"
+            # Listen HTTPS
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}-secure.entrypoints=https"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}-secure.tls=true"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}-secure.tls.certresolver=letsencrypt"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}-secure.rule=Host(${TRAEFIK_HOSTNAME})"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}-secure.service=${TRAEFIK_NAMESPACE}"
+            # Apply middlewares
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}-secure.middlewares=${TRAEFIK_NAMESPACE}Redirectregex"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE}.middlewares=${TRAEFIK_NAMESPACE}Redirectregex,${TRAEFIK_NAMESPACE}Redirectscheme"
+            # Define Middlewares
+            # Add a Basic auth protection
+            #- "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Auth.basicauth.users=${AUTH_BASIC}"
+            # Add domain redirection (${TRAEFIK_NAMESPACE} non-www to www redir)
+            #- "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectregex.redirectregex.regex=${REDIRECT_REGEX}"
+            #- "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectregex.redirectregex.replacement=${REDIRECT_REPLACEMENT}"
+            #- "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectregex.redirectregex.permanent=true"
+            # Add SSL redirection
+            - "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectscheme.redirectscheme.scheme=https"
+            - "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectscheme.redirectscheme.permanent=true"
+
+
+networks:
+    frontproxynet:
+        external: true
+    default:
+        ipam:
+            driver: default
+            config:
+                -   subnet: ${DEFAULT_GATEWAY}/16
