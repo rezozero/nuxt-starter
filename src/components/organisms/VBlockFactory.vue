@@ -2,7 +2,6 @@
 import type { PropType, VNode } from 'vue'
 import Vue from 'vue'
 import { RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import EventType from '~/constants/event-type'
 
 export default Vue.extend({
     name: 'VBlockFactory',
@@ -35,14 +34,7 @@ export default Vue.extend({
                         ...context.data.attrs,
                         id: block.item.slug,
                     },
-                    on: {
-                        [EventType.BLOCK_MOUNTED]() {
-                            // TODO: transform the event name to pascal case automatically
-                            const callback = context.listeners['block-mounted']
-
-                            if (typeof callback === 'function') callback()
-                        },
-                    },
+                    on: context.listeners,
                 })
             })
     },
