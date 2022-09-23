@@ -1,8 +1,8 @@
 vcl 4.1;
 
 backend default {
-    .host = "app";
-    .port = "5000";
+    .host = "nginx";
+    .port = "80";
 }
 
 sub vcl_recv {
