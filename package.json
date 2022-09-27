@@ -12,7 +12,8 @@
         "generate": "nuxt generate",
         "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
         "lint:style": "stylelint \"**/*.{vue,css}\" --ignore-path .gitignore",
-        "lint": "yarn lint:js && yarn lint:style"
+        "lint": "yarn lint:js && yarn lint:style",
+        "analyze": "nuxt build --analyze"
     },
     "dependencies": {
         "@nuxt/image": "^0.6.2",
