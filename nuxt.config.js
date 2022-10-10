@@ -5,6 +5,7 @@ import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
+const isProduction = process.env.NODE_ENV === 'production'
 const locales = ['fr']
 // Define global app timezone here because i18n config is not editable at runtime
 const defaultTimeZone = 'Europe/Paris'
@@ -87,7 +88,7 @@ export default {
             },
             cssModules: {
                 modules: {
-                    localIdentName: '[name]__[local]--[hash:base64:5]',
+                    localIdentName: isProduction ? '[local]_[hash:base64:5]' : '[name]__[local]--[hash:base64:5]',
                 },
             },
         },
