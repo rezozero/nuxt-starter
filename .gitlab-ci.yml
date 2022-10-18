@@ -57,6 +57,40 @@ ssr_docker_develop:
         - "docker tag ${CI_REGISTRY_IMAGE}/varnish ${CI_REGISTRY_IMAGE}/varnish:develop"
         - "docker push ${CI_REGISTRY_IMAGE}/varnish:develop"
 
+# ===========
+# SSG Storybook
+# ===========
+storybook_build_develop:
+    stage: build
+    interruptible: true
+    <<: *cache
+    only:
+        - develop
+    artifacts:
+        expire_in: 1 hour
+        paths:
+            - storybook-static/
+    script:
+        - cp .env.storybook .env
+        - yarn install --pure-lockfile
+        - yarn storybook:build
+
+storybook_docker_develop:
+    stage: docker
+    only:
+        - develop
+    image: docker:git
+    services:
+        - docker:dind
+    when: on_success
+    needs: [ "storybook_build_develop" ]
+    dependencies: [ "storybook_build_develop" ]
+    script:
+        - "docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}"
+        # App image build
+        - "docker build -t ${CI_REGISTRY_IMAGE}/storybook-static -f .docker/storybook-static/Dockerfile ."
+        - "docker push ${CI_REGISTRY_IMAGE}/storybook-static"
+
 # ========
 # SSR PROD
 # ========

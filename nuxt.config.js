@@ -62,6 +62,8 @@ export default {
         '@nuxtjs/style-resources',
         // https://github.com/nuxt-community/svg-module
         '@nuxtjs/svg',
+        // https://github.com/nuxt/postcss8
+        '@nuxt/postcss8',
     ],
 
     // Modules: https://go.nuxtjs.dev/config-modules
@@ -225,5 +227,48 @@ export default {
             '2xl': false, // remove useless 2xl size (duplicate with xxl size)
             hd: 1920,
         },
+    },
+
+    // https://storybook.nuxtjs.org/api/options
+    storybook: {
+        stories: ['~/stories/**/*.stories.js'],
+        parameters: {
+            viewport: {
+                viewports: {
+                    iPhoneSE: {
+                        name: 'iPhone SE',
+                        styles: {
+                            width: '375px',
+                            height: '660px',
+                        },
+                    },
+                    iPadPortrait: {
+                        name: 'iPad portrait',
+                        styles: {
+                            width: '768px',
+                            height: '1024px',
+                        },
+                    },
+                    iPadLandscape: {
+                        name: 'iPad landscape',
+                        styles: {
+                            width: '1024px',
+                            height: '768px',
+                        },
+                    },
+                },
+            },
+        },
+        addons: [
+            {
+                name: '@storybook/preset-scss',
+                options: {
+                    cssLoaderOptions: {
+                        modules: true,
+                        localIdentName: '[name]__[local]--[hash:base64:5]',
+                    },
+                },
+            },
+        ],
     },
 }
