@@ -106,7 +106,7 @@ This method is responsible for populating **first SSR request** data with a `Pag
 - Current page and block data
 - Alternate links (translations) for current request
 
-These content are used in `_.vue` layout, in `asyncData()` method. Then `asyncData` will perform some checks on 
+These content are used in `_.vue` page, in `asyncData()` method. Then `asyncData` will perform some checks on 
 real request `url` and will redirect users if resource path changed.
 
 `fetchPage` method can be used to fetch extra data according to your page `@type`. For example, fetch a blog-post collection
