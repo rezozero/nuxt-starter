@@ -271,4 +271,9 @@ export default {
             },
         ],
     },
+
+    // https://sentry.nuxtjs.org/guide/setup
+    sentry: {
+        lazy: true,
+    },
 }
