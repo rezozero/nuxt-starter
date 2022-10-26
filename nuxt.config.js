@@ -114,7 +114,7 @@ export default {
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
         roadiz: {
-            baseURL: joinURL(process.env.API_URL, process.env.API_ENDPOINT_PREFIX),
+            baseURL: joinURL(process.env.API_URL || process.env.BASE_URL, process.env.API_ENDPOINT_PREFIX),
             apiKey: process.env.API_KEY,
             allowClientPreview: toBoolean(process.env.API_ALLOW_CLIENT_PREVIEW),
             debug: toBoolean(process.env.API_DEBUG),
