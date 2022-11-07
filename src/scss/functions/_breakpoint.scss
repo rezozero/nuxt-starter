@@ -1,6 +1,17 @@
+@use 'sass:map';
+
+/*
+ * @param {string} $key - breakpoint e.g. xl
+ */
 @function breakpoint($key) {
-    @if map-has-key($breakpoints, $key) {
-        @return map-get($breakpoints, $key);
+    @if type-of($breakpoints) != map {
+        @warn "$breakpoints is not defined";
+
+        @return null;
+    }
+
+    @if map.has-key($breakpoints, $key) {
+        @return map.get($breakpoints, $key);
     }
 
     @warn "Unkown '#{$key}' in $breakpoints.";
