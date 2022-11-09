@@ -13,8 +13,8 @@
         "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
         "lint:style": "stylelint \"**/*.{vue,css,scss}\" --ignore-path .gitignore",
         "lint": "yarn lint:js && yarn lint:style",
-        "storybook": "nuxt storybook",
-        "storybook:build": "nuxt storybook build",
+        "storybook": "nuxt storybook -c nuxt-storybook.config.ts",
+        "storybook:build": "nuxt storybook build -c nuxt-storybook.config.ts",
         "xilo": "node ./node_modules/@rezo-zero/xilofone-fetch/dist/index.js",
         "analyze": "nuxt build --analyze"
     },
@@ -51,6 +51,7 @@
         "@types/marked": "^4.0.7",
         "@types/throttle-debounce": "^2.1.0",
         "@vue-a11y/skip-to": "^2.1.2",
+        "defu": "^6.1.0",
         "eslint": "^7.29.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-nuxt": "^2.0.0",

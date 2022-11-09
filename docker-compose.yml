@@ -36,6 +36,18 @@ services:
             - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.rule=Host(${TRAEFIK_HOSTNAME})"
             - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.service=${TRAEFIK_NAMESPACE}"
 
+    intervention:
+        image: ambroisemaupate/intervention-request:latest
+        volumes:
+            - ./src/assets/storybook:/var/www/html/web/images:cached
+        ports:
+            - 8080:80/tcp
+        environment:
+            IR_CACHE_PATH: ${IR_CACHE_PATH}
+            IR_IMAGES_PATH: ${IR_IMAGES_PATH}
+            IR_IGNORE_PATH: ${IR_IGNORE_PATH}
+            IR_DEFAULT_QUALITY: ${IR_DEFAULT_QUALITY}
+
 networks:
     frontproxynet:
         external: true
