@@ -1,6 +1,7 @@
 import fs from 'fs'
 import { murmurHash128 } from 'murmurhash-native'
 import { joinURL } from 'ufo'
+// @ts-ignore
 import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
@@ -34,7 +35,7 @@ export default {
 
     render: {
         etag: {
-            hash: (html) => murmurHash128(html),
+            hash: (html: string) => murmurHash128(html),
         },
     },
 
@@ -114,7 +115,7 @@ export default {
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
         roadiz: {
-            baseURL: joinURL(process.env.API_URL || process.env.BASE_URL, process.env.API_ENDPOINT_PREFIX),
+            baseURL: joinURL(process.env.API_URL || process.env.BASE_URL || '', process.env.API_ENDPOINT_PREFIX || ''),
             apiKey: process.env.API_KEY,
             allowClientPreview: toBoolean(process.env.API_ALLOW_CLIENT_PREVIEW),
             debug: toBoolean(process.env.API_DEBUG),
