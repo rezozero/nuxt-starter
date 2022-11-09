@@ -26,22 +26,17 @@ export default {
             { name: 'format-detection', content: 'telephone=no' },
         ],
     },
-
     // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-srcdir
     srcDir: 'src',
-
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['@/scss/main.scss'],
-
     render: {
         etag: {
             hash: (html: string) => murmurHash128(html),
         },
     },
-
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: ['@/plugins/polyfills.client.ts', '@/plugins/document-url.ts', '@/plugins/roadiz-url.ts'],
-
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: [
         '@/components',
@@ -50,7 +45,6 @@ export default {
         '@/components/organisms',
         { path: '@/components/blocks/', global: true },
     ],
-
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
         // https://go.nuxtjs.dev/typescript
@@ -66,7 +60,6 @@ export default {
         // https://github.com/nuxt/postcss8
         '@nuxt/postcss8',
     ],
-
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [
         // https://i18n.nuxtjs.org/
@@ -80,7 +73,6 @@ export default {
         // https://github.com/moritzsternemann/vue-plausible#configuration
         'vue-plausible',
     ],
-
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
         loaders: {
@@ -106,12 +98,10 @@ export default {
         // fix broken styles during live editing into dev tools https://github.com/vuejs-templates/webpack/issues/1331
         cssSourceMap: false,
     },
-
     // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-server
     server: {
         host: '0.0.0.0', // allow external access in dev mode
     },
-
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
         roadiz: {
@@ -138,7 +128,6 @@ export default {
         defaultLocale,
         fallbackLocale,
     },
-
     // https://i18n.nuxtjs.org/
     i18n: {
         locales,
@@ -181,13 +170,11 @@ export default {
             ),
         },
     },
-
     // https://github.com/nuxt-community/style-resources-module#setup
     styleResources: {
         scss: ['@/scss/_style-resources.scss'],
         hoistUseStatements: true,
     },
-
     // https://sitemap.nuxtjs.org/guide/setup
     sitemap: {
         // hostname: process.env.BASE_URL,
@@ -200,12 +187,10 @@ export default {
         },
         sitemaps: createSitemaps(locales),
     },
-
     // https://github.com/moritzsternemann/vue-plausible#configuration
     plausible: {
         trackLocalhost: false,
     },
-
     // https://github.com/nuxt-community/svg-module
     svg: {
         svgSpriteLoader: {
@@ -214,7 +199,6 @@ export default {
             spriteFilename: 'image/sprite.[hash:8].svg',
         },
     },
-
     // https://github.com/rezozero/intervention-request-provider
     image: {
         provider: 'interventionRequest',
@@ -229,7 +213,6 @@ export default {
             hd: 1920,
         },
     },
-
     // https://storybook.nuxtjs.org/api/options
     storybook: {
         stories: ['~/stories/**/*.stories.js'],
@@ -272,7 +255,6 @@ export default {
             },
         ],
     },
-
     // https://sentry.nuxtjs.org/guide/setup
     sentry: {
         lazy: true,

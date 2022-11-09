@@ -106,25 +106,25 @@ export default Vue.extend({
         }
     }
 
-    h1 {
-        @include text-h1;
-    }
-
-    h2 {
-        @include text-h2;
-    }
-
-    h3 {
-        @include text-h3;
-    }
-
-    h4 {
-        @include text-h4;
-    }
-
-    h5 {
-        @include text-h5;
-    }
+    //h1 {
+    //    @include text-h1;
+    //}
+    //
+    //h2 {
+    //    @include text-h2;
+    //}
+    //
+    //h3 {
+    //    @include text-h3;
+    //}
+    //
+    //h4 {
+    //    @include text-h4;
+    //}
+    //
+    //h5 {
+    //    @include text-h5;
+    //}
 
     strong {
         font-weight: bold;
