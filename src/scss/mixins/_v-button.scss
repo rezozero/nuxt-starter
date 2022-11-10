@@ -1,0 +1,35 @@
+/**
+ * Get css vars for a specific size
+ */
+@mixin v-button-size($size) {
+    @include v-button-css-vars-by-size($v-button, $size);
+    @include v-button-css-vars-by-size($v-button-inner, $size, '-inner');
+    @include v-button-css-vars-by-size($v-button-icon, $size, '-icon');
+    @include v-button-css-vars-by-size($v-button-label, $size, '-label');
+}
+
+@mixin v-button-style-props($style) {
+    @each $key, $value in $style {
+        #{$key}: $value;
+    }
+}
+
+@mixin v-button-default-css-vars($vars, $prefix: '') {
+    @if (map-has-key($vars, default)) {
+        $default: map-get($vars, default);
+
+        @each $key, $value in $default {
+            #{$key}: var(--v-button#{$prefix}-#{$key}, $value);
+        }
+    }
+}
+
+@mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
+    @if (map-has-key($vars, $size)) {
+        $size-vars: map-get($vars, $size);
+
+        @each $key, $value in $size-vars {
+            --v-button#{$prefix}-#{$key}: #{$value};
+        }
+    }
+}

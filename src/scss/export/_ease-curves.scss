@@ -1,0 +1,7 @@
+@import "../variables/ease-curves";
+
+@each $key, $value in $ease-curves {
+    :export {
+        #{$key}: $value;
+    }
+}
