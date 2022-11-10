@@ -29,21 +29,20 @@ export default {
     // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-srcdir
     srcDir: 'src',
     // Global CSS: https://go.nuxtjs.dev/config-css
-    css: ['@/scss/main.scss'],
+    css: ['~/scss/main.scss'],
     render: {
         etag: {
             hash: (html: string) => murmurHash128(html),
         },
     },
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-    plugins: ['@/plugins/polyfills.client.ts', '@/plugins/document-url.ts', '@/plugins/roadiz-url.ts'],
+    plugins: ['~/plugins/polyfills.client.ts', '~/plugins/document-url.ts', '~/plugins/roadiz-url.ts'],
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: [
-        '@/components',
-        '@/components/atoms',
-        '@/components/molecules',
-        '@/components/organisms',
-        { path: '@/components/blocks/', global: true },
+        '~/components/atoms',
+        '~/components/molecules',
+        '~/components/organisms',
+        { path: '~/components/blocks/', global: true },
     ],
     // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
     buildModules: [
@@ -59,6 +58,8 @@ export default {
         '@nuxtjs/svg',
         // https://github.com/nuxt/postcss8
         '@nuxt/postcss8',
+        // https://github.com/nuxt/components
+        'nuxt-storm',
     ],
     // Modules: https://go.nuxtjs.dev/config-modules
     modules: [

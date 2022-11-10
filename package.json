@@ -60,6 +60,7 @@
         "fibers": "^5.0.0",
         "focus-visible": "^5.2.0",
         "include-media": "^1.4.10",
+        "nuxt-storm": "^1.1.3",
         "prettier": "^2.3.2",
         "sass": "^1.35.1",
         "sass-loader": "10",

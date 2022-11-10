@@ -95,3 +95,6 @@ sw.*
 # Storybook
 .nuxt-storybook
 /storybook-static/
+
+# Nuxt storm
+.components.gen.js

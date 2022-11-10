@@ -2,6 +2,7 @@
     <div>
         <h1>{{ pageData.item.title }}</h1>
         <v-block-factory :blocks="blocks"></v-block-factory>
+        <v-preview />
     </div>
 </template>
 
