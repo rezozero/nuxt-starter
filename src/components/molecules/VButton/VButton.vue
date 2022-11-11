@@ -6,11 +6,11 @@
         v-bind="linkProps"
         @click="onClick"
     >
-        <span ref="inner" class="v-button__inner">
-            <span v-if="$slots.icon || $scopedSlots.icon" class="v-button__icon">
+        <span ref="inner" :class="$style.inner">
+            <span v-if="$slots.icon || $scopedSlots.icon" :class="$style.icon">
                 <slot name="icon" />
             </span>
-            <span v-if="$slots.default || $scopedSlots.default || label" class="v-button__label">
+            <span v-if="$slots.default || $scopedSlots.default || label" :class="$style.label">
                 <slot>{{ label }}</slot>
             </span>
         </span>
@@ -49,17 +49,17 @@ export default Vue.extend({
     computed: {
         classNames(): (string | boolean | undefined)[] {
             return [
-                'v-button',
-                this.outlined && 'v-button--outlined',
-                this.filled && 'v-button--filled',
-                this.elevated && 'v-button--elevated',
-                this.disabled && 'v-button--disabled',
-                this.rounded && 'v-button--rounded',
-                !this.$slots.default && !this.$scopedSlots.default && !this.label && 'v-button--icon',
-                this.direction === 'rtl' && 'v-button--rtl',
-                typeof this.size === 'string' && 'v-button--size-' + this.size,
-                typeof this.theme === 'string' && 'v-button--theme-' + this.theme,
-                typeof this.color === 'string' && 'v-button--color-' + this.color,
+                this.$style.root,
+                this.outlined && this.$style['root--outlined'],
+                this.filled && this.$style['root--filled'],
+                this.elevated && this.$style['root--elevated'],
+                this.disabled && this.$style['root--disabled'],
+                this.rounded && this.$style['root--rounded'],
+                !this.$slots.default && !this.$scopedSlots.default && !this.label && this.$style['root--icon'],
+                this.direction === 'rtl' && this.$style['root--rtl'],
+                typeof this.size === 'string' && this.$style['root--size-' + this.size],
+                typeof this.theme === 'string' && this.$style['root--theme-' + this.theme],
+                typeof this.color === 'string' && this.$style['root--color-' + this.color],
             ]
         },
         internalTag(): string {
@@ -92,10 +92,10 @@ export default Vue.extend({
 })
 </script>
 
-<style lang="scss">
+<style lang="scss" module>
 @use 'sass:math';
 
-.v-button {
+.root {
     @include v-button-default-css-vars($v-button);
     @include theme-variants;
 
@@ -169,7 +169,7 @@ export default Vue.extend({
     }
 }
 
-.v-button__inner {
+.inner {
     @include v-button-default-css-vars($v-button-inner, '-inner');
 
     display: flex;
@@ -177,31 +177,31 @@ export default Vue.extend({
     justify-content: center;
     text-align: left;
 
-    .v-button:not(.v-button--outlined):not(.v-button--filled) & {
+    .root:not(.root--outlined):not(.root--filled) & {
         padding: 0;
     }
 
-    .v-button--icon & {
+    .root--icon & {
         padding: 0;
     }
 
-    .v-button--outlined & {
+    .root--outlined & {
         border-width: var(--v-button-border-width, 3px);
         border-style: solid;
         border-radius: inherit;
         transition: all 0.3s;
     }
 
-    .v-button--outlined.v-button--color-primary & {
+    .root--outlined.root--color-primary & {
         border-color: var(--theme-primary);
     }
 
-    .v-button--outlined.v-button--color-secondary & {
+    .root--outlined.root--color-secondary & {
         border-color: var(--theme-secondary);
     }
 }
 
-.v-button__icon {
+.icon {
     @include v-button-default-css-vars($v-button-icon, '-icon');
 
     display: flex;
@@ -214,7 +214,7 @@ export default Vue.extend({
         transition: none;
     }
 
-    .v-button:not(.v-button--rtl) &:first-child {
+    .root:not(.root--rtl) &:first-child {
         margin-left: 0;
     }
 
@@ -222,13 +222,13 @@ export default Vue.extend({
         margin: 0;
     }
 
-    .v-button--rtl & {
+    .root--rtl & {
         order: 2;
         margin-right: 0;
     }
 }
 
-.v-button__label {
+.label {
     @include v-button-default-css-vars($v-button-label, '-label');
 }
 </style>
