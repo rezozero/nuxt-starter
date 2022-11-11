@@ -1,4 +1,4 @@
-import VVideo from '~/components/molecules/VVideo'
+import VVideo from '~/components/molecules/VVideo/VVideo'
 import Resize from '~/mixins/Resize'
 import { createDocument } from '~/utils/storybook/document'
 

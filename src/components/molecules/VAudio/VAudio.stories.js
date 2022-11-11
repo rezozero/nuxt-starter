@@ -1,4 +1,4 @@
-import VAudio from '~/components/molecules/VAudio'
+import VAudio from '~/components/molecules/VAudio/VAudio'
 import { createDocument } from '~/utils/storybook/document'
 
 export default {

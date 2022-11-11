@@ -1,4 +1,4 @@
-import VMarkdown from '~/components/atoms/VMarkdown'
+import VMarkdown from '~/components/atoms/VMarkdown/VMarkdown'
 
 export default {
     title: 'atoms/Markdown',

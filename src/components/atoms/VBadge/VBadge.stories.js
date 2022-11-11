@@ -1,5 +1,5 @@
-import VBadge from '~/components/atoms/VBadge.vue'
-import VButton from '~/components/molecules/VButton.vue'
+import VBadge from '~/components/atoms/VBadge/VBadge.vue'
+import VButton from '~/components/molecules/VButton/VButton.vue'
 
 export default {
     title: 'Atoms/Badge',

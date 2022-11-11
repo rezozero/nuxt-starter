@@ -6,11 +6,11 @@ import { VNodeData } from 'vue/types/vnode'
 import type Plyr from 'plyr'
 import { getEmbedSrc } from '~/utils/embed'
 import { isImage } from '~/utils/roadiz/document'
-import VImage, { VImageProps } from '~/components/molecules/VImage.vue'
+import VImage, { VImageProps } from '~/components/molecules/VImage/VImage.vue'
 import IconPlay from '~/assets/images/icons/play.svg?sprite'
 import eventBus from '~/utils/event-bus'
 import EventType from '~/constants/event-type'
-import VButton from '~/components/molecules/VButton.vue'
+import VButton from '~/components/molecules/VButton/VButton.vue'
 
 type VideoFit = 'cover' | 'none'
 

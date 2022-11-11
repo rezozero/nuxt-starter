@@ -1,4 +1,4 @@
-import VButton from '~/components/molecules/VButton.vue'
+import VButton from '~/components/molecules/VButton/VButton.vue'
 import IconChevronRight from '~/assets/images/icons/chevron-right.svg?inline'
 
 export default {

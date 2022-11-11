@@ -1,4 +1,4 @@
-import VSpinner from '~/components/atoms/VSpinner'
+import VSpinner from '~/components/atoms/VSpinner/VSpinner'
 
 export default {
     title: 'atoms/Spinner',

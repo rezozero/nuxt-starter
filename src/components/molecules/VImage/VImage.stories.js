@@ -1,4 +1,4 @@
-import VImage from '~/components/molecules/VImage'
+import VImage from '~/components/molecules/VImage/VImage'
 import { createImage } from '~/utils/storybook/document'
 
 export default {

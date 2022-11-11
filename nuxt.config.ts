@@ -216,7 +216,7 @@ export default {
     },
     // https://storybook.nuxtjs.org/api/options
     storybook: {
-        stories: ['~/stories/**/*.stories.js'],
+        stories: ['~/components/**/*.stories.js', '~/stories/**/*.stories.js'],
         parameters: {
             viewport: {
                 viewports: {
