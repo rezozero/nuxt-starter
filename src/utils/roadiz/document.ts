@@ -1,25 +1,39 @@
 import { RoadizDocument } from '@roadiz/abstract-api-client/dist/types/roadiz'
 
-export function isRoadizMp4(document: RoadizDocument | undefined): boolean {
+export function isMp4(document: RoadizDocument | undefined): boolean {
     return document?.mimeType === 'video/mp4'
 }
 
-export function isRoadizSvg(document: RoadizDocument | undefined): boolean {
+export function isSvg(document: RoadizDocument | undefined): boolean {
     return document?.mimeType === 'image/svg+xml'
 }
 
-export function isRoadizEmbed(document: RoadizDocument | undefined): boolean {
+export function isEmbed(document: RoadizDocument | undefined): boolean {
     return typeof document?.embedId !== 'undefined'
 }
 
-export function isRoadizVideoEmbed(document: RoadizDocument | undefined): boolean {
-    return isRoadizEmbed(document) && (document?.embedPlatform === 'vimeo' || document?.embedPlatform === 'youtube')
+export function isVideoEmbed(document: RoadizDocument | undefined): boolean {
+    return isEmbed(document) && (document?.embedPlatform === 'vimeo' || document?.embedPlatform === 'youtube')
 }
 
-export function isRoadizVideo(document: RoadizDocument | undefined): boolean {
-    return isRoadizVideoEmbed(document) || isRoadizMp4(document)
+export function isVideo(document: RoadizDocument | undefined): boolean {
+    return isVideoEmbed(document) || isMp4(document)
 }
 
-export function isRoadizImage(document: RoadizDocument | undefined): boolean {
+export function isImage(document: RoadizDocument | undefined): boolean {
     return document?.processable === true
+}
+
+export function isAudio(document: RoadizDocument | undefined): boolean {
+    return (
+        document?.mimeType === 'audio/mpeg' ||
+        document?.mimeType === 'audio/mp3' ||
+        (isEmbed(document) &&
+            !!document?.embedPlatform &&
+            ['deezer', 'spotify', 'soundcloud'].includes(document.embedPlatform))
+    )
+}
+
+export function isDocument(document: RoadizDocument | undefined): boolean {
+    return !isAudio(document) && !isImage(document) && isEmbed(document) && !isVideo(document)
 }

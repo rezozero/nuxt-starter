@@ -8,6 +8,7 @@ export default defu(
             interventionRequest: {
                 baseUrl: 'http://localhost:8080/assets',
             },
+            apiURL: '/',
         },
     },
     config

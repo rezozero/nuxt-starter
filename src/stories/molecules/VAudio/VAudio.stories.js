@@ -1,5 +1,3 @@
-// eslint-disable-next-line import/no-webpack-loader-syntax
-import mp3File from 'file-loader!./01.mp3'
 import VAudio from '~/components/molecules/VAudio'
 import { createDocument } from '~/utils/storybook/document'
 
@@ -35,5 +33,5 @@ Soundcloud.args = {
 export const Mp3 = Template.bind({})
 Mp3.args = {
     muted: true,
-    document: createDocument({ relativePath: 'http://localhost:3003/' + mp3File }),
+    document: createDocument({ relativePath: '/audio/01.mp3' }),
 }

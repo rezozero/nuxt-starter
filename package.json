@@ -13,8 +13,8 @@
         "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
         "lint:style": "stylelint \"**/*.{vue,css,scss}\" --ignore-path .gitignore",
         "lint": "yarn lint:js && yarn lint:style",
-        "storybook": "nuxt storybook -c nuxt-storybook.config.ts",
-        "storybook:build": "nuxt storybook build -c nuxt-storybook.config.ts",
+        "storybook": "nuxt storybook -c nuxt-storybook.config.ts -s ./src/assets/storybook",
+        "storybook:build": "nuxt storybook build -c nuxt-storybook.config.ts -s ./src/assets/storybook",
         "xilo": "node ./node_modules/@rezo-zero/xilofone-fetch/dist/index.js",
         "analyze": "nuxt build --analyze"
     },
