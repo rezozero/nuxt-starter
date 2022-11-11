@@ -1,6 +1,6 @@
 {
     "name": "@rezo-zero/nuxt-starter",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "description": "Starter template for Nuxt project",
     "engines": {
         "node": "^14"
