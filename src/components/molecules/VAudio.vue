@@ -2,8 +2,8 @@
 import Vue from 'vue'
 import type { PropType, VNode } from 'vue'
 import { RoadizDocument } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import Plyr from 'plyr'
 import { VNodeData } from 'vue/types/vnode'
+import type Plyr from 'plyr'
 import { getEmbedSrc } from '~/utils/embed'
 
 export interface VAudioProps {
@@ -15,6 +15,7 @@ export default Vue.extend<any, any, any, VAudioProps>({
     name: 'VAudio',
     props: {
         document: Object as PropType<RoadizDocument>,
+        plyr: Object as PropType<Plyr.Options>,
     },
     data() {
         return {
@@ -66,15 +67,16 @@ export default Vue.extend<any, any, any, VAudioProps>({
         if (this.$refs.player && !this.isEmbed) this.createPlayer()
     },
     methods: {
-        createPlayer() {
+        async createPlayer() {
             if (this.player || !this.$refs.player) return
 
             const options: Plyr.Options = {
                 disableContextMenu: false,
                 ...this.plyr,
             }
+            const PlyrClass = await import('plyr').then((module) => module.default)
 
-            this.player = new Plyr(this.$refs.player as HTMLElement, options)
+            this.player = new PlyrClass(this.$refs.player as HTMLElement, options)
         },
     },
     render(createElement): VNode {
