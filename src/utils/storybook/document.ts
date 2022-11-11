@@ -1,11 +1,17 @@
 import { RoadizDocument } from '@roadiz/abstract-api-client/dist/types/roadiz'
 
-export function createImage(document?: Partial<RoadizDocument>): RoadizDocument {
+export function createDocument(document?: Partial<RoadizDocument>): RoadizDocument {
     return {
         ...document,
         '@id': 'storybook',
         '@type': 'document',
-        // relativePath: '/',
+        processable: false,
+    }
+}
+
+export function createImage(document?: Partial<RoadizDocument>): RoadizDocument {
+    return {
+        ...createDocument(document),
         processable: true,
     }
 }
