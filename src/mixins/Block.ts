@@ -6,5 +6,6 @@ export default Vue.extend({
     props: {
         walker: Object as PropType<RoadizWalker>,
         index: Number,
+        numBlocks: Number,
     },
 })
