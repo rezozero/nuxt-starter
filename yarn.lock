@@ -2865,10 +2865,10 @@
   dependencies:
     ufo "^0.7.5"
 
-"@rezo-zero/xilofone-fetch@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@rezo-zero/xilofone-fetch/-/xilofone-fetch-0.0.4.tgz#17f5a647af5eb2139f41591bac7e104fe1defea6"
-  integrity sha512-yYDdzJpsGyfcBFmEFDJG2prVzr1l+/prCIHYU1RkrrxLXWjReH22hT8DKsX4lFZyl0wfL1whNe9rPZ7noS1+XQ==
+"@rezo-zero/xilofone-fetch@^0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@rezo-zero/xilofone-fetch/-/xilofone-fetch-0.0.5.tgz#7847879fce5f551f5033f78e55df1077944109e0"
+  integrity sha512-s91dGVQWuCpNR175UuMdBedf/Yc+jJuBhv++Ez8Jrz5NjemTpHE/2Xhy4IgNHkk9wsoFum7q91zMA3XtBb3x3g==
   dependencies:
     dotenv "^16.0.2"
     fs-extra "^10.1.0"
@@ -11397,9 +11397,9 @@ node-fetch@^3.0.0:
     formdata-polyfill "^4.0.10"
 
 node-fetch@^3.2.10:
-  version "3.2.10"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.2.10.tgz#e8347f94b54ae18b57c9c049ef641cef398a85c8"
-  integrity sha512-MhuzNwdURnZ1Cp4XTazr69K0BTizsBroX7Zx3UgDSVcZYKF/6p0CBe4EUb/hLqmzVhl0UpYfgRljQ4yxE+iCxA==
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-3.3.0.tgz#37e71db4ecc257057af828d523a7243d651d91e4"
+  integrity sha512-BKwRP/O0UvoMKp7GNdwPlObhYGB5DQqwhEDQlNKuoqwVYSxkSZCSbHjnFFmUEtwSKRPU4kNK8PbDYYitwaE3QA==
   dependencies:
     data-uri-to-buffer "^4.0.0"
     fetch-blob "^3.1.4"
