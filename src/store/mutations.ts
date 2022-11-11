@@ -1,4 +1,4 @@
-import { MutationTree } from 'vuex'
+import type { MutationTree } from 'vuex'
 import { NuxtError } from '@nuxt/types'
 import { RoadizAlternateLink, RoadizNodesSources, RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { RootState } from '~/types/store'

@@ -6,18 +6,9 @@
 @import "~include-media/dist/_include-media.scss";
 @import "vendors/include-media";
 // variables
-@import "variables/breakpoints";
-@import "variables/colors";
-@import "variables/ease-curves";
-@import "variables/grid";
+@import "variables";
 // functions
-@import "functions/color";
-@import "functions/breakpoint";
-@import "functions/ease";
-@import "functions/strip-units";
-@import "functions/rem";
-@import "functions/fluid";
+@import "functions";
 // mixins
-@import "mixins/grid";
-@import "mixins/typography";
+@import "mixins";
 

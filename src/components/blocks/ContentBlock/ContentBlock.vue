@@ -1,5 +1,5 @@
 <template>
-    <div>{{ walker.item.title }}</div>
+    <v-block>{{ walker.item.title }}</v-block>
 </template>
 
 <script lang="ts">

@@ -2,6 +2,7 @@
     <div>
         <h1>{{ pageData.item.title }}</h1>
         <v-block-factory :blocks="blocks"></v-block-factory>
+        <v-preview />
     </div>
 </template>
 
@@ -12,7 +13,7 @@ import { RoadizAlternateLink, RoadizWalker, RoadizWebResponse } from '@roadiz/ab
 import mixins from 'vue-typed-mixins'
 import MutationType from '~/constants/mutation-type'
 import { PageResponse } from '~/types/api'
-import VBlockFactory from '~/components/organisms/VBlockFactory.vue'
+import VBlockFactory from '~/components/organisms/VBlockFactory/VBlockFactory.vue'
 import Page from '~/mixins/Page'
 import httpCache from '~/middleware/http-cache'
 import { getBlockCollection } from '~/utils/roadiz/block'
