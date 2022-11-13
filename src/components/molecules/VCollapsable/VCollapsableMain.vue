@@ -94,8 +94,8 @@ export default Vue.extend({
 .expand {
     &:global(#{'-enter-active'}),
     &:global(#{'-leave-active'}) {
-        transition: opacity 0.3s, height 0.3s;
         overflow: hidden;
+        transition: opacity 0.3s, height 0.3s;
     }
 
     &:global(#{'-enter'}),
