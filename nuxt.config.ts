@@ -103,6 +103,8 @@ export default {
     server: {
         host: '0.0.0.0', // allow external access in dev mode
     },
+    // https://nuxtjs.org/docs/configuration-glossary/configuration-loading
+    loading: '@/components/organisms/VLoading/VLoading.vue',
     // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
     publicRuntimeConfig: {
         roadiz: {
