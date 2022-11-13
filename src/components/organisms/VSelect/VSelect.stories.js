@@ -1,4 +1,4 @@
-import VSelect from '~/components/molecules/VSelect/VSelect'
+import VSelect from '~/components/organisms/VSelect/VSelect'
 
 export default {
     title: 'molecules/Select',

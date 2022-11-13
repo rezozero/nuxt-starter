@@ -1,5 +1,5 @@
 import { addMonths, endOfMonth, endOfWeek, startOfMonth } from 'date-fns'
-import VDatePicker from '~/components/molecules/VDatePicker/VDatePicker.vue'
+import VDatePicker from '~/components/organisms/VDatePicker/VDatePicker.vue'
 
 export default {
     title: 'Molecules/DatePicker',

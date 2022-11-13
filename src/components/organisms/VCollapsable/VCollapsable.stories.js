@@ -1,4 +1,4 @@
-import VCollapsable from '~/components/molecules/VCollapsable/VCollapsable'
+import VCollapsable from '~/components/organisms/VCollapsable/VCollapsable'
 import VButton from '~/components/molecules/VButton/VButton'
 import IconChevronRight from '~/assets/images/icons/chevron-right.svg'
 
