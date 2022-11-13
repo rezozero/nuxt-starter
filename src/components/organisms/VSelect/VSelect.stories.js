@@ -1,7 +1,7 @@
 import VSelect from '~/components/organisms/VSelect/VSelect'
 
 export default {
-    title: 'molecules/Select',
+    title: 'organisms/Select',
     component: VSelect,
     decorators: [
         () => ({

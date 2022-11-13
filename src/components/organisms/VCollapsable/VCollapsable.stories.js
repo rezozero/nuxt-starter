@@ -3,7 +3,7 @@ import VButton from '~/components/molecules/VButton/VButton'
 import IconChevronRight from '~/assets/images/icons/chevron-right.svg'
 
 export default {
-    title: 'Molecules/Collapsable',
+    title: 'organisms/Collapsable',
     component: VCollapsable,
     decorators: [() => ({ template: `<div style="max-width: 800px"><story /></div>` })],
 }
