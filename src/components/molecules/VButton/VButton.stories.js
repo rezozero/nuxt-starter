@@ -1,5 +1,6 @@
 import VButton from '~/components/molecules/VButton/VButton.vue'
 import IconChevronRight from '~/assets/images/icons/chevron-right.svg?inline'
+import VButtonResponsiveStory from '~/components/molecules/VButton/VButtonResponsive.story'
 
 export default {
     title: 'Molecules/Button',
@@ -77,3 +78,5 @@ OutlinedIcon.parameters = {
         exclude: ['label'],
     },
 }
+
+export const Responsive = () => VButtonResponsiveStory
