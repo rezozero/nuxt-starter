@@ -16,8 +16,6 @@ interface Props {
     tag?: string
     ratio?: number | boolean
     placeholder?: string | boolean
-    rounded?: string | boolean
-    roundedReady?: boolean
     loading?: 'lazy' | 'eager'
 }
 
@@ -35,8 +33,6 @@ export default Vue.extend<any, any, any, VImageProps>({
         tag: { type: String, default: 'picture' },
         ratio: { type: [Boolean, Number], default: true },
         placeholder: { type: [String, Boolean], default: true },
-        rounded: [Boolean, String],
-        roundedReady: Boolean,
         loading: { type: String as PropType<Props['loading']>, default: 'lazy' },
     },
     data() {
