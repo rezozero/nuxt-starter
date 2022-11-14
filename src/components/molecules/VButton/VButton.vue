@@ -19,6 +19,12 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { PropType } from 'vue/types/options'
+
+type Size = 's' | 'm' | 'l'
+type Theme = 'light' | 'dark'
+type Color = 'primary' | 'secondary'
+type Direction = 'ltr' | 'rtl'
 
 function isRelativePath(path: string): boolean {
     return path.charAt(0) === '/'
@@ -28,22 +34,22 @@ export default Vue.extend({
     name: 'VButton',
     props: {
         filled: Boolean,
-        label: [String, Boolean],
-        size: [String, Boolean],
+        label: [String, Boolean] as PropType<string | false>,
+        size: [String, Boolean] as PropType<Size | false>,
         elevated: Boolean,
         rounded: Boolean,
         outlined: Boolean,
         disabled: Boolean,
-        tag: [String, Boolean],
-        theme: [String, Boolean],
-        color: [String, Boolean],
+        tag: [String, Boolean] as PropType<string | false>,
+        theme: [String, Boolean] as PropType<Theme | false>,
+        color: [String, Boolean] as PropType<Color | false>,
         direction: {
-            type: [String, Boolean],
+            type: [String, Boolean] as PropType<Direction | false>,
             validator(value): boolean {
                 return (typeof value === 'string' && ['ltr', 'rtl'].includes(value)) || typeof value === 'boolean'
             },
         },
-        href: [String, Boolean], // external (absolute) or internal (relative) link
+        href: [String, Boolean] as PropType<string | false>, // external (absolute) or internal (relative) link
         to: [String, Object, Boolean], // internal link (use NuxtLink)
     },
     computed: {

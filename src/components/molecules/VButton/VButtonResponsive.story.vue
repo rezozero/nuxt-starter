@@ -12,10 +12,10 @@ export default Vue.extend({
 
 <style lang="scss" module>
 .root {
-    @include v-button-size(sm);
+    @include v-button-size(s);
 
     @include media('>=lg') {
-        @include v-button-size(lg);
+        @include v-button-size(l);
     }
 }
 </style>

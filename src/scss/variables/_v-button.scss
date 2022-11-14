@@ -1,47 +1,46 @@
 @use "sass:map";
 @use "sass:math";
 
+$v-button-default-size: m;
+
 // root
 $v-button: (
-    default: (
-        font-size: rem(18),
-    ),
-    xs: (
-        font-size: rem(14)
-    ),
-    sm: (
+    s: (
         font-size: rem(16)
     ),
-    lg: (
+    m: (
+        font-size: rem(18),
+    ),
+    l: (
         font-size: rem(22)
     ),
 );
 
 $v-button-rounded: (
-    default: (
-        border-radius: math.div(52px, 2)
-    ),
-    sm: (
+    s: (
         border-radius: math.div(42px, 2)
     ),
-    lg: (
+    m: (
+        border-radius: math.div(52px, 2)
+    ),
+    l: (
         border-radius: math.div(64px, 2)
     ),
 );
 
 // inner
 $v-button-inner: (
-    default: (
-        min-width: 52px,
-        height: 52px,
-        padding: 0 20px
-    ),
-    sm: (
+    s: (
         min-width: 42px,
         height: 42px,
         padding: 0 16px
     ),
-    lg: (
+    m: (
+        min-width: 52px,
+        height: 52px,
+        padding: 0 20px
+    ),
+    l: (
         min-width: 64px,
         height: 64px,
         padding: 0 24px
@@ -50,12 +49,12 @@ $v-button-inner: (
 
 // icon
 $v-button-icon: (
-    default: (
+    s: (
+        margin: 0 6px,
+    ),
+    m: (
         margin: 0 10px,
     ),
-    sm: (
-        margin: 0 6px,
-    )
 );
 
 // label

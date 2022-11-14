@@ -15,8 +15,8 @@
 }
 
 @mixin v-button-default-css-vars($vars, $prefix: '') {
-    @if (map-has-key($vars, default)) {
-        $default: map-get($vars, default);
+    @if (map-has-key($vars, $v-button-default-size)) {
+        $default: map-get($vars, $v-button-default-size);
 
         @each $key, $value in $default {
             #{$key}: var(--v-button#{$prefix}-#{$key}, $value);

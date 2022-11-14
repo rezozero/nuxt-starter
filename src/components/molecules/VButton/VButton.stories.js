@@ -13,7 +13,7 @@ export default {
             options: ['primary', 'secondary'],
         },
         size: {
-            options: ['sm', 'md', 'lg'],
+            options: ['s', 'm', 'l'],
         },
         direction: {
             options: ['ltr', 'rtl'],
@@ -48,7 +48,7 @@ Filled.args = {
 
 export const OutlinedSizeSmall = Template.bind({})
 OutlinedSizeSmall.args = {
-    size: 'sm',
+    size: 's',
     outlined: true,
 }
 
