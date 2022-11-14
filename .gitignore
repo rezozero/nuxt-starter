@@ -98,3 +98,6 @@ sw.*
 
 # Nuxt storm
 .components.gen.js
+
+# Intervention request auto generated folder
+/src/assets/storybook/assets/

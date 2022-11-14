@@ -39,9 +39,10 @@ services:
     intervention:
         image: ambroisemaupate/intervention-request:latest
         volumes:
-            - ./src/assets/storybook:/var/www/html/web/images:cached
+            - ./src/assets/storybook/assets:/var/www/html/web/assets:delegated
+            - ./src/assets/storybook/images:/var/www/html/web/images:ro
         ports:
-            - 8080:80/tcp
+            -  8086:80/tcp
 
 networks:
     frontproxynet:
