@@ -216,3 +216,11 @@ displaying live or/and online events date-time that will occur world-wide (i.e. 
 
 Never alter `Date` objects themselves, always `format` them using the wanted timezone. Or this could lead to unwanted
 behaviours especially if you are using `Date` objects to filter time-based API items.
+
+## Use InterventionRequest
+
+For testing purpose (e.g. VImage component stories), you can use InterventionRequest locally.
+
+```bash
+$ docker-compose up intervention
+```
