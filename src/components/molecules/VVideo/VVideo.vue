@@ -345,8 +345,8 @@ export default Vue.extend<any, any, any, VVideoProps>({
 
 .poster {
     position: relative;
-    width: var(--video-poster-width, auto);
-    height: var(--video-poster-height, auto);
+    width: var(--v-video-poster-width, auto);
+    height: var(--v-video-poster-height, auto);
 
     .root--player & {
         visibility: hidden;
@@ -369,18 +369,18 @@ export default Vue.extend<any, any, any, VVideoProps>({
     position: absolute;
     bottom: 0;
     left: 0;
-    margin: var(--video-cta-margin, 24px);
+    margin: var(--v-video-cta-margin, 24px);
 
     @include media('>=md') {
-        margin: var(--video-cta-margin, 32px);
+        margin: var(--v-video-cta-margin, 32px);
     }
 
     @include media('>=lg') {
-        margin: var(--video-cta-margin, 40px);
+        margin: var(--v-video-cta-margin, 40px);
     }
 
     @include media('>=xl') {
-        margin: var(--video-cta-margin, 52px 62px);
+        margin: var(--v-video-cta-margin, 52px 62px);
     }
 }
 
