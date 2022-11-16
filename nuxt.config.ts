@@ -7,11 +7,11 @@ import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
 const isProduction = process.env.NODE_ENV === 'production'
-const locales = ['fr']
+const locales = ['en']
 // Define global app timezone here because i18n config is not editable at runtime
 const defaultTimeZone = 'Europe/Paris'
-const defaultLocale = 'fr'
-const fallbackLocale = 'fr'
+const defaultLocale = 'en'
+const fallbackLocale = 'en'
 
 export default {
     // Global page headers: https://go.nuxtjs.dev/config-head
@@ -141,8 +141,7 @@ export default {
         vueI18n: {
             fallbackLocale,
             messages: locales.reduce((acc, cur) => {
-                // xilofone format: if there is only one language then the file name doesn't include the locale
-                const path = `./src/assets/locales/nuxt${locales.length > 1 ? '.' + cur : ''}.json`
+                const path = `./src/assets/locales/nuxt.${cur}.json`
 
                 return {
                     ...acc,
