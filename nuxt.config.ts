@@ -133,21 +133,18 @@ export default {
     },
     // https://i18n.nuxtjs.org/
     i18n: {
-        locales,
+        locales: locales.map((locale) => ({
+            code: locale,
+            file: `nuxt.${locale}.json`,
+        })),
+        lazy: true,
+        langDir: 'assets/locales/',
         detectBrowserLanguage: false,
         strategy: 'prefix',
         defaultLocale,
         vuex: false,
         vueI18n: {
             fallbackLocale,
-            messages: locales.reduce((acc, cur) => {
-                const path = `./src/assets/locales/nuxt.${cur}.json`
-
-                return {
-                    ...acc,
-                    [cur]: fs.existsSync(path) ? require(path) : {},
-                }
-            }, {}),
             // Date-time format presets examples including application-wide time-zone to prevent using
             // user-browser time-zone (see README.md #define-an-application-wide-timezone)
             dateTimeFormats: locales.reduce(
