@@ -2883,10 +2883,10 @@
     deepmerge "^4.2.2"
     qs "^6.10.1"
 
-"@roadiz/nuxt-module@^2.1.3":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-2.1.4.tgz#e70008854e1a13323239cad50cd45c4cc283fd65"
-  integrity sha512-5q/5CFfL3JTIF7wk8d0TUx1M/tFnUeV6DrsW33lo+NtTz9fjvVuBtu0JdFXTnBfRq0avh7ivFTPxgtnQU8DqAg==
+"@roadiz/nuxt-module@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-2.1.5.tgz#c5d894811ee96a3a949614a1a142aba2057d18f7"
+  integrity sha512-MUn/9C2A508wGqK9XNaWVOBdo8dXusnK8UB1NSO8GtvsnWUh8z3nW+s/qUesXaburcHGhhGy4ZE6FEz2UzQoVA==
   dependencies:
     "@roadiz/abstract-api-client" "^2.0.0"
     axios "^0.21.1"

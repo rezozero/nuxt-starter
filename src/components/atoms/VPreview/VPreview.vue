@@ -13,7 +13,7 @@ export default Vue.extend({
     name: 'VPreview',
     computed: {
         jwt(): RoadizPreviewJwt | null {
-            return this.$roadiz.getPreviewingJwt()
+            return this.$roadiz?.getPreviewingJwt() || null
         },
         remainingTime(): Date {
             return new Date((this.jwt?.exp || 0) * 1000)

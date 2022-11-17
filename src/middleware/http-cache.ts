@@ -31,7 +31,7 @@ const httpCache =
         } as HttpCacheControlParams
         let value: HttpCacheControlParams
 
-        if ($roadiz.isPreviewing()) {
+        if ($roadiz?.isPreviewing()) {
             value = {
                 'no-cache': true,
                 'no-store': true,

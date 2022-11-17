@@ -16,6 +16,8 @@ const actions: ActionTree<RootState, RootState> = {
         if (context.route.name === 'all') {
             await dispatch('fetchPage', context)
                 .then((response: PageResponse) => {
+                    if (!response) return
+
                     commit(MutationType.FIRST_PAGE_DATA, response)
 
                     if (response.page && response.alternateLinks) {
@@ -37,7 +39,7 @@ const actions: ActionTree<RootState, RootState> = {
         }
 
         return $roadiz
-            .get<CommonContent>('common_content', {
+            ?.get<CommonContent>('common_content', {
                 params: {
                     _locale: app.i18n.locale,
                 },
@@ -49,24 +51,26 @@ const actions: ActionTree<RootState, RootState> = {
                 if (home) commit(MutationType.HOME_DATA, mainMenuWalker)
             })
     },
-    fetchPage(_actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse> {
+    fetchPage(_actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse | void> {
         const path = joinURL('/', context.params.pathMatch)
 
-        return context.$roadiz.getWebResponseByPath(path).then((response) => {
-            if (!response.data['@type']) {
-                throw new Error('Fetched data is not typed.')
-            }
-            /*
-             * TODO: Add custom data here according to response.data['@type']
-             */
-            switch (response.data['@type']) {
-                default:
-                    return {
-                        page: response.data,
-                        alternateLinks: context.$roadiz.getAlternateLinks(response),
-                    }
-            }
-        })
+        return (
+            context.$roadiz?.getWebResponseByPath(path).then((response) => {
+                if (!response.data['@type']) {
+                    throw new Error('Fetched data is not typed.')
+                }
+                /*
+                 * Add custom data here according to response.data['@type']
+                 */
+                switch (response.data['@type']) {
+                    default:
+                        return {
+                            page: response.data,
+                            alternateLinks: context.$roadiz?.getAlternateLinks(response),
+                        }
+                }
+            }) || Promise.resolve()
+        )
     },
     updatePageData({ commit }: ActionContext<RootState, RootState>, data: PageResponse) {
         commit(MutationType.ALTERNATE_LINKS, data.alternateLinks || [])

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>{{ pageData.item.title }}</h1>
+        <h1 v-if="pageData.item">{{ pageData.item.title }}</h1>
         <v-block-factory :blocks="blocks"></v-block-factory>
         <v-preview />
     </div>
@@ -51,7 +51,9 @@ export default mixins(Page).extend({
         } else {
             await store
                 .dispatch('fetchPage', context)
-                .then((response: PageResponse) => {
+                .then((response) => {
+                    if (!response) return
+
                     data.pageData = response.page
                     data.alternateLinks = response.alternateLinks
 
