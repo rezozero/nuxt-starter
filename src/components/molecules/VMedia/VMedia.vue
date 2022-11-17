@@ -36,7 +36,7 @@ export default Vue.extend({
             data.props = {
                 ...data.props,
                 ...props.image,
-                image: document,
+                document,
             } as VImageProps
         }
 
