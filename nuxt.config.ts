@@ -7,9 +7,9 @@ import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 
 const isProduction = process.env.NODE_ENV === 'production'
+// i18n
 const locales = ['en']
-// Define global app timezone here because i18n config is not editable at runtime
-const defaultTimeZone = 'Europe/Paris'
+const defaultTimeZone = 'Europe/Paris' // Define global app timezone here because i18n config is not editable at runtime
 const defaultLocale = 'en'
 const fallbackLocale = 'en'
 
