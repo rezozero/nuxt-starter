@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { murmurHash128 } from 'murmurhash-native'
 import { joinURL } from 'ufo'
 // @ts-ignore
