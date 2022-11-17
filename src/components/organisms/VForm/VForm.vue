@@ -91,7 +91,8 @@ export default Vue.extend({
             // the url returned by the API has already the endpoint prefix
             const url = this.$roadizURL(this.schema)
 
-            this.loadedSchema = await this.$roadiz.get<JsonSchemaExtended>(url).then((response) => response.data)
+            this.loadedSchema =
+                (await this.$roadiz?.get<JsonSchemaExtended>(url).then((response) => response.data)) || null
         }
     },
     computed: {
@@ -150,7 +151,7 @@ export default Vue.extend({
         defaultSubmitCallback({ action, data }: FormSubmitParams) {
             const url = action || this.$route.params.pathMatch
 
-            return this.$roadiz.axios.post(url, data)
+            return this.$roadiz?.axios.post(url, data) || Promise.resolve()
         },
         async onSubmit(event: FormDataEvent): Promise<void> {
             this.$emit('submit', event)
