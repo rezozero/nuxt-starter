@@ -9,7 +9,7 @@ import { NuxtImageProps } from '~/types/nuxt-image'
 
 interface Props {
     src?: string
-    image?: RoadizDocument
+    document?: RoadizDocument
     copyright?: string | boolean
     // only placement top can be used for the moment.
     copyrightPlacement?: string | boolean
@@ -27,7 +27,7 @@ export default Vue.extend<any, any, any, VImageProps>({
         ...nuxtImageProps,
         ...interventionRequestProps,
         src: String,
-        image: Object as PropType<RoadizDocument>,
+        document: Object as PropType<RoadizDocument>,
         copyright: [String, Boolean],
         copyrightPlacement: [String, Boolean],
         tag: { type: String, default: 'picture' },
@@ -46,27 +46,27 @@ export default Vue.extend<any, any, any, VImageProps>({
         if (img?.complete) this.loaded = true
     },
     render(createElement): VNode {
-        const src = this.src || this.image?.thumbnail?.relativePath || this.image?.relativePath
+        const src = this.src || this.document?.thumbnail?.relativePath || this.document?.relativePath
 
         if (!src) return createElement('')
 
         const extension = src.split('.').pop()
         const isSvg = extension.slice(0, 3) === 'svg'
-        const processable = this.image?.processable || !isSvg
-        const alt = this.alt || this.image?.alt
+        const processable = this.document?.processable || !isSvg
+        const alt = this.alt || this.document?.alt
         const copyright =
-            this.copyright === 'string' || this.copyright === false ? this.copyright : this.image?.copyright
+            this.copyright === 'string' || this.copyright === false ? this.copyright : this.document?.copyright
 
         let width = 0
         if (typeof this.width !== 'undefined')
             width = this.width === 'string' ? parseFloat(this.width) : (this.width as number)
         else if (this.crop) width = parseFloat(this.crop.split('x')[0])
-        else if (this.image?.imageWidth) width = parseFloat(this.image.imageWidth)
+        else if (this.document?.imageWidth) width = parseFloat(this.document.imageWidth)
 
         let height = 0
         if (this.height) height = typeof this.height === 'string' ? parseFloat(this.height) : this.height
         else if (this.crop) height = parseFloat(this.crop.split('x')[1])
-        else if (this.image?.imageHeight) height = parseFloat(this.image.imageHeight)
+        else if (this.document?.imageHeight) height = parseFloat(this.document.imageHeight)
 
         // image
         const modifiersKeys = Object.keys(interventionRequestProps).filter((key) => !['width', 'height'].includes(key))
@@ -108,9 +108,9 @@ export default Vue.extend<any, any, any, VImageProps>({
 
                 if (typeof this.placeholder === 'string') {
                     background = this.placeholder
-                } else if (this.image?.imageAverageColor) {
-                    background = this.image?.imageAverageColor
-                    // background = context.parent.$img(this.image.relativePath, {
+                } else if (this.document?.imageAverageColor) {
+                    background = this.document?.imageAverageColor
+                    // background = context.parent.$img(this.document.relativePath, {
                     //     ...imgModifiers,
                     //     width: 50,
                     //     blur: 10,
