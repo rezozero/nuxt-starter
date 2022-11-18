@@ -120,24 +120,24 @@ export default Vue.extend<any, any, any, VImageProps>({
                 if (background) figureStyle.background = background
             }
 
-            if (copyright) {
-                children.push(
-                    createElement(
-                        'VInformation',
-                        {
-                            class: [
-                                this.$style.copyright,
-                                this.copyrightPlacement && this.$style['copyright--' + this.copyrightPlacement],
-                            ],
-                            props: {
-                                placement: this.copyrightPlacement === 'top' ? 'bottom-end' : 'top-end',
-                                outlined: true,
-                            },
-                        },
-                        copyright
-                    )
-                )
-            }
+            // if (copyright) {
+            //     children.push(
+            //         createElement(
+            //             'VInformation',
+            //             {
+            //                 class: [
+            //                     this.$style.copyright,
+            //                     this.copyrightPlacement && this.$style['copyright--' + this.copyrightPlacement],
+            //                 ],
+            //                 props: {
+            //                     placement: this.copyrightPlacement === 'top' ? 'bottom-end' : 'top-end',
+            //                     outlined: true,
+            //                 },
+            //             },
+            //             copyright
+            //         )
+            //     )
+            // }
 
             return createElement(
                 'figure',
@@ -149,9 +149,6 @@ export default Vue.extend<any, any, any, VImageProps>({
                         // this.placeholder && this.$style['root--placeholder'],
                         this.loading === 'lazy' && this.$style['root--lazy'],
                         this.loaded && this.$style['root--loaded'],
-                        this.rounded && this.$style['root--rounded'],
-                        this.roundedReady && this.$style['root--rounded-ready'],
-                        this.rounded === 'reverse' && this.$style['root--rounded-reverse'],
                     ],
                 },
                 children
