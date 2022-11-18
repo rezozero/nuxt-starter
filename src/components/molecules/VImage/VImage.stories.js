@@ -21,5 +21,5 @@ const Template = (_args, { argTypes }) => {
 
 export const Default = Template.bind({})
 Default.args = {
-    image: createImage({ relativePath: '01.jpg', imageWidth: '300', imageHeight: '200' }),
+    document: createImage({ relativePath: '01.jpg', imageWidth: '300', imageHeight: '200' }),
 }
