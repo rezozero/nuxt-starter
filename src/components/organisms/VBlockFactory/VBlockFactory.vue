@@ -14,29 +14,28 @@ export default Vue.extend({
     },
     render(createElement, context): VNode[] | VNode {
         const { blocks } = context.props
+        const registeredComponents = blocks?.filter(
+            (block: RoadizWalker) =>
+                context.parent.$root.$options.components &&
+                block.item['@type'] in context.parent.$root.$options.components
+        )
 
-        if (!blocks.length) return createElement('div') // fix DOM mismatch without blocks
+        if (!registeredComponents?.length) return createElement('div') // fix DOM mismatch without blocks or corresponding components
 
-        return blocks
-            .filter(
-                (block: RoadizWalker) =>
-                    context.parent.$root.$options.components &&
-                    block.item['@type'] in context.parent.$root.$options.components
-            )
-            .map((block, index, blocks) => {
-                return createElement(block.item['@type'], {
-                    props: {
-                        walker: block,
-                        index,
-                        numBlocks: blocks.length,
-                    },
-                    attrs: {
-                        ...context.data.attrs,
-                        id: block.item.slug,
-                    },
-                    on: context.listeners,
-                })
+        return registeredComponents.map((block, index, blocks) => {
+            return createElement(block.item['@type'], {
+                props: {
+                    walker: block,
+                    index,
+                    numBlocks: blocks.length,
+                },
+                attrs: {
+                    ...context.data.attrs,
+                    id: block.item.slug,
+                },
+                on: context.listeners,
             })
+        })
     },
 })
 </script>
