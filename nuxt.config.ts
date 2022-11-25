@@ -139,7 +139,7 @@ export default {
         lazy: true,
         langDir: 'assets/locales/',
         detectBrowserLanguage: false,
-        strategy: 'no_prefix',
+        strategy: 'prefix',
         defaultLocale,
         vuex: false,
         vueI18n: {
