@@ -2,7 +2,9 @@
     <div>
         <h1 v-if="pageData.item">{{ pageData.item.title }}</h1>
         <v-block-factory :blocks="blocks"></v-block-factory>
-        <v-preview />
+        <client-only>
+            <v-preview />
+        </client-only>
     </div>
 </template>
 
