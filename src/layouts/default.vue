@@ -22,5 +22,12 @@ export default mixins(Resize).extend({
             window.matchMedia('(prefers-reduced-motion: reduce)').matches
         )
     },
+    errorCaptured(error: Error) {
+        // track the error
+        this.$sentry.captureException(error)
+
+        // prevents the error to bubbles then the page can be rendered
+        return false
+    },
 })
 </script>
