@@ -31,7 +31,8 @@
             "nuxt-i18n",
             "@roadiz/nuxt-module",
             "@nuxtjs/sentry",
-            "@nuxt/image"
+            "@nuxt/image",
+            "@nuxtjs/recaptcha"
         ]
     },
     "exclude": [

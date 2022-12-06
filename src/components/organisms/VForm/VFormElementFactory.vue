@@ -9,6 +9,8 @@ import VFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
 import VInput from '~/components/molecules/VInput/VInput.vue'
 import VTextarea from '~/components/molecules/VTextarea/VTextarea.vue'
 import VInputList, { InputListOption } from '~/components/molecules/VInputList/VInputList.vue'
+import { RECAPTCHA_INPUT } from '~/components/organisms/VForm/VForm.vue'
+import VInputHidden from '~/components/atoms/VInputHidden/VInputHidden.vue'
 
 function createChildren(createElement: CreateElement, context: RenderContext): VNode[] | undefined {
     const rootSchema = context.props.schema
@@ -110,6 +112,15 @@ function createChildren(createElement: CreateElement, context: RenderContext): V
                 },
                 attrs: {
                     ...defaultAttrs,
+                },
+            })
+        }
+
+        // recaptcha
+        if (key === RECAPTCHA_INPUT) {
+            return createElement(VInputHidden, {
+                props: {
+                    ...defaultProps,
                 },
             })
         }

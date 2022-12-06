@@ -51,6 +51,8 @@ interface FormDataEvent extends Event {
     readonly formData: FormData
 }
 
+export const RECAPTCHA_INPUT = 'g-recaptcha-response'
+
 export default Vue.extend({
     name: 'VForm',
     components: { VButton },
@@ -146,6 +148,18 @@ export default Vue.extend({
 
             return this.error.message
         },
+        recaptcha(): JsonSchemaExtended | undefined {
+            return this.rawSchema?.properties?.[RECAPTCHA_INPUT]
+        },
+        recaptchaEnabled(): boolean {
+            return !!this.recaptcha && Boolean(this.$config.recaptcha?.siteKey)
+        },
+    },
+    async mounted() {
+        if (this.recaptchaEnabled) await this.$recaptcha?.init()
+    },
+    beforeDestroy() {
+        this.$recaptcha?.destroy()
     },
     methods: {
         defaultSubmitCallback({ action, data }: FormSubmitParams) {
@@ -163,6 +177,12 @@ export default Vue.extend({
             const form = event.target as HTMLFormElement
             const action = form.action
             const formData = new FormData(form)
+
+            if (this.recaptchaEnabled && formData.has(RECAPTCHA_INPUT)) {
+                const token = await this.$recaptcha?.execute('form')
+
+                if (token) formData.set(RECAPTCHA_INPUT, token)
+            }
 
             this.isPending = true
             this.error = null

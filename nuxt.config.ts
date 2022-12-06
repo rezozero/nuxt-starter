@@ -77,6 +77,8 @@ export default {
         '@nuxtjs/sitemap',
         // https://github.com/moritzsternemann/vue-plausible#configuration
         'vue-plausible',
+        // https://github.com/nuxt-community/recaptcha-module
+        '@nuxtjs/recaptcha',
     ],
     // Build Configuration: https://go.nuxtjs.dev/config-build
     build: {
@@ -134,6 +136,11 @@ export default {
         defaultTimeZone,
         defaultLocale,
         fallbackLocale,
+        // Google Recaptcha
+        recaptcha: {
+            siteKey: process.env.RECAPTCHA_SITE_KEY || 'siteKey_not_defined', // default value prevents module from throwing an error
+            version: 3,
+        },
     },
     // https://i18n.nuxtjs.org/
     i18n: {

@@ -2634,6 +2634,11 @@
     consola "^2.15.0"
     eslint-webpack-plugin "^2.4.1"
 
+"@nuxtjs/recaptcha@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@nuxtjs/recaptcha/-/recaptcha-1.1.1.tgz#21f9dcd53d7b869b570ab4829404df1200ed26de"
+  integrity sha512-maHqf6x6EgfRm7lvjK7nTwle/17cRzMkeFDWPGdcdKjDnAjuli7Mei5qPG0CFZX1zG9ohIEv+0QEs7fgudyLrg==
+
 "@nuxtjs/sentry@^5.1.0":
   version "5.1.7"
   resolved "https://registry.yarnpkg.com/@nuxtjs/sentry/-/sentry-5.1.7.tgz#1e03205cd38cf1b7f7f6a797f8b5fca1fbaa5b44"
