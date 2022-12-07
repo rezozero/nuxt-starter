@@ -47,7 +47,7 @@
         "@nuxt/typescript-build": "^2.1.0",
         "@nuxtjs/eslint-config-typescript": "^6.0.1",
         "@nuxtjs/eslint-module": "^3.0.2",
-        "@nuxtjs/storybook": "^4.3.2",
+        "@nuxtjs/storybook": "4.2.x",
         "@nuxtjs/style-resources": "^1.2.0",
         "@nuxtjs/stylelint-module": "^4.0.0",
         "@rezo-zero/xilofone-fetch": "^0.0.5",
