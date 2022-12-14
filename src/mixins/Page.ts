@@ -121,7 +121,7 @@ export default Vue.extend({
                     quality: 70,
                 })
             } else {
-                return '/images/share.jpg'
+                return joinURL(this.$config.baseURL, '/images/share.jpg')
             }
         },
         getTwitterMetaOptions(): TwitterMetaOptions {
