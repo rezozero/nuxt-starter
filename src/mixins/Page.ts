@@ -36,7 +36,7 @@ export default Vue.extend({
     head(): MetaInfo {
         const tarteaucitronConfigHid = 'tarteaucitronConfig'
         const googleTagManagerHid = 'googleTagManager'
-        const link =
+        const alternateLinks =
             this.$config.baseURL &&
             this.$store.getters.alternateLinks?.map((alternateLink: RoadizAlternateLink) => {
                 return {
@@ -46,6 +46,7 @@ export default Vue.extend({
                     href: this.$config.baseURL + alternateLink.url,
                 }
             })
+        const link = []
         const meta = [
             {
                 hid: 'description',
@@ -57,6 +58,8 @@ export default Vue.extend({
             { hid: 'version', name: 'version', content: this.$config.version || '' },
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
+
+        if (alternateLinks) link.push(...alternateLinks)
 
         if (this.pageData.head?.googleAnalytics || this.pageData.head?.matomoSiteId) {
             const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
