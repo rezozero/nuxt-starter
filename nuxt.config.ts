@@ -125,9 +125,9 @@ export default {
             apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         },
         interventionRequest: {
-            baseUrl: process.env.API_URL,
-            noProcessBasePath: process.env.DOCUMENT_PATH,
-            basePath: process.env.INTERVENTION_REQUEST_BASE_PATH,
+            baseUrl: process.env.INTERVENTION_REQUEST_BASE_URL || process.env.API_URL || '',
+            noProcessBasePath: process.env.INTERVENTION_REQUEST_NO_PROCESS_PATH || process.env.DOCUMENT_PATH,
+            basePath: process.env.INTERVENTION_REQUEST_ASSETS_PATH || process.env.INTERVENTION_REQUEST_BASE_PATH,
         },
         apiURL: process.env.API_URL,
         apiEndpointPrefix: process.env.API_ENDPOINT_PREFIX,

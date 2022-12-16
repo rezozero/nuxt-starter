@@ -37,6 +37,8 @@ services:
             - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.service=${TRAEFIK_NAMESPACE}"
 
     intervention:
+        env_file:
+            - .env.storybook
         image: ambroisemaupate/intervention-request:latest
         volumes:
             - ./src/assets/storybook/assets:/var/www/html/web/assets:delegated

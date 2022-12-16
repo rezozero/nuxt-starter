@@ -82,9 +82,11 @@ services:
             ## Add SSL redirection
             - "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectscheme.redirectscheme.scheme=https"
             - "traefik.http.middlewares.${TRAEFIK_NAMESPACE}Redirectscheme.redirectscheme.permanent=true"
-    
+
     # Expose your storybook with a dedicated domain-name
     storybook:
+        env_file:
+            - .env.storybook
         image: ${REGISTRY_BASE_URL}/storybook-static
         restart: always
         networks:
@@ -116,6 +118,39 @@ services:
             - "traefik.http.middlewares.${SB_TRAEFIK_NAMESPACE}Redirectscheme.redirectscheme.scheme=https"
             - "traefik.http.middlewares.${SB_TRAEFIK_NAMESPACE}Redirectscheme.redirectscheme.permanent=true"
 
+    intervention:
+        env_file:
+            - .env.storybook
+        image: ambroisemaupate/intervention-request:latest
+        networks:
+            - frontproxynet
+        volumes:
+            # Mount host path as a volume
+            - ./images:/var/www/html/web/images:ro
+        labels:
+            - "traefik.enable=true"
+            - "com.centurylinklabs.watchtower.enable=true"
+            # Traefik v2 -----------------------------------------------------
+            - "traefik.http.services.${SB_TRAEFIK_NAMESPACE}_IR.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${SB_TRAEFIK_NAMESPACE}_IR.loadbalancer.server.port=80"
+            - "traefik.http.services.${SB_TRAEFIK_NAMESPACE}_IR.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR.entrypoints=http"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR.rule=Host(${SB_TRAEFIK_HOSTNAME}) && PathPrefix(`/assets`)"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR.service=${SB_TRAEFIK_NAMESPACE}_IR"
+            # Listen HTTPS
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR-secure.entrypoints=https"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR-secure.tls=true"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR-secure.tls.certresolver=letsencrypt"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR-secure.rule=Host(${SB_TRAEFIK_HOSTNAME}) && PathPrefix(`/assets`)"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR-secure.service=${SB_TRAEFIK_NAMESPACE}_IR"
+            # Apply middlewares
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR-secure.middlewares=${TRAEFIK_NAMESPACE}Auth"
+            - "traefik.http.routers.${SB_TRAEFIK_NAMESPACE}_IR.middlewares=${TRAEFIK_NAMESPACE}Auth,${SB_TRAEFIK_NAMESPACE}_IRRedirectscheme"
+            # Define Middlewares
+            # Add SSL redirection
+            - "traefik.http.middlewares.${SB_TRAEFIK_NAMESPACE}_IRRedirectscheme.redirectscheme.scheme=https"
+            - "traefik.http.middlewares.${SB_TRAEFIK_NAMESPACE}_IRRedirectscheme.redirectscheme.permanent=true"
 
 networks:
     frontproxynet:
