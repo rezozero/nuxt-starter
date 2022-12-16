@@ -6,7 +6,7 @@ export default defu(
         // https://fr.nuxtjs.org/docs/2.x/configuration-glossary/configuration-runtime-config/
         publicRuntimeConfig: {
             interventionRequest: {
-                baseUrl: process.env.INTERVENTION_REQUEST_BASE_URL || 'http://localhost:8086/assets',
+                baseUrl: process.env.INTERVENTION_REQUEST_BASE_URL || 'http://localhost:8086',
             },
             apiURL: '/',
         },
