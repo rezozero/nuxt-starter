@@ -16,6 +16,9 @@ Starter template for Nuxt project
 ## Build Setup
 
 ```bash
+# Copy sample environment file to .env
+cp .env.sample .env
+
 # install dependencies
 $ yarn install
 
