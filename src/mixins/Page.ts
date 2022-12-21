@@ -61,6 +61,11 @@ export default Vue.extend({
 
         if (alternateLinks) link.push(...alternateLinks)
 
+        // the page could be potentially  not indexed by robots
+        if (this.pageData.head?.noIndex) {
+            meta.push({ hid: 'robots', name: 'robots', content: 'noindex' })
+        }
+
         if (this.pageData.head?.googleAnalytics || this.pageData.head?.matomoSiteId) {
             const policyUrl = this.pageData.head.policyUrl || this.$store.state.homePagePath
 

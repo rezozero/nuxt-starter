@@ -2886,21 +2886,21 @@
     fs-extra "^10.1.0"
     node-fetch "^3.2.10"
 
-"@roadiz/abstract-api-client@^2.0.0":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@roadiz/abstract-api-client/-/abstract-api-client-2.1.2.tgz#162a647e872480138d9edabcf9350f0d84a0cc9e"
-  integrity sha512-JBJgrXe3qli/9G11V2yBlvEFCl77d3zUSfAYzEnia1gvxCASb2jVMaZzE0+rlINOzPV2nSaUxqhk9fGVv0LbhQ==
+"@roadiz/abstract-api-client@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@roadiz/abstract-api-client/-/abstract-api-client-3.0.0.tgz#cd52b4735ab22337a0c9ee3f4fd1a4ba28804d93"
+  integrity sha512-eijTO+qhxBYGswBmK4qpG4+bRu4j6lA9iKSnaZ4iZCiOEIGpfTrPW/n2hxHO5SVaxorxBGJaWa+0KrvFTywtxQ==
   dependencies:
     axios "^0.21.1"
     deepmerge "^4.2.2"
     qs "^6.10.1"
 
-"@roadiz/nuxt-module@^2.1.5":
-  version "2.1.5"
-  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-2.1.5.tgz#c5d894811ee96a3a949614a1a142aba2057d18f7"
-  integrity sha512-MUn/9C2A508wGqK9XNaWVOBdo8dXusnK8UB1NSO8GtvsnWUh8z3nW+s/qUesXaburcHGhhGy4ZE6FEz2UzQoVA==
+"@roadiz/nuxt-module@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@roadiz/nuxt-module/-/nuxt-module-3.0.0.tgz#683c1f86760ff19d1d9d002fadcb4546ce2603b4"
+  integrity sha512-od9weuLf4rWC8UHZmgLmWyrsgs7iE0XqNZzAzt/XX7jw6brIFjiwbj817CovO8rhLYj5h43zoARcyHXQ6FxFnQ==
   dependencies:
-    "@roadiz/abstract-api-client" "^2.0.0"
+    "@roadiz/abstract-api-client" "^3.0.0"
     axios "^0.21.1"
 
 "@sentry/browser@^6.17.3":
