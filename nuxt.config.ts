@@ -76,7 +76,8 @@ export default {
         // https://sitemap.nuxtjs.org/guide/setup
         '@nuxtjs/sitemap',
         // https://github.com/moritzsternemann/vue-plausible#configuration
-        'vue-plausible',
+        /* Disable Plausible unless you have a valid domain */
+        // 'vue-plausible',
         // https://github.com/nuxt-community/recaptcha-module
         '@nuxtjs/recaptcha',
     ],
@@ -120,10 +121,11 @@ export default {
             debug: toBoolean(process.env.API_DEBUG),
             origin: process.env.API_ORIGIN,
         },
-        plausible: {
-            domain: process.env.PLAUSIBLE_DOMAIN,
-            apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
-        },
+        /* Disable Plausible unless you have a valid domain */
+        // plausible: {
+        //     domain: process.env.PLAUSIBLE_DOMAIN,
+        //     apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
+        // },
         interventionRequest: {
             baseUrl: process.env.INTERVENTION_REQUEST_BASE_URL || process.env.API_URL || '',
             noProcessBasePath: process.env.INTERVENTION_REQUEST_NO_PROCESS_PATH || process.env.DOCUMENT_PATH,
@@ -198,9 +200,10 @@ export default {
         sitemaps: createSitemaps(locales),
     },
     // https://github.com/moritzsternemann/vue-plausible#configuration
-    plausible: {
-        trackLocalhost: false,
-    },
+    /* Disable Plausible unless you have a valid domain */
+    // plausible: {
+    //     trackLocalhost: false,
+    // },
     // https://github.com/nuxt-community/svg-module
     svg: {
         svgSpriteLoader: {
