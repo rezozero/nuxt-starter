@@ -1,4 +1,4 @@
-image: node:14
+image: node:16
 
 stages:
     - build
@@ -57,9 +57,9 @@ ssr_docker_develop:
         - "docker tag ${CI_REGISTRY_IMAGE}/varnish ${CI_REGISTRY_IMAGE}/varnish:develop"
         - "docker push ${CI_REGISTRY_IMAGE}/varnish:develop"
 
-# ===========
+# =============
 # SSG Storybook
-# ===========
+# =============
 storybook_build_develop:
     stage: build
     interruptible: true

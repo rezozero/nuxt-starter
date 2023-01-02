@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "description": "Starter template for Nuxt project",
     "engines": {
-        "node": "^14"
+        "node": "^16"
     },
     "scripts": {
         "dev": "nuxt",
