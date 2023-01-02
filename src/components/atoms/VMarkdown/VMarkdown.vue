@@ -13,6 +13,11 @@ renderer.link = (href: string, title: string, text: string) => {
         html = html.replace(/^<a /, '<a target="_blank" ')
     }
 
+    // All downloadable links (with an extension) should open in a new tab
+    if (href && href.match(/\.(?!html|php)([a-z0-9]{3,4})$/i) && !html.includes('download')) {
+        html = html.replace(/^<a /, '<a target="_blank" ')
+    }
+
     return html
 }
 
