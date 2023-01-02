@@ -50,7 +50,7 @@
         "@nuxtjs/storybook": "4.2.x",
         "@nuxtjs/style-resources": "^1.2.0",
         "@nuxtjs/stylelint-module": "^4.0.0",
-        "@rezo-zero/xilofone-fetch": "^0.0.5",
+        "@rezo-zero/xilofone-fetch": "^0.1.1",
         "@types/body-scroll-lock": "^3.1.0",
         "@types/json-schema": "^7.0.11",
         "@types/lodash": "^4.14.171",
