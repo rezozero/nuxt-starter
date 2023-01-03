@@ -19,7 +19,7 @@ Starter template for Nuxt project
 # Copy sample environment file to .env
 cp .env.sample .env
 
-# install dependencies
+# install dependencies and Husky git hooks
 $ yarn install
 
 # serve with hot reload at localhost:3000
@@ -32,6 +32,9 @@ $ yarn start
 # generate static project
 $ yarn generate
 ```
+
+This starter uses *Husky* to run linting and tests before each commit. You can use `yarn lint-fix` to automatically fix linting errors.
+If some errors are not fixed, you will need to fix them manually before being able to push your code.
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
