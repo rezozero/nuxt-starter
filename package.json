@@ -13,10 +13,13 @@
         "lint:js": "eslint --ext \".js,.ts,.vue\" --ignore-path .gitignore .",
         "lint:style": "stylelint \"**/*.{vue,css,scss}\" --ignore-path .gitignore",
         "lint": "yarn lint:js && yarn lint:style",
+        "lint-fix": "yarn lint:js --fix && yarn lint:style --fix",
+        "lint-staged": "lint-staged",
         "storybook": "nuxt storybook -c nuxt-storybook.config.ts -s ./src/assets/storybook",
         "storybook:build": "nuxt storybook build -c nuxt-storybook.config.ts -s ./src/assets/storybook",
         "xilo": "node ./node_modules/@rezo-zero/xilofone-fetch/dist/index.js",
-        "analyze": "nuxt build --analyze"
+        "analyze": "nuxt build --analyze",
+        "postinstall": "husky install"
     },
     "dependencies": {
         "@nuxt/image": "^0.6.2",
@@ -65,7 +68,9 @@
         "eslint-plugin-vue": "^7.12.1",
         "fibers": "^5.0.0",
         "focus-visible": "^5.2.0",
+        "husky": "^8.0.3",
         "include-media": "^1.4.10",
+        "lint-staged": "^13.1.0",
         "nuxt-storm": "^1.1.3",
         "prettier": "^2.3.2",
         "sass": "^1.35.1",
@@ -83,6 +88,9 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/rezozero/nuxt-starter.git"
+    },
+    "lint-staged": {
+        "*.{js,ts,vue}": "eslint --ignore-path .gitignore"
     },
     "keywords": [
         "nuxt",

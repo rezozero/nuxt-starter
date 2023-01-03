@@ -30,6 +30,7 @@ ssr_build_develop:
             - node_modules/
     script:
         - yarn install --pure-lockfile
+        - yarn lint
         - yarn build
 
 ssr_docker_develop:
@@ -107,6 +108,7 @@ ssr_build_tags:
             - node_modules/
     script:
         - yarn install --pure-lockfile
+        - yarn lint
         - yarn build
 
 ssr_docker_tags:
@@ -161,6 +163,7 @@ create_gitlab_release:
 #    interruptible: true
 #    <<: *cache
 #    only:
+#        - merge_requests
 #        - develop
 #    artifacts:
 #        expire_in: 1 hour
@@ -172,6 +175,7 @@ create_gitlab_release:
 #        # Static site generation requires a .env.test
 #        - cp .env.test .env
 #        - yarn install --pure-lockfile
+#        - yarn lint
 #        - yarn generate
 #
 #static_docker_develop:
@@ -213,6 +217,7 @@ create_gitlab_release:
 #        # Static site generation requires a .env.prod
 #        - cp .env.prod .env
 #        - yarn install --pure-lockfile
+#        - yarn lint
 #        - yarn generate
 #
 #static_docker_tags:
