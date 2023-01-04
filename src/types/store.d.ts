@@ -1,14 +1,13 @@
 import { NuxtError } from '@nuxt/types'
-import { RoadizAlternateLink, RoadizNodesSources, RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
-import { PageResponse } from '~/types/api'
+import { RoadizAlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { CommonContent, PageResponse } from '~/types/api'
 
 interface RootState {
     firstPageData: PageResponse | null
     firstPageError: NuxtError | null
     previousPageData: PageResponse | null
     nextPageData: PageResponse | null
-    mainMenuData: RoadizWalker | null
-    homeData: RoadizNodesSources | null
+    commonContent: CommonContent | null
     windowWidth: number
     windowHeight: number
     alternateLinks: RoadizAlternateLink[]

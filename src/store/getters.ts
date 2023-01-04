@@ -3,7 +3,7 @@ import { RootState } from '~/types/store'
 
 export const getters: GetterTree<RootState, RootState> = {
     homePagePath: (state: RootState) => {
-        return state.homeData?.url || '/'
+        return state.commonContent?.home?.url || '/'
     },
 }
 

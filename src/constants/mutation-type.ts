@@ -1,8 +1,7 @@
 enum MutationType {
     WINDOW_WIDTH = 'windowWidth',
     WINDOW_HEIGHT = 'windowHeight',
-    MAIN_MENU_DATA = 'mainMenuData',
-    HOME_DATA = 'homeData',
+    COMMON_CONTENT = 'commonContent',
     ALTERNATE_LINKS = 'alternateLinks',
     FIRST_PAGE_DATA = 'firstPageData',
     FIRST_PAGE_ERROR = 'firstPageError',

@@ -1,8 +1,8 @@
 import type { MutationTree } from 'vuex'
 import { NuxtError } from '@nuxt/types'
-import { RoadizAlternateLink, RoadizNodesSources, RoadizWalker } from '@roadiz/abstract-api-client/dist/types/roadiz'
+import { RoadizAlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { RootState } from '~/types/store'
-import { PageResponse } from '~/types/api'
+import { CommonContent, PageResponse } from '~/types/api'
 import MutationType from '~/constants/mutation-type'
 
 export default {
@@ -13,8 +13,7 @@ export default {
     [MutationType.FIRST_PAGE_ERROR]: (state, value: NuxtError) => (state.firstPageError = value),
     [MutationType.NEXT_PAGE_DATA]: (state, value: PageResponse) => (state.nextPageData = value),
     [MutationType.PREVIOUS_PAGE_DATA]: (state, value: PageResponse) => (state.previousPageData = value),
-    [MutationType.MAIN_MENU_DATA]: (state, value: RoadizWalker) => (state.mainMenuData = value),
-    [MutationType.HOME_DATA]: (state, value: RoadizNodesSources) => (state.homeData = value),
+    [MutationType.COMMON_CONTENT]: (state, value: CommonContent) => (state.commonContent = value),
     [MutationType.PREFERS_REDUCED_MOTION]: (state, value: boolean) => (state.prefersReducedMotion = value),
     [MutationType.SCROLL_IS_DISABLED]: (state, value: boolean) => (state.scrollIsDisabled = value),
 } as MutationTree<RootState>

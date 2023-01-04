@@ -45,10 +45,7 @@ const actions: ActionTree<RootState, RootState> = {
                 },
             })
             .then((response) => {
-                const { mainMenuWalker, home } = response.data
-
-                if (mainMenuWalker) commit(MutationType.MAIN_MENU_DATA, mainMenuWalker)
-                if (home) commit(MutationType.HOME_DATA, mainMenuWalker)
+                commit(MutationType.COMMON_CONTENT, response.data)
             })
     },
     fetchPage(_actionContext: ActionContext<RootState, RootState>, context: Context): Promise<PageResponse | void> {
