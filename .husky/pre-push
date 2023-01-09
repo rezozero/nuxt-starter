@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
+# https://typicode.github.io/husky/#/?id=yarn-on-windows
+. "$(dirname -- "$0")/common.sh"
 
 # Echo a message when yarn lint command fails
 yarn lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"yarn lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
