@@ -5,7 +5,7 @@
     width: var(--grid-width);
     max-width: var(--grid-max-width);
     margin: 0 auto;
-    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
 }
 
 @mixin grid-gap {
