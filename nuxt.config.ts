@@ -28,6 +28,7 @@ export default {
     srcDir: 'src',
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['~/scss/main.scss'],
+    // https://nuxtjs.org/docs/configuration-glossary/configuration-render/
     render: {
         // etag handled by NGINX
         etag: false,
