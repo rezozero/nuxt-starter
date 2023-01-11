@@ -8,6 +8,43 @@ backend default {
 sub vcl_recv {
     // Nuxt does not need any cookie
     unset req.http.cookie;
+
+    # https://info.varnish-software.com/blog/varnish-cache-brotli-compression
+    if (req.http.Accept-Encoding ~ "br" && req.url !~
+        "\.(jpg|png|gif|zip|gz|mp3|mov|avi|mpg|mp4|swf|woff|woff2|wmf)$") {
+        set req.http.X-brotli = "true";
+    }
+
+    if (req.http.Accept-Language) {
+        if (req.http.Accept-Language ~ "fr") {
+            set req.http.Accept-Language = "fr";
+        } elsif (req.http.Accept-Language ~ "de") {
+            set req.http.Accept-Language = "de";
+        } elsif (req.http.Accept-Language ~ "en") {
+            set req.http.Accept-Language = "en";
+        }  elsif (req.http.Accept-Language ~ "es") {
+            set req.http.Accept-Language = "es";
+        } else {
+            # unknown language. Remove the accept-language header and
+            # use the backend default.
+            unset req.http.Accept-Language;
+        }
+    }
+}
+
+# https://info.varnish-software.com/blog/varnish-cache-brotli-compression
+sub vcl_hash {
+    if (req.http.X-brotli == "true") {
+        hash_data("brotli");
+    }
+}
+
+# https://info.varnish-software.com/blog/varnish-cache-brotli-compression
+sub vcl_backend_fetch {
+    if (bereq.http.X-brotli == "true") {
+        set bereq.http.Accept-Encoding = "br";
+        unset bereq.http.X-brotli;
+    }
 }
 
 sub vcl_backend_response {
@@ -24,7 +61,7 @@ sub vcl_backend_response {
         unset beresp.http.Set-Cookie;
     }
     # strip the cookie before static asset is inserted into cache.
-    if (bereq.url ~ "\.(png|webp|gif|jpg|swf|css|js|html|ico)$") {
+    if (bereq.url ~ "\.(ico|css|js|woff2?|eot|ttf|otf|svg|gif|jpe?g|png|webp|mp4|avif|webm)$") {
         unset beresp.http.set-cookie;
     }
 }
