@@ -29,7 +29,10 @@ export default {
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['~/scss/main.scss'],
     render: {
+        // etag handled by NGINX
         etag: false,
+        // compression handled by NGINX
+        compressor: false,
     },
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
