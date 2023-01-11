@@ -1,4 +1,3 @@
-import { murmurHash128 } from 'murmurhash-native'
 import { joinURL } from 'ufo'
 // @ts-ignore
 import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
@@ -29,11 +28,6 @@ export default {
     srcDir: 'src',
     // Global CSS: https://go.nuxtjs.dev/config-css
     css: ['~/scss/main.scss'],
-    render: {
-        etag: {
-            hash: (html: string) => murmurHash128(html),
-        },
-    },
     // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
     plugins: [
         '~/plugins/polyfills.client.ts',

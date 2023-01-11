@@ -34,7 +34,6 @@
         "date-fns": "^2.29.3",
         "lodash": "^4.17.21",
         "marked": "^4.2.2",
-        "murmurhash-native": "^3.5.0",
         "nuxt": "^2.15.7",
         "nuxt-i18n": "^6.27.2",
         "plyr": "^3.7.2",
