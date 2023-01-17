@@ -29,6 +29,7 @@
             </div>
             <div :class="$style.infos">
                 <p v-if="gdpr">{{ $t('form.gdpr') }}</p>
+                <p v-if="recaptcha && recaptchaEnabled" v-html="$t('form.recaptcha')"></p>
             </div>
         </div>
     </form>
