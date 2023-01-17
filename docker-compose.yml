@@ -6,17 +6,19 @@ services:
         networks:
             - default
         build:
+            # Run yarn build before building the docker image
             context: .
             dockerfile: .docker/node/Dockerfile
 
-    varnish:
+    # Testing nginx
+    nginx:
         build:
             context: .
-            dockerfile: .docker/varnish/Dockerfile
+            dockerfile: .docker/nginx/Dockerfile
         networks:
             - frontproxynet
             - default
-        tmpfs: /var/lib/varnish:exec
+        restart: always
         depends_on:
             - app
         links:
@@ -35,6 +37,34 @@ services:
             - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.tls=true"
             - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.rule=Host(${TRAEFIK_HOSTNAME})"
             - "traefik.http.routers.${TRAEFIK_NAMESPACE}_ssl.service=${TRAEFIK_NAMESPACE}"
+
+    # Testing varnish
+    varnish:
+        build:
+            context: .
+            dockerfile: .docker/varnish/Dockerfile
+        networks:
+            - frontproxynet
+            - default
+        tmpfs: /var/lib/varnish:exec
+        depends_on:
+            - nginx
+        links:
+            - nginx:nginx
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE_VARNISH}.loadbalancer.server.scheme=http"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE_VARNISH}.loadbalancer.server.port=80"
+            - "traefik.http.services.${TRAEFIK_NAMESPACE_VARNISH}.loadbalancer.passhostheader=true"
+            # Listen HTTP
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}.entrypoints=http"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}.rule=Host(${TRAEFIK_HOSTNAME_VARNISH})"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}.service=${TRAEFIK_NAMESPACE_VARNISH}"
+            # Listen HTTPS
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}_ssl.entrypoints=https"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}_ssl.tls=true"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}_ssl.rule=Host(${TRAEFIK_HOSTNAME_VARNISH})"
+            - "traefik.http.routers.${TRAEFIK_NAMESPACE_VARNISH}_ssl.service=${TRAEFIK_NAMESPACE_VARNISH}"
 
     intervention:
         env_file:
