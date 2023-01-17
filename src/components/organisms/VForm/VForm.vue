@@ -154,7 +154,11 @@ export default Vue.extend({
             return this.rawSchema?.properties?.[RECAPTCHA_INPUT]
         },
         recaptchaEnabled(): boolean {
-            return !!this.recaptcha && Boolean(this.$config.recaptcha?.siteKey)
+            return (
+                !!this.recaptcha &&
+                Boolean(this.$config.recaptcha?.siteKey) &&
+                this.$config.recaptcha.siteKey !== 'undefined'
+            )
         },
     },
     async mounted() {

@@ -141,7 +141,7 @@ export default {
         fallbackLocale,
         // Google Recaptcha
         recaptcha: {
-            siteKey: process.env.RECAPTCHA_SITE_KEY || 'siteKey_not_defined', // default value prevents module from throwing an error
+            siteKey: process.env.RECAPTCHA_SITE_KEY || 'undefined', // default value prevents module from throwing an error
             version: 3,
         },
     },
