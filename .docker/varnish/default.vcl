@@ -64,4 +64,7 @@ sub vcl_backend_response {
     if (bereq.url ~ "\.(ico|css|js|woff2?|eot|ttf|otf|svg|gif|jpe?g|png|webp|mp4|avif|webm)$") {
         unset beresp.http.set-cookie;
     }
+    # Strip Nuxt set-coookie, ALL cookies must be set client-only
+    # If Nuxt Auth is set and cookies not strip, Varnish won't cache anything
+    unset beresp.http.set-cookie;
 }
