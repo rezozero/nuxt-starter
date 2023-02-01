@@ -3,6 +3,7 @@ import VLinkButton from '~/components/molecules/VLinkButton/VLinkButton.vue'
 import { createImage } from '~/utils/storybook/document'
 
 export default {
+    title: 'molecules/VlinkButton',
     component: VLinkButton,
 }
 

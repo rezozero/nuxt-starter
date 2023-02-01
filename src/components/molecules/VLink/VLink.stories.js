@@ -2,6 +2,7 @@ import VLink from '~/components/molecules/VLink/VLink.vue'
 import { createImage } from '~/utils/storybook/document'
 
 export default {
+    title: 'molecules/Vlink',
     component: VLink,
 }
 
