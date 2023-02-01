@@ -15,6 +15,7 @@ interface Props {
     copyrightPlacement?: string | boolean
     tag?: string
     ratio?: number | boolean
+    // TODO: implement https://image.nuxtjs.org/components/nuxt-img#placeholder
     placeholder?: string | boolean
     loading?: 'lazy' | 'eager'
 }
@@ -82,7 +83,8 @@ export default Vue.extend<any, any, any, VImageProps>({
             height: (!this.ratio && height) || '',
             modifiers: imgModifiers,
         }
-        const img = createElement(this.tag === 'img' || !processable ? 'nuxt-img' : 'nuxt-picture', {
+        const imgTag = this.$slots.default || this.tag === 'img' || !processable ? 'nuxt-img' : 'nuxt-picture'
+        const img = createElement(imgTag, {
             props: imgProps,
             on: {
                 load: () => {
@@ -90,10 +92,11 @@ export default Vue.extend<any, any, any, VImageProps>({
                 },
             },
         })
+        const picture = this.$slots.default && createElement('picture', [this.$slots.default, img])
 
-        if (this.ratio || copyright || this.placeholder || this.rounded) {
+        if (this.ratio || copyright || this.placeholder) {
             const figureStyle: Record<string, string> = {}
-            const children: VNode[] = [img]
+            const children: VNode[] = [picture || img]
 
             if (this.ratio) {
                 if (typeof this.ratio === 'number') {
@@ -155,7 +158,7 @@ export default Vue.extend<any, any, any, VImageProps>({
             )
         }
 
-        return img
+        return picture || img
     },
 })
 </script>
@@ -163,8 +166,8 @@ export default Vue.extend<any, any, any, VImageProps>({
 <style lang="scss" module>
 .root {
     display: inline-block;
-    background-color: var(--image-background-color);
-    border-radius: var(--image-border-radius, 0);
+    background-color: var(--v-image-background-color);
+    border-radius: var(--v-image-border-radius, 0);
     transform: translate(0); // update context to prevent crop glitch on safari
 
     &--ratio {
@@ -181,25 +184,25 @@ export default Vue.extend<any, any, any, VImageProps>({
 // targets direct <img /> child or <picture /> nested <img />
 .root img {
     display: block;
-    width: var(--image-width, auto);
-    max-width: var(--image-max-width, 100%);
-    height: var(--image-height, auto);
-    object-fit: var(--image-object-fit, initial);
-    object-position: var(--image-object-position, initial);
+    width: var(--v-image-width, auto);
+    max-width: var(--v-image-max-width, 100%);
+    height: var(--v-image-height, auto);
+    object-fit: var(--v-image-object-fit, initial);
+    object-position: var(--v-image-object-position, initial);
 }
 
 .root--ratio img {
     position: absolute;
     top: 0;
     left: 0;
-    width: var(--image-width, 100%);
-    height: var(--image-height, 100%);
-    object-fit: var(--image-object-fit, cover);
+    width: var(--v-image-width, 100%);
+    height: var(--v-image-height, 100%);
+    object-fit: var(--v-image-object-fit, cover);
 }
 
 .root--lazy img {
     opacity: 0;
-    transition: var(--image-img-transition, all 0s), opacity 0.3s;
+    transition: var(--v-image-img-transition, all 0s), opacity 0.3s;
 }
 
 .root--loaded img {
