@@ -41,6 +41,7 @@ export default {
         '~/plugins/document-url.ts',
         '~/plugins/roadiz-url.ts',
         '~/plugins/sentry.client.ts',
+        '~/plugins/axios.ts',
     ],
     // Auto import components: https://go.nuxtjs.dev/config-components
     components: [
