@@ -11,6 +11,8 @@ interface PageResponse {
 }
 
 interface CommonContent {
-    mainMenuWalker?: RoadizWalker
     home?: RoadizNodesSources
+    head?: RoadizNodesSources
+    menus?: Record<string, RoadizWalker>
+    footers?: Record<string, RoadizWalker>
 }
