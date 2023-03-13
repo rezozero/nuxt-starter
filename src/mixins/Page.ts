@@ -145,7 +145,7 @@ export default Vue.extend({
                 title: this.pageData?.head?.metaTitle || this.getDefaultMetaTitle(),
                 description: this.pageData.head?.metaDescription || this.$store.state?.headData?.metaDescription,
                 url: joinURL(this.$config.baseURL, this.pageData?.item?.url || ''),
-                siteName: this.pageData.head?.siteName,
+                siteName: this.pageData.head?.siteName || '',
                 image: this.getMetaImage(),
             }
         },
