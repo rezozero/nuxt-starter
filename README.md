@@ -1,6 +1,7 @@
 # nuxt-starter
 Starter template for Nuxt project
 
+- [Project Setup](#project-setup)
 - [Build Setup](#build-setup)
 - [Test docker setup](#test-docker-setup)
 - [Configure Roadiz API](#configure-roadiz-api)
@@ -12,6 +13,43 @@ Starter template for Nuxt project
     - [Cache middleware](#cache-middleware)
 - [Simplified analytics using *Plausible*](#simplified-analytics-using-plausible)
 - [Define an application-wide timezone](#define-an-application-wide-timezone)
+
+## Project Setup
+
+Here are the steps to begin a new project using *rezozero/nuxt-starter*:
+
+```bash
+# Create a new directory for your project
+mkdir my-new-project; cd my-new-project;
+
+# Clone Nuxt Starter in new folder
+git clone https://github.com/rezozero/nuxt-starter.git .
+
+# Remove starter git history
+rm -rf .git
+
+# Edit project package.json with project name
+nano package.json
+
+# Init git repository
+git init
+
+# Add all existing files
+git add --all
+
+# create first commit on *main* branch before initializing Git Flow
+git commit -m 'chore: First commit'
+
+# Initialize Git flow 
+git flow init
+
+# You should be on *develop* now
+# Add you own remote repository
+git remote add origin git@your-git-service:my-new-project.git
+
+# Push all branches
+git push --all
+```
 
 ## Build Setup
 
