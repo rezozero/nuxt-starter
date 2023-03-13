@@ -32,7 +32,7 @@ rm -rf .git
 nano package.json
 
 # Init git repository
-git init
+git init -b main
 
 # Add all existing files
 git add --all
