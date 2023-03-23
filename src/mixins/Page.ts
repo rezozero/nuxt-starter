@@ -14,6 +14,8 @@ import { createTwitterMeta } from '~/utils/meta/twitter'
 import { createGoogleTagManagerScript } from '~/tracking/google-tag-manager'
 import { FacebookMetaOptions, PageMetaPropertyName, TwitterMetaOptions } from '~/types/meta'
 import { createTarteaucitronConfig, TarteaucitronConfigOptions } from '~/tracking/tarteaucitron'
+import { getStructuredData } from '~/utils/seo/get-structured-data'
+import { isEventEntity } from '~/utils/roadiz/entity'
 
 export default Vue.extend({
     beforeRouteEnter(_to: Route, _from: Route, next: Function) {
@@ -100,6 +102,19 @@ export default Vue.extend({
                 type: 'application/javascript',
                 innerHTML: createGoogleTagManagerScript(this.pageData.head.googleTagManager),
             })
+        }
+
+        // structured data
+        if (isEventEntity(this.pageData.item)) {
+            const structuredData = getStructuredData(this.pageData.item, this.$nuxt)
+
+            if (structuredData) {
+                script.push({
+                    hid: 'structured-data',
+                    type: 'application/ld+json',
+                    innerHTML: JSON.stringify(structuredData),
+                })
+            }
         }
 
         return {
