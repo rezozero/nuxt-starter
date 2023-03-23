@@ -144,20 +144,27 @@ function getStructuredDataEntry(
     }
 }
 
+function getEventStructuredDataEntry(
+    event: EventsApi.Event,
+    nuxt: NuxtApp,
+    properties?: PropertiesOptions,
+    date?: EventsApi.EventDate
+): StructuredDataJsonLd {
+    const entry = getStructuredDataEntry(event, Type.EVENT, nuxt, properties)
+    const dateValues = date && getDataValues(date, Type.EVENT, nuxt, properties)
+
+    return { ...entry, ...dateValues }
+}
+
 function getEventStructuredData(
-    data: EventsApi.Event,
+    event: EventsApi.Event,
     nuxt: NuxtApp,
     properties?: PropertiesOptions
 ): StructuredDataJsonLd | StructuredDataJsonLd[] | void {
-    if (data.dates && data.dates.length > 1) {
-        return data.dates.map((date) => {
-            const entry = getStructuredDataEntry(data, Type.EVENT, nuxt, properties)
-            const dateValues = getDataValues(date, Type.EVENT, nuxt, properties)
-
-            return { ...entry, ...dateValues }
-        })
+    if (event.dates && event.dates.length > 1) {
+        return event.dates.map((date) => getEventStructuredDataEntry(event, nuxt, properties, date))
     } else {
-        return getStructuredDataEntry(data, Type.EVENT, nuxt, properties)
+        return getEventStructuredDataEntry(event, nuxt, properties, event.dates?.[0])
     }
 }
 
