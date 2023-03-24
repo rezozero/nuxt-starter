@@ -161,6 +161,9 @@ export default Vue.extend<any, any, any, VVideoProps>({
     },
     beforeDestroy() {
         eventBus.$off(EventType.RESIZE, this.onResize)
+
+        this.player?.destroy()
+        this.player = null
     },
     methods: {
         async createPlayer() {
