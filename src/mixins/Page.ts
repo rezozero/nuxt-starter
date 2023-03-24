@@ -38,16 +38,6 @@ export default Vue.extend({
     head(): MetaInfo {
         const tarteaucitronConfigHid = 'tarteaucitronConfig'
         const googleTagManagerHid = 'googleTagManager'
-        const alternateLinks =
-            this.$config.baseURL &&
-            this.$store.getters.alternateLinks?.map((alternateLink: RoadizAlternateLink) => {
-                return {
-                    hid: `alternate-${alternateLink.locale}`,
-                    rel: 'alternate',
-                    hreflang: alternateLink.locale,
-                    href: this.$config.baseURL + alternateLink.url,
-                }
-            })
         const link = []
         const meta = [
             {
@@ -61,6 +51,17 @@ export default Vue.extend({
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
 
+        // alternate links
+        const alternateLinks =
+            this.$config.baseURL &&
+            this.$store.getters.currentPageAlternateLinks?.map((alternateLink: RoadizAlternateLink) => {
+                return {
+                    hid: `alternate-${alternateLink.locale}`,
+                    rel: 'alternate',
+                    hreflang: alternateLink.locale,
+                    href: joinURL(this.$config.baseURL, alternateLink.url),
+                }
+            })
         if (alternateLinks) link.push(...alternateLinks)
 
         // the page could be potentially  not indexed by robots

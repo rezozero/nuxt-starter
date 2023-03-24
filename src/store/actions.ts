@@ -70,7 +70,7 @@ const actions: ActionTree<RootState, RootState> = {
         )
     },
     updatePageData({ commit }: ActionContext<RootState, RootState>, data: PageResponse) {
-        commit(MutationType.ALTERNATE_LINKS, data.alternateLinks || [])
+        commit(MutationType.CURRENT_PAGE_DATA, data)
     },
     updateNextPageData({ state, dispatch }: ActionContext<RootState, RootState>) {
         if (state.nextPageData) return dispatch('updatePageData', state.nextPageData)

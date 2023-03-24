@@ -1,5 +1,4 @@
 import { NuxtError } from '@nuxt/types'
-import { RoadizAlternateLink } from '@roadiz/abstract-api-client/dist/types/roadiz'
 import { CommonContent, PageResponse } from '~/types/api'
 
 interface RootState {
@@ -7,10 +6,10 @@ interface RootState {
     firstPageError: NuxtError | null
     previousPageData: PageResponse | null
     nextPageData: PageResponse | null
+    currentPageData: PageResponse | null
     commonContent: CommonContent | null
     windowWidth: number
     windowHeight: number
-    alternateLinks: RoadizAlternateLink[]
     prefersReducedMotion: boolean
     scrollIsDisabled: boolean
 }
