@@ -106,7 +106,7 @@ export default Vue.extend({
         }
 
         // structured data
-        if (isEventEntity(this.pageData.item)) {
+        if (this.pageData.item && isEventEntity(this.pageData.item)) {
             const structuredData = getStructuredData(this.pageData.item, this.$nuxt)
 
             if (structuredData) {
