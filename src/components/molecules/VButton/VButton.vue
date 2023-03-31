@@ -7,10 +7,10 @@
         @click="onClick"
     >
         <span ref="inner" :class="$style.inner">
-            <span v-if="$slots.icon || $scopedSlots.icon" :class="$style.icon">
+            <span v-if="hasIcon" ref="icon" :class="$style.icon">
                 <slot name="icon" />
             </span>
-            <span v-if="$slots.default || $scopedSlots.default || label" :class="$style.label">
+            <span v-if="hasLabel" :class="$style.label">
                 <slot>{{ label }}</slot>
             </span>
         </span>
@@ -24,7 +24,6 @@ import { PropType } from 'vue/types/options'
 type Size = 's' | 'm' | 'l'
 type Theme = 'light' | 'dark'
 type Color = 'primary' | 'secondary'
-type Direction = 'ltr' | 'rtl'
 
 function isRelativePath(path: string): boolean {
     return path.charAt(0) === '/'
@@ -43,14 +42,12 @@ export default Vue.extend({
         tag: [String, Boolean] as PropType<string | false>,
         theme: [String, Boolean] as PropType<Theme | false>,
         color: [String, Boolean] as PropType<Color | false>,
-        direction: {
-            type: [String, Boolean] as PropType<Direction | false>,
-            validator(value): boolean {
-                return (typeof value === 'string' && ['ltr', 'rtl'].includes(value)) || typeof value === 'boolean'
-            },
-        },
         href: [String, Boolean] as PropType<string | false>, // external (absolute) or internal (relative) link
         to: [String, Object, Boolean], // internal link (use NuxtLink)
+        iconLast: {
+            type: Boolean,
+            default: true,
+        },
     },
     computed: {
         classNames(): (string | boolean | undefined)[] {
@@ -61,8 +58,9 @@ export default Vue.extend({
                 this.elevated && this.$style['root--elevated'],
                 this.disabled && this.$style['root--disabled'],
                 this.rounded && this.$style['root--rounded'],
-                !this.$slots.default && !this.$scopedSlots.default && !this.label && this.$style['root--icon'],
-                this.direction === 'rtl' && this.$style['root--rtl'],
+                this.hasIcon && this.$style['root--has-icon'],
+                this.hasLabel && this.$style['root--has-label'],
+                this.iconLast && this.$style['root--icon-last'],
                 typeof this.size === 'string' && this.$style['root--size-' + this.size],
                 typeof this.theme === 'string' && this.$style['root--theme-' + this.theme],
                 typeof this.color === 'string' && this.$style['root--color-' + this.color],
@@ -74,6 +72,12 @@ export default Vue.extend({
             if (this.to || (typeof this.href === 'string' && isRelativePath(this.href))) return 'nuxt-link'
             else if (this.href) return 'a'
             else return 'button'
+        },
+        hasIcon(): boolean {
+            return !!this.$slots.icon || !!this.$scopedSlots.icon
+        },
+        hasLabel(): boolean {
+            return !!this.$slots.default || !!this.$scopedSlots.default || !!this.label
         },
         linkProps(): Record<string, any> {
             const props: Record<string, any> = {}
@@ -220,17 +224,8 @@ export default Vue.extend({
         transition: none;
     }
 
-    .root:not(.root--rtl) &:first-child {
-        margin-left: 0;
-    }
-
-    &:first-child:last-child {
-        margin: 0;
-    }
-
-    .root--rtl & {
+    .root--icon-last & {
         order: 2;
-        margin-right: 0;
     }
 }
 
