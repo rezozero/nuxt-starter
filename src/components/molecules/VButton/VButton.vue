@@ -125,7 +125,7 @@ export default Vue.extend({
     }
 
     &--rounded {
-        @include v-button-default-css-vars($v-button-rounded, '-rounded');
+        @include v-button-default-css-vars($v-button-rounded, 'rounded');
     }
 
     &--color-primary {
@@ -180,7 +180,7 @@ export default Vue.extend({
 }
 
 .inner {
-    @include v-button-default-css-vars($v-button-inner, '-inner');
+    @include v-button-default-css-vars($v-button-inner, 'inner');
 
     display: flex;
     align-items: center;
@@ -212,7 +212,7 @@ export default Vue.extend({
 }
 
 .icon {
-    @include v-button-default-css-vars($v-button-icon, '-icon');
+    @include v-button-default-css-vars($v-button-icon, 'icon');
 
     display: flex;
     align-items: center;
@@ -230,6 +230,6 @@ export default Vue.extend({
 }
 
 .label {
-    @include v-button-default-css-vars($v-button-label, '-label');
+    @include v-button-default-css-vars($v-button-label, 'label');
 }
 </style>

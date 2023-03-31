@@ -1,0 +1,24 @@
+// @see https://gist.github.com/danielpchen/1bef5000cfda98dbf6be
+// @function implode() -- join list elements to form a single string
+//  {string} $pieces: the list of strings to implode
+//  {string} $glue: the "glue" between elements in the result string
+//  @return {string} the result string
+@function list-implode($pieces, $glue: "") {
+    $result: null;
+
+    @for $i from 1 through length($pieces) {
+        $piece: nth($pieces, $i);
+
+        @if type-of($piece) == list {
+            $result: unquote("#{$result}#{$glue}#{list-implode($piece, $glue)}");
+        } @else if $piece != '' {
+            $result: if($i == 1, $piece, unquote("#{$result}#{$glue}#{$piece}"));
+        }
+    }
+
+    @if $result != null {
+        $result: str-slice($result, str-length($glue) + 1, -1);
+    }
+
+    @return $result;
+}

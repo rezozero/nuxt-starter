@@ -1,7 +1,7 @@
 @use "sass:map";
 @use "sass:math";
 
-$v-button-default-size: m;
+$v-button-size-vars-by-variant: () !default;
 
 // root
 $v-button: (
@@ -59,3 +59,13 @@ $v-button-icon: (
 
 // label
 $v-button-label: ();
+
+$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
+    default: (
+        (vars: $v-button, prefix: ''),
+        (vars: $v-button-rounded, prefix: 'rounded'),
+        (vars: $v-button-inner, prefix: 'inner'),
+        (vars: $v-button-icon, prefix: 'icon'),
+        (vars: $v-button-label, prefix: 'label'),
+    )
+));
