@@ -3,7 +3,7 @@ $gutters: (
 ) !default;
 
 $grid-widths: (
-    //0: (280 / 320) * 100%,
+    0: calc(100% - 2 * var(--gutter)),
 ) !default;
 
 $grid-max-widths: (
