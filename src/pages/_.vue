@@ -90,7 +90,7 @@ export default mixins(Page).extend({
     //     if (this.pageData && this.alternateLinks) {
     //         const locale = this.alternateLinks.find((link) => link.url === this.pageData.item.url)?.locale
     //
-    //         if (locale) this.$i18n.locale = locale
+    //         if (locale) this.$i18n.setLocale(locale)
     //     }
     // },
 })

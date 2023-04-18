@@ -25,7 +25,7 @@ const actions: ActionTree<RootState, RootState> = {
                             (link) => link.url === response.page.item.url
                         )?.locale
 
-                        if (locale) app.i18n.locale = locale
+                        if (locale) app.i18n.setLocale(locale)
                     }
                 })
                 .catch((requestError: AxiosError) => {
