@@ -23,7 +23,7 @@ export interface VVideoProps {
     playsinline?: boolean
     loop?: boolean
     background?: boolean
-    fit: VideoFit | boolean
+    fit?: VideoFit | boolean
     youtube?: Record<string, string>
     vimeo?: Record<string, string>
     poster?: RoadizDocument | boolean
