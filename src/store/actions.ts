@@ -15,7 +15,7 @@ const actions: ActionTree<RootState, RootState> = {
         // fetch page from Roadiz for dynamic route
         if (context.route.name === 'all') {
             await dispatch('fetchPage', context)
-                .then((response: PageResponse) => {
+                .then(async (response: PageResponse) => {
                     if (!response) return
 
                     commit(MutationType.FIRST_PAGE_DATA, response)
@@ -25,7 +25,7 @@ const actions: ActionTree<RootState, RootState> = {
                             (link) => link.url === response.page.item.url
                         )?.locale
 
-                        if (locale) app.i18n.setLocale(locale)
+                        if (locale) await app.i18n.setLocale(locale)
                     }
                 })
                 .catch((requestError: AxiosError) => {

@@ -85,12 +85,12 @@ export default mixins(Page).extend({
             return this.pageData.blocks && getBlockCollection(this.pageData.blocks)
         },
     },
-    // created() {
+    // async created() {
     //     // set the locale for first render on the client side (without asyncData)
     //     if (this.pageData && this.alternateLinks) {
     //         const locale = this.alternateLinks.find((link) => link.url === this.pageData.item.url)?.locale
     //
-    //         if (locale) this.$i18n.setLocale(locale)
+    //         if (locale) await this.$i18n.setLocale(locale)
     //     }
     // },
 })
