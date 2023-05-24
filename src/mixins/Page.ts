@@ -1,4 +1,3 @@
-import type { Route } from 'vue-router'
 import type { MetaInfo } from 'vue-meta'
 import Vue from 'vue'
 import { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/abstract-api-client/dist/types/roadiz'
@@ -16,17 +15,24 @@ import { FacebookMetaOptions, PageMetaPropertyName, TwitterMetaOptions } from '~
 import { createTarteaucitronConfig, TarteaucitronConfigOptions } from '~/tracking/tarteaucitron'
 import { getStructuredData } from '~/utils/seo/get-structured-data'
 import { isEventEntity } from '~/utils/roadiz/entity'
+import { createMatomoTagManagerScript } from '~/tracking/matomo-tag-manager'
 
 export default Vue.extend({
-    beforeRouteEnter(_to: Route, _from: Route, next: Function) {
-        next((vm: Vue) => {
-            vm.$store.dispatch('updateNextPageData')
-        })
-    },
-    beforeRouteUpdate(_to: Route, _from: Route, next: Function) {
-        this.$store.dispatch('updateNextPageData')
-
-        next()
+    // don't know if we should keep this navigation guard when we move from the main page (_.vue) to any other page
+    // beforeRouteEnter(_to: Route, _from: Route, next: Function) {
+    //     next((vm: Vue) => {
+    //         vm.$store.dispatch('updateNextPageData')
+    //     })
+    // },
+    // by default there is no transition
+    transition: {
+        mode: '', // the new page has to be directly there, do not wait from old page
+        css: false,
+        enter(_element: HTMLElement, done: Function) {
+            // update global data
+            window.$nuxt.$store.dispatch('updateNextPageData')
+            done()
+        },
     },
     data() {
         return {
@@ -38,12 +44,13 @@ export default Vue.extend({
     head(): MetaInfo {
         const tarteaucitronConfigHid = 'tarteaucitronConfig'
         const googleTagManagerHid = 'googleTagManager'
+        const matomoTagManagerHid = 'matomoTagManager'
         const link = []
         const meta = [
             {
                 hid: 'description',
                 name: 'description',
-                content: this.pageData.head?.metaDescription || this.$store.state?.headData?.metaDescription,
+                content: this.getMetaDescription(),
             } as PageMetaPropertyName,
             ...createFacebookMeta(this.getFacebookMetaOptions()),
             ...createTwitterMeta(this.getTwitterMetaOptions()),
@@ -105,6 +112,22 @@ export default Vue.extend({
             })
         }
 
+        /*
+         * Matomo Tag Manager must not be loaded by tarteaucitron, it must configure tarteaucitron itself.
+         * Notice: by using MTM you must comply with GDPR and cookie consent or just use
+         * tarteaucitron with GA4, Matomo or Plausible
+         */
+        const matomoTagManagerUrl = this.$config?.matomo?.url
+        const matomoTagManagerId = this.$config?.matomo?.containerId
+        if (matomoTagManagerId && matomoTagManagerUrl) {
+            script.push({
+                once: true,
+                hid: matomoTagManagerHid,
+                type: 'application/javascript',
+                innerHTML: createMatomoTagManagerScript(matomoTagManagerId, matomoTagManagerUrl),
+            })
+        }
+
         // structured data
         if (this.pageData.item && isEventEntity(this.pageData.item)) {
             const structuredData = getStructuredData(this.pageData.item, this.$nuxt)
@@ -128,16 +151,18 @@ export default Vue.extend({
             meta,
             __dangerouslyDisableSanitizersByTagID: {
                 [googleTagManagerHid]: ['script', 'innerHTML'],
+                [matomoTagManagerHid]: ['script', 'innerHTML'],
             },
         }
     },
     methods: {
         getDefaultMetaTitle(): string {
-            return (this.title ? this.title + ' – ' : '') + this.$store.state?.headData?.siteName
+            return (this.title ? this.title + ' – ' : '') + this.$store.state?.commonContent?.head?.siteName
         },
         getMetaImage(): string | undefined {
             const image =
-                this.pageData.head?.shareImage?.relativePath || this.$store.state?.headData?.shareImage?.relativePath
+                this.pageData.head?.shareImage?.relativePath ||
+                this.$store.state?.commonContent?.head?.shareImage?.relativePath
 
             if (image) {
                 return this.$img(image, {
@@ -148,21 +173,24 @@ export default Vue.extend({
                 return joinURL(this.$config.baseURL, '/images/share.jpg')
             }
         },
-        getTwitterMetaOptions(): TwitterMetaOptions {
+        getMetaDescription(): string | undefined {
+            return this.pageData?.head?.metaDescription || this.$store.state?.commonContent?.head?.metaDescription
+        },
+        getSocialMetaOptions(): Extract<TwitterMetaOptions, FacebookMetaOptions> {
             return {
                 title: this.pageData?.head?.metaTitle || this.getDefaultMetaTitle(),
-                description: this.pageData?.head?.metaDescription || this.$store.state?.headData?.metaDescription,
+                description: this.getMetaDescription(),
                 url: joinURL(this.$config.baseURL, this.pageData?.item?.url || ''),
                 image: this.getMetaImage(),
             }
         },
+        getTwitterMetaOptions(): TwitterMetaOptions {
+            return this.getSocialMetaOptions()
+        },
         getFacebookMetaOptions(): FacebookMetaOptions {
             return {
-                title: this.pageData?.head?.metaTitle || this.getDefaultMetaTitle(),
-                description: this.pageData.head?.metaDescription || this.$store.state?.headData?.metaDescription,
-                url: joinURL(this.$config.baseURL, this.pageData?.item?.url || ''),
+                ...this.getSocialMetaOptions(),
                 siteName: this.pageData.head?.siteName || '',
-                image: this.getMetaImage(),
             }
         },
     },

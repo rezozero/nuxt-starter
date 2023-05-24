@@ -128,6 +128,10 @@ export default {
         //     domain: process.env.PLAUSIBLE_DOMAIN,
         //     apiHost: process.env.PLAUSIBLE_API_HOST || 'https://plausible.io',
         // },
+        // matomo: {
+        //     url: process.env.MTM_URL || 'https://a.site-name.fr',
+        //     containerId: process.env.MTM_CONTAINER_ID || 'xxxxx',
+        // },
         interventionRequest: {
             baseUrl: process.env.INTERVENTION_REQUEST_BASE_URL || process.env.API_URL || process.env.BASE_URL || '',
             noProcessBasePath: process.env.INTERVENTION_REQUEST_NO_PROCESS_PATH || process.env.DOCUMENT_PATH,
