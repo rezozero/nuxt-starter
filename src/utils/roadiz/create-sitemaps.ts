@@ -24,6 +24,8 @@ export default function createSitemaps(locales: Array<string>) {
                     }
                 )
 
+                // By default, pages with noIndex won't be fetched.
+                // Therefore, if a page should not appear into the sitemap, activate the noIndex property into the Roadiz SEO tab of that node.
                 return $roadiz.fetchAllUrlsForLocale(locale)
             },
         }
