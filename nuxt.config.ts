@@ -3,6 +3,7 @@ import { joinURL } from 'ufo'
 import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
+import { version } from './package.json'
 
 const isProduction = process.env.NODE_ENV === 'production'
 // i18n
@@ -149,6 +150,7 @@ export default {
             siteKey: process.env.RECAPTCHA_SITE_KEY || 'undefined', // default value prevents module from throwing an error
             version: 3,
         },
+        version,
     },
     // https://i18n.nuxtjs.org/
     i18n: {
