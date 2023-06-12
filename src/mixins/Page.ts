@@ -152,6 +152,7 @@ export default Vue.extend({
             __dangerouslyDisableSanitizersByTagID: {
                 [googleTagManagerHid]: ['script', 'innerHTML'],
                 [matomoTagManagerHid]: ['script', 'innerHTML'],
+                'structured-data': ['script', 'innerHTML'],
             },
         }
     },
