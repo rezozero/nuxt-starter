@@ -43,8 +43,6 @@ export default Vue.extend({
     },
     head(): MetaInfo {
         const tarteaucitronConfigHid = 'tarteaucitronConfig'
-        const googleTagManagerHid = 'googleTagManager'
-        const matomoTagManagerHid = 'matomoTagManager'
         const link = []
         const meta = [
             {
@@ -57,6 +55,7 @@ export default Vue.extend({
             { hid: 'version', name: 'version', content: this.$config.version || '' },
         ]
         const script = [] as (ScriptPropertyText | ScriptPropertySrc | ScriptPropertySrcCallback | ScriptPropertyJson)[]
+        const __dangerouslyDisableSanitizersByTagID: Record<string, string[]> = {}
 
         // alternate links
         const alternateLinks =
@@ -104,12 +103,16 @@ export default Vue.extend({
          * tarteaucitron with GA4, Matomo or Plausible
          */
         if (this.pageData.head?.googleTagManager) {
+            const hid = 'matomoTagManager'
+
             script.push({
                 once: true,
-                hid: googleTagManagerHid,
+                hid,
                 type: 'application/javascript',
                 innerHTML: createGoogleTagManagerScript(this.pageData.head.googleTagManager),
             })
+
+            __dangerouslyDisableSanitizersByTagID[hid] = ['script', 'innerHTML']
         }
 
         /*
@@ -120,12 +123,16 @@ export default Vue.extend({
         const matomoTagManagerUrl = this.$config?.matomo?.url
         const matomoTagManagerId = this.$config?.matomo?.containerId
         if (matomoTagManagerId && matomoTagManagerUrl) {
+            const hid = 'googleTagManager'
+
             script.push({
                 once: true,
-                hid: matomoTagManagerHid,
+                hid,
                 type: 'application/javascript',
                 innerHTML: createMatomoTagManagerScript(matomoTagManagerId, matomoTagManagerUrl),
             })
+
+            __dangerouslyDisableSanitizersByTagID[hid] = ['script', 'innerHTML']
         }
 
         // structured data
@@ -133,11 +140,15 @@ export default Vue.extend({
             const structuredData = getStructuredData(this.pageData.item, this.$nuxt)
 
             if (structuredData) {
+                const hid = 'structured-data'
+
                 script.push({
-                    hid: 'structured-data',
+                    hid,
                     type: 'application/ld+json',
                     innerHTML: JSON.stringify(structuredData),
                 })
+
+                __dangerouslyDisableSanitizersByTagID[hid] = ['script', 'innerHTML']
             }
         }
 
@@ -149,11 +160,7 @@ export default Vue.extend({
             script,
             link,
             meta,
-            __dangerouslyDisableSanitizersByTagID: {
-                [googleTagManagerHid]: ['script', 'innerHTML'],
-                [matomoTagManagerHid]: ['script', 'innerHTML'],
-                'structured-data': ['script', 'innerHTML'],
-            },
+            __dangerouslyDisableSanitizersByTagID,
         }
     },
     methods: {
