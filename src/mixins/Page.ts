@@ -16,6 +16,7 @@ import { createTarteaucitronConfig, TarteaucitronConfigOptions } from '~/trackin
 import { getStructuredData } from '~/utils/seo/get-structured-data'
 import { isEventEntity } from '~/utils/roadiz/entity'
 import { createMatomoTagManagerScript } from '~/tracking/matomo-tag-manager'
+import { EventsApi } from '~/types/event'
 
 export default Vue.extend({
     // don't know if we should keep this navigation guard when we move from the main page (_.vue) to any other page
@@ -136,7 +137,11 @@ export default Vue.extend({
         }
 
         // structured data
-        if (this.pageData.item && isEventEntity(this.pageData.item)) {
+        if (
+            this.pageData.item &&
+            isEventEntity(this.pageData.item) &&
+            (this.pageData.item as EventsApi.Event).datesCount // don't add structured data for festival (no event dates)
+        ) {
             const structuredData = getStructuredData(this.pageData.item, this.$nuxt)
 
             if (structuredData) {
