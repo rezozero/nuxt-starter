@@ -38,18 +38,6 @@ const DEFAULT_PROPERTIES: Record<string, string[]> = {
         // 'review',
     ],
 }
-// should be defined on each event date but for this project it is not into the data (not serialized)
-const DEFAULT_EVENT_LOCATION = {
-    '@type': 'Place',
-    name: 'Opéra de Lyon',
-    address: {
-        '@type': 'PostalAddress',
-        streetAddress: '1 place de la comédie',
-        addressLocality: 'Lyon',
-        postalCode: '69001',
-        addressCountry: 'France',
-    },
-}
 
 function isEvent(type: string): boolean {
     return type === Type.EVENT
@@ -61,7 +49,7 @@ function getPropertyValue(property: string, data: any, type: string, nuxt: NuxtA
     // event
     if (isEvent(type)) {
         if (property === 'location') {
-            return (data as EventsApi.EventDate).place?.address || DEFAULT_EVENT_LOCATION
+            return (data as EventsApi.EventDate).place?.address
         } else if (property === 'startDate') {
             // no startDate into the data
             return (data as EventsApi.EventDate).doorTime
