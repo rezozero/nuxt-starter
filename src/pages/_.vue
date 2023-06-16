@@ -43,7 +43,7 @@ export default mixins(Page).extend({
                 data.alternateLinks = store.state.firstPageData?.alternateLinks
 
                 if (data.pageData.item.url && context.route.path && data.pageData.item.url !== context.route.path) {
-                    context.redirect(301, data.pageData.item.url)
+                    context.redirect(301, data.pageData.item.url, context.route.query)
                 }
 
                 store.dispatch('updatePageData', store.state.firstPageData)
@@ -60,7 +60,7 @@ export default mixins(Page).extend({
                     data.alternateLinks = response.alternateLinks
 
                     if (data.pageData.item.url && context.route.path && data.pageData.item.url !== context.route.path) {
-                        context.redirect(301, data.pageData.item.url)
+                        context.redirect(301, data.pageData.item.url, context.route.query)
                     }
                 })
                 .catch((requestError: AxiosError) => {
