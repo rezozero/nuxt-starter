@@ -44,7 +44,7 @@ ssr_docker_develop:
     needs: [ "ssr_build_develop" ]
     dependencies: [ "ssr_build_develop" ]
     script:
-        - "docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}"
+        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
         # App image build
         - "docker build -t ${CI_REGISTRY_IMAGE}/node -f .docker/node/Dockerfile ."
         - "docker tag ${CI_REGISTRY_IMAGE}/node ${CI_REGISTRY_IMAGE}/node:develop"
@@ -87,7 +87,7 @@ storybook_docker_develop:
     needs: [ "storybook_build_develop" ]
     dependencies: [ "storybook_build_develop" ]
     script:
-        - "docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}"
+        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
         # App image build
         - "docker build -t ${CI_REGISTRY_IMAGE}/storybook-static -f .docker/storybook-static/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/storybook-static"
@@ -123,7 +123,7 @@ ssr_docker_tags:
     dependencies: [ "ssr_build_tags" ]
     script:
         # Connect to your Gitlab Registry
-        - "docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}"
+        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
         # App image build
         - "docker build -t ${CI_REGISTRY_IMAGE}/node -f .docker/node/Dockerfile ."
         - "docker tag ${CI_REGISTRY_IMAGE}/node ${CI_REGISTRY_IMAGE}/node:${CI_COMMIT_TAG}"
@@ -191,7 +191,7 @@ create_gitlab_release:
 #    script:
 #        # Connect to your Gitlab Registry
 #        - "echo \"Registry image: ${CI_REGISTRY_IMAGE} for develop\""
-#        - "docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}"
+#        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
 #        # App image build
 #        - "docker build -t ${CI_REGISTRY_IMAGE} -f .docker/nginx-static/Dockerfile ."
 #        - "docker tag ${CI_REGISTRY_IMAGE} ${CI_REGISTRY_IMAGE}:develop"
@@ -233,7 +233,7 @@ create_gitlab_release:
 #    script:
 #        # Connect to your Gitlab Registry
 #        - "echo \"Registry image: ${CI_REGISTRY_IMAGE} for ${CI_COMMIT_TAG}\""
-#        - "docker login -u gitlab-ci-token -p ${CI_BUILD_TOKEN} ${CI_REGISTRY}"
+#        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
 #        # App image build
 #        - "docker build -t ${CI_REGISTRY_IMAGE} -f .docker/nginx-static/Dockerfile ."
 #        - "docker tag ${CI_REGISTRY_IMAGE} ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
