@@ -65,7 +65,6 @@
         "eslint-plugin-nuxt": "^2.0.0",
         "eslint-plugin-prettier": "^3.4.0",
         "eslint-plugin-vue": "^7.12.1",
-        "focus-visible": "^5.2.0",
         "husky": "^8.0.3",
         "include-media": "^1.4.10",
         "lint-staged": "^13.1.0",

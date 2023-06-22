@@ -44,3 +44,8 @@ select {
     font: inherit;
     line-height: inherit;
 }
+
+*:focus-visible {
+    outline: 3px solid var(--theme-foreground-color, currentColor);
+    outline-offset: 10px;
+}
