@@ -14,7 +14,8 @@ services:
         volumes:
             - ./.env:/usr/src/nuxt-app/.env:ro
         labels:
-            - "com.centurylinklabs.watchtower.enable=true"
+            - "com.centurylinklabs.watchtower.enable=true"            
+            - "com.centurylinklabs.watchtower.depends-on=example-nginx-1,example-varnish-1"
 
     nginx:
         image: ${REGISTRY_BASE_URL}/nginx:develop
@@ -29,7 +30,8 @@ services:
             - ./robots.txt:/usr/share/nginx/app/robots.txt:ro
             - ./custom-nginx.conf:/etc/nginx/nginx.conf:ro
         labels:
-            - "com.centurylinklabs.watchtower.enable=true"
+            - "com.centurylinklabs.watchtower.enable=true"            
+            - "com.centurylinklabs.watchtower.depends-on=example-varnish-1"
 
     varnish:
         image: ${REGISTRY_BASE_URL}/varnish:develop
