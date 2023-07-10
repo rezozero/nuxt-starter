@@ -13,17 +13,31 @@ stages:
         paths:
             - node_modules
 
-# ===========
-# SSR STAGING
-# ===========
-ssr_build_develop:
-    stage: build
-    interruptible: true
-    <<: *cache
-    only:
-        - merge_requests
-        - develop
+.staging-env: &staging-env
+    environment:
+        name: staging
+        url: "https://my-staging-env.dev"
+    variables:
+        NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
+        
+.production-env: &production-env
+    environment:
+        name: production
+        url: "https://my-production-env.dev"
+    variables:
+        NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
+
+.storybook-env: &storybook-env
+    environment:
+        name: storybook
+        url: "https://my-storybook-env.dev"
+    variables:
+        NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
+
+## Common scripts and artifacts for develop and main jobs
+.build-commons: &build-commons
     artifacts:
+        name: "build_${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}"
         expire_in: 1 hour
         paths:
             - .nuxt/
@@ -33,6 +47,22 @@ ssr_build_develop:
         - yarn lint
         - yarn build
 
+# ===========
+# SSR STAGING
+# ===========
+ssr_build_develop:
+    stage: build
+    interruptible: true
+    only:
+        - merge_requests
+        - develop
+    except:
+        - tags
+        - main
+    <<: *cache
+    <<: *staging-env
+    <<: *build-commons
+
 ssr_docker_develop:
     stage: docker
     only:
@@ -41,6 +71,7 @@ ssr_docker_develop:
     services:
         - docker:dind
     when: on_success
+    <<: *staging-env
     needs: [ "ssr_build_develop" ]
     dependencies: [ "ssr_build_develop" ]
     script:
@@ -65,6 +96,7 @@ storybook_build_develop:
     stage: build
     interruptible: true
     <<: *cache
+    <<: *storybook-env
     only:
         - develop
     artifacts:
@@ -83,6 +115,7 @@ storybook_docker_develop:
     image: docker:git
     services:
         - docker:dind
+    <<: *storybook-env
     when: on_success
     needs: [ "storybook_build_develop" ]
     dependencies: [ "storybook_build_develop" ]
@@ -98,24 +131,18 @@ storybook_docker_develop:
 ssr_build_tags:
     stage: build
     interruptible: true
-    <<: *cache
     only:
         - tags
-    artifacts:
-        expire_in: 1 hour
-        paths:
-            - .nuxt/
-            - node_modules/
-    script:
-        - yarn install --pure-lockfile
-        - yarn lint
-        - yarn build
+    <<: *cache
+    <<: *production-env
+    <<: *build-commons
 
 ssr_docker_tags:
     stage: docker
     only:
         - tags
     image: docker:git
+    <<: *production-env
     services:
         - docker:dind
     when: on_success
@@ -148,6 +175,7 @@ create_gitlab_release:
     script:
         - echo "Running the release job."
     needs: [ "ssr_docker_tags" ]
+    <<: *production-env
     when: on_success
     release:
         tag_name: $CI_COMMIT_TAG
