@@ -179,6 +179,11 @@ export default Vue.extend<any, any, any, VVideoProps>({
             }
             const PlyrClass = await import('plyr').then((module) => module.default)
 
+            // I don't know why but listeners property is not used by Plyr.
+            // As a workaround I will define the listeners later with on().
+            // Remove the listeners property to be sure that the callbacks are not called twice.
+            delete options.listeners
+
             if (!this.controls || this.background) options.controls = []
             if (this.background) {
                 options.clickToPlay = false
@@ -188,6 +193,13 @@ export default Vue.extend<any, any, any, VVideoProps>({
             if (this.youtube) options.youtube = this.youtube
 
             this.player = new PlyrClass(this.$refs.player as HTMLElement, options)
+
+            this.player.on('ready', this.onPlayerReady)
+
+            // Fix listeners into Plyr options because the callbacks are never called.
+            if (this.plyr?.listeners) {
+                Object.keys(this.plyr.listeners).forEach((value) => this.player.on(value, this.plyr.listeners[value]))
+            }
 
             if (this.fit === 'cover') {
                 this.updatePlayerSize()
@@ -217,6 +229,17 @@ export default Vue.extend<any, any, any, VVideoProps>({
         },
         onPosterClick() {
             this.hadInteraction = true
+        },
+        onPlayerReady() {
+            // sometimes autoplay isn't working then force the video play
+            if (this.autoplay || this.background) {
+                // the player is initialized with muted property as true but sometimes Plyr kept a wrong muted value into localStorage (i.e. muted = false)
+                // @see https://github.com/sampotts/plyr/issues/838#issuecomment-962596150
+                this.player!.muted = true
+                this.player!.play()
+            }
+
+            this.$emit('ready')
         },
     },
     render(createElement): VNode {
@@ -289,11 +312,11 @@ export default Vue.extend<any, any, any, VVideoProps>({
                 'video',
                 {
                     attrs: {
-                        playsinline: this.playsinline && '',
+                        playsinline: (this.playsinline || this.background) && '',
                         controls: this.controls && !this.background && '',
-                        muted: this.muted && '',
-                        loop: this.loop && '',
-                        autoplay: this.autoplay && '',
+                        muted: (this.muted || this.background) && '',
+                        loop: (this.loop || this.background) && '',
+                        autoplay: (this.autoplay || this.background) && '',
                     },
                     ref: 'player',
                     class: this.$style.video,
