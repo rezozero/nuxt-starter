@@ -26,6 +26,7 @@
         },
         "types": [
             "@nuxt/types",
+            "@nuxt/typescript-build",
             "@nuxtjs/axios",
             "@types/node",
             "nuxt-i18n",
