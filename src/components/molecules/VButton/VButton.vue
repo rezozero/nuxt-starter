@@ -167,7 +167,6 @@ export default Vue.extend({
     // DISABLED
 
     &--disabled {
-        color: color(grey-normal);
         pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
     }
 
