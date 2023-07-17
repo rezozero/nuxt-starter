@@ -6,13 +6,11 @@
         v-bind="linkProps"
         @click="onClick"
     >
-        <span ref="inner" :class="$style.inner">
-            <span v-if="hasIcon" ref="icon" :class="$style.icon">
-                <slot name="icon" />
-            </span>
-            <span v-if="hasLabel" :class="$style.label">
-                <slot>{{ label }}</slot>
-            </span>
+        <span v-if="hasIcon" ref="icon" :class="$style.icon">
+            <slot name="icon" />
+        </span>
+        <span v-if="hasLabel" :class="$style.label">
+            <slot>{{ label }}</slot>
         </span>
     </component>
 </template>
@@ -109,105 +107,93 @@ export default Vue.extend({
     @include v-button-default-css-vars($v-button);
     @include theme-variants;
 
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: none;
-    color: inherit;
-    font-weight: bold;
+    color: var(--theme-foreground-color);
+    text-align: left;
     text-decoration: none;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 
     @media (prefers-reduced-motion: reduce) {
         transition: none;
     }
 
-    &--disabled {
-        pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
-    }
-
     &--rounded {
         @include v-button-default-css-vars($v-button-rounded, 'rounded');
+
+        border-radius: rem(40);
     }
 
-    &--color-primary {
-        color: var(--theme-primary);
-    }
+    //&--color-primary {
+    //    color: var(--theme-primary);
+    //}
+    //
+    //&--color-secondary {
+    //    color: var(--theme-secondary);
+    //}
 
-    &--color-secondary {
-        color: var(--theme-secondary);
+    &--outlined {
+        border-width: var(--v-button-border-width, 3px);
+        border-style: solid;
+        border-color: var(--v-button-border-color, currentColor);
     }
 
     &--filled {
-        background-color: var(--theme-default);
-        color: var(--theme-on-default);
+        background-color: var(--theme-foreground-color);
+        color: var(--theme-background-color);
     }
 
-    &--filled#{&}--disabled {
-        background-color: rgba(#000, 0.2);
-        color: rgba(#000, 0.7);
+    &:not(#{&}--outlined):not(#{&}--filled),
+    &--icon {
+        padding: 0;
     }
 
-    &:not(#{&}--filled)#{&}--disabled {
-        color: rgba(#000, 0.7);
-    }
-
-    &--outlined#{&}--disabled {
-        background-color: transparent;
-        color: rgba(#000, 0.3);
-    }
-
-    &--filled#{&}--color-primary {
-        background-color: var(--theme-primary);
-        color: var(--theme-on-primary);
-    }
-
-    &--filled#{&}--color-secondary {
-        background-color: var(--theme-secondary);
-        color: var(--theme-on-secondary);
-    }
+    //&--filled#{&}--color-primary {
+    //    background-color: var(--theme-primary);
+    //    color: var(--theme-on-primary);
+    //}
+    //
+    //&--filled#{&}--color-secondary {
+    //    background-color: var(--theme-secondary);
+    //    color: var(--theme-on-secondary);
+    //}
 
     &--elevated {
         box-shadow: 0 2px 32px 0 rgba(#000, 0.1);
     }
 
-    // sizes
-    $vars: map-remove($v-button, default);
+    // DISABLED
 
-    @each $key, $value in $vars {
+    &--disabled {
+        color: color(grey-normal);
+        pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
+    }
+
+    &--outlined#{&}--disabled {
+        background-color: transparent;
+    }
+
+    //&--filled#{&}--disabled {
+    //}
+
+    // HOVER
+
+    //@media (hover: hover) {
+    //    &--outlined:not(#{&}--disabled):hover {
+    //    }
+    //
+    //    &--filled:not(#{&}--disabled):hover {
+    //    }
+    //}
+
+    // SIZES
+
+    @each $key, $value in $v-button {
         &--size-#{$key} {
             @include v-button-size($key);
         }
-    }
-}
-
-.inner {
-    @include v-button-default-css-vars($v-button-inner, 'inner');
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: left;
-
-    .root:not(.root--outlined):not(.root--filled) & {
-        padding: 0;
-    }
-
-    .root--icon & {
-        padding: 0;
-    }
-
-    .root--outlined & {
-        border-width: var(--v-button-border-width, 3px);
-        border-style: solid;
-        border-radius: inherit;
-        transition: all 0.3s;
-    }
-
-    .root--outlined.root--color-primary & {
-        border-color: var(--theme-primary);
-    }
-
-    .root--outlined.root--color-secondary & {
-        border-color: var(--theme-secondary);
     }
 }
 
@@ -217,8 +203,8 @@ export default Vue.extend({
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--v-button-icon-color, currentColor);
     line-height: 0;
-    transition: color 0.3s, transform 0.3s;
 
     @media (prefers-reduced-motion: reduce) {
         transition: none;
@@ -231,5 +217,9 @@ export default Vue.extend({
 
 .label {
     @include v-button-default-css-vars($v-button-label, 'label');
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 </style>

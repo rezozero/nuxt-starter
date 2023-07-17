@@ -6,13 +6,22 @@ $v-button-size-vars-by-variant: () !default;
 // root
 $v-button: (
     s: (
-        font-size: rem(16)
+        font-size: rem(16),
+        min-width: 42px,
+        height: 42px,
+        padding: 0 16px
     ),
     m: (
         font-size: rem(18),
+        min-width: 52px,
+        height: 52px,
+        padding: 0 20px
     ),
     l: (
-        font-size: rem(22)
+        font-size: rem(22),
+        min-width: 64px,
+        height: 64px,
+        padding: 0 24px
     ),
 );
 
@@ -25,25 +34,6 @@ $v-button-rounded: (
     ),
     l: (
         border-radius: math.div(64px, 2)
-    ),
-);
-
-// inner
-$v-button-inner: (
-    s: (
-        min-width: 42px,
-        height: 42px,
-        padding: 0 16px
-    ),
-    m: (
-        min-width: 52px,
-        height: 52px,
-        padding: 0 20px
-    ),
-    l: (
-        min-width: 64px,
-        height: 64px,
-        padding: 0 24px
     ),
 );
 
@@ -64,7 +54,6 @@ $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),
         (vars: $v-button-rounded, prefix: 'rounded'),
-        (vars: $v-button-inner, prefix: 'inner'),
         (vars: $v-button-icon, prefix: 'icon'),
         (vars: $v-button-label, prefix: 'label'),
     )
