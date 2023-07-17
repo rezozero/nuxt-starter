@@ -231,6 +231,7 @@ export default {
         screens: {
             '2xl': false, // remove useless 2xl size (duplicate with xxl size)
             hd: 1920,
+            xhd: 2500,
         },
     },
     // https://storybook.nuxtjs.org/api/options
