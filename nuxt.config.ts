@@ -197,8 +197,7 @@ export default {
     },
     // https://sitemap.nuxtjs.org/guide/setup
     sitemap: {
-        // hostname: process.env.BASE_URL,
-        i18n: true,
+        hostname: process.env.BASE_URL,
         path: '/sitemap.xml',
         cacheTime: 1000 * 60 * 60 * 2,
         defaults: {
