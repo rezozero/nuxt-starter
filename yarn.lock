@@ -2169,6 +2169,14 @@
   resolved "https://registry.yarnpkg.com/@babel/regjsgen/-/regjsgen-0.8.0.tgz#f0ba69b075e1f05fb2825b7fad991e7adbb18310"
   integrity sha512-x/rqGMdzj+fWZvCOYForTghzbtqPDZ5gPwaoNGHdgDfF2QA/XZbCBp4Moo5scrkAMPhB7z26XM/AaHuIJdgauA==
 
+"@babel/runtime-corejs3@^7.22.6":
+  version "7.22.6"
+  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs3/-/runtime-corejs3-7.22.6.tgz#e8e625eb3db29491e0326b3aeb9929c43b270ae4"
+  integrity sha512-M+37LLIRBTEVjktoJjbw4KVhupF0U/3PYUCbBwgAd9k17hoKhRu1n935QiG7Tuxv0LJOMrb2vuKEeYUlv0iyiw==
+  dependencies:
+    core-js-pure "^3.30.2"
+    regenerator-runtime "^0.13.11"
+
 "@babel/runtime@^7.0.0", "@babel/runtime@^7.12.5", "@babel/runtime@^7.17.8", "@babel/runtime@^7.5.0":
   version "7.19.4"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.19.4.tgz#a42f814502ee467d55b38dd1c256f53a7b885c78"
@@ -7106,6 +7114,11 @@ core-js-compat@^3.30.2, core-js-compat@^3.31.0:
   integrity sha512-wIDWd2s5/5aJSdpOJHfSibxNODxoGoWOBHt8JSPB41NOE94M7kuTPZCYLOlTtuoXTsBPKobpJ6T+y0SSy5L9SA==
   dependencies:
     browserslist "^4.21.9"
+
+core-js-pure@^3.30.2:
+  version "3.31.1"
+  resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.31.1.tgz#73d154958881873bc19381df80bddb20c8d0cdb5"
+  integrity sha512-w+C62kvWti0EPs4KPMCMVv9DriHSXfQOCQ94bGGBiEW5rrbtt/Rz8n5Krhfw9cpFyzXBjf3DB3QnPdEzGDY4Fw==
 
 core-js@^3.0.4, core-js@^3.22.0, core-js@^3.6.5, core-js@^3.8.2:
   version "3.26.0"

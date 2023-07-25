@@ -1,6 +1,7 @@
 import { joinURL } from 'ufo'
 // @ts-ignore
 import SpriteLoaderPlugin from 'svg-sprite-loader/plugin'
+import { NuxtBabelPresetEnv, NuxtWebpackEnv } from '@nuxt/types/config/build'
 import toBoolean from './src/utils/to-boolean'
 import createSitemaps from './src/utils/roadiz/create-sitemaps'
 import { version } from './package.json'
@@ -108,6 +109,28 @@ export default {
         ],
         // fix broken styles during live editing into dev tools https://github.com/vuejs-templates/webpack/issues/1331
         cssSourceMap: false,
+        babel: {
+            presets: ({ isServer }: NuxtBabelPresetEnv & NuxtWebpackEnv) => {
+                return [
+                    [
+                        '@nuxt/babel-preset-app',
+                        {
+                            // remove ie9 for client target
+                            // @see https://github.com/nuxt/nuxt/issues/4552#issuecomment-463695099
+                            targets: isServer ? { node: 'current' } : {},
+                            // use core-js@3
+                            // @see https://github.com/nuxt/nuxt/tree/2.x/packages/babel-preset-app#example-2-use-core-js3
+                            corejs: { version: 3 },
+                            // use .browserlistrc file
+                            // @see https://github.com/nuxt/nuxt/issues/5026#issuecomment-463157720
+                            configPath: __dirname,
+                            // polyfill for optional chaining is needed for .nuxt/router.scrollBehavior.js and @nuxt/image dist file
+                            include: ['@babel/plugin-proposal-optional-chaining'],
+                        },
+                    ],
+                ]
+            },
+        },
     },
     // https://nuxtjs.org/docs/2.x/configuration-glossary/configuration-server
     server: {
