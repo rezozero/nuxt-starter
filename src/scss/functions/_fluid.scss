@@ -16,7 +16,7 @@
     $min-value: rem(list.nth($map-values, 1));
     $max-value: rem(list.nth($map-values, 2));
 
-    @return list.join($result, $min-breakpoint $max-breakpoint $min-value $max-value)
+    @return list.join($result, $min-breakpoint $max-breakpoint $min-value $max-value);
 }
 
 /*
