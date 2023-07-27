@@ -1,0 +1,35 @@
+@use "sass:math";
+
+/**
+ * Interpolate value from XL (1440) to HD (1920) breakpoint
+ * @param {string} $property
+ * @param {string|map} $value
+ * @param {string} $breakpoint
+ */
+@mixin property-fluid($property, $value, $breakpoint: null) {
+    $is-map: type-of($value) == 'map';
+
+    @if $is-map and not map-has-key($value, 'xl') {
+        @warn "property-fluid(): The values map has no XL breakpoint";
+    }
+
+    $value-xl: if($is-map, map-get($value, xl), $value);
+    $value-hd: decimal-round(math.div(breakpoint(hd), breakpoint(xl)) * $value-xl);
+    $default-value: if($is-map, fluid($value), rem($value));
+
+    @if $breakpoint {
+        @include media($breakpoint) {
+            #{$property}: $default-value
+        }
+    } @else {
+        #{$property}: $default-value
+    }
+
+    @include media('>=xl') {
+        #{$property}: fluid((xl: $value-xl, hd: $value-hd));
+    }
+
+    @include media('>=hd') {
+        #{$property}: rem($value-hd);
+    }
+}

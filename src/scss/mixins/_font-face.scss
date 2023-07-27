@@ -1,0 +1,19 @@
+/**
+ * examples:
+ * @include font-face("Font Name", "font-file")
+ * @include font-face("Font Name", "font-file", fallback)
+ * @include font-face($font-family: "Font Name", $file-name: "font-file", $font-display: fallback)
+ */
+@mixin font-face(
+    $font-family,
+    $file-name,
+    $font-display: swap
+) {
+    @font-face {
+        font-display: $font-display;
+        font-family: $font-family;
+        src: url('~assets/fonts/#{$file-name}.woff2') format('woff2'),
+        url('~assets/fonts/#{$file-name}.woff') format('woff');
+        @content;
+    }
+}

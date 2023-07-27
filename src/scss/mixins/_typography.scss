@@ -1,6 +1,7 @@
 @use 'sass:math';
 
 @mixin text-h1 {
+    @include font-size-fluid((xs: 30, xl: 100));
 }
 
 @mixin text-h2 {
