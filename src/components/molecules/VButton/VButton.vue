@@ -4,6 +4,7 @@
         :class="classNames"
         :disabled="internalTag === 'button' && disabled"
         v-bind="linkProps"
+        :inert="disabled"
         @click="onClick"
     >
         <span v-if="hasIcon" ref="icon" :class="$style.icon">
@@ -16,18 +17,17 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
 import { PropType } from 'vue/types/options'
+import mixins from 'vue-typed-mixins'
+import Themeable from '~/mixins/Themeable'
 
 type Size = 's' | 'm' | 'l'
-type Theme = 'light' | 'dark'
-type Color = 'primary' | 'secondary'
 
 function isRelativePath(path: string): boolean {
     return path.charAt(0) === '/'
 }
 
-export default Vue.extend({
+export default mixins(Themeable).extend({
     name: 'VButton',
     props: {
         filled: Boolean,
@@ -38,14 +38,9 @@ export default Vue.extend({
         outlined: Boolean,
         disabled: Boolean,
         tag: [String, Boolean] as PropType<string | false>,
-        theme: [String, Boolean] as PropType<Theme | false>,
-        color: [String, Boolean] as PropType<Color | false>,
         href: [String, Boolean] as PropType<string | false>, // external (absolute) or internal (relative) link
         to: [String, Object, Boolean], // internal link (use NuxtLink)
-        iconLast: {
-            type: Boolean,
-            default: true,
-        },
+        iconLast: { type: Boolean, default: true },
     },
     computed: {
         classNames(): (string | boolean | undefined)[] {
@@ -60,8 +55,7 @@ export default Vue.extend({
                 this.hasLabel && this.$style['root--has-label'],
                 this.iconLast && this.$style['root--icon-last'],
                 typeof this.size === 'string' && this.$style['root--size-' + this.size],
-                typeof this.theme === 'string' && this.$style['root--theme-' + this.theme],
-                typeof this.color === 'string' && this.$style['root--color-' + this.color],
+                this.themeClass,
             ]
         },
         internalTag(): string {
@@ -126,14 +120,6 @@ export default Vue.extend({
         border-radius: rem(40);
     }
 
-    //&--color-primary {
-    //    color: var(--theme-primary);
-    //}
-    //
-    //&--color-secondary {
-    //    color: var(--theme-secondary);
-    //}
-
     &--outlined {
         border-width: var(--v-button-border-width, 3px);
         border-style: solid;
@@ -150,16 +136,6 @@ export default Vue.extend({
         padding: 0;
     }
 
-    //&--filled#{&}--color-primary {
-    //    background-color: var(--theme-primary);
-    //    color: var(--theme-on-primary);
-    //}
-    //
-    //&--filled#{&}--color-secondary {
-    //    background-color: var(--theme-secondary);
-    //    color: var(--theme-on-secondary);
-    //}
-
     &--elevated {
         box-shadow: 0 2px 32px 0 rgba(#000, 0.1);
     }
@@ -167,15 +143,16 @@ export default Vue.extend({
     // DISABLED
 
     &--disabled {
-        pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
+        color: color(grey-50) !important;
     }
 
     &--outlined#{&}--disabled {
         background-color: transparent;
     }
 
-    //&--filled#{&}--disabled {
-    //}
+    &--filled#{&}--disabled {
+        background-color: color(grey-10);
+    }
 
     // HOVER
 

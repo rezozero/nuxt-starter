@@ -1,11 +1,11 @@
 $themes: (
     light: (
-        default: #fff,
-        on-default: #000,
+        foreground-color: #fff,
+        background-color: color(black),
     ),
     dark: (
-        default: #000,
-        on-default: #fff,
+        foreground-color: color(black),
+        background-color: #fff,
     )
 );
 
