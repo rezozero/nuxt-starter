@@ -1,9 +1,15 @@
 image: node:16
 
 stages:
+    - test
     - build
     - docker
     - release
+
+# AutoDevOps templates for security
+include:
+    - template: Jobs/Secret-Detection.gitlab-ci.yml
+    - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
 .cache: &cache
     cache:
