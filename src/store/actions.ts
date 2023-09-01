@@ -7,10 +7,11 @@ import { joinURL } from 'ufo'
 import { RootState } from '~/types/store'
 import MutationType from '~/constants/mutation-type'
 import { CommonContent, PageResponse } from '~/types/api'
+import { setLocaleFromPath } from '~/utils/i18n/set-locale-from-path'
 
 const actions: ActionTree<RootState, RootState> = {
     async nuxtServerInit({ commit, dispatch }: ActionContext<RootState, RootState>, context: Context) {
-        const { app, $roadiz, $sentry } = context
+        const { app, $roadiz, $sentry, store, i18n, route } = context
 
         // fetch page from Roadiz for dynamic route
         if (context.route.name === 'all') {
@@ -36,6 +37,11 @@ const actions: ActionTree<RootState, RootState> = {
                         message: requestError.message,
                     } as NuxtError)
                 })
+        }
+
+        if (store.state.firstPageError) {
+            // The page couldn't load, therefore try to get the locale from URL
+            await setLocaleFromPath(i18n, route.path)
         }
 
         return $roadiz
