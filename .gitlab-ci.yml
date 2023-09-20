@@ -25,7 +25,7 @@ include:
         url: "https://my-staging-env.dev"
     variables:
         NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
-        
+
 .production-env: &production-env
     environment:
         name: production
@@ -83,16 +83,13 @@ ssr_docker_develop:
     script:
         - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
         # App image build
-        - "docker build -t ${CI_REGISTRY_IMAGE}/node -f .docker/node/Dockerfile ."
-        - "docker tag ${CI_REGISTRY_IMAGE}/node ${CI_REGISTRY_IMAGE}/node:develop"
+        - "docker build -t ${CI_REGISTRY_IMAGE}/node:develop -f .docker/node/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/node:develop"
         # NGINX image build
-        - "docker build -t ${CI_REGISTRY_IMAGE}/nginx -f .docker/nginx/Dockerfile ."
-        - "docker tag ${CI_REGISTRY_IMAGE}/nginx ${CI_REGISTRY_IMAGE}/nginx:develop"
+        - "docker build -t ${CI_REGISTRY_IMAGE}/nginx:develop -f .docker/nginx/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/nginx:develop"
         # Varnish image build
-        - "docker build -t ${CI_REGISTRY_IMAGE}/varnish -f .docker/varnish/Dockerfile ."
-        - "docker tag ${CI_REGISTRY_IMAGE}/varnish ${CI_REGISTRY_IMAGE}/varnish:develop"
+        - "docker build -t ${CI_REGISTRY_IMAGE}/varnish:develop -f .docker/varnish/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/varnish:develop"
 
 # =============
@@ -158,18 +155,15 @@ ssr_docker_tags:
         # Connect to your Gitlab Registry
         - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
         # App image build
-        - "docker build -t ${CI_REGISTRY_IMAGE}/node -f .docker/node/Dockerfile ."
-        - "docker tag ${CI_REGISTRY_IMAGE}/node ${CI_REGISTRY_IMAGE}/node:${CI_COMMIT_TAG}"
+        - "docker build -t ${CI_REGISTRY_IMAGE}/node:latest -t ${CI_REGISTRY_IMAGE}/node:${CI_COMMIT_TAG} -f .docker/node/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/node:latest"
         - "docker push ${CI_REGISTRY_IMAGE}/node:${CI_COMMIT_TAG}"
         # NGINX image build
-        - "docker build -t ${CI_REGISTRY_IMAGE}/nginx -f .docker/nginx/Dockerfile ."
-        - "docker tag ${CI_REGISTRY_IMAGE}/nginx ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_TAG}"
+        - "docker build -t ${CI_REGISTRY_IMAGE}/nginx:latest -t ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_TAG} -f .docker/nginx/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/nginx:latest"
         - "docker push ${CI_REGISTRY_IMAGE}/nginx:${CI_COMMIT_TAG}"
         # Varnish image build
-        - "docker build -t ${CI_REGISTRY_IMAGE}/varnish -f .docker/varnish/Dockerfile ."
-        - "docker tag ${CI_REGISTRY_IMAGE}/varnish ${CI_REGISTRY_IMAGE}/varnish:${CI_COMMIT_TAG}"
+        - "docker build -t ${CI_REGISTRY_IMAGE}/varnish:latest -t ${CI_REGISTRY_IMAGE}/varnish:${CI_COMMIT_TAG} -f .docker/varnish/Dockerfile ."
         - "docker push ${CI_REGISTRY_IMAGE}/varnish:latest"
         - "docker push ${CI_REGISTRY_IMAGE}/varnish:${CI_COMMIT_TAG}"
 
@@ -227,8 +221,7 @@ create_gitlab_release:
 #        - "echo \"Registry image: ${CI_REGISTRY_IMAGE} for develop\""
 #        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
 #        # App image build
-#        - "docker build -t ${CI_REGISTRY_IMAGE} -f .docker/nginx-static/Dockerfile ."
-#        - "docker tag ${CI_REGISTRY_IMAGE} ${CI_REGISTRY_IMAGE}:develop"
+#        - "docker build -t ${CI_REGISTRY_IMAGE}:develop -f .docker/nginx-static/Dockerfile ."
 #        - "docker push ${CI_REGISTRY_IMAGE}:develop"
 
 
@@ -269,7 +262,6 @@ create_gitlab_release:
 #        - "echo \"Registry image: ${CI_REGISTRY_IMAGE} for ${CI_COMMIT_TAG}\""
 #        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
 #        # App image build
-#        - "docker build -t ${CI_REGISTRY_IMAGE} -f .docker/nginx-static/Dockerfile ."
-#        - "docker tag ${CI_REGISTRY_IMAGE} ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
+#        - "docker build -t ${CI_REGISTRY_IMAGE}:latest -t ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG} -f .docker/nginx-static/Dockerfile ."
 #        - "docker push ${CI_REGISTRY_IMAGE}:latest"
 #        - "docker push ${CI_REGISTRY_IMAGE}:${CI_COMMIT_TAG}"
