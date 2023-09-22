@@ -1,0 +1,11 @@
+$themes: (
+    light: (
+        foreground-color: #fff,
+        background-color: color(black),
+    ),
+    dark: (
+        foreground-color: color(black),
+        background-color: #fff,
+    )
+);
+$default-theme: dark;

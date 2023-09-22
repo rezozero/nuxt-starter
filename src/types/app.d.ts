@@ -1,1 +1,0 @@
-type Theme = 'light' | 'dark'

@@ -1,0 +1,8 @@
+@function color($key) {
+    @if map-has-key($colors, $key) {
+        @return map-get($colors, $key);
+    }
+
+    @warn "Unkown '#{$key}' in $colors.";
+    @return null;
+}

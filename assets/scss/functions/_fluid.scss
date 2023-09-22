@@ -1,0 +1,58 @@
+@use 'sass:math';
+@use 'sass:list';
+@use 'sass:map';
+
+/*
+ * @param {map} $values - (breakpoint: value) e.g. (xs: 30px, xl: 60px)
+ */
+@function get-fluid-formatted-values($values) {
+    $result: ();
+    $map-keys: map.keys($values);
+    $map-values: map.values($values);
+
+    // breakpoints
+    $min-breakpoint: rem(breakpoint(list.nth($map-keys, 1)));
+    $max-breakpoint: rem(breakpoint(list.nth($map-keys, 2)));
+
+    // values
+    $min-value: rem(list.nth($map-values, 1));
+    $max-value: rem(list.nth($map-values, 2));
+
+    @return list.join($result, $min-breakpoint $max-breakpoint $min-value $max-value);
+}
+
+/*
+ * @param {map} $values - (breakpoint: value) e.g. (xs: 30px, xl: 60px)
+ */
+@function fluid($values) {
+    $formatted-values: get-fluid-formatted-values($values);
+
+    // breakpoints
+    $min-breakpoint: list.nth($formatted-values, 1);
+    $max-breakpoint: list.nth($formatted-values, 2);
+
+    // values
+    $min-value: list.nth($formatted-values, 3);
+    $max-value: list.nth($formatted-values, 4);
+
+    // interpolation
+    $slope: math.div(strip-units($max-value) - strip-units($min-value), strip-units($max-breakpoint) - strip-units($min-breakpoint));
+    $y-axis-intersection: -$min-breakpoint * $slope + $min-value;
+
+    @return calc(#{$y-axis-intersection} + #{$slope * 100vw});
+}
+
+/*
+ * @see https://css-tricks.com/linearly-scale-font-size-with-css-clamp-based-on-the-viewport/
+ * @param {map} $values - (breakpoint: value) e.g. (xs: 30px, xl: 60px)
+ */
+@function fluid-clamp($values) {
+    $formatted-values: get-fluid-formatted-values($values);
+
+    // values
+    $min-value: list.nth($formatted-values, 3);
+    $max-value: list.nth($formatted-values, 4);
+    $fluid-value: fluid($values);
+
+    @return clamp(#{$min-value}, #{$fluid-value}, #{$max-value});
+}

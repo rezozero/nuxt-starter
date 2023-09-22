@@ -1,0 +1,58 @@
+@use "sass:map";
+@use "sass:math";
+
+$v-button-size-vars-by-variant: () !default;
+
+// root
+$v-button: (
+    s: (
+        font-size: rem(16),
+        min-width: 42px,
+        height: 42px,
+        padding: 0 16px
+    ),
+    m: (
+        font-size: rem(18),
+        min-width: 52px,
+        height: 52px,
+        padding: 0 20px
+    ),
+    l: (
+        font-size: rem(22),
+        min-width: 64px,
+        height: 64px,
+        padding: 0 24px
+    ),
+);
+$v-button-rounded: (
+    s: (
+        border-radius: math.div(42px, 2)
+    ),
+    m: (
+        border-radius: math.div(52px, 2)
+    ),
+    l: (
+        border-radius: math.div(64px, 2)
+    ),
+);
+
+// icon
+$v-button-icon: (
+    s: (
+        margin: 0 6px,
+    ),
+    m: (
+        margin: 0 10px,
+    ),
+);
+
+// label
+$v-button-label: ();
+$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
+    default: (
+        (vars: $v-button, prefix: ''),
+        (vars: $v-button-rounded, prefix: 'rounded'),
+        (vars: $v-button-icon, prefix: 'icon'),
+        (vars: $v-button-label, prefix: 'label'),
+    )
+));

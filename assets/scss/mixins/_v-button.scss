@@ -1,0 +1,22 @@
+/**
+ * Get css vars for a specific size
+ */
+@mixin v-button-size($size, $variant: default) {
+    @if  map-has-key($v-button-size-vars-by-variant, $variant) {
+        $vars: map-get($v-button-size-vars-by-variant, $variant);
+
+        @each $value in $vars {
+            @if  map-has-key($value, vars) and map-has-key($value, prefix) {
+                @include v-button-css-vars-by-size(map-get($value, vars), $size, map-get($value, prefix));
+            }
+        }
+    }
+}
+
+@mixin v-button-default-css-vars($vars, $prefix: '', $default: 'm') {
+    @include component-default-vars($vars, 'v-button', $prefix, $default);
+}
+
+@mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
+    @include component-vars-by-size($vars, $size, 'v-button', $prefix);
+}
