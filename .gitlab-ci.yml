@@ -25,7 +25,7 @@ include:
         url: "https://my-staging-env.dev"
     variables:
         NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
-
+        
 .production-env: &production-env
     environment:
         name: production
