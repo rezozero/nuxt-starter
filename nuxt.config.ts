@@ -1,7 +1,9 @@
+import svgLoader from 'vite-svg-loader'
+
 export default defineNuxtConfig({
-    extends: ['github:rezozero/nuxt3-layer'],
+    extends: ['github:rezozero/nuxt3-layer#develop'],
     css: ['~/assets/scss/main.scss'],
-    // https://github.com/storybook-vue/storybook-nuxt/issues/57
+    modules: ['@nuxtjs/svg-sprite'],
     components: [
         '~/components/atoms',
         '~/components/molecules',
@@ -17,5 +19,15 @@ export default defineNuxtConfig({
                 },
             },
         },
+        plugins: [
+            svgLoader({
+                defaultImport: 'url',
+            }),
+        ],
+    },
+    // https://github.com/nuxt-modules/svg-sprite#options
+    svgSprite: {
+        input: '~/assets/images/icons',
+        output: '~/assets/images/sprites',
     },
 })

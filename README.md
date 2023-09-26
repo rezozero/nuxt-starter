@@ -48,3 +48,35 @@ yarn preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## SVG
+
+### Single file
+
+Use `vite-svg-loader` to import SVG file.  
+See the plugin [documentation](https://github.com/jpkleemans/vite-svg-loader) for more information.
+
+```vue
+<script setup lang="ts">
+import IconCheck from '~/assets/images/icons/check.svg?component'
+</script>
+
+<template>
+    <div>
+        <IconCheck />
+    </div>
+</template>
+```
+
+### Sprite
+
+All the files in `~/assets/images/icons` are automatically imported in a SVG sprite.  
+It uses `@nuxtjs/svg-sprite` module. See the module [documentation](https://github.com/nuxt-modules/svg-sprite/tree/master) for more information.
+
+```vue
+<template>
+    <div>
+        <SvgIcon name="check" width="14" height="11" />
+    </div>
+</template>
+```
