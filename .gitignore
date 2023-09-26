@@ -23,6 +23,7 @@ logs
 .env.*
 !.env.example
 yarn.lock
+pnpm-lock.yaml
 
 svg-component.d.ts
 svg-component-global.d.ts
