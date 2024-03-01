@@ -1,5 +1,6 @@
 {
-  "name": "@rezozero/nuxt3-layer",
+  "name": "@rezozero/nuxt-starter",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "build": "nuxt build",
@@ -8,7 +9,7 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare && husky install",
     "lint": "yarn lint:script && yarn lint:style",
-    "lint:script": "eslint --ext .ts,.js,.vue,.cjs .",
+    "lint:script": "eslint .",
     "lint:style": "stylelint \"**/*.{vue,css,scss}\""
   },
   "devDependencies": {
