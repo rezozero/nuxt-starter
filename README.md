@@ -1,28 +1,16 @@
 # Nuxt starter
 
-## Override Nuxt runtime configuration
+##  Nuxt runtime configuration
 
-You can override Nuxt runtime configuration by creating a `.env` file at the root of your project and
-using `NUXT_PUBLIC` prefix on any **existing** config vars name.
-
-```dotenv
-# .env
-NUXT_PUBLIC_BASE_URL=http://localhost:3000
-NUXT_PUBLIC_API_BASE_URL=http://roadiz-core-app.test/api
-NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL=http://roadiz-core-app.test/assets
-NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL=http://roadiz-core-app.test/images
-``` 
-
----
-
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Duplicate the `.env.example` file and rename it to `.env`.
+Fill in the environment variables with the correct values.
 
 ## Setup
 
 Make sure to install the dependencies:
 
 ```bash
-yarn install
+npm run install
 ```
 
 ## Development Server
@@ -30,7 +18,7 @@ yarn install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-yarn dev
+npm run dev
 ```
 
 ## Production
@@ -38,16 +26,14 @@ yarn dev
 Build the application for production:
 
 ```bash
-yarn build
+npm run build
 ```
 
 Locally preview production build:
 
 ```bash
-yarn preview
+npm run preview
 ```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
 ## SVG
 
@@ -77,6 +63,16 @@ It uses `@nuxtjs/svg-sprite` module. See the module [documentation](https://gith
 <template>
     <div>
         <SvgIcon name="check" width="14" height="11" />
+    </div>
+</template>
+```
+
+Nuxt layer introduces a component `VIcon` to easily use the sprite.
+
+```vue
+<template>
+    <div>
+        <VIcon name="check" />
     </div>
 </template>
 ```
