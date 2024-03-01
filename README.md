@@ -134,3 +134,13 @@ The app must use a layout (at least a default one) for allowing the stories to b
 See Nuxt stories [caveat section](https://github.com/rezozero/nuxt-stories?tab=readme-ov-file#caveats).
 
 Checkout the Nuxt stories [documentation](https://github.com/rezozero/nuxt-stories) for more information.
+
+
+## Monitoring
+
+Sentry is included in the application for error monitoring.
+
+Fill the .env file with the values for enabling Sentry.
+```dotenv
+SENTRY_DSN=
+```

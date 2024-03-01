@@ -28,6 +28,7 @@ export default defineNuxtConfig({
             version,
             site: {
                 url: 'http://localhost:3000',
+                environment: 'development',
             },
             api: {
                 url: '',
@@ -46,6 +47,9 @@ export default defineNuxtConfig({
             recaptcha: {
                 siteKey: '',
                 version: 3,
+            },
+            sentry: {
+                dsn: '',
             },
         },
     },
