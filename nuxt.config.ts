@@ -1,15 +1,43 @@
-import svgLoader from 'vite-svg-loader'
+// import svgLoader from 'vite-svg-loader'
+import { version } from './package.json'
 
 export default defineNuxtConfig({
+    devtools: { enabled: true },
     // extends: ['github:rezozero/nuxt-layer#0.1.0'],
     // css: ['~/assets/scss/main.scss'],
     // modules: ['@nuxtjs/svg-sprite'],
-    // components: [
-    //     '~/components/atoms',
-    //     '~/components/molecules',
-    //     '~/components/organisms',
-    //     { path: '~/components/blocks/', global: true },
-    // ],
+    components: [
+        '~/components/atoms',
+        '~/components/molecules',
+        '~/components/organisms',
+        { path: '~/components/blocks/', global: true },
+    ],
+    runtimeConfig: {
+        public: {
+            version,
+            site: {
+                url: 'http://localhost:3000',
+            },
+            api: {
+                url: '',
+                endpointPrefix: '/api',
+                documentPath: '/files',
+            },
+            interventionRequest: {
+                baseUrl: '',
+                noProcessBaseUrl: '',
+            },
+            matomo: {
+                url: '',
+                containerID: '',
+            },
+            googleTagManager: '',
+            recaptcha: {
+                siteKey: '',
+                version: 3,
+            },
+        },
+    },
     // // https://nuxt.com/docs/api/configuration/nuxt-config#vite
     // vite: {
     //     css: {
