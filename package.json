@@ -12,7 +12,8 @@
     "lint": "yarn lint:script && yarn lint:style",
     "lint-fix": "pnpm lint:script --fix && pnpm lint:style --fix",
     "lint:script": "eslint .",
-    "lint:style": "stylelint \"**/*.{vue,css,scss}\""
+    "lint:style": "stylelint \"**/*.{vue,css,scss}\"",
+    "xilo": "node ./node_modules/@rezo-zero/xilofone-fetch/dist/index.js"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
