@@ -4,4 +4,4 @@
 . "$(dirname -- "$0")/common.sh"
 
 # Echo a message when yarn lint command fails
-yarn lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"yarn lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
+pnpm lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
