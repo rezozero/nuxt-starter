@@ -1,8 +1,18 @@
 # Nuxt starter
 
-##  Nuxt runtime configuration
+## Application overview
 
-Duplicate the `.env.example` file and rename it to `.env`.
+- Nuxt as framework
+- Vite for development and build
+- SCSS for styles
+- Typescript for scripts
+- PNPM as package manager
+- EsLint / StyleLint for linting
+- Prettier for code formatting
+
+##  Environment variables
+
+Duplicate the `.env.example` file and rename it to `.env`.  
 Fill in the environment variables with the correct values.
 
 ## Setup
@@ -10,7 +20,7 @@ Fill in the environment variables with the correct values.
 Make sure to install the dependencies:
 
 ```bash
-npm run install
+pnpm install
 ```
 
 ## Development Server
@@ -18,7 +28,7 @@ npm run install
 Start the development server on `http://localhost:3000`:
 
 ```bash
-npm run dev
+pnpm dev
 ```
 
 ## Production
@@ -26,13 +36,13 @@ npm run dev
 Build the application for production:
 
 ```bash
-npm run build
+pnpm build
 ```
 
 Locally preview production build:
 
 ```bash
-npm run preview
+pnpm preview
 ```
 
 ## I18n
@@ -54,7 +64,7 @@ XILOFONE_OUTPUT=assets/locales/
 
 Run the following command to fetch the messages:
 ```bash
-npm run xilo
+pnpm xilo
 ```
 
 ## Image
