@@ -110,4 +110,11 @@ export default defineNuxtConfig({
     sitemap: {
         sources: ['/api/sitemap'],
     },
+    // https://github.com/rezozero/nuxt-stories
+    stories: {
+        pattern: [
+            '**/*.stories.vue',
+            '!playground', // exclude layer stories
+        ],
+    },
 })
