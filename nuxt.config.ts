@@ -8,7 +8,14 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     // extends: ['github:rezozero/nuxt-layer#0.1.0'],
     // css: ['~/assets/scss/main.scss'],
-    modules: ['@nuxtjs/i18n', '@nuxtjs/svg-sprite'],
+    modules: [
+        '@nuxtjs/i18n',
+        '@nuxtjs/svg-sprite',
+        // the Intervention Request provider module has to be registered before the Nuxt image module
+        // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
+        '@rezo-zero/intervention-request-provider',
+        '@nuxt/image',
+    ],
     components: [
         '~/components/atoms',
         '~/components/molecules',
@@ -50,6 +57,7 @@ export default defineNuxtConfig({
         //     },
         // },
         plugins: [
+            // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
             svgLoader({
                 defaultImport: 'url',
             }),
@@ -72,5 +80,23 @@ export default defineNuxtConfig({
         })),
         lazy: true,
         langDir: 'assets/locales/',
+    },
+    // https://image.nuxt.com/get-started/configuration
+    image: {
+        provider: 'interventionRequest',
+        quality: 75,
+        screens: {
+            xs: 375, // override size to match our breakpoints
+            xl: 1440, // override size to match our breakpoints
+            hd: 1920, // additional size
+            qhd: 2500, // additional size
+        },
+        // @ts-ignore not working with [1]
+        densities: '1',
+        presets: {
+            default: {
+                sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
+            },
+        },
     },
 })
