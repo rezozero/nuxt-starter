@@ -35,6 +35,19 @@ Locally preview production build:
 npm run preview
 ```
 
+## I18n
+
+The application uses `nuxt-i18n` module for internationalization.  
+Please refer to the [documentation](https://v8.i18n.nuxtjs.org/) for more information.
+
+The localized messages come from Xilofone, our translation management system.  
+The messages can be fetched automatically using the `@rezo-zero/xilofone-fetch` script.  
+Fill the Xilofone env variables in the `.env` file and run the following command to fetch the messages:
+
+```bash
+npm run xilo
+```
+
 ## SVG
 
 ### Single file

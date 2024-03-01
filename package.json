@@ -15,6 +15,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "@rezo-zero/xilofone-fetch": "^0.2.0",
     "@types/json-schema": "^7.0.12",
     "eslint": "^8.49.0",
     "eslint-config-prettier": "^9.0.0",
@@ -35,7 +36,7 @@
   },
   "dependencies": {
     "@nuxt/image": "^1.0.0-rc.1",
-    "@nuxtjs/i18n": "^8.0.0-rc.3",
+    "@nuxtjs/i18n": "^8.1.1",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.0.0-next.7",
     "@roadiz/abstract-api-client": "^3.1.3",
