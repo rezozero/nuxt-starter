@@ -45,6 +45,32 @@ Locally preview production build:
 pnpm preview
 ```
 
+## Code quality and formatting
+
+Run the following command to lint and format the code:
+
+```bash
+pnpm lint
+```
+
+### Lint and format script (JS / Vue files)
+
+```bash
+pnpm lint:script
+```
+
+### Lint and format style (CSS / SCSS / Vue files)
+
+```bash
+pnpm lint:style
+```
+
+### Lint fix (script and style)
+
+```bash
+pnpm lint-fix
+```
+
 ## I18n
 
 The application uses `nuxt-i18n` module for internationalization.  

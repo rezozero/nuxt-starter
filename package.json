@@ -10,6 +10,7 @@
     "prepare": "nuxi prepare",
     "postinstall": "nuxi prepare && husky install",
     "lint": "yarn lint:script && yarn lint:style",
+    "lint-fix": "pnpm lint:script --fix && pnpm lint:style --fix",
     "lint:script": "eslint .",
     "lint:style": "stylelint \"**/*.{vue,css,scss}\""
   },
