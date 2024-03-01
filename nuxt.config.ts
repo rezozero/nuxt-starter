@@ -15,6 +15,7 @@ export default defineNuxtConfig({
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
+        '@rezo-zero/nuxt-stories',
     ],
     components: [
         '~/components/atoms',

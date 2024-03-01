@@ -112,3 +112,15 @@ Nuxt layer introduces a component `VIcon` to easily use the sprite.
     </div>
 </template>
 ```
+
+## Stories
+
+The application uses `@rezo-zero/nuxt-stories` module.  
+
+All the files with the `.stories.vue` extension are automatically imported and displayed in the stories.   
+The stories are available on `/_stories`.
+
+The app must use a layout (at least a default one) for allowing the stories to be displayed.  
+See Nuxt stories [caveat section](https://github.com/rezozero/nuxt-stories?tab=readme-ov-file#caveats).
+
+Checkout the Nuxt stories [documentation](https://github.com/rezozero/nuxt-stories) for more information.

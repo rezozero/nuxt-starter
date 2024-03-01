@@ -40,6 +40,9 @@ devDependencies:
   '@rezo-zero/intervention-request-provider':
     specifier: ^1.0.0
     version: 1.0.0(rollup@4.12.0)
+  '@rezo-zero/nuxt-stories':
+    specifier: ^0.1.11
+    version: 0.1.11(rollup@4.12.0)
   '@rezo-zero/xilofone-fetch':
     specifier: ^0.2.0
     version: 0.2.0
@@ -1935,6 +1938,18 @@ packages:
       '@nuxt/kit': 3.10.3(rollup@4.12.0)
       defu: 6.1.4
       ufo: 0.7.11
+    transitivePeerDependencies:
+      - rollup
+      - supports-color
+    dev: true
+
+  /@rezo-zero/nuxt-stories@0.1.11(rollup@4.12.0):
+    resolution: {integrity: sha512-AAG2beTMypL9XjA4+VcafruzRTYZD7YT1KQNIdWYwPDVpoGn/sfydmxsvlRGq5KXGRUZmP3r+tAMc/kQAto3ug==}
+    engines: {node: ^20}
+    dependencies:
+      '@nuxt/kit': 3.10.3(rollup@4.12.0)
+      minimatch: 9.0.3
+      ufo: 1.4.0
     transitivePeerDependencies:
       - rollup
       - supports-color
