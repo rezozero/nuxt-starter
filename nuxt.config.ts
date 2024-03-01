@@ -1,5 +1,6 @@
 import svgLoader from 'vite-svg-loader'
 import { version } from './package.json'
+import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 
 const defaultLocale = 'fr'
 const locales = ['fr']
@@ -7,7 +8,6 @@ const locales = ['fr']
 export default defineNuxtConfig({
     devtools: { enabled: true },
     // extends: ['github:rezozero/nuxt-layer#0.1.0'],
-    // css: ['~/assets/scss/main.scss'],
     modules: [
         '@nuxtjs/i18n',
         '@nuxtjs/svg-sprite',
@@ -49,14 +49,15 @@ export default defineNuxtConfig({
             },
         },
     },
+    css: ['~/assets/scss/main.scss'],
     vite: {
-        // css: {
-        //     preprocessorOptions: {
-        //         scss: {
-        //             additionalData: `@import "~/assets/scss/_style-resources.scss";`,
-        //         },
-        //     },
-        // },
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+                },
+            },
+        },
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
             svgLoader({
