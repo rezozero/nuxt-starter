@@ -29,7 +29,7 @@
     "nuxt": "^3.10.3",
     "postcss-html": "^1.5.0",
     "prettier": "^3.0.3",
-    "sass": "^1.66.1",
+    "sass": "^1.71.1",
     "stylelint": "^16.2.1",
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
