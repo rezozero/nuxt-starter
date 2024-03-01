@@ -176,3 +176,12 @@ SENTRY_DSN=
 The application uses [@rezo-zero/nuxt-layer](https://github.com/rezozero/nuxt-layer).  
 It extends the application with a set of features.  
 Learn more about Nuxt layer [here](https://nuxt.com/docs/guide/going-further/layers).
+
+
+## Sitemap
+
+The application uses `@nuxtjs/sitemap` module.  
+It generates a sitemap from the `pages/` directory.
+Dynamic routes can be added with the server route `/api/sitemap`.
+
+Read the full module documentation [here](https://www.nuxtseo.com/sitemap/getting-started/installation).

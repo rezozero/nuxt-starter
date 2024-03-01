@@ -16,6 +16,7 @@ export default defineNuxtConfig({
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
         '@rezo-zero/nuxt-stories',
+        '@nuxtjs/sitemap',
     ],
     components: [
         '~/components/atoms',
@@ -104,5 +105,9 @@ export default defineNuxtConfig({
                 sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
             },
         },
+    },
+    // https://www.nuxtseo.com/sitemap/getting-started/installation
+    sitemap: {
+        sources: ['/api/sitemap'],
     },
 })
