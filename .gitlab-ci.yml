@@ -1,0 +1,144 @@
+image: node:20
+
+stages:
+    - build
+    - docker
+    - release
+
+# AutoDevOps templates for security
+include:
+    - template: Jobs/Secret-Detection.gitlab-ci.yml
+    - template: Jobs/Dependency-Scanning.gitlab-ci.yml
+
+.frontend-cache: &frontend-cache
+    # See https://pnpm.io/continuous-integration#gitlab-ci
+    cache:
+        key:
+            files:
+                - pnpm-lock.yaml
+        paths:
+            - .pnpm-store
+
+.staging-env: &staging-env
+    environment:
+        name: staging
+        url: "https://my-website.test"
+    variables:
+        NUXT_PUBLIC_API_URL: "https://my-website.test"
+        NUXT_PUBLIC_SITE_URL: "https://my-website.test"
+        NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: "https://my-website.test/assets"
+        NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL: "https://my-website.test/files"
+        NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
+
+.production-env: &production-env
+    environment:
+        name: production
+        url: "https://www.my-website.test"
+    variables:
+        NUXT_PUBLIC_API_URL: "https://www.my-website.test"
+        NUXT_PUBLIC_SITE_URL: "https://www.my-website.test"
+        NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: "https://www.my-website.test/assets"
+        NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL: "https://www.my-website.test/files"
+        NUXT_APP_CHANNEL: "$CI_COMMIT_SHORT_SHA $CI_ENVIRONMENT_NAME"
+
+
+## Common scripts and artifacts for develop and main jobs
+.build-commons: &build-commons
+    artifacts:
+        name: "build_${CI_COMMIT_REF_NAME}_${CI_COMMIT_SHORT_SHA}"
+        expire_in: 1 hour
+        paths:
+            - .output/
+    # See https://pnpm.io/continuous-integration#gitlab-ci
+    before_script:
+        - corepack enable
+        - corepack prepare pnpm@latest-8 --activate
+        - pnpm config set store-dir .pnpm-store
+    script:
+        - cd frontend
+        - pnpm install --config.platform=linuxmusl --config.architecture=x64
+#        - pnpm lint
+        - pnpm build
+
+# ===========
+# SSR STAGING
+# ===========
+ssr_build_develop:
+    stage: build
+    interruptible: true
+    only:
+        - merge_requests
+        - develop
+    except:
+        - tags
+        - main
+    <<: *frontend-cache
+    <<: *staging-env
+    <<: *build-commons
+
+ssr_docker_develop:
+    stage: docker
+    only:
+        - develop
+    image: docker:git
+    services:
+        - docker:dind
+    when: on_success
+    <<: *staging-env
+    needs: [ "ssr_build_develop" ]
+    dependencies: [ "ssr_build_develop" ]
+    script:
+        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
+        # App image build
+        - "docker build -t ${CI_REGISTRY_IMAGE}/node:develop -f docker/node/Dockerfile ."
+        - "docker push ${CI_REGISTRY_IMAGE}/node:develop"
+
+# ========
+# SSR PROD
+# ========
+ssr_build_tags:
+    stage: build
+    interruptible: true
+    only:
+        - tags
+    <<: *frontend-cache
+    <<: *production-env
+    <<: *build-commons
+
+ssr_docker_tags:
+    stage: docker
+    only:
+        - tags
+    image: docker:git
+    <<: *production-env
+    services:
+        - docker:dind
+    when: on_success
+    needs: [ "ssr_build_tags" ]
+    dependencies: [ "ssr_build_tags" ]
+    script:
+        # Connect to your Gitlab Registry
+        - "docker login -u gitlab-ci-token -p ${CI_JOB_TOKEN} ${CI_REGISTRY}"
+        # App image build
+        - "docker build -t ${CI_REGISTRY_IMAGE}/node:latest -t ${CI_REGISTRY_IMAGE}/node:${CI_COMMIT_TAG} -f docker/node/Dockerfile ."
+        - "docker push ${CI_REGISTRY_IMAGE}/node:latest"
+        - "docker push ${CI_REGISTRY_IMAGE}/node:${CI_COMMIT_TAG}"
+
+
+# ==========================================
+# Create release on Gitlab repository
+# ==========================================
+create_gitlab_release:
+    stage: release
+    image: registry.gitlab.com/gitlab-org/release-cli:latest
+    rules:
+        - if: $CI_COMMIT_TAG
+    script:
+        - echo "Running the release job."
+    needs: [ "common_docker_images" ]
+    <<: *production-env
+    when: on_success
+    release:
+        tag_name: $CI_COMMIT_TAG
+        name: 'Release $CI_COMMIT_TAG'
+        description: './CHANGELOG.md'
