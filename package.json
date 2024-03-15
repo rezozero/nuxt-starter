@@ -18,8 +18,8 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@nuxt/eslint-config": "^0.2.0",
-    "@nuxtjs/i18n": "^8.1.1",
     "@nuxt/image": "^1.4.0",
+    "@nuxtjs/i18n": "^8.1.1",
     "@nuxtjs/sitemap": "^5.1.0",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.0.0",
@@ -49,6 +49,7 @@
     "@sentry/node": "^7.104.0",
     "@sentry/vue": "^7.104.0",
     "@vue-a11y/skip-to": "^2.1.2",
+    "marked": "^12.0.1",
     "vue-multiselect": "^3.0.0-beta.2"
   },
   "engines": {
