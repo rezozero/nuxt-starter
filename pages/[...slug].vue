@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-    <div></div>
+    <div>Hello world</div>
 </template>
 
 <style module lang="scss"></style>

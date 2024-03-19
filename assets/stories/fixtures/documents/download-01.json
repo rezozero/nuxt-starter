@@ -1,0 +1,7 @@
+{
+  "@id": "api/documents/01",
+  "@type": "Document",
+  "processable": true,
+  "alt": "alt name",
+  "relativePath": "/path-to-document"
+}

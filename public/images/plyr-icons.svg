@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+    <symbol id="plyr-icon-play" width="24" height="24" viewBox="0 0 24 24" fill="none" >
+        <path d="M18.3814 13.7C19.2062 13.1 19.2062 11.9 18.3814 11.3L9.63918 5.30027C8.48454 4.5503 7 5.30027 7 6.50023V18.4998C7 19.6997 8.48454 20.4497 9.63918 19.6997L18.3814 13.7Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol  id="plyr-icon-pause" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M9 6C9 5.44772 8.55228 5 8 5C7.44772 5 7 5.44772 7 6V18C7 18.5523 7.44772 19 8 19C8.55229 19 9 18.5523 9 18L9 6ZM17 6C17 5.44772 16.5523 5 16 5C15.4477 5 15 5.44772 15 6L15 18C15 18.5523 15.4477 19 16 19C16.5523 19 17 18.5523 17 18L17 6Z" fill="currentColor"/>
+    </symbol>
+    <symbol id="plyr-icon-enter-fullscreen" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 20H16M4 8V4V8ZM4 4H8H4ZM4 4L9 9L4 4ZM20 8V4V8ZM20 4H16H20ZM20 4L15 9L20 4ZM4 16V20V16ZM4 20H8H4ZM4 20L9 15L4 20ZM20 20L15 15L20 20ZM20 20V16V20Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="plyr-icon-exit-fullscreen" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25" stroke-width="1.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+    </symbol>
+    <symbol id="plyr-icon-muted" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 11.9853L21 13.9853M5.6 14.9853H4C3.4 14.9853 3 14.5853 3 13.9853V9.9853C3 9.3853 3.4 8.9853 4 8.9853H5.6L10.3 4.2853C10.9 3.6853 12 4.0853 12 4.9853V18.9853C12 19.8853 10.9 20.2853 10.3 19.6853L5.6 14.9853ZM17 13.9853L19 11.9853L17 13.9853ZM19 11.9853L21 9.9853L19 11.9853ZM19 11.9853L17 9.9853L19 11.9853Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="plyr-icon-volume" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M15.4827 8.47908C17.4799 10.4763 17.4799 13.572 15.4827 15.5692M18.3786 5.5831C21.8738 9.07824 21.8738 14.7703 18.3786 18.2655M5.59639 14.9701H3.99861C3.39945 14.9701 3 14.5706 3 13.9714V9.97699C3 9.37783 3.39945 8.97838 3.99861 8.97838H5.59639L10.2899 4.2849C10.889 3.68573 11.9875 4.08518 11.9875 4.98393V18.9645C11.9875 19.8633 10.889 20.2627 10.2899 19.6635L5.59639 14.9701Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+</svg>

@@ -1,0 +1,19 @@
+{
+  "@id": "api/documents/01",
+  "@type": "Document",
+  "embedId": "",
+  "embedPlatform": "",
+  "mimeType": "image\\/jpeg",
+  "imageWidth": "2400",
+  "imageHeight": "1600",
+  "mediaDuration": 0,
+  "imageAverageColor": "#5e6363",
+  "alt": "01.jpg",
+  "name": "Image name",
+  "description": "Image description",
+  "thumbnail": false,
+  "relativePath": "/stories/images/01.jpg",
+  "processable": true,
+  "type": "image",
+  "folders": []
+}

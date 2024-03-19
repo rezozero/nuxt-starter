@@ -23,7 +23,7 @@
     "@nuxtjs/sitemap": "^5.1.0",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.0.0",
-    "@rezo-zero/nuxt-stories": "^0.1.11",
+    "@rezo-zero/nuxt-stories": "^0.1.12",
     "@rezo-zero/xilofone-fetch": "^0.2.0",
     "@roadiz/types": "^0.1.0",
     "@types/json-schema": "^7.0.12",
@@ -32,7 +32,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "husky": "^9.0.11",
     "include-media": "^2.0.0",
-    "nuxt": "^3.10.3",
+    "nuxt": "^3.11.1",
     "postcss-html": "^1.5.0",
     "prettier": "^3.0.3",
     "sass": "^1.71.1",
@@ -50,6 +50,7 @@
     "@sentry/vue": "^7.104.0",
     "@vue-a11y/skip-to": "^2.1.2",
     "marked": "^12.0.1",
+    "plyr": "^3.7.8",
     "vue-multiselect": "^3.0.0-beta.2"
   },
   "engines": {

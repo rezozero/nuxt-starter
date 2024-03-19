@@ -1,0 +1,23 @@
+{
+    "@context": "\/api\/contexts\/Document",
+    "@id": "\/api\/documents\/19",
+    "@type": "Document",
+    "embedId": "147304811",
+    "embedPlatform": "vimeo",
+    "mimeType": "image\/jpeg",
+    "imageWidth": 640,
+    "imageHeight": 360,
+    "mediaDuration": 281,
+    "imageAverageColor": "#585256",
+    "alt": "Virtual Depictions: San Francisco \/ Public Art Project",
+    "thumbnail": false,
+    "relativePath": "/stories/images/vimeo-01.jpg",
+    "processable": true,
+    "type": "image",
+    "folders": [],
+    "embedUrl": "https:\/\/player.vimeo.com\/video\/147304811?title=0\u0026byline=0\u0026portrait=0\u0026api=1\u0026loop=0\u0026fullscreen=1\u0026controls=1\u0026autopause=0\u0026automute=0",
+    "name": "Virtual Depictions: San Francisco \/ Public Art Project",
+    "description": "Public art commission for 350 Mission Building in City of San Francisco, California.\n\n‘Virtual Depictions:San Francisco’ is a public art project by media artist Refik Anadol consist of series of parametric data sculptures that tell the story of the city and people around us within a unique artistic approach for 350 Mission’s media wall in collaboration with Kilroy Realty Corporation \/ John Kilroy and Skidmore, Owings \u0026 Merrill LLP Architects.\n\nThe main idea of ‘Virtual Depictions:San Francisco’ is to bring 21st century approach to public art to define new poetics of space through media arts and architecture and to create a unique parametric data sculptures that has an intelligence, memory and culture. Through architectural transformations of media wall located in 350 Mission’ lobby, home of Salesforce, main motivation with this seminal media architecture approach is to frame this experience with a meticulously abstract and cinematic site-specific data-driven narration. As a result, this media wall turns into a spectacular public event making direct and phantasmagorical connections to its surroundings through simultaneous juxtapositions. The project also intends to contribute to contemporary discourse of public art by proposing a hybrid blend of media arts and architecture in 21st century.\n\nWhen creating this public artwork my goal was to make the invisible visible by embedding media arts into architecture to create a new way to experience a living urban space.\n_\nMedium: 6mm LED Media Wall\nDimensions: 40\u0027 x 70\u0027\nCustom Software (VVVV), 90 minutes long dynamic visual experience in 12 chapters.\n8 Channel sound.\n_\nShot ,edit and color-correction: Refik Anadol\nMusic: Goldmund - Threnody (Unseen-Music)\nSound Design: Kerim Karaoglu\n_\nhttp:\/\/www.refikanadol.com\/works\/virtual-depictions-san-francisco\/\n\n_\nCREDITS\nVirtual Depictions: San Francisco By Refik Anadol\n_\nCommissioned by: Kilroy Realty Corporation\nJohn B. Kilroy, Jr.\n_\nIn cooperation with:\nThe City of San Francisco\nMayor Ed Lee\nJohn Rahaim, Director of Planning\n_\nProject Partners:\nArup\nSensory Interactive\nSansi North America\nSkidmore, Owings, and Merrill LLP\nWebcor Builders\nWSP | Parsons Brinckerhoff\n_\nArt Consultant:\nDPA Fine Art Consulting\nDeanna Postil Krawczyk – Michelle Isenberg\n_\nRefik Anadol Studios: Refik Anadol \/ Efsun Erkilic \/ Raman K. Mustafa\nKian Khiaban \/ Toby Heinemann \/ Rob Tom Browning \/ Bahadir Dagdelen \/ Yusuf Emre Kucur\nDaghan Cam \/ Sebastian Neitsch \/ Johannes Timpernagel \/ Sebastian Huber \/ Kerim Karaoglu\nStudio Management by DG Hunt \u0026 Associates, LLC\n_\nSpecial Thanks: Nicole Stromsness \/ Sarah MacIntyre \/ Douglas Giesey \/ Craig Hartman\nMichael Fukutome \/ Eric Cole \/ Josh Cushner \/ Eric Covrig \/ Jason Cox \/ Pat Green\nJulie Goodwin \/ Amanda Brownlee \/ Shannon Knuth\n_\nVVVV\nhttp:\/\/vvvv.org\/\n\nDX11.Pointcloud\nhttp:\/\/vvvv.org\/contribution\/dx11.pointcloud\n\nEvvvvil Tweet Engine\nhttp:\/\/vvvv.org\/contribution\/evvvvil-tweet-engine",
+    "copyright": "Refik Anadol",
+    "externalUrl": null
+}
