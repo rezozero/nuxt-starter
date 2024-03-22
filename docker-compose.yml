@@ -1,0 +1,7 @@
+services:
+  intervention:
+    image: ambroisemaupate/intervention-request:latest
+    volumes:
+      - ./assets/stories/images:/var/www/html/web/images:ro
+    ports:
+      - 8080:80/tcp
