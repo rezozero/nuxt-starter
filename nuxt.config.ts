@@ -70,6 +70,26 @@ export default defineNuxtConfig({
             }),
         ],
     },
+    nitro: {
+        routeRules: {
+            '/**': {
+                headers: {
+                    // https://web.dev/articles/floc?hl=fr#can_websites_opt_out_of_being_included_in_the_floc_computation
+                    'Permissions-Policy': 'interest-cohort=()',
+                    // Hardening client security policies
+                    // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
+                    'Content-Security-Policy': [
+                        // Only allows these iframe origins
+                        "frame-src 'self' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com",
+                        // Only allows these script origins
+                        //"script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
+                        // Only allows these images origins
+                        //"img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
+                    ].join('; '),
+                },
+            },
+        },
+    },,
     // https://github.com/nuxt-modules/svg-sprite#options
     svgSprite: {
         input: '~/assets/images/icons',
