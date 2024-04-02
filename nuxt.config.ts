@@ -89,7 +89,7 @@ export default defineNuxtConfig({
                 },
             },
         },
-    },,
+    },
     // https://github.com/nuxt-modules/svg-sprite#options
     svgSprite: {
         input: '~/assets/images/icons',
