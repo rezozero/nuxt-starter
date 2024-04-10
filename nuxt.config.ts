@@ -80,7 +80,7 @@ export default defineNuxtConfig({
                     // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
                     'Content-Security-Policy': [
                         // Only allows these iframe origins
-                        "frame-src 'self' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com",
+                        "frame-src 'self' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com",
                         // Only allows these script origins
                         //"script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
                         // Only allows these images origins
