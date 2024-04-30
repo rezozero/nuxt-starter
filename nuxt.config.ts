@@ -7,7 +7,7 @@ const locales = ['fr']
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
-    extends: ['github:rezozero/nuxt-layer'],
+    extends: ['github:rezozero/nuxt-layer#v0.1.5'],
     modules: [
         '@nuxtjs/i18n',
         '@nuxtjs/svg-sprite',
