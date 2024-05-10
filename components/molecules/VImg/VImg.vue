@@ -24,7 +24,9 @@ export default defineComponent({
         // PLACEHOLDER COLOR
         const placeholderColor = computed(
             () =>
-                typeof props.placeholder === 'string' && props.placeholder.startsWith('^(#|rgb)') && props.placeholder,
+                typeof props.placeholder === 'string'
+                && props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
+                && props.placeholder,
         )
         const rootStyle = computed(() => {
             if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
