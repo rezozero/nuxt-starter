@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { ExtractPropTypes, PropType } from 'vue'
+import type { ExtractPropTypes } from 'vue'
 import { imgProps } from '#image/components/nuxt-img'
 import { NuxtImg } from '#components'
 import type { Writeable } from '~/utils/types'
@@ -13,7 +13,7 @@ const baseImageProps = {
     loading: {
         type: imgProps.loading.type,
         // overrides NuxtImg default value
-        default: 'lazy'
+        default: 'lazy',
     },
 }
 
@@ -24,7 +24,7 @@ export default defineComponent({
         ...imgProps,
         ...baseImageProps,
     },
-    setup(props, { attrs }) {
+    setup(props) {
         // PLACEHOLDER
         const placeholder = computed(() => typeof props.placeholder === 'string' && props.placeholder)
         const rootStyle = computed(() => {
@@ -68,8 +68,6 @@ export default defineComponent({
         })
 
         if (!vNodeProps.value.src) return () => null
-
-
 
         const $style = useCssModule()
 
