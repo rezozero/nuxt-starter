@@ -2,14 +2,9 @@
 import type { ExtractPropTypes } from 'vue'
 import { imgProps } from '#image/components/nuxt-img'
 import { NuxtImg } from '#components'
-import type { Writeable } from '~/utils/types'
 
-const baseImageProps = {
-    placeholder: {
-        type: imgProps.placeholder.type,
-        // overrides NuxtImg default value
-        default: true,
-    },
+export const vImgProps = {
+    ...imgProps,
     loading: {
         type: imgProps.loading.type,
         // overrides NuxtImg default value
@@ -17,18 +12,21 @@ const baseImageProps = {
     },
 }
 
-export type VImgProps = ExtractPropTypes<typeof imgProps & typeof baseImageProps>
+export type VImgProps = ExtractPropTypes<typeof vImgProps>
 
 export default defineComponent({
     props: {
-        ...imgProps,
-        ...baseImageProps,
+        ...vImgProps,
     },
     setup(props) {
-        // PLACEHOLDER
-        const placeholder = computed(() => typeof props.placeholder === 'string' && props.placeholder)
+        // PLACEHOLDER COLOR
+        const placeholderColor = computed(() =>
+            typeof props.placeholder === 'string' &&
+            props.placeholder.startsWith('^(#|rgb)') &&
+            props.placeholder
+        )
         const rootStyle = computed(() => {
-            if (placeholder.value) return { '--v-img-placeholder': placeholder.value }
+            if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
         })
 
         // LOAD
@@ -44,10 +42,12 @@ export default defineComponent({
 
         // PROPS
         const vNodeProps = computed(() => {
-            const result: Partial<Writeable<VImgProps>> = {}
+            const result: Partial<VImgProps> = {}
 
             Object.keys(imgProps).forEach((key) => {
-                if (key === 'placeholder' && placeholder.value) return
+                // NuxtImg placeholder remove the src attribute and replace it with a lqip URL.
+                // With a color placeholder we want to keep the src attribute.
+                if (key === 'placeholder' && placeholderColor.value) return
 
                 if (key in props) {
                     result[key as keyof VImgProps] = props[key as keyof VImgProps]

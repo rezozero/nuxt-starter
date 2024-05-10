@@ -19,6 +19,9 @@ const imageProps = {
         <NuxtStoryVariant title="Modifiers / blur">
             <VImg v-bind="imageProps" :modifiers="{ blur: 10 }" />
         </NuxtStoryVariant>
+        <NuxtStoryVariant title="Placeholder / default">
+            <VImg v-bind="imageProps" placeholder />
+        </NuxtStoryVariant>
         <NuxtStoryVariant title="Placeholder / color">
             <VImg v-bind="imageProps" placeholder="#ccc" />
         </NuxtStoryVariant>
