@@ -20,10 +20,9 @@ export default defineComponent({
     },
     setup(props) {
         // PLACEHOLDER COLOR
-        const placeholderColor = computed(() =>
-            typeof props.placeholder === 'string' &&
-            props.placeholder.startsWith('^(#|rgb)') &&
-            props.placeholder
+        const placeholderColor = computed(
+            () =>
+                typeof props.placeholder === 'string' && props.placeholder.startsWith('^(#|rgb)') && props.placeholder,
         )
         const rootStyle = computed(() => {
             if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
