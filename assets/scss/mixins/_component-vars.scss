@@ -1,6 +1,12 @@
 @mixin component-default-vars($vars, $base: '', $prefix: '', $default: 'm') {
-    @if  map-has-key($vars, $default) {
+    @if map-has-key($vars, $default) {
         $default: map-get($vars, $default);
+
+        @each $key, $value in $default {
+            #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, $value);
+        }
+    } @else if(map-has-key($vars, 'default')) {
+        $default: map-get($vars, 'default');
 
         @each $key, $value in $default {
             #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, $value);
@@ -16,4 +22,12 @@
             #{list-implode(('--', $base, $prefix, $key), '-')}: #{$value};
         }
     }
+}
+
+@mixin default-css-vars($base-name, $vars, $prefix: '', $default: 'm') {
+    @include component-default-vars($vars, $base-name, $prefix, $default);
+}
+
+@mixin css-vars-by-size($base-name, $vars, $size, $prefix: '') {
+    @include component-vars-by-size($vars, $size, $base-name, $prefix);
 }

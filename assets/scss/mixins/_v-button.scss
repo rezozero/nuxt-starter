@@ -1,3 +1,6 @@
+@use 'sass:map';
+@use 'sass:list';
+
 /**
  * Get css vars for a specific size
  */
@@ -14,9 +17,9 @@
 }
 
 @mixin v-button-default-css-vars($vars, $prefix: '', $default: 'm') {
-    @include component-default-vars($vars, 'v-button', $prefix, $default);
+    @include default-css-vars('v-button', $vars, $prefix, $default);
 }
 
 @mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
-    @include component-vars-by-size($vars, $size, 'v-button', $prefix);
+    @include css-vars-by-size('v-button', $vars, $size, $prefix);
 }

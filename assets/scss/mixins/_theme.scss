@@ -11,7 +11,7 @@
 
 // create theme variant class names
 @mixin theme-variants() {
-    @if  global-variable-exists('themes') {
+    @if global-variable-exists('themes') {
         @each $key, $value in $themes {
             &--theme-#{"" + $key} {
                 @include theme($key);
