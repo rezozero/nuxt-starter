@@ -5,7 +5,7 @@
         @each $key, $value in $default {
             #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, $value);
         }
-    } @else if(map-has-key($vars, 'default')) {
+    } @else if map-has-key($vars, 'default') {
         $default: map-get($vars, 'default');
 
         @each $key, $value in $default {

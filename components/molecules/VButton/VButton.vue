@@ -97,18 +97,21 @@ export default defineComponent({
 
 <style lang="scss" module>
 @if global-variable-exists('themes') {
-    $themes: map-merge($themes, (
-        dark: (
-            v-button-disabled-color: #757575,
-            v-button-disabled-foreground: #757575,
-            v-button-disabled-background: #E3E3E3,
-        ),
-        light: (
-            v-button-disabled-foreground: #9F9F9F,
-            v-button-disabled-background: #E3E3E3,
-            v-button-disabled-outlined: #9F9F9F,
+    $themes: map-merge(
+        $themes,
+        (
+            dark: (
+                v-button-disabled-color: #757575,
+                v-button-disabled-foreground: #757575,
+                v-button-disabled-background: #e3e3e3,
+            ),
+            light: (
+                v-button-disabled-foreground: #9f9f9f,
+                v-button-disabled-background: #e3e3e3,
+                v-button-disabled-outlined: #9f9f9f,
+            ),
         )
-    ));
+    );
 }
 
 .root {
@@ -121,7 +124,9 @@ export default defineComponent({
     backface-visibility: hidden;
     color: var(--v-button-color, var(--theme-foreground-color));
     text-transform: var(--v-button-text-transform, none);
-    transition: background-color 0.3s, color 0.3s;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
 
     &--icon-last {
         flex-direction: row-reverse;
@@ -148,6 +153,7 @@ export default defineComponent({
     &[inert],
     &--disabled {
         color: var(--v-button-disabled-color, var(--theme-v-button-disabled-foreground));
+
         // prevents click on disabled link (<a> or <nuxt-link>)
         pointer-events: none;
     }
