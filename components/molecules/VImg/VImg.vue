@@ -19,6 +19,8 @@ export default defineComponent({
         ...vImgProps,
     },
     setup(props) {
+        const $style = useCssModule()
+
         // PLACEHOLDER COLOR
         const placeholderColor = computed(
             () =>
@@ -67,8 +69,6 @@ export default defineComponent({
         })
 
         if (!vNodeProps.value.src) return () => null
-
-        const $style = useCssModule()
 
         return () =>
             h(NuxtImg, {
