@@ -110,7 +110,6 @@ export default defineNuxtConfig({
     },
     // https://image.nuxt.com/get-started/configuration
     image: {
-        provider: 'interventionRequest',
         quality: 75,
         screens: {
             xs: 375, // override size to match our breakpoints
