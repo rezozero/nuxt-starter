@@ -25,7 +25,7 @@ export default defineComponent({
         const placeholderColor = computed(
             () =>
                 typeof props.placeholder === 'string'
-                && props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
+                && !props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
                 && props.placeholder,
         )
         const rootStyle = computed(() => {
