@@ -1,9 +1,9 @@
-import type {VImgProps} from "~/components/molecules/VImg/VImg.vue";
-import type {VPictureProps} from "~/components/molecules/VPicture/VPicture.vue";
-import {pictureProps} from "#image/components/nuxt-picture";
-import type {ComponentPublicInstance} from "@vue/runtime-core";
-import NuxtImg from "#image/components/nuxt-img.mjs";
-import NuxtPicture from "#image/components/nuxt-picture.mjs";
+import type { VImgProps } from '~/components/molecules/VImg/VImg.vue'
+import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
+import { pictureProps } from '#image/components/nuxt-picture'
+import type { ComponentPublicInstance } from 'vue'
+import NuxtImg from '#image/components/nuxt-img.mjs'
+import NuxtPicture from '#image/components/nuxt-picture.mjs'
 
 type Props = VImgProps | VPictureProps
 
@@ -11,9 +11,9 @@ export function useBaseImage({ props }: { props: Props }) {
     // PLACEHOLDER COLOR
     const placeholderColor = computed(
         () =>
-            typeof props.placeholder === 'string'
-            && !props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
-            && props.placeholder,
+            typeof props.placeholder === 'string' &&
+            !props.placeholder.includes('.') && // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
+            props.placeholder,
     )
     const rootStyle = computed(() => {
         if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
@@ -31,7 +31,8 @@ export function useBaseImage({ props }: { props: Props }) {
 
         if (!element) return
 
-        const img = element.tagName === 'IMG' ? element as HTMLImageElement : element.querySelector<HTMLImageElement>('img')
+        const img =
+            element.tagName === 'IMG' ? (element as HTMLImageElement) : element.querySelector<HTMLImageElement>('img')
 
         if (img?.complete) onLoad()
     })
@@ -69,6 +70,6 @@ export function useBaseImage({ props }: { props: Props }) {
         placeholderColor,
         vNodeProps,
         loaded,
-        onLoad
+        onLoad,
     }
 }

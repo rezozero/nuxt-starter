@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import type {MaybeRefOrGetter, PropType} from 'vue'
+import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import type {VPictureProps} from '~/components/molecules/VPicture/VPicture.vue'
+import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 
 const props = defineProps({
     media: String,
@@ -30,16 +30,8 @@ const options: ImageOptions = computed(() => {
             ...vNodeProps?.modifiers,
             ...props.modifiers,
             fit: props.fit || props.modifiers?.fit,
-            quality:
-                props.quality ||
-                props.modifiers?.quality ||
-                vNodeProps?.quality ||
-                vNodeProps?.modifiers?.quality,
-            format:
-                props.format ||
-                props.modifiers?.format ||
-                vNodeProps?.format ||
-                vNodeProps?.modifiers?.format,
+            quality: props.quality || props.modifiers?.quality || vNodeProps?.quality || vNodeProps?.modifiers?.quality,
+            format: props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format,
         },
         width: props.width || props.modifiers?.width || vNodeProps?.width,
         height: props.height || props.modifiers?.height || vNodeProps?.height,

@@ -14,7 +14,7 @@ export type VPictureProps = ExtractPropTypes<typeof vPictureProps>
 
 export default defineComponent({
     props: {
-        ...vPictureProps
+        ...vPictureProps,
     },
     setup(props) {
         const $style = useCssModule()
@@ -65,7 +65,7 @@ export default defineComponent({
                 ...vNodeProps.value,
                 imgAttrs: {
                     ...imgAttrs.value,
-                }
+                },
             })
     },
 })
