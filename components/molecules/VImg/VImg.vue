@@ -20,55 +20,7 @@ export default defineComponent({
     },
     setup(props) {
         const $style = useCssModule()
-
-        // PLACEHOLDER COLOR
-        const placeholderColor = computed(
-            () =>
-                typeof props.placeholder === 'string'
-                && !props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
-                && props.placeholder,
-        )
-        const rootStyle = computed(() => {
-            if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
-        })
-
-        // LOAD
-        const root = ref<HTMLImageElement | null>(null)
-        const loaded = ref(false)
-        const onLoad = () => (loaded.value = true)
-
-        onMounted(() => {
-            if (!root.value?.complete) return
-
-            onLoad()
-        })
-
-        // PROPS
-        const vNodeProps = computed(() => {
-            const result: Partial<VImgProps> = {}
-
-            Object.keys(imgProps).forEach((key) => {
-                // NuxtImg placeholder remove the src attribute and replace it with a lqip URL.
-                // With a color placeholder we want to keep the src attribute.
-                if (key === 'placeholder' && placeholderColor.value) return
-
-                if (key in props) {
-                    result[key as keyof VImgProps] = props[key as keyof VImgProps]
-                }
-            })
-
-            // SIZE
-            const crop = result.modifiers?.crop
-            // If the image has a crop modifier, set the width and height.
-            if (typeof crop === 'string' && crop.includes('x')) {
-                const [width, height] = crop.split('x')
-
-                if (width) result.width = parseInt(width)
-                if (height) result.height = parseInt(height)
-            }
-
-            return result
-        })
+        const { vNodeProps, root, rootStyle, loaded, onLoad } = useBaseImage({ props })
 
         if (!vNodeProps.value.src) return () => null
 
@@ -76,7 +28,7 @@ export default defineComponent({
             h(NuxtImg, {
                 ...vNodeProps.value,
                 ref: root,
-                style: rootStyle.value,
+                style: rootStyle,
                 class: [$style.root, loaded.value && $style['root--loaded']],
                 onLoad,
             })
@@ -86,6 +38,8 @@ export default defineComponent({
 
 <style lang="scss" module>
 .root {
+    max-width: var(--v-img-max-width, 100%); // responsive image
+    height: var(--v-img-max-width, auto); // responsive image
     background: var(--v-img-background, var(--v-img-placeholder));
 
     &--loaded {
