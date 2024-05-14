@@ -57,13 +57,6 @@ export default defineComponent({
             (typeof props.copyright === 'string' && props.copyright) ||
             (props.copyright === true && document.value?.copyright))
 
-        // return () => h(copyright.value ? 'figure' : imageComponent, {
-        //         class: [$style.root, copyright.value && $style['root--copyright']]
-        //     }, copyright.value ? [
-        //             imageComponent,
-        //             h(LazyVCopyright, [copyright.value]),
-        // ] : [])
-
         return () => {
             if (copyright.value) {
                 // The copyright needs a wrapper element.
