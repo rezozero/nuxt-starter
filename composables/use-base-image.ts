@@ -2,8 +2,7 @@ import type { VImgProps } from '~/components/molecules/VImg/VImg.vue'
 import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 import { pictureProps } from '#image/components/nuxt-picture'
 import type { ComponentPublicInstance } from 'vue'
-import NuxtImg from '#image/components/nuxt-img.mjs'
-import NuxtPicture from '#image/components/nuxt-picture.mjs'
+import type { NuxtImg, NuxtPicture } from '#build/components'
 
 type Props = VImgProps | VPictureProps
 
