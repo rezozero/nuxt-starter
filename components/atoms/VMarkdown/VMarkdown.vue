@@ -1,6 +1,6 @@
 <script lang="ts">
 import { marked } from 'marked'
-import {getSlotChildrenText} from "~/utils/vue/get-slot-children-text";
+import { getSlotChildrenText } from '~/utils/vue/get-slot-children-text'
 
 const renderer = new marked.Renderer()
 const linkRenderer = renderer.link

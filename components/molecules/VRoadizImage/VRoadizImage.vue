@@ -53,9 +53,11 @@ export default defineComponent({
             isPicture ? slots.default : undefined,
         )
 
-        const copyright = computed(() =>
-            (typeof props.copyright === 'string' && props.copyright) ||
-            (props.copyright === true && document.value?.copyright))
+        const copyright = computed(
+            () =>
+                (typeof props.copyright === 'string' && props.copyright) ||
+                (props.copyright === true && document.value?.copyright),
+        )
 
         return () => {
             if (copyright.value) {

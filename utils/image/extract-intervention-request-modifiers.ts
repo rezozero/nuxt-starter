@@ -4,7 +4,7 @@ type InterventionRequestModifiers = Partial<typeof interventionRequestProps>
 
 export function extractInterventionRequestModifiers(
     source: Record<string, unknown>,
-    excludedKeys: string[] = ['width', 'height']
+    excludedKeys: string[] = ['width', 'height'],
 ) {
     const interventionRequestKeys = Object.keys(interventionRequestProps)
 
