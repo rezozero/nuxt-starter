@@ -93,6 +93,6 @@ Right aligned columns
 
 <template>
     <NuxtStory>
-        <VMarkdown :content="content" />
+        <VMarkdown>{{ content }}</VMarkdown>
     </NuxtStory>
 </template>

@@ -1,5 +1,6 @@
 <script lang="ts">
 import { marked } from 'marked'
+import {getSlotChildrenText} from "~/utils/vue/get-slot-children-text";
 
 const renderer = new marked.Renderer()
 const linkRenderer = renderer.link
@@ -19,22 +20,19 @@ renderer.link = (href: string, title: string, text: string) => {
     return html
 }
 
-export default {
+export default defineComponent({
     props: {
         content: String, // use this prop or directly default slot
         inline: Boolean,
         parsed: Boolean,
         tag: String,
     },
-    setup(props) {
+    setup(props, { slots }) {
         const root = ref<HTMLElement>()
         const router = useRouter()
         const $style = useCssModule()
-        // const slots = useSlots()
-
         const parsedContent = computed(() => {
-            // const content = slots.default?.()[0]?.text?.trim() || props.content
-            const content = props.content
+            const content = getSlotChildrenText(slots.default?.()) || props.content
 
             if (typeof content === 'undefined') return
 
@@ -94,7 +92,7 @@ export default {
                 innerHTML: parsedContent.value,
             })
     },
-}
+})
 </script>
 
 <style lang="scss" module>
