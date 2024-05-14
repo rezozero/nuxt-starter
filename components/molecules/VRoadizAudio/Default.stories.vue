@@ -8,16 +8,16 @@ import spotify from '~/assets/stories/fixtures/documents/spotify-01.json'
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Native">
-            <VAudio :document="audio" />
+            <VRoadizAudio :document="audio" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Deezer">
-            <VAudio :document="deezer" />
+            <VRoadizAudio :document="deezer" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Soundcloud">
-            <VAudio :document="soundcloud" />
+            <VRoadizAudio :document="soundcloud" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Spotify">
-            <VAudio :document="spotify" />
+            <VRoadizAudio :document="spotify" />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
