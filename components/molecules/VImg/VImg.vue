@@ -39,7 +39,7 @@ export default defineComponent({
 <style lang="scss" module>
 .root {
     max-width: var(--v-img-max-width, 100%); // responsive image
-    height: var(--v-img-max-width, auto); // responsive image
+    height: var(--v-img-height, auto); // responsive image
     background: var(--v-img-background, var(--v-img-placeholder));
 
     &--loaded {
