@@ -36,7 +36,6 @@ export default defineComponent({
                 height: height.value,
                 alt: document.value?.alt || document.value?.name,
                 placeholder: document.value?.imageAverageColor,
-                description: document.value?.description,
                 copyright: document.value?.copyright,
                 provider: 'interventionRequest',
             }
