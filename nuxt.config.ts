@@ -88,6 +88,13 @@ export default defineNuxtConfig({
                     ].join('; '),
                 },
             },
+            // Auto generated page by svgSprite module
+            '/_icons': {
+                headers: {
+                    // Do not index the page and remove it from sitemap
+                    'X-Robots-Tag': 'noindex',
+                },
+            },
         },
     },
     // https://github.com/nuxt-modules/svg-sprite#options
