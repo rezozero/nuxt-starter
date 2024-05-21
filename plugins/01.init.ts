@@ -95,10 +95,17 @@ function initSeoMeta(webResponse?: RoadizWebResponse) {
             commonContent.value?.head?.shareImage?.relativePath
 
         if (image) {
-            return img(image, {
-                width: 1200,
-                quality: 70,
-            })
+            return img(
+                image,
+                {
+                    width: 1200,
+                    crop: '1200x630',
+                    quality: 70,
+                },
+                {
+                    provider: 'interventionRequest',
+                },
+            )
         } else {
             return joinURL(runtimeConfig.public.site.url, '/images/share.jpg')
         }
