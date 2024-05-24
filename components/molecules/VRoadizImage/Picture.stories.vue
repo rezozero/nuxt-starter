@@ -7,6 +7,9 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
         <NuxtStoryVariant title="Picture tag">
             <VRoadizImage :document="image" tag="picture" />
         </NuxtStoryVariant>
+        <NuxtStoryVariant title="Loading / eager">
+            <VRoadizImage :document="image" tag="picture" loading="eager" />
+        </NuxtStoryVariant>
         <NuxtStoryVariant title="Source tags">
             <VRoadizImage :document="image">
                 <VPictureSource
