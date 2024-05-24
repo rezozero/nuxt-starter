@@ -24,30 +24,56 @@ export default defineComponent({
         ...vImgProps,
     },
     setup(props, context) {
-        const $style = useCssModule()
-        const { vNodeProps, root, rootStyle, loaded, onLoad, onError } = useBaseImage({ props, context })
+        // PLACEHOLDER COLOR
+        const placeholderColor = computed(
+            () =>
+                typeof props.placeholder === 'string' &&
+                !props.placeholder.includes('.') && // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
+                props.placeholder,
+        )
 
-        if (!vNodeProps.value.src) return () => null
+        // STYLE
+        const $style = useCssModule()
+        const style = computed(() => {
+            if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
+        })
+
+        // LOAD
+        const root = ref<HTMLImageElement | null>(null)
+        const loaded = ref(false)
+        const onLoad = (event?: Event) => {
+            loaded.value = true
+            if (event) context.emit('load', event)
+        }
+        const onError = () => {
+            context.emit('error')
+        }
+
+        onMounted(() => {
+            if (!root.value) return
+
+            if (root.value?.complete) onLoad()
+        })
 
         const $img = useImage()
-        const width = computed(() => parseSize(vNodeProps.value.width))
-        const height = computed(() => parseSize(vNodeProps.value.height))
+        const width = computed(() => parseSize(props.width))
+        const height = computed(() => parseSize(props.height))
         const modifiers = computed<ImageOptions['modifiers']>(() => ({
             width: width.value,
             height: height.value,
-            quality: getInt(vNodeProps.value.quality),
-            format: vNodeProps.value.format,
-            ...vNodeProps.value.modifiers,
+            quality: getInt(props.quality),
+            format: props.format,
+            ...props.modifiers,
         }))
         const options = computed<ImageOptions>(() => ({
-            provider: vNodeProps.value.provider,
-            preset: vNodeProps.value.preset,
-            densities: vNodeProps.value.densities,
+            provider: props.provider,
+            preset: props.preset,
+            densities: props.densities,
             ...modifiers.value,
         }))
         const src = computed(() =>
             $img(
-                vNodeProps.value.src!,
+                props.src!,
                 {
                     ...modifiers.value,
                 },
@@ -58,10 +84,10 @@ export default defineComponent({
         )
         const responsiveImageData = computed(() => {
             return (
-                (vNodeProps.value.sizes || vNodeProps.value.densities) &&
-                $img.getSizes(vNodeProps.value.src!, {
+                (props.sizes || props.densities) &&
+                $img.getSizes(props.src!, {
                     ...options.value,
-                    sizes: vNodeProps.value.sizes,
+                    sizes: props.sizes,
                 })
             )
         })
@@ -74,8 +100,12 @@ export default defineComponent({
                 ref: root,
                 width: width.value,
                 height: height.value,
-                alt: vNodeProps.value.alt,
-                style: rootStyle,
+                alt: props.alt,
+                loading: props.loading,
+                crossorigin: props.crossorigin,
+                decoding: props.decoding,
+                longdesc: props.longdesc,
+                style,
                 class: [$style.root, loaded.value && $style['root--loaded']],
                 onLoad,
                 onError,

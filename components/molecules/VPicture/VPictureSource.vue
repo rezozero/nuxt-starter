@@ -16,27 +16,30 @@ const props = defineProps({
     modifiers: Object as PropType<Record<string, any>>,
 })
 
-const pictureVNodeProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureVNodeProps')
+const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
 
 const $img = useImage()
 
 const options: ImageOptions = computed(() => {
-    if (!pictureVNodeProps) return {}
+    if (!pictureProps) return {}
 
-    const vNodeProps = toValue<VPictureProps>(pictureVNodeProps)
+    const picturePropsValue = toValue<VPictureProps>(pictureProps)
 
     return {
         modifiers: {
-            ...vNodeProps?.modifiers,
+            ...picturePropsValue?.modifiers,
             ...props.modifiers,
             fit: props.fit || props.modifiers?.fit,
-            quality: props.quality || props.modifiers?.quality || vNodeProps?.quality || vNodeProps?.modifiers?.quality,
-            // format: props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format,
+            quality:
+                props.quality ||
+                props.modifiers?.quality ||
+                picturePropsValue?.quality ||
+                picturePropsValue?.modifiers?.quality,
         },
-        width: props.width || props.modifiers?.width || vNodeProps?.width,
-        height: props.height || props.modifiers?.height || vNodeProps?.height,
-        provider: vNodeProps?.provider,
-        preset: vNodeProps?.preset,
+        width: props.width || props.modifiers?.width || picturePropsValue?.width,
+        height: props.height || props.modifiers?.height || picturePropsValue?.height,
+        provider: picturePropsValue?.provider,
+        preset: picturePropsValue?.preset,
         sizes: props.sizes,
     }
 })
@@ -56,22 +59,16 @@ const size = computed(() => {
     return result
 })
 
-// const internalSrc = computed(() => props.src || (pictureVNodeProps && toValue<VPictureProps>(pictureVNodeProps)?.src))
-// const imgSizes = computed(() => internalSrc.value && $img.getSizes(internalSrc.value!, options.value))
-// const internalSrcset = computed(() => imgSizes.value?.srcset)
-// const formats = computed(
-//     () => props.format?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp']),
-// )
 const sources = computed(() => {
-    if (!pictureVNodeProps) return []
+    if (!pictureProps) return []
 
-    const src = props.src || toValue<VPictureProps>(pictureVNodeProps).src
+    const picturePropsValue = toValue<VPictureProps>(pictureProps)
+    const src = props.src || picturePropsValue.src
 
     if (!src) return []
 
-    const vNodeProps = toValue<VPictureProps>(pictureVNodeProps)
     const internalFormat =
-        props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format
+        props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
     const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
 
     return formats.map((format) => {

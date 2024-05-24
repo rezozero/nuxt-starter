@@ -19,34 +19,22 @@ export default defineComponent({
         ...vPictureProps,
     },
     setup(props, context) {
-        const $style = useCssModule()
-        const { vNodeProps, root, rootStyle, loaded, onLoad } = useBaseImage({ props, context })
-
-        if (!vNodeProps.value.src) return () => null
-
-        const rootVNodeProps = computed(() => ({
-            ref: root,
-            // `style` and `class` cannot be used on <img> because NuxtPicture `imgAttrs` prop is not reactive
-            // style: rootStyle,
-            // class: [$style.root, loaded.value && $style['root--loaded']],
-        }))
-
-        const imgAttrs = computed(() => {
-            return {
-                ...vNodeProps.value.imgAttrs,
-                placeholder: vNodeProps.value.placeholder,
-                onLoad,
-            }
-        })
-
         // Provide props to children (<sources>)
-        provide('pictureVNodeProps', vNodeProps)
+        provide('pictureProps', props)
+
+        const imgFilteredProps = computed(() =>
+            Object.keys(props).reduce((acc, key) => {
+                if (key in imgProps) {
+                    acc[key] = props[key]
+                }
+                return acc
+            }, {}),
+        )
 
         const img = h(VImg, {
-            ...vNodeProps.value,
-            ...imgAttrs.value,
-            style: rootStyle,
-            class: [$style.root, loaded.value && $style['root--loaded']],
+            ...imgFilteredProps.value,
+            format: undefined, // let the VImg choose the format itself
+            ...props.imgAttrs,
         })
         const $img = useImage()
         const sources = computed(() => {
@@ -58,42 +46,7 @@ export default defineComponent({
             )
         })
 
-        return () =>
-            h(
-                'picture',
-                {
-                    ...rootVNodeProps.value,
-                },
-                [sources.value, img],
-            )
-
-        // if (slots.default) {
-        //     provide('pictureVNodeProps', vNodeProps)
-        //
-        //     const img = h(NuxtImg, {
-        //         ...vNodeProps.value,
-        //         ...imgAttrs.value,
-        //     })
-        //
-        //     return () =>
-        //         h(
-        //             'picture',
-        //             {
-        //                 ...rootVNodeProps.value,
-        //             },
-        //             [slots.default!(), img],
-        //         )
-        // }
-
-        // // regular render
-        // return () =>
-        //     h(NuxtPicture, {
-        //         ...rootVNodeProps.value,
-        //         ...vNodeProps.value,
-        //         imgAttrs: {
-        //             ...imgAttrs.value,
-        //         },
-        //     })
+        return () => h('picture', null, [sources.value, img])
     },
 })
 </script>

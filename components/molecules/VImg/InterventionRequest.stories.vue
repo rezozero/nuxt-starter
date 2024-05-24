@@ -20,7 +20,7 @@ const imageProps = {
             <VImg v-bind="imageProps" sizes="xs:100vw md:100vw" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Modifiers / crop">
-            <VImg v-bind="imageProps" :modifiers="{ crop: '200x400' }" />
+            <VImg v-bind="imageProps" width="200" height="400" :modifiers="{ crop: '200x400' }" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Modifiers / blur">
             <VImg v-bind="imageProps" :modifiers="{ blur: 10 }" />
