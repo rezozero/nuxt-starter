@@ -10,6 +10,10 @@ export const vRoadizImageProps = {
     document: [Array, Object] as PropType<RoadizDocument | RoadizDocument[]>,
     tag: String as PropType<'picture' | 'img'>,
     copyright: [String, Boolean],
+    format: {
+        type: String,
+        default: 'webp',
+    },
 }
 
 export default defineComponent({
@@ -37,19 +41,22 @@ export default defineComponent({
                 alt: document.value?.alt || document.value?.name,
                 placeholder: document.value?.imageAverageColor,
                 copyright: document.value?.copyright,
+                format: props.format,
                 provider: 'interventionRequest',
             }
         })
 
-        const isPicture = computed(() => slots.default || props.tag === 'picture')
+        const isPicture = computed(() => !!slots.default || props.tag === 'picture')
 
-        const imageComponent = h(
-            isPicture ? VPicture : VImg,
-            {
-                ...documentProps.value,
-                modifiers: modifiers.value,
-            },
-            isPicture ? slots.default : undefined,
+        const imageComponent = computed(() =>
+            h(
+                isPicture.value ? VPicture : VImg,
+                {
+                    ...documentProps.value,
+                    modifiers: modifiers.value,
+                },
+                isPicture.value ? slots.default?.() : undefined,
+            ),
         )
 
         const copyright = computed(
@@ -62,12 +69,12 @@ export default defineComponent({
             if (copyright.value) {
                 // The copyright needs a wrapper element.
                 return h('figure', { class: [$style.root, $style['root--copyright']] }, [
-                    imageComponent,
+                    imageComponent.value,
                     h(LazyVCopyright, { content: copyright.value }),
                 ])
             }
 
-            return imageComponent
+            return imageComponent.value
         }
     },
 })
