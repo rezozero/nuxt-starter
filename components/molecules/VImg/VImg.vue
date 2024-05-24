@@ -11,10 +11,6 @@ export const vImgProps = {
         // overrides NuxtImg default value
         default: 'lazy',
     },
-    format: {
-        type: imgProps.format.type,
-        default: 'webp',
-    },
 }
 
 export type VImgProps = ExtractPropTypes<typeof vImgProps>

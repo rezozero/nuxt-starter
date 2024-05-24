@@ -13,6 +13,12 @@ const imageProps = {
         <NuxtStoryVariant title="Default">
             <VImg v-bind="imageProps" />
         </NuxtStoryVariant>
+        <NuxtStoryVariant title="Format / webp">
+            <VImg v-bind="imageProps" format="webp" />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Format / avif">
+            <VImg v-bind="imageProps" format="avif" />
+        </NuxtStoryVariant>
         <NuxtStoryVariant title="Densities">
             <VImg v-bind="imageProps" densities="x1 x2" />
         </NuxtStoryVariant>
