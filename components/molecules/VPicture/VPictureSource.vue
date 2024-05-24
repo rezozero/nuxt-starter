@@ -31,13 +31,12 @@ const options: ImageOptions = computed(() => {
             ...props.modifiers,
             fit: props.fit || props.modifiers?.fit,
             quality: props.quality || props.modifiers?.quality || vNodeProps?.quality || vNodeProps?.modifiers?.quality,
-            format: props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format,
+            // format: props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format,
         },
         width: props.width || props.modifiers?.width || vNodeProps?.width,
         height: props.height || props.modifiers?.height || vNodeProps?.height,
         provider: vNodeProps?.provider,
         preset: vNodeProps?.preset,
-        // TODO: open issue on nuxt/image because the sizes is not into the options in the docs
         sizes: props.sizes,
     }
 })
@@ -57,11 +56,44 @@ const size = computed(() => {
     return result
 })
 
-const internalSrc = computed(() => props.src || (pictureVNodeProps && toValue<VPictureProps>(pictureVNodeProps)?.src))
-const imgSizes = computed(() => internalSrc.value && $img.getSizes(internalSrc.value as string, options.value))
-const internalSrcset = computed(() => imgSizes.value?.srcset)
+// const internalSrc = computed(() => props.src || (pictureVNodeProps && toValue<VPictureProps>(pictureVNodeProps)?.src))
+// const imgSizes = computed(() => internalSrc.value && $img.getSizes(internalSrc.value!, options.value))
+// const internalSrcset = computed(() => imgSizes.value?.srcset)
+// const formats = computed(
+//     () => props.format?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp']),
+// )
+const sources = computed(() => {
+    if (!pictureVNodeProps) return []
+
+    const src = props.src || toValue<VPictureProps>(pictureVNodeProps).src
+
+    if (!src) return []
+
+    const vNodeProps = toValue<VPictureProps>(pictureVNodeProps)
+    const internalFormat =
+        props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format
+    const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
+
+    return formats.map((format) => {
+        const { srcset } = $img.getSizes(src, {
+            ...options.value,
+            modifiers: {
+                ...options.value?.modifiers,
+                format,
+            },
+        })
+
+        return {
+            media: props.media,
+            type: `image/${format}`,
+            width: size.value[0],
+            height: size.value[1],
+            srcset,
+        }
+    })
+})
 </script>
 
 <template>
-    <source :media="media" :width="size[0]" :height="size[1]" :srcset="internalSrcset" />
+    <source v-for="(source, index) in sources" :key="index" v-bind="source" />
 </template>

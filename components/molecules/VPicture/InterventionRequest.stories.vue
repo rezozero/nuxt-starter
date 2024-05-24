@@ -10,8 +10,17 @@ const imageProps = {
 
 <template>
     <NuxtStory>
+        <NuxtStoryVariant title="Nuxt Picture">
+            <NuxtPicture v-bind="imageProps" />
+        </NuxtStoryVariant>
         <NuxtStoryVariant title="Default">
             <VPicture v-bind="imageProps" />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Format / avif + webp">
+            <VPicture v-bind="imageProps" format="avif,webp" />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Format / avif">
+            <VPicture v-bind="imageProps" format="avif" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Modifiers / crop">
             <VPicture v-bind="imageProps" :modifiers="{ crop: '200x400' }" />
