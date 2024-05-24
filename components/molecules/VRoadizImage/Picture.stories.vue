@@ -7,10 +7,13 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
         <NuxtStoryVariant title="Picture tag">
             <VRoadizImage :document="image" tag="picture" />
         </NuxtStoryVariant>
+        <NuxtStoryVariant title="Loading / eager">
+            <VRoadizImage :document="image" tag="picture" loading="eager" />
+        </NuxtStoryVariant>
         <NuxtStoryVariant title="Source tags">
             <VRoadizImage :document="image">
                 <VPictureSource
-                    sizes="xs:50vw"
+                    sizes="md:100vw"
                     media="(max-width: 1280px)"
                     :modifiers="{ crop: '400x600', align: 't' }"
                 />

@@ -23,7 +23,7 @@
     "@nuxtjs/i18n": "^8.3.1",
     "@nuxtjs/sitemap": "^5.1.5",
     "@nuxtjs/svg-sprite": "^1.0.2",
-    "@rezo-zero/intervention-request-provider": "^1.0.0",
+    "@rezo-zero/intervention-request-provider": "^1.1.0",
     "@rezo-zero/nuxt-stories": "^0.1.14",
     "@rezo-zero/xilofone-fetch": "^0.2.0",
     "@roadiz/types": "^0.1.0",

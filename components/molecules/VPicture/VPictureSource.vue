@@ -16,28 +16,30 @@ const props = defineProps({
     modifiers: Object as PropType<Record<string, any>>,
 })
 
-const pictureVNodeProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureVNodeProps')
+const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
 
 const $img = useImage()
 
 const options: ImageOptions = computed(() => {
-    if (!pictureVNodeProps) return {}
+    if (!pictureProps) return {}
 
-    const vNodeProps = toValue<VPictureProps>(pictureVNodeProps)
+    const picturePropsValue = toValue<VPictureProps>(pictureProps)
 
     return {
         modifiers: {
-            ...vNodeProps?.modifiers,
+            ...picturePropsValue?.modifiers,
             ...props.modifiers,
             fit: props.fit || props.modifiers?.fit,
-            quality: props.quality || props.modifiers?.quality || vNodeProps?.quality || vNodeProps?.modifiers?.quality,
-            format: props.format || props.modifiers?.format || vNodeProps?.format || vNodeProps?.modifiers?.format,
+            quality:
+                props.quality ||
+                props.modifiers?.quality ||
+                picturePropsValue?.quality ||
+                picturePropsValue?.modifiers?.quality,
         },
-        width: props.width || props.modifiers?.width || vNodeProps?.width,
-        height: props.height || props.modifiers?.height || vNodeProps?.height,
-        provider: vNodeProps?.provider,
-        preset: vNodeProps?.preset,
-        // TODO: open issue on nuxt/image because the sizes is not into the options in the docs
+        width: props.width || props.modifiers?.width || picturePropsValue?.width,
+        height: props.height || props.modifiers?.height || picturePropsValue?.height,
+        provider: picturePropsValue?.provider,
+        preset: picturePropsValue?.preset,
         sizes: props.sizes,
     }
 })
@@ -57,11 +59,38 @@ const size = computed(() => {
     return result
 })
 
-const internalSrc = computed(() => props.src || (pictureVNodeProps && toValue<VPictureProps>(pictureVNodeProps)?.src))
-const imgSizes = computed(() => internalSrc.value && $img.getSizes(internalSrc.value as string, options.value))
-const internalSrcset = computed(() => imgSizes.value?.srcset)
+const sources = computed(() => {
+    if (!pictureProps) return []
+
+    const picturePropsValue = toValue<VPictureProps>(pictureProps)
+    const src = props.src || picturePropsValue.src
+
+    if (!src) return []
+
+    const internalFormat =
+        props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
+    const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
+
+    return formats.map((format) => {
+        const { srcset } = $img.getSizes(src, {
+            ...options.value,
+            modifiers: {
+                ...options.value?.modifiers,
+                format,
+            },
+        })
+
+        return {
+            media: props.media,
+            type: `image/${format}`,
+            width: size.value[0],
+            height: size.value[1],
+            srcset,
+        }
+    })
+})
 </script>
 
 <template>
-    <source :media="media" :width="size[0]" :height="size[1]" :srcset="internalSrcset" />
+    <source v-for="(source, index) in sources" :key="index" v-bind="source" />
 </template>

@@ -1,12 +1,10 @@
 import type { VImgProps } from '~/components/molecules/VImg/VImg.vue'
 import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
-import { pictureProps } from '#image/components/nuxt-picture'
-import type { ComponentPublicInstance } from 'vue'
-import type { NuxtImg, NuxtPicture } from '#build/components'
+import type { SetupContext } from 'vue'
 
 type Props = VImgProps | VPictureProps
 
-export function useBaseImage({ props }: { props: Props }) {
+export function useBaseImage({ props, context }: { props: Props; context: SetupContext }) {
     // PLACEHOLDER COLOR
     const placeholderColor = computed(
         () =>
@@ -19,21 +17,29 @@ export function useBaseImage({ props }: { props: Props }) {
     })
 
     // LOAD
-    const root = ref<typeof NuxtImg | typeof NuxtPicture | null>(null)
+    const root = ref<HTMLImageElement | HTMLPictureElement | null>(null)
     const loaded = ref(false)
-    const onLoad = () => {
+    const onLoad = (event?: Event) => {
         loaded.value = true
+        if (event) context.emit('load', event)
+    }
+    const onError = () => {
+        context.emit('error')
     }
 
     onMounted(() => {
-        const element = root.value?.$el as HTMLImageElement | HTMLPictureElement | null
-
-        if (!element) return
+        if (!root.value) return
 
         const img =
-            element.tagName === 'IMG' ? (element as HTMLImageElement) : element.querySelector<HTMLImageElement>('img')
+            root.value.tagName === 'IMG'
+                ? (root.value as HTMLImageElement)
+                : root.value.querySelector<HTMLImageElement>('img')
 
-        if (img?.complete) onLoad()
+        if (!img) return
+
+        if (img.complete) {
+            onLoad()
+        }
     })
 
     // VNODE PROPS
@@ -70,5 +76,6 @@ export function useBaseImage({ props }: { props: Props }) {
         vNodeProps,
         loaded,
         onLoad,
+        onError,
     }
 }
