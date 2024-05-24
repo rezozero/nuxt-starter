@@ -65,7 +65,7 @@ export default defineComponent({
             provider: props.provider,
             preset: props.preset,
             densities: props.densities,
-            ...modifiers.value,
+            modifiers: modifiers.value,
         }))
         const src = computed(() =>
             $img(
