@@ -4,6 +4,7 @@ import type { ExtractPropTypes } from 'vue'
 import VImg from '~/components/molecules/VImg/VImg.vue'
 import { imgProps } from '#image/components/nuxt-img'
 import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
+import { pick } from 'lodash'
 
 export const vPictureProps = {
     ...pictureProps,
@@ -20,15 +21,7 @@ export default defineComponent({
         // Provide props to children (<sources>)
         provide('pictureProps', props)
 
-        const imgFilteredProps = computed(() =>
-            Object.keys(props).reduce((acc, key) => {
-                if (key in imgProps) {
-                    acc[key] = props[key]
-                }
-                return acc
-            }, {}),
-        )
-
+        const imgFilteredProps = computed(() => pick(props, Object.keys(imgProps)))
         const img = h(VImg, {
             ...imgFilteredProps.value,
             format: undefined, // let the VImg choose the format itself
