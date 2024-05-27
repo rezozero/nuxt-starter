@@ -3,6 +3,7 @@ import type { ExtractPropTypes } from 'vue'
 import { imgProps } from '#image/components/nuxt-img'
 import type { ImageOptions } from '@nuxt/image'
 import { getInt, parseSize } from '#image'
+import { pick } from 'lodash'
 
 export const vImgProps = {
     ...imgProps,
@@ -90,17 +91,13 @@ export default defineComponent({
 
         return () =>
             h('img', {
+                ...pick(props, Object.keys(imgProps)),
                 src: src.value,
                 srcset: responsiveImageData.value?.srcset,
                 sizes: responsiveImageData.value?.sizes,
                 ref: root,
                 width: width.value,
                 height: height.value,
-                alt: props.alt,
-                loading: props.loading,
-                crossorigin: props.crossorigin,
-                decoding: props.decoding,
-                longdesc: props.longdesc,
                 style,
                 class: [$style.root, loaded.value && $style['root--loaded']],
                 onLoad,
