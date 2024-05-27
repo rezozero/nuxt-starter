@@ -9,7 +9,7 @@ const props = defineProps({
     srcset: String,
     format: String,
     quality: String,
-    sizes: String,
+    sizes: [String, Object],
     fit: String,
     width: String,
     height: String,

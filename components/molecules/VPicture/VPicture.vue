@@ -7,9 +7,7 @@ import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
 
 export const vPictureProps = {
     ...pictureProps,
-    placeholder: {
-        type: imgProps.placeholder.type,
-    },
+    placeholder: imgProps.placeholder,
 }
 
 export type VPictureProps = ExtractPropTypes<typeof vPictureProps>
@@ -41,7 +39,7 @@ export default defineComponent({
             return (
                 context.slots.default?.() ||
                 h(VPictureSource, {
-                    sizes: props.sizes || $img.options.presets?.default?.sizes,
+                    sizes: props.sizes || $img.options.screens,
                 })
             )
         })

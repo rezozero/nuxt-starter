@@ -17,9 +17,15 @@ importers:
       '@sentry/vue':
         specifier: ^7.114.0
         version: 7.114.0(vue@3.4.27(typescript@5.4.5))
+      '@types/lodash':
+        specifier: ^4.17.4
+        version: 4.17.4
       '@vue-a11y/skip-to':
         specifier: ^2.1.2
         version: 2.1.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       marked:
         specifier: ^12.0.2
         version: 12.0.2
@@ -1222,6 +1228,9 @@ packages:
 
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
+
+  '@types/lodash@4.17.4':
+    resolution: {integrity: sha512-wYCP26ZLxaT3R39kiN2+HcJ4kTd3U1waI/cY7ivWYqFP6pW3ZNpvi6Wd6PHZx7T/t8z0vlkXMg3QYLa7DZ/IJQ==}
 
   '@types/node@20.12.11':
     resolution: {integrity: sha512-vDg9PZ/zi+Nqp6boSOT7plNuthRugEKixDv5sFTIpkE89MmNtEArAShI4mxuX2+UrLEe9pxC1vm2cjm9YlWbJw==}
@@ -6364,6 +6373,8 @@ snapshots:
       '@types/node': 20.12.11
 
   '@types/json-schema@7.0.15': {}
+
+  '@types/lodash@4.17.4': {}
 
   '@types/node@20.12.11':
     dependencies:

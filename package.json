@@ -49,7 +49,9 @@
     "@sentry/browser": "^7.114.0",
     "@sentry/node": "^7.114.0",
     "@sentry/vue": "^7.114.0",
+    "@types/lodash": "^4.17.4",
     "@vue-a11y/skip-to": "^2.1.2",
+    "lodash": "^4.17.21",
     "marked": "^12.0.2",
     "plyr": "^3.7.8",
     "vue-multiselect": "^3.0.0"

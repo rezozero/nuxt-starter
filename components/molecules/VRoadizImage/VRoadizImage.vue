@@ -3,19 +3,17 @@ import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
 import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
-import { extractInterventionRequestModifiers } from '~/utils/image/extract-intervention-request-modifiers'
+import { imgProps } from '#image/components/nuxt-img'
+import { pictureProps } from '#image/components/nuxt-picture'
+import { pick } from 'lodash'
 
 export const vRoadizImageProps = {
+    ...imgProps,
+    ...pictureProps,
     ...interventionRequestProps,
     document: [Array, Object] as PropType<RoadizDocument | RoadizDocument[]>,
     tag: String as PropType<'picture' | 'img'>,
     copyright: [String, Boolean],
-    format: {
-        type: String,
-        default: 'webp',
-    },
-    sizes: String,
-    densities: String,
 }
 
 export default defineComponent({
@@ -24,7 +22,10 @@ export default defineComponent({
         const $style = useCssModule()
         const document = computed(() => (Array.isArray(props.document) ? props.document[0] : props.document))
         const modifiers = computed(() => {
-            const result = extractInterventionRequestModifiers(props)
+            const result = pick<typeof props, keyof typeof interventionRequestProps>(
+                props,
+                Object.keys(interventionRequestProps) as keyof typeof interventionRequestProps,
+            )
 
             if (document.value?.imageCropAlignment && !result.align) {
                 result.align = document.value!.imageCropAlignment
@@ -36,36 +37,32 @@ export default defineComponent({
         const width = computed(() => cropDimensions.value[0] || props?.width || document.value?.imageWidth)
         const height = computed(() => cropDimensions.value[1] || props?.height || document.value?.imageHeight)
         const isPicture = computed(() => !!slots.default || props.tag === 'picture')
-        const documentProps = computed(() => {
-            return {
-                src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
-                width: width.value,
-                height: height.value,
-                alt: document.value?.alt || document.value?.name,
-                placeholder: document.value?.imageAverageColor,
-                copyright: document.value?.copyright,
-                format: props.format,
-                sizes:
-                    props.sizes ||
-                    (!isPicture.value && !props.densities && useImage().options.presets?.default?.sizes) ||
-                    undefined,
-                provider: 'interventionRequest',
-            }
-        })
         const copyright = computed(
             () =>
                 (typeof props.copyright === 'string' && props.copyright) ||
                 (props.copyright === true && document.value?.copyright),
         )
-
-        const imageComponent = h(
-            isPicture.value ? VPicture : VImg,
-            {
-                ...documentProps.value,
+        const $img = useImage()
+        const imageComponentProps = computed(() => {
+            return {
+                ...pick(props, Object.keys(isPicture.value ? pictureProps : imgProps)),
+                src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
+                width: width.value,
+                height: height.value,
+                alt: document.value?.alt || document.value?.name,
+                placeholder: document.value?.imageAverageColor,
+                format: props.format || 'webp',
+                sizes:
+                    props.sizes ||
+                    (!isPicture.value &&
+                        !props.densities &&
+                        ($img.options.presets?.default?.sizes || $img.options.screens)) ||
+                    undefined,
+                provider: 'interventionRequest',
                 modifiers: modifiers.value,
-            },
-            () => [isPicture.value ? slots.default?.() : undefined],
-        )
+            }
+        })
+        const imageComponent = h(isPicture.value ? VPicture : VImg, imageComponentProps.value, slots.default)
 
         return () => {
             if (copyright.value) {
