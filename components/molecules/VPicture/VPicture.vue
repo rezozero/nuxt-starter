@@ -4,7 +4,7 @@ import type { ExtractPropTypes } from 'vue'
 import VImg from '~/components/molecules/VImg/VImg.vue'
 import { imgProps } from '#image/components/nuxt-img'
 import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
-import { pick } from 'lodash'
+import pick from 'lodash/pick'
 
 export const vPictureProps = {
     ...pictureProps,

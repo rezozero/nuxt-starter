@@ -5,7 +5,7 @@ import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
 import { imgProps } from '#image/components/nuxt-img'
 import { pictureProps } from '#image/components/nuxt-picture'
-import { pick } from 'lodash'
+import pick from 'lodash/pick'
 
 export const vRoadizImageProps = {
     ...imgProps,
