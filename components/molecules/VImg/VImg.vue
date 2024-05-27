@@ -101,7 +101,7 @@ export default defineComponent({
                 crossorigin: props.crossorigin,
                 decoding: props.decoding,
                 longdesc: props.longdesc,
-                style,
+                style: style.value,
                 class: [$style.root, loaded.value && $style['root--loaded']],
                 onLoad,
                 onError,
