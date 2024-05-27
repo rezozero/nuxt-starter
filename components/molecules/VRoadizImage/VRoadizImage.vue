@@ -59,7 +59,10 @@ export default defineComponent({
                         ($img.options.presets?.default?.sizes || $img.options.screens)) ||
                     undefined,
                 provider: 'interventionRequest',
-                modifiers: modifiers.value,
+                modifiers: {
+                    ...modifiers.value,
+                    format: props.format || 'webp',
+                },
             }
         })
         const imageComponent = h(isPicture.value ? VPicture : VImg, imageComponentProps.value, slots.default)

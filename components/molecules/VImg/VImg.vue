@@ -55,11 +55,11 @@ export default defineComponent({
         const width = computed(() => parseSize(props.width))
         const height = computed(() => parseSize(props.height))
         const modifiers = computed<ImageOptions['modifiers']>(() => ({
+            ...props.modifiers,
             width: width.value,
             height: height.value,
-            quality: getInt(props.quality) || $img.options.quality,
-            format: props.format,
-            ...props.modifiers,
+            quality: getInt(props.quality || props.modifiers?.quality) || $img.options.quality,
+            format: props.format || props.modifiers?.format,
         }))
         const options = computed<ImageOptions>(() => ({
             provider: props.provider,
