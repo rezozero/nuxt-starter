@@ -57,7 +57,7 @@ export default defineComponent({
         const modifiers = computed<ImageOptions['modifiers']>(() => ({
             width: width.value,
             height: height.value,
-            quality: getInt(props.quality),
+            quality: getInt(props.quality) || $img.options.quality,
             format: props.format,
             ...props.modifiers,
         }))

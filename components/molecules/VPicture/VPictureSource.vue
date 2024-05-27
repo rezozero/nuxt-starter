@@ -34,7 +34,8 @@ const options: ImageOptions = computed(() => {
                 props.quality ||
                 props.modifiers?.quality ||
                 picturePropsValue?.quality ||
-                picturePropsValue?.modifiers?.quality,
+                picturePropsValue?.modifiers?.quality ||
+                $img.options.quality,
         },
         width: props.width || props.modifiers?.width || picturePropsValue?.width,
         height: props.height || props.modifiers?.height || picturePropsValue?.height,
