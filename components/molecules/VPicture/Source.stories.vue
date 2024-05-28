@@ -10,9 +10,16 @@ const imageProps = {
 
 <template>
     <NuxtStory>
-        <VPicture v-bind="imageProps">
-            <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
-        </VPicture>
+        <NuxtStoryVariant title="Single source">
+            <VPicture v-bind="imageProps">
+                <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
+            </VPicture>
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Picture (root) modifier + source modifier">
+            <VPicture v-bind="imageProps" :modifiers="{ greyscale: true }">
+                <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
+            </VPicture>
+        </NuxtStoryVariant>
     </NuxtStory>
 </template>
 
