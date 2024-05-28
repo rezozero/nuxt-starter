@@ -19,6 +19,7 @@ export default defineComponent({
     props: {
         ...vImgProps,
     },
+    emits: ['load', 'error'],
     setup(props, context) {
         // PLACEHOLDER COLOR
         const placeholderColor = computed(
