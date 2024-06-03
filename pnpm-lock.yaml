@@ -58,8 +58,8 @@ importers:
         specifier: ^1.1.0
         version: 1.1.0(rollup@4.18.0)
       '@rezo-zero/nuxt-stories':
-        specifier: ^0.1.14
-        version: 0.1.14
+        specifier: ^0.1.15
+        version: 0.1.15
       '@rezo-zero/xilofone-fetch':
         specifier: ^0.2.0
         version: 0.2.0
@@ -933,8 +933,8 @@ packages:
     resolution: {integrity: sha512-l8czC5HzGKaZkJqjDVYpd5bN4AwaOF2yGRlDJgRxIMmN+TLAX131GnKydqr4no9DCwa45D2jwgmLv5pneuNhNQ==}
     engines: {node: ^20}
 
-  '@rezo-zero/nuxt-stories@0.1.14':
-    resolution: {integrity: sha512-+X4IY2iSIvkA1VWBU4uPoumRPFksW9ngGe2Fddn9FbwXj1Gv8/D7CCsbsWVHx3B8dSSSVEtuqfIwtYMJK68tHA==}
+  '@rezo-zero/nuxt-stories@0.1.15':
+    resolution: {integrity: sha512-1G2JjLMAxSosuhMT4n2uIJhSv7ucGmz8CBN2Jn23w3iNTXZ6KdDg+QHpE7xnm/Lmj+MvSdZpCdtDnER29FmDZA==}
     engines: {node: ^20}
 
   '@rezo-zero/xilofone-fetch@0.2.0':
@@ -6073,7 +6073,7 @@ snapshots:
       - rollup
       - supports-color
 
-  '@rezo-zero/nuxt-stories@0.1.14':
+  '@rezo-zero/nuxt-stories@0.1.15':
     dependencies:
       minimatch: 9.0.4
       ufo: 1.5.3

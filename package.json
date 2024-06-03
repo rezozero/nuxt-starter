@@ -24,7 +24,7 @@
     "@nuxtjs/sitemap": "^5.2.0",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.1.0",
-    "@rezo-zero/nuxt-stories": "^0.1.14",
+    "@rezo-zero/nuxt-stories": "^0.1.15",
     "@rezo-zero/xilofone-fetch": "^0.2.0",
     "@roadiz/types": "^0.2.0",
     "@types/json-schema": "^7.0.15",
