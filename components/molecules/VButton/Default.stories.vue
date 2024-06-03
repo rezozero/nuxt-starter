@@ -1,10 +1,12 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vue'
+</script>
 
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Default">
             <VStoryThemeProvider>
-                <VButton outlined label="Button outlined" />
+                <VButton label="Button outlined" />
                 <VButton icon-name="check" label="Button with icon" />
                 <VButton icon-name="check" />
             </VStoryThemeProvider>
@@ -34,9 +36,7 @@
         </NuxtStoryVariant>
 
         <NuxtStoryVariant title="Sizes">
-            <VButton label="Button S" outlined size="s" />
-            <VButton label="Button M" outlined size="m" />
-            <VButton label="Button L" outlined size="l" />
+            <VButton v-for="size in sizes" :key="`${size}-size`" :label="`Button ${size}`" outlined :size="size" />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

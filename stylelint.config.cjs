@@ -17,9 +17,12 @@ module.exports = {
         // https://github.com/stylelint/stylelint/issues/5133
         'no-invalid-position-at-import-rule': null,
         // BEM like selector
-        'selector-class-pattern': '^.[a-z]([a-z0-9-]+)?(__([a-z0-9]+-?)+)?(--([a-z0-9]+-?)+){0,2}$',
+        'selector-class-pattern': '^[a-z]([-]?[a-z0-9]+)*(__[a-z0-9]([-]?[a-z0-9]+)*)*(--[a-z0-9]([-]?[a-z0-9]+)*)?$',
         'scss/no-global-function-names': null, // use global functions / variables / functions
         'scss/comment-no-empty': null,
+        'function-no-unknown': null, // we use SCSS global imports for functions
+        'scss/function-no-unknown': null, // we use SCSS global imports for functions
+        'color-function-notation': null, // do not change rgba() to rgb()
     },
     defaultSeverity: 'warning',
     ignoreFiles: ['./assets/scss/vendors/_tarteaucitron.scss', './assets/scss/vendors/_orejime.scss'],

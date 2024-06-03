@@ -1,12 +1,3 @@
-// vendors
-@import "include-media/dist/_include-media";
-
-// @import "vendors/include-media";
-// @import "vendors/orejime";
-// @import "vendors/tarteaucitron";
-@import "vendors/floating-vue";
-@import "plyr/src/sass/plyr";
-
 // functions
 @import "functions";
 
@@ -16,14 +7,12 @@
 // mixins
 @import "mixins";
 
-// common
+// commons
 @import "normalize";
 @import "common";
 @import "grid";
-
-// @import "fonts";
+@import "fonts";
 @import "typography";
 
-// @import "theme";
 // transitions
-// @import "transitions/fade";
+@import "transitions/fade";

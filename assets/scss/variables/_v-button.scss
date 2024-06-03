@@ -5,68 +5,94 @@ $v-button-size-vars-by-variant: () !default;
 
 // root
 $v-button: (
+    common: (
+        font-weight: 500,
+    ),
     s: (
+        font-size: rem(14),
+        min-width: rem(36), // width with icon-only
+        padding-inline: rem(8),
+        height: rem(36),
+        max-width: rem(200),
+    ),
+    m: (
         font-size: rem(16),
-        min-width: 42px,
-        height: 42px,
-        padding: 0 16px
-    ),
-    m: (
-        font-size: rem(18),
-        min-width: 52px,
-        height: 52px,
-        padding: 0 20px
+        min-width: rem(44),
+        padding-inline: rem(12),
+        height: rem(44),
+        max-width: rem(350),
     ),
     l: (
-        font-size: rem(22),
-        min-width: 64px,
-        height: 64px,
-        padding: 0 24px
+        font-size: rem(20),
+        min-width: rem(60),
+        padding-inline: rem(16),
+        height: rem(60),
+        max-width: rem(350),
     ),
+    xl: (
+        font-size: rem(24),
+        min-width: rem(48),
+        padding-inline: rem(8),
+        height: rem(48),
+        max-width: rem(350),
+    )
 );
-$v-button-rounded: (
+
+// icon
+$v-button-icon: ();
+
+// label
+$v-button-label: (
     s: (
-        border-radius: math.div(42px, 2)
+        margin-inline: rem(2),
     ),
     m: (
-        border-radius: math.div(52px, 2)
+        margin-inline: rem(4),
     ),
     l: (
-        border-radius: math.div(64px, 2)
+        margin-inline: rem(6),
+    ),
+    xl: (
+        margin-inline: rem(2) rem(2),
     ),
 );
+
+// styles
+$v-button-rounded: (
+    common: (
+        border-radius: rem(2),
+    ),
+);
+
 $v-button-filled: (
-    default: (
+    common: (
         background-color: var(--theme-foreground-color),
         color: var(--theme-background-color),
     ),
 );
+
 $v-button-outlined: (
-    default: (
+    common: (
         border-width: 2px,
         border-style: solid,
-        border-color: currentcolor
+        border-color: currentColor
     ),
 );
 
-// icon
-$v-button-icon: (
-    s: (
-        margin: 0 6px,
-    ),
-    m: (
-        margin: 0 10px,
+$v-button-disabled: (
+    common: (
+        color: var(--theme-v-button-disabled-color),
+        background-color: var(--v-button-disabled-filled-background-color),
+        border-color: var(--v-button-disabled-outlined-border-color),
     ),
 );
 
-// label
-$v-button-label: ();
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),
+        (vars: $v-button-filled, prefix: 'filled'),
+        (vars: $v-button-outlined, prefix: 'outlined'),
         (vars: $v-button-rounded, prefix: 'rounded'),
-        (vars: $v-button-rounded, prefix: 'filled'),
-        (vars: $v-button-rounded, prefix: 'outlined'),
         (vars: $v-button-icon, prefix: 'icon'),
         (vars: $v-button-label, prefix: 'label'),
     )
