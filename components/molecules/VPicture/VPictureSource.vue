@@ -47,7 +47,7 @@ const options: ImageOptions = computed(() => {
 
 const size = computed(() => {
     const crop = options.value.modifiers?.crop
-    const result: number[] = [options.width, options.height]
+    const result: number[] = [options.value.width, options.value.height]
 
     // If the image has a crop modifier, set the width and height.
     if (typeof crop === 'string' && crop.includes('x')) {
