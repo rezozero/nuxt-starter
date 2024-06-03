@@ -1,4 +1,10 @@
-import type { RoadizAlternateLink, RoadizNodesSources, RoadizNodesSourcesHead, RoadizWebResponse } from '@roadiz/types'
+import type {
+    JsonLdObject,
+    RoadizAlternateLink,
+    RoadizNodesSources,
+    RoadizNodesSourcesHead,
+    RoadizWebResponse,
+} from '@roadiz/types'
 import type { MenuNodeType } from '~/types/app'
 import type { NSMenu, NSPage } from '~/types/roadiz'
 import type { RoadizWalkerKnown } from '~/utils/types'
@@ -27,7 +33,8 @@ interface PageResponse {
     locale?: string
 }
 
-type CommonContentMenuKey = 'mainMenuWalker' | 'footerMenuWalker' | 'headerMenuWalker' | string
+// Set app walker slug
+type CommonContentMenuKey = 'mainMenuWalker' | string
 
 interface CommonContent {
     home?: RoadizNodesSources
