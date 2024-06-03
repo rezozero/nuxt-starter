@@ -6,7 +6,6 @@ import type {
     RoadizWebResponse,
 } from '@roadiz/types'
 import type { MenuNodeType } from '~/types/app'
-import type { NSMenu, NSPage } from '~/types/roadiz'
 import type { RoadizWalkerKnown } from '~/utils/types'
 
 interface HydraError {
