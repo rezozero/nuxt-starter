@@ -183,6 +183,33 @@ The application uses [@rezo-zero/nuxt-layer](https://github.com/rezozero/nuxt-la
 It extends the application with a set of features.  
 Learn more about Nuxt layer [here](https://nuxt.com/docs/guide/going-further/layers).
 
+### Content
+
+``` javascript
+// App utils
+useJoinApiUrl('path-to-join')
+useThemeProvider({ props, preferredTheme })
+const { activeTheme, themeClass } = useTheme({ props, preferredTheme })
+
+// Roadiz utils
+const { item, children, childrenItems } = useRoadizBlock({ props })
+
+// Roadiz fetch
+useRoadizHydraCollectionFetch() // return Promise<hydra:member[]> 
+useRoadizFetch() // useFetch wrapper
+const { alternateLinks, webResponse, item, error } = useRoadizWebResponse('path')
+```
+
+```vue
+<!-- Component -->
+<RoadizBlockFactory :blocks="walkerList" />
+
+<RoadizPreview />
+
+<VTransitionExpand>
+    <div v-show="isOpen"></div>
+</VTransitionExpand>
+```
 
 ## Sitemap
 

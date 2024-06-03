@@ -1,11 +1,14 @@
 <script setup lang="ts">
-// definePageMeta({
-//     pageTransition: defaultPageTransition,
-// })
-
 import type { RoadizNodesSources } from '@roadiz/types'
 import { getBlockCollection } from '~/utils/roadiz/block'
 import { isPageEntity } from '~/utils/roadiz/entity'
+import { defaultPageTransition } from '~/transitions/default-page-transition'
+
+definePageMeta({
+    pageTransition: defaultPageTransition,
+})
+
+defineI18nRoute(false)
 
 const { webResponse, item, error } = await useRoadizWebResponse<RoadizNodesSources>()
 
