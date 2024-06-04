@@ -55,8 +55,8 @@ importers:
         specifier: ^1.0.2
         version: 1.0.2(rollup@4.18.0)
       '@rezo-zero/intervention-request-provider':
-        specifier: ^1.1.0
-        version: 1.1.0(rollup@4.18.0)
+        specifier: ^1.1.1
+        version: 1.1.1(rollup@4.18.0)
       '@rezo-zero/nuxt-stories':
         specifier: ^0.1.15
         version: 0.1.15
@@ -929,8 +929,8 @@ packages:
   '@polka/url@1.0.0-next.25':
     resolution: {integrity: sha512-j7P6Rgr3mmtdkeDGTe0E/aYyWEWVtc5yFXtHCRHs28/jptDEWfaVOc5T7cblqy1XKPPfCxJc/8DwQ5YgLOZOVQ==}
 
-  '@rezo-zero/intervention-request-provider@1.1.0':
-    resolution: {integrity: sha512-l8czC5HzGKaZkJqjDVYpd5bN4AwaOF2yGRlDJgRxIMmN+TLAX131GnKydqr4no9DCwa45D2jwgmLv5pneuNhNQ==}
+  '@rezo-zero/intervention-request-provider@1.1.1':
+    resolution: {integrity: sha512-O3kCXm+r0mMCi2DC61yU81dCB3jUgRkJd5NkG3d9S87pbMuYrN+hj/2JvLSPHBKAHwg7hO5QIPA1Esb9IWIBrg==}
     engines: {node: ^20}
 
   '@rezo-zero/nuxt-stories@0.1.15':
@@ -6064,7 +6064,7 @@ snapshots:
 
   '@polka/url@1.0.0-next.25': {}
 
-  '@rezo-zero/intervention-request-provider@1.1.0(rollup@4.18.0)':
+  '@rezo-zero/intervention-request-provider@1.1.1(rollup@4.18.0)':
     dependencies:
       '@nuxt/kit': 3.11.2(rollup@4.18.0)
       defu: 6.1.4
