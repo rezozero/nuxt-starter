@@ -19,6 +19,7 @@
 @mixin v-button-default-css-vars($vars, $prefix: '', $default: 'm') {
     // get common values
     @include default-css-vars('v-button', $vars, $prefix, 'common');
+
     // get specific size value
     @include default-css-vars('v-button', $vars, $prefix, $default);
 }

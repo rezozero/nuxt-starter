@@ -63,22 +63,19 @@ $v-button-rounded: (
         border-radius: rem(2),
     ),
 );
-
 $v-button-filled: (
     common: (
         background-color: var(--theme-foreground-color),
         color: var(--theme-background-color),
     ),
 );
-
 $v-button-outlined: (
     common: (
         border-width: 2px,
         border-style: solid,
-        border-color: currentColor
+        border-color: currentcolor
     ),
 );
-
 $v-button-disabled: (
     common: (
         color: var(--theme-v-button-disabled-color),
@@ -86,7 +83,6 @@ $v-button-disabled: (
         border-color: var(--v-button-disabled-outlined-border-color),
     ),
 );
-
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),

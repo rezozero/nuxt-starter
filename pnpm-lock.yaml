@@ -35,9 +35,6 @@ importers:
       tiny-emitter:
         specifier: ^2.1.0
         version: 2.1.0
-      vue-multiselect:
-        specifier: ^3.0.0
-        version: 3.0.0
     devDependencies:
       '@nuxt/devtools':
         specifier: latest
@@ -4745,10 +4742,6 @@ packages:
     engines: {node: '>= 16'}
     peerDependencies:
       vue: ^3.0.0
-
-  vue-multiselect@3.0.0:
-    resolution: {integrity: sha512-uupKdINgz7j83lQToCL7KkgQQxvG43el++hsR39YT9pCe1DwzUGmKzPxjVP6rqskXed5P6DtUASYAlCliW740Q==}
-    engines: {node: '>= 14.18.1', npm: '>= 6.14.15'}
 
   vue-observe-visibility@2.0.0-alpha.1:
     resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
@@ -10580,8 +10573,6 @@ snapshots:
       '@intlify/shared': 9.13.1
       '@vue/devtools-api': 6.6.2
       vue: 3.4.27(typescript@5.4.5)
-
-  vue-multiselect@3.0.0: {}
 
   vue-observe-visibility@2.0.0-alpha.1(vue@3.4.27(typescript@5.4.5)):
     dependencies:

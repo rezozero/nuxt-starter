@@ -138,13 +138,13 @@ export default defineComponent({
     display: var(--v-button-display, inline-flex);
     align-items: center;
     justify-content: var(--v-button-justify-content, center);
-    color: var(--v-button-color, var(--theme-foreground-color));
-    font-weight: var(--v-button-font-weight, 500);
-    text-transform: var(--v-button-text-transform, none);
 
     // Clear user-agent style
     border: initial;
     background-color: initial;
+    color: var(--v-button-color, var(--theme-foreground-color));
+    font-weight: var(--v-button-font-weight, 500);
+    text-transform: var(--v-button-text-transform, none);
 
     // PROPS STYLE
     &--icon-last {
@@ -206,11 +206,11 @@ export default defineComponent({
     }
 
     // HOVER
-    @media (hover: hover) {
-    }
+    // @media (hover: hover) {
+    // }
 
     // VARIANTS
-    //&--variant-menu {
+    // &--variant-menu {
     //    @include v-button-css-vars-by-size($v-button-menu-rounded, 's', 'rounded');
     //    @include v-button-default-css-vars($v-button-menu);
     //
@@ -219,7 +219,7 @@ export default defineComponent({
     //            @include v-button-size($key, menu);
     //        }
     //    }
-    //}
+    // }
 }
 
 // can't apply class to icon slot directly
