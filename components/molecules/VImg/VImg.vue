@@ -89,11 +89,19 @@ export default defineComponent({
             )
         })
 
+        const internalSizes = computed(() => {
+            const result = responsiveImageData.value?.sizes
+
+            if (result === '100vw') return // do not output sizes="100vw" as it is the default value
+
+            return result
+        })
+
         return () =>
             h('img', {
                 src: src.value,
                 srcset: responsiveImageData.value?.srcset,
-                sizes: responsiveImageData.value?.sizes,
+                sizes: internalSizes.value,
                 ref: root,
                 width: width.value,
                 height: height.value,

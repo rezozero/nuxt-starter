@@ -24,6 +24,7 @@ const options: ImageOptions = computed(() => {
     if (!pictureProps) return {}
 
     const picturePropsValue = toValue<VPictureProps>(pictureProps)
+    const $img = useImage()
 
     return {
         modifiers: {
@@ -41,11 +42,11 @@ const options: ImageOptions = computed(() => {
         height: props.height || props.modifiers?.height || picturePropsValue?.height,
         provider: picturePropsValue?.provider,
         preset: picturePropsValue?.preset,
-        sizes: props.sizes,
+        sizes: props.sizes || picturePropsValue?.sizes || $img.options.screens,
     }
 })
 
-const size = computed(() => {
+const dimensions = computed(() => {
     const crop = options.value.modifiers?.crop
     const result: number[] = [options.value.width, options.value.height]
 
@@ -73,7 +74,7 @@ const sources = computed(() => {
     const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
 
     return formats.map((format) => {
-        const { srcset } = $img.getSizes(src, {
+        const { srcset, sizes } = $img.getSizes(src, {
             ...options.value,
             modifiers: {
                 ...options.value?.modifiers,
@@ -84,8 +85,11 @@ const sources = computed(() => {
         return {
             media: props.media,
             type: `image/${format}`,
-            width: size.value[0],
-            height: size.value[1],
+            width: dimensions.value[0],
+            height: dimensions.value[1],
+            // output sizes only if it is provided, if not, the <img> will handle it
+            // do not output sizes="100vw" because it is the default value
+            sizes: props.sizes && sizes !== '100vw' ? sizes : undefined,
             srcset,
         }
     })

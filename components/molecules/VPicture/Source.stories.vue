@@ -20,6 +20,21 @@ const imageProps = {
                 <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
             </VPicture>
         </NuxtStoryVariant>
+        <NuxtStoryVariant title="Root sizes">
+            <VPicture v-bind="imageProps" sizes="xs:100vw xl:50vw hd:100vw">
+                <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
+            </VPicture>
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Source sizes">
+            <VPicture v-bind="imageProps">
+                <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" sizes="xs:50vw hd:50vw" />
+            </VPicture>
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Root sizes + Source sizes">
+            <VPicture v-bind="imageProps" sizes="md:100vw lg:100vw">
+                <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" sizes="xs:50vw hd:50vw" />
+            </VPicture>
+        </NuxtStoryVariant>
     </NuxtStory>
 </template>
 
