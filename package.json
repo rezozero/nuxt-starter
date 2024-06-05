@@ -28,6 +28,7 @@
     "@rezo-zero/xilofone-fetch": "^0.2.0",
     "@roadiz/types": "^0.2.0",
     "@types/json-schema": "^7.0.15",
+    "@types/throttle-debounce": "^5.0.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
@@ -54,6 +55,7 @@
     "lodash": "^4.17.21",
     "marked": "^12.0.2",
     "plyr": "^3.7.8",
+    "throttle-debounce": "^5.0.0",
     "vue-multiselect": "^3.0.0"
   },
   "engines": {
