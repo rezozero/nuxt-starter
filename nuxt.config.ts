@@ -17,6 +17,7 @@ export default defineNuxtConfig({
         '@nuxt/image',
         '@rezo-zero/nuxt-stories',
         '@nuxtjs/sitemap',
+        '@rezo-zero/nuxt-cache-control',
     ],
     components: [
         '~/components/atoms',
