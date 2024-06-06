@@ -24,17 +24,10 @@ export default defineComponent({
         const imgFilteredProps = computed(() => pick(props, Object.keys(imgProps)))
         const img = h(VImg, {
             ...imgFilteredProps.value,
-            format: undefined, // let the VImg choose the format itself
             ...props.imgAttrs,
         })
-        const $img = useImage()
         const sources = computed(() => {
-            return (
-                context.slots.default?.() ||
-                h(VPictureSource, {
-                    sizes: props.sizes || $img.options.screens,
-                })
-            )
+            return context.slots.default?.() || h(VPictureSource)
         })
 
         return () => h('picture', null, [sources.value, img])
