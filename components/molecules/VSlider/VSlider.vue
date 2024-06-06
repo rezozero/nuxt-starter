@@ -23,8 +23,13 @@ function updateSlideIndex() {
     if (!element) return
 
     const relativeChildrenBound = getRelativeChildrenBound()
-    // Find first center element visible through parent
-    activeIndex.value = relativeChildrenBound.findIndex((bound) => bound.left + bound.width / 2 > 0)
+
+    // TODO: change the way the item snaps based on the slide direction and how wide it is.
+    // Right now, the item snaps when the center element touches the left wrapper.
+    activeIndex.value = relativeChildrenBound.findIndex((bound) => {
+        const snapOffset = bound.width / 2
+        return bound.left + snapOffset > 0
+    })
 }
 
 function scrollToIndex() {
@@ -41,6 +46,11 @@ function scrollToIndex() {
         behavior: 'smooth',
     })
 }
+
+watch(activeIndex, (value) => {
+    activeIndex.value = Math.max(Math.min(value, lastReachableIndex.value), 0)
+    scrollToIndex()
+})
 
 // When wrapper is dragged
 function onMouseDown() {
@@ -69,7 +79,7 @@ function onMouseUp() {
     scrollToIndex()
 }
 
-useDraggableScroll({ element: root, onMouseUp, onMouseDown })
+const { setStyle, hasScroll } = useDraggableScroll({ element: root, onMouseUp, onMouseDown })
 
 // Prevent to scroll more than visible slides
 const visibleSlideLength = ref(1)
@@ -84,29 +94,53 @@ function setVisibleSlideLength() {
 }
 const lastReachableIndex = computed(() => getRelativeChildrenBound().length - visibleSlideLength.value)
 
-onMounted(() => {
-    setVisibleSlideLength()
-    scrollToIndex()
-})
-
-watch(activeIndex, (value) => {
-    activeIndex.value = Math.max(Math.min(value, lastReachableIndex.value), 0)
-    scrollToIndex()
-})
-
-// Update index on native scroll
 const scrollCallback = throttle(200, updateSlideIndex)
-onMounted(() => getHtmlElement(root)?.addEventListener('scrollend', scrollCallback))
-onUnmounted(() => getHtmlElement(root)?.removeEventListener('scrollend', scrollCallback))
+watch(hasScroll, (value) => {
+    if (value) {
+        setVisibleSlideLength()
+        scrollToIndex()
+        getHtmlElement(root)?.addEventListener('scrollend', scrollCallback)
+    } else {
+        getHtmlElement(root)?.removeEventListener('scrollend', scrollCallback)
+    }
+})
 
-// TODO: Check if working with component
-// TODO: Rename to VDraggableScroll
-// TODO: update activeIndex on resize event
-// TODO: init listener only is some slide are overflowing
+// Init listeners
+let resizeObserver: ResizeObserver | null = null
+let mutationObserver: MutationObserver | null = null
+function initObservers() {
+    const rootEl = getHtmlElement(root)
+    const firstSlide = rootEl?.children[0]
+
+    if (rootEl) {
+        mutationObserver = new MutationObserver((mutationsList) => {
+            for (const mutation of mutationsList) {
+                if (mutation.type === 'childList') setStyle()
+            }
+        })
+        mutationObserver.observe(rootEl, { childList: true, attributes: false })
+    }
+
+    if (firstSlide) {
+        resizeObserver = new ResizeObserver(() => setStyle())
+        resizeObserver.observe(firstSlide)
+    }
+}
+
+function disposeObservers() {
+    resizeObserver?.disconnect()
+    resizeObserver = null
+
+    mutationObserver?.disconnect()
+    mutationObserver = null
+}
+
+onMounted(initObservers)
+onBeforeUnmount(disposeObservers)
 </script>
 
 <template>
-    <div ref="root" :class="$style.root" class="scrollbar-x-hidden">
+    <div ref="root" :class="$style.root">
         <slot :item-class="$style.item" />
     </div>
 </template>

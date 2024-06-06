@@ -3,40 +3,46 @@ const slideIndex = ref(3)
 </script>
 
 <template>
-    <NuxtStory>
+    <NuxtStory :class="$style.root">
         <template #aside>
-            <button @click="() => (slideIndex = slideIndex - 1)">Prev slide</button>
+            <button @click="() => (slideIndex = slideIndex - 1)">Prev</button>
             <label for="index">
                 <input id="index" v-model="slideIndex" type="number" name="index" />
             </label>
-            <button @click="() => (slideIndex = slideIndex + 1)">Next slide</button>
-            {{ slideIndex }}
+            <button @click="() => (slideIndex = slideIndex + 1)">Next</button>
         </template>
-        <VCarousel v-slot="{ itemClass }" v-model="slideIndex" :class="$style.root">
+        <VSlider v-slot="{ itemClass }" v-model="slideIndex" :class="$style.slider">
             <div v-for="item in 20" :key="item" :class="[$style.item, itemClass]">
                 {{ item }}
             </div>
-        </VCarousel>
+        </VSlider>
     </NuxtStory>
 </template>
 
 <style lang="scss" module>
 .root {
+    :global(.nuxt-story__main) {
+        display: grid;
+        align-items: flex-start;
+    }
+}
+
+.slider {
     --gutter: #{rem(24)};
 
-    width: 100%;
     background-color: #d8d8d8;
     gap: rem(24);
     padding-block: rem(48);
 }
 
 .item {
-    display: flex;
-    width: flex-grid(1, 4);
+    width: flex-grid(2, 4);
     height: rem(60);
-    align-items: center;
-    justify-content: center;
     border: 1px solid black;
     background-color: #ffd6d6;
+
+    @include media('>=lg') {
+        width: flex-grid(1, 4);
+    }
 }
 </style>

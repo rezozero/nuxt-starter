@@ -16,22 +16,12 @@ const MIN_DRAG_AMOUNT = 6
 
 export function useDraggableScroll(options: UseDraggableScrollOptions) {
     const isDragging = ref(false)
-    const hasOverflow = ref(false)
+    const hasScroll = ref(false)
 
     let isListening = false
     let dragged = false
     let dragAmount: Point = { x: 0, y: 0 }
     let resizeObserver: ResizeObserver | null = null
-
-    function checkAvailability(direction = 'x') {
-        const el = getHtmlElement(options.element)
-        if (!el) return false
-
-        const lastChildren = el.children[el.children.length - 1] as HTMLElement
-        const boundingKey = direction === 'x' ? 'right' : 'bottom'
-
-        return el.getBoundingClientRect()[boundingKey] < lastChildren.getBoundingClientRect()[boundingKey]
-    }
 
     function onMouseDown() {
         removeListeners()
@@ -88,15 +78,12 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
 
     function createResizeObserver() {
         const element = getHtmlElement(options.element)
-
         if (!element) return
 
         resizeObserver = new ResizeObserver(function () {
-            hasOverflow.value = checkAvailability('x') || checkAvailability('y')
             setStyle()
         })
-
-        resizeObserver.observe(toValue(element))
+        resizeObserver.observe(element)
     }
 
     function disposeResizeObserver() {
@@ -106,20 +93,18 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
 
     function setStyle(isGrabbing?: boolean) {
         const element = getHtmlElement(options.element)
-
         if (!element) return
 
-        const hasScroll = element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight
+        hasScroll.value = element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight
 
-        element.style.cursor = hasScroll ? (isGrabbing ? 'grabbing' : 'grab') : ''
+        element.style.cursor = hasScroll.value ? (isGrabbing ? 'grabbing' : 'grab') : ''
         element.style.userSelect = isGrabbing ? 'none' : ''
     }
 
     function listen() {
         const element = getHtmlElement(options.element)
-
         if (!element) return
-        console.log('listen', element)
+
         createResizeObserver()
         setStyle()
 
@@ -132,7 +117,6 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         const element = getHtmlElement(options.element) || (el && getHtmlElement(el))
 
         if (!element) return
-        console.log('destroy', element)
 
         disposeResizeObserver()
         removeListeners()
@@ -153,5 +137,5 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     onMounted(listen)
     onUnmounted(destroy)
 
-    return { isDragging, hasOverflow }
+    return { isDragging, hasScroll, setStyle }
 }

@@ -3,18 +3,18 @@
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Default">
-            <VCarousel v-slot="{ itemClass }" :class="$style.root">
+            <VSlider v-slot="{ itemClass }" :class="$style.root">
                 <div v-for="item in 20" :key="item" :class="[$style.item, itemClass]">
                     {{ item }}
                 </div>
-            </VCarousel>
+            </VSlider>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="With scroll bar">
-            <VCarousel v-slot="{ itemClass }" :class="[$style.root, $style['root-with-scroll-bar']]">
+            <VSlider v-slot="{ itemClass }" :class="[$style.root, $style['root--with-scroll-bar']]">
                 <div v-for="item2 in 20" :key="item2 + '-2'" :class="[$style.item, itemClass]">
                     {{ item2 }}
                 </div>
-            </VCarousel>
+            </VSlider>
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
