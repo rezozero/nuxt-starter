@@ -7,7 +7,7 @@ interface Point {
 
 interface UseDraggableScrollOptions {
     element: TemplateElementRef
-    onMouseUp?: () => void
+    onMouseUp?: (event: MouseEvent) => void
     onMouseDown?: () => void
 }
 
@@ -23,6 +23,14 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     let dragAmount: Point = { x: 0, y: 0 }
     let resizeObserver: ResizeObserver | null = null
 
+    const XDirection = ref(1)
+    let oldX = 0
+    function setDragDirection(e: MouseEvent) {
+        if (!isDragging.value || e.pageX == oldX) return
+        XDirection.value = e.pageX < oldX ? -1 : 1
+        oldX = e.pageX
+    }
+
     function onMouseDown() {
         removeListeners()
 
@@ -34,7 +42,7 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         options.onMouseDown?.()
     }
 
-    function onMouseUp() {
+    function onMouseUp(event: MouseEvent) {
         removeListeners()
 
         isDragging.value = false
@@ -42,7 +50,7 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         dragged = dragAmount.x > MIN_DRAG_AMOUNT || dragAmount.y > MIN_DRAG_AMOUNT
         dragAmount = { x: 0, y: 0 }
 
-        options.onMouseUp?.()
+        options.onMouseUp?.(event)
     }
 
     function onMouseMove(event: MouseEvent) {
@@ -51,6 +59,8 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         if (!element) return
 
         event.preventDefault()
+
+        setDragDirection(event)
 
         const oldScrollTop = element.scrollTop
         const oldScrollLeft = element.scrollLeft
@@ -137,5 +147,5 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     onMounted(listen)
     onUnmounted(destroy)
 
-    return { isDragging, hasScroll, setStyle }
+    return { isDragging, hasScroll, setStyle, XDirection }
 }

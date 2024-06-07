@@ -1,111 +1,132 @@
 <script setup lang="ts">
 import { getHtmlElement } from '~/utils/ref/get-html-element'
-import { throttle } from 'throttle-debounce'
+// import { debounce, throttle } from 'throttle-debounce'
+
+type ScrollToOptions = {
+    scrollEndCallback?: () => void
+}
+
+export type Slide = {
+    left: number
+    snapLeft: number
+    snapRight: number
+    el: HTMLElement
+}
 
 const activeIndex = defineModel<number>({ default: 0 })
+
 const root = ref<HTMLElement | null>(null)
 let scrollSnapTypeStored = ''
 
-// Commons
-function getRelativeChildrenBound() {
+// Slides
+const slides = ref<Slide[]>([])
+function setSlidesInfos() {
     const element = getHtmlElement(root)
-    if (!element) return []
-
-    const parentBoundLeft = element.getBoundingClientRect().left
-    return [...element.children].map((child) => {
-        const { left, width } = child.getBoundingClientRect()
-        return { left: left - parentBoundLeft, width }
-    })
-}
-
-function updateSlideIndex() {
-    const element = getHtmlElement(root)
-    if (!element) return
-
-    const relativeChildrenBound = getRelativeChildrenBound()
-
-    // TODO: change the way the item snaps based on the slide direction and how wide it is.
-    // Right now, the item snaps when the center element touches the left wrapper.
-    activeIndex.value = relativeChildrenBound.findIndex((bound) => {
-        const snapOffset = bound.width / 2
-        return bound.left + snapOffset > 0
-    })
-}
-
-function scrollToIndex() {
-    const element = getHtmlElement(root)
-    if (!element || activeIndex.value < 0 || activeIndex.value > lastReachableIndex.value) {
+    if (!element) {
+        slides.value = []
         return
     }
 
-    const relativeChildrenBound = getRelativeChildrenBound()
-    const newScrollLeft = element.scrollLeft + relativeChildrenBound[activeIndex.value]?.left
+    const slideList = [...element.children] as HTMLElement[]
+    slides.value = slideList.map((child, i) => {
+        const start = child.getBoundingClientRect().left - element.getBoundingClientRect().left + element.scrollLeft //child.offsetLeft
+        const width = child.offsetWidth
+
+        const snapOffset = width > element.clientWidth * 0.7 ? width : width / 2
+
+        return {
+            left: start,
+            snapLeft: start - snapOffset,
+            snapRight: start + width + snapOffset,
+            el: child,
+        }
+    })
+}
+
+const visibleSlideLength = computed(() => {
+    const element = getHtmlElement(root)
+    if (!element) return 0
+
+    return slides.value.filter((slide) => {
+        return slide.left >= Math.ceil(element.scrollLeft) && slide.left < element.scrollLeft + element.clientWidth
+    }).length
+})
+
+const lastReachableIndex = computed(() => slides.value.length - visibleSlideLength.value)
+
+// Slider utils
+const { setStyle, hasScroll, XDirection, isDragging } = useDraggableScroll({ element: root, onMouseUp, onMouseDown })
+
+function getNewActiveIndex() {
+    const scrollLeft = getHtmlElement(root)?.scrollLeft
+    if (!scrollLeft) return 0
+
+    return slides.value[XDirection.value === -1 ? 'findLastIndex' : 'findIndex']((slide) => {
+        return scrollLeft > slide.snapLeft && scrollLeft < slide.snapRight
+    })
+}
+
+function scrollTo(index: number, options?: ScrollToOptions) {
+    const element = getHtmlElement(root)
+    const invalidIndex = activeIndex.value < 0 || activeIndex.value > lastReachableIndex.value
+    const activeItemLeft = slides.value[index]?.left
+
+    if (!element || invalidIndex || typeof activeItemLeft !== 'number') {
+        return
+    }
+
+    element.addEventListener(
+        'scrollend',
+        () => {
+            console.log('scrollTo: onScrollEnd')
+            activeIndex.value = index
+            options?.scrollEndCallback?.()
+        },
+        { once: true },
+    )
 
     element.scroll({
-        left: newScrollLeft,
+        left: activeItemLeft,
         behavior: 'smooth',
     })
 }
 
-watch(activeIndex, (value) => {
-    activeIndex.value = Math.max(Math.min(value, lastReachableIndex.value), 0)
-    scrollToIndex()
-})
-
-// When wrapper is dragged
+// When slider is dragged
 function onMouseDown() {
     const element = getHtmlElement(root)
     if (!element) return
 
     // When scroll-snap-type: x mandatory is set dragAmount is too small to allow snapping on the next div
     // https://www.reddit.com/r/webdev/comments/17pxznp/how_to_drag_scroll_with_snap_behaviour/
-    scrollSnapTypeStored = element.style['scrollSnapType']
     element.style['scrollSnapType'] = 'none'
 }
 
-function onScrollEndAfterDragging() {
+function resetScrollSnapType() {
     const element = getHtmlElement(root)
     if (!element) return
 
-    element.style['scrollSnapType'] = scrollSnapTypeStored
-    element.removeEventListener('scrollend', onScrollEndAfterDragging)
-    setVisibleSlideLength()
+    // Sometimes scrollSnapType is set before scroll transition is fully done
+    // this cause a scroll jump
+    window.setTimeout(() => (element.style['scrollSnapType'] = scrollSnapTypeStored), 300)
 }
 
 function onMouseUp() {
-    updateSlideIndex()
-
-    getHtmlElement(root)?.addEventListener('scrollend', onScrollEndAfterDragging)
-    scrollToIndex()
+    scrollTo(getNewActiveIndex(), { scrollEndCallback: resetScrollSnapType })
 }
 
-const { setStyle, hasScroll } = useDraggableScroll({ element: root, onMouseUp, onMouseDown })
+// const scrollEndCallback = debounce(400, () => {
+//     const newValue = getNewActiveIndex()
+//
+//     console.log(
+//         `scrollEndCallback: isDragging ${isDragging.value} | activeIndex: ${activeIndex.value} | newValue: ${newValue}`,
+//     )
+//
+//     if (!newValue || activeIndex.value === newValue || isDragging.value) return
+//
+//     activeIndex.value = newValue
+// })
 
-// Prevent to scroll more than visible slides
-const visibleSlideLength = ref(1)
-function setVisibleSlideLength() {
-    const element = getHtmlElement(root)
-    if (!element) return
-
-    const relativeChildrenBound = getRelativeChildrenBound()
-    visibleSlideLength.value = relativeChildrenBound.filter((childBound) => {
-        return childBound.left > 0 && childBound.left <= Math.ceil(element.clientWidth)
-    }).length
-}
-const lastReachableIndex = computed(() => getRelativeChildrenBound().length - visibleSlideLength.value)
-
-const scrollCallback = throttle(200, updateSlideIndex)
-watch(hasScroll, (value) => {
-    if (value) {
-        setVisibleSlideLength()
-        scrollToIndex()
-        getHtmlElement(root)?.addEventListener('scrollend', scrollCallback)
-    } else {
-        getHtmlElement(root)?.removeEventListener('scrollend', scrollCallback)
-    }
-})
-
-// Init listeners
+// Initialize and reset slides
 let resizeObserver: ResizeObserver | null = null
 let mutationObserver: MutationObserver | null = null
 function initObservers() {
@@ -115,14 +136,20 @@ function initObservers() {
     if (rootEl) {
         mutationObserver = new MutationObserver((mutationsList) => {
             for (const mutation of mutationsList) {
-                if (mutation.type === 'childList') setStyle()
+                if (mutation.type === 'childList') {
+                    setSlidesInfos()
+                    setStyle()
+                }
             }
         })
         mutationObserver.observe(rootEl, { childList: true, attributes: false })
     }
 
     if (firstSlide) {
-        resizeObserver = new ResizeObserver(() => setStyle())
+        resizeObserver = new ResizeObserver(() => {
+            setSlidesInfos()
+            setStyle()
+        })
         resizeObserver.observe(firstSlide)
     }
 }
@@ -135,12 +162,33 @@ function disposeObservers() {
     mutationObserver = null
 }
 
-onMounted(initObservers)
-onBeforeUnmount(disposeObservers)
+onMounted(() => {
+    scrollSnapTypeStored = getHtmlElement(root)?.style['scrollSnapType'] || 'x mandatory'
+    initObservers()
+})
+onBeforeUnmount(() => {
+    disposeObservers()
+})
+
+watch(hasScroll, (value) => {
+    if (!value) return
+
+    setSlidesInfos()
+    const index = activeIndex.value || getNewActiveIndex()
+    scrollTo(index)
+})
+
+defineExpose<{ slides: Ref<Slide[]> }>({ slides })
+
+// TODO: find a way to update activeIndex on native scroll
+function test() {
+    // TODO: getNewActiveIndex return wrong current index
+    activeIndex.value = getNewActiveIndex()
+}
 </script>
 
 <template>
-    <div ref="root" :class="$style.root">
+    <div ref="root" :class="$style.root" @scroll="test">
         <slot :item-class="$style.item" />
     </div>
 </template>
