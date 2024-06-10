@@ -1,5 +1,6 @@
-import type { VNode, VNodeNormalizedChildren } from 'vue'
+import type { VNodeNormalizedChildren } from 'vue'
 
+//TODO: fix type
 export function getSlotChildrenText(children: VNodeNormalizedChildren) {
     return children
         ?.map((node) => {

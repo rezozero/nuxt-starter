@@ -7,16 +7,18 @@ const locales = ['fr']
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
-    extends: ['github:rezozero/nuxt-layer#v0.1.5'],
+    extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     modules: [
-        '@nuxtjs/i18n',
         '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
         '@rezo-zero/nuxt-stories',
+        '@nuxtjs/i18n',
         '@nuxtjs/sitemap',
+        '@vueuse/nuxt',
+        '@rezo-zero/nuxt-cache-control',
     ],
     components: [
         '~/components/atoms',
@@ -51,6 +53,11 @@ export default defineNuxtConfig({
             },
             sentry: {
                 dsn: '',
+            },
+            cacheControl: {
+                maxAge: 60 * 60, // 1 hour
+                staleWhileRevalidate: 60 * 2, // 2 minutes
+                public: true,
             },
         },
     },
@@ -105,7 +112,7 @@ export default defineNuxtConfig({
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
         // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
-        strategy: 'no_prefix',
+        strategy: 'prefix_except_default',
         detectBrowserLanguage: false,
         defaultLocale,
         locales: locales.map((locale) => ({
