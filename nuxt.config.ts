@@ -7,7 +7,7 @@ const locales = ['fr']
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
-    extends: ['github:rezozero/nuxt-layer#v0.1.5'],
+    extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     modules: [
         '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
@@ -18,6 +18,7 @@ export default defineNuxtConfig({
         '@nuxtjs/i18n',
         '@nuxtjs/sitemap',
         '@vueuse/nuxt',
+        '@rezo-zero/nuxt-cache-control',
     ],
     components: [
         '~/components/atoms',
@@ -52,6 +53,11 @@ export default defineNuxtConfig({
             },
             sentry: {
                 dsn: '',
+            },
+            cacheControl: {
+                maxAge: 60 * 60, // 1 hour
+                staleWhileRevalidate: 60 * 2, // 2 minutes
+                public: true,
             },
         },
     },

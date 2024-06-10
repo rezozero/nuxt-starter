@@ -13,6 +13,9 @@ const { webResponse, item, error } = await useRoadizWebResponse<RoadizNodesSourc
 if (error) {
     showError(error)
 }
+
+useWebResponseCacheControl(webResponse)
+
 const route = useRoute()
 
 // Force redirect when web response URL is not matching current route path
