@@ -60,6 +60,9 @@ export default defineNuxtConfig({
                 staleWhileRevalidate: 60 * 2, // 2 minutes
                 public: true,
             },
+            cacheTags: {
+                key: 'cache-tags',
+            },
         },
     },
     css: ['~/assets/scss/main.scss'],
