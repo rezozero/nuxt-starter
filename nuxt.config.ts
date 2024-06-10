@@ -112,7 +112,7 @@ export default defineNuxtConfig({
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
         // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
-        strategy: 'no_prefix',
+        strategy: 'prefix_except_default',
         detectBrowserLanguage: false,
         defaultLocale,
         locales: locales.map((locale) => ({

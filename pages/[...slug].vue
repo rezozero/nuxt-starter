@@ -8,6 +8,8 @@ definePageMeta({
     pageTransition: defaultPageTransition,
 })
 
+defineI18nRoute(false)
+
 const { webResponse, item, error } = await useRoadizWebResponse<RoadizNodesSources>()
 
 if (error) {
