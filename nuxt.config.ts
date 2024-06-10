@@ -9,14 +9,15 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     extends: ['github:rezozero/nuxt-layer#v0.1.5'],
     modules: [
-        '@nuxtjs/i18n',
         '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
         '@rezo-zero/nuxt-stories',
+        '@nuxtjs/i18n',
         '@nuxtjs/sitemap',
+        '@vueuse/nuxt',
     ],
     components: [
         '~/components/atoms',
