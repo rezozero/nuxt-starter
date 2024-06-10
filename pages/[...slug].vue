@@ -8,7 +8,7 @@ definePageMeta({
     pageTransition: defaultPageTransition,
 })
 
-// Let Roadiz webResponse url define locale strategy
+// Roadiz handles the routing
 defineI18nRoute(false)
 
 const { webResponse, item, error, headers } = await useRoadizWebResponse<RoadizNodesSources>()
