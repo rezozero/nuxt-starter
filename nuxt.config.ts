@@ -7,7 +7,8 @@ const locales = ['fr']
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
-    extends: ['github:rezozero/nuxt-layer#v0.1.6'],
+    // Don't use layer for now
+    // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     modules: [
         '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
@@ -111,7 +112,6 @@ export default defineNuxtConfig({
     },
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
-        // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
         strategy: 'prefix_except_default',
         detectBrowserLanguage: false,
         defaultLocale,
