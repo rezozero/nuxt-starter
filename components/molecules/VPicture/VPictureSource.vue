@@ -2,6 +2,7 @@
 import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
 import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
+import type { Head } from '@unhead/schema'
 
 const props = defineProps({
     media: String,
@@ -14,6 +15,11 @@ const props = defineProps({
     width: String,
     height: String,
     modifiers: Object as PropType<Record<string, any>>,
+    preload: {
+        type: [Boolean, Object] as PropType<boolean | { fetchPriority?: 'auto' | 'high' | 'low' }>,
+        default: undefined,
+    },
+    nonce: String,
 })
 
 const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
@@ -94,6 +100,28 @@ const sources = computed(() => {
         }
     })
 })
+
+// @see https://github.com/nuxt/image/blob/main/src/runtime/components/nuxt-picture.ts
+const picturePropsValue = toValue<VPictureProps>(pictureProps)
+const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue.preload)
+
+if (preload) {
+    const link: NonNullable<Head['link']>[number] = {
+        rel: 'preload',
+        as: 'image',
+        imagesrcset: sources.value[0].srcset,
+        nonce: props.nonce,
+        ...(typeof props.preload !== 'boolean' && preload.fetchPriority
+            ? { fetchpriority: preload.fetchPriority }
+            : {}),
+    }
+
+    if (sources.value?.[0]?.sizes) {
+        link.imagesizes = sources.value[0].sizes
+    }
+
+    useHead({ link: [link] })
+}
 </script>
 
 <template>
