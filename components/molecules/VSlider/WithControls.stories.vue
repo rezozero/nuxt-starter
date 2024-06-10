@@ -5,6 +5,7 @@ const slideIndex = ref(3)
 <template>
     <NuxtStory :class="$style.root">
         <template #aside>
+            <h4>Controls</h4>
             <button @click="() => (slideIndex = slideIndex - 1)">Prev</button>
             <label for="index">
                 <input id="index" v-model="slideIndex" type="number" name="index" />
