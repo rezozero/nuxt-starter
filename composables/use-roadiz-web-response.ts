@@ -5,7 +5,10 @@ import { getResponseAlternateLinks } from '~/utils/roadiz/get-response-alternate
 export async function useRoadizWebResponse<T>(path?: string) {
     path = joinURL('/', path || useRoute().path)
 
-    const { data } = await useAsyncData(async () => {
+    // Create a unique key for preventing refetching data between server and client.
+    const autoKey = `/web_response_by_path--${path}`
+
+    const { data } = await useAsyncData(autoKey, async () => {
         try {
             const fetch = useRoadizFetchFactory()
             const response = await fetch.raw<RoadizWebResponse>('/web_response_by_path', {
@@ -17,7 +20,11 @@ export async function useRoadizWebResponse<T>(path?: string) {
             const headersLink = response.headers.get('link')
             const alternateLinks = headersLink ? getResponseAlternateLinks(headersLink) : []
 
-            return { webResponse: response._data, alternateLinks }
+            return {
+                webResponse: response._data,
+                alternateLinks,
+                headers: Object.fromEntries(response.headers), // headers to POJO format
+            }
         } catch (error) {
             // @ts-ignore cannot know the error type
             return { error: createError(error) }
@@ -28,6 +35,7 @@ export async function useRoadizWebResponse<T>(path?: string) {
     return {
         alternateLinks: data.value?.alternateLinks || [],
         webResponse,
+        headers: data.value?.headers,
         item: webResponse?.item as T | undefined,
         error: data.value?.error,
     }

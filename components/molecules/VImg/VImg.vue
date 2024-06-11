@@ -88,7 +88,6 @@ export default defineComponent({
                 })
             )
         })
-
         const internalSizes = computed(() => {
             const result = responsiveImageData.value?.sizes
 
@@ -96,6 +95,31 @@ export default defineComponent({
 
             return result
         })
+
+        // @see https://github.com/nuxt/image/blob/main/src/runtime/components/nuxt-img.ts
+        if (props.preload) {
+            const isResponsive = responsiveImageData.value && Object.values(responsiveImageData.value).every((v) => v)
+
+            useHead({
+                link: [
+                    {
+                        rel: 'preload',
+                        as: 'image',
+                        nonce: props.nonce,
+                        ...(!isResponsive
+                            ? { href: src.value }
+                            : {
+                                  href: responsiveImageData.value.src,
+                                  imagesizes: responsiveImageData.value.sizes,
+                                  imagesrcset: responsiveImageData.value.srcset,
+                              }),
+                        ...(typeof props.preload !== 'boolean' && props.preload.fetchPriority
+                            ? { fetchpriority: props.preload.fetchPriority }
+                            : {}),
+                    },
+                ],
+            })
+        }
 
         return () =>
             h('img', {

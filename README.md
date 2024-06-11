@@ -177,12 +177,6 @@ Fill the .env file with the values for enabling Sentry.
 SENTRY_DSN=
 ```
 
-## Layer
-
-The application uses [@rezo-zero/nuxt-layer](https://github.com/rezozero/nuxt-layer).  
-It extends the application with a set of features.  
-Learn more about Nuxt layer [here](https://nuxt.com/docs/guide/going-further/layers).
-
 
 ## Sitemap
 
