@@ -138,13 +138,13 @@ export default defineComponent({
     display: var(--v-button-display, inline-flex);
     align-items: center;
     justify-content: var(--v-button-justify-content, center);
-    color: var(--v-button-color, var(--theme-foreground-color));
-    font-weight: var(--v-button-font-weight, 500);
-    text-transform: var(--v-button-text-transform, none);
 
     // Clear user-agent style
     border: initial;
     background-color: initial;
+    color: var(--v-button-color, var(--theme-foreground-color));
+    font-weight: var(--v-button-font-weight, 500);
+    text-transform: var(--v-button-text-transform, none);
 
     // PROPS STYLE
     &--icon-last {
