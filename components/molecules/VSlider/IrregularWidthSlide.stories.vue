@@ -69,7 +69,7 @@ watch(slides, (value) => {
     background-color: #ffd6d6;
 
     &:nth-child(odd) :global(.marker) {
-        width: 4px;
+        width: 8px;
         background-color: blue;
     }
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getHtmlElement } from '~/utils/ref/get-html-element'
-import { throttle } from 'throttle-debounce'
+import { debounce, throttle } from 'throttle-debounce'
 
 type ScrollToOptions = {
     scrollEndCallback?: () => void
@@ -10,6 +10,7 @@ export type Slide = {
     left: number
     snapLeft: number
     snapRight: number
+    right: number
     el: HTMLElement
 }
 
@@ -26,7 +27,9 @@ const unwatchRootEl = watch(root, (el) => {
 })
 
 // Slider data
-const syncedIndex = defineModel<number>({ default: 0 })
+const SNAP_OFFSET = 50
+
+const syncedIndex = defineModel<number>({ default: 0 }) // Update this value only when user stop interacting with slider
 const slides = ref<Slide[]>([])
 const scrollDirection = ref(1)
 const isScrolling = ref(false)
@@ -35,7 +38,7 @@ const scrollLeft = ref(0)
 const setScrollLeft = () => (scrollLeft.value = getHtmlElement(root)?.scrollLeft || 0)
 
 watch(scrollLeft, (value, oldValue) => {
-    if (value == oldValue || !scrollLeft.value) return
+    if (value === oldValue) return
 
     scrollDirection.value = oldValue > value ? -1 : 1
 })
@@ -49,24 +52,26 @@ function setSlidesInfos() {
     }
 
     const slideList = [...element.children] as HTMLElement[]
-    slides.value = slideList.map((child) => {
-        const start = child.getBoundingClientRect().left - element.getBoundingClientRect().left + element.scrollLeft
-        const width = child.offsetWidth
+    const firstSlideOffset = slideList[0].getBoundingClientRect().left - element.getBoundingClientRect().left
 
-        const snapOffset = width > element.clientWidth * 0.7 ? width : width / 2
+    slides.value = slideList.map((child) => {
+        const relativeLeft = child.getBoundingClientRect().left - element.getBoundingClientRect().left
+        const start = relativeLeft - firstSlideOffset + element.scrollLeft
+        const width = child.offsetWidth
 
         return {
             left: start,
-            snapLeft: start - snapOffset,
-            snapRight: start + width + snapOffset,
+            snapLeft: start + SNAP_OFFSET,
+            right: start + width,
+            snapRight: start + width - SNAP_OFFSET,
             el: child,
         }
     })
 }
 
 const currentIndex = computed(() => {
-    return slides.value[scrollDirection.value ? 'findLastIndex' : 'findIndex']((slide) => {
-        return scrollLeft.value > slide.snapLeft && scrollLeft.value < slide.snapRight
+    return slides.value.findIndex((slide) => {
+        return scrollLeft.value < slide[scrollDirection.value === 1 ? 'snapLeft' : 'snapRight']
     })
 })
 
@@ -85,39 +90,47 @@ const lastReachableIndex = computed(() => slides.value.length - visibleSlideLeng
 const isDragging = ref(false)
 const { setStyle, hasScroll } = useDraggableScroll({ element: root, onMouseUp, onMouseDown })
 
+const hasTransition = ref(false)
 function scrollTo(index: number, options?: ScrollToOptions) {
     const element = getHtmlElement(root)
     const invalidIndex = syncedIndex.value < 0 || syncedIndex.value > lastReachableIndex.value
-    const activeItemLeft = slides.value[index]?.left
+    const left = slides.value[index]?.left
 
-    if (!element || invalidIndex || typeof activeItemLeft !== 'number') {
+    if (!element || invalidIndex || typeof left !== 'number' || hasTransition.value) {
         return
     }
 
     element.addEventListener(
         'scrollend',
         () => {
-            syncedIndex.value = index
             options?.scrollEndCallback?.()
+
+            hasTransition.value = false
+            isScrolling.value = false
+
+            // Update v-model only when scroll animation is ended
+            syncedIndex.value = index
         },
         { once: true },
     )
 
+    hasTransition.value = true
+
     element.scroll({
-        left: activeItemLeft,
+        left,
         behavior: 'smooth',
     })
 }
 
 // When slider is dragged
 let scrollSnapTypeStored = ''
-
 onMounted(() => {
     scrollSnapTypeStored = getHtmlElement(root)?.style['scrollSnapType'] || 'x mandatory'
 })
 
 function onMouseDown() {
     isDragging.value = true
+
     const element = getHtmlElement(root)
     if (!element) return
 
@@ -127,23 +140,26 @@ function onMouseDown() {
 }
 
 function onDragTransitionEnd() {
+    if (isDragging.value) return
+
     isDragging.value = false
-    console.log('onDragTransitionEnd')
+    isScrolling.value = false
 
     const element = getHtmlElement(root)
     if (!element) return
 
     // Sometimes scrollSnapType is set before scroll transition is fully done
     // this cause a scroll jump
-    window.setTimeout(() => (element.style['scrollSnapType'] = scrollSnapTypeStored), 300)
+    element.style['scrollSnapType'] = scrollSnapTypeStored
 }
 
 function onMouseUp() {
+    isDragging.value = false
     scrollTo(currentIndex.value, { scrollEndCallback: onDragTransitionEnd })
 }
 
 // Update slide index and slide direction
-const onScrollCallback = throttle(150, setScrollLeft)
+const onScrollCallback = throttle(100, setScrollLeft)
 
 function onScroll() {
     isScrolling.value = true
@@ -151,10 +167,13 @@ function onScroll() {
 }
 
 function onScrollEnd() {
-    if (isDragging.value) return
+    if (isDragging.value || hasTransition.value) return
+
     isScrolling.value = false
 
-    // Update v-model only when scroll animation is ended
+    getHtmlElement(root)!.style['scrollSnapType'] = scrollSnapTypeStored
+
+    // Update VModel on native scroll
     syncedIndex.value = currentIndex.value
 }
 
@@ -185,7 +204,6 @@ watch(hasScroll, () => {
     updateSlides()
 
     if (syncedIndex.value === currentIndex.value) return
-
     scrollTo(syncedIndex.value)
 })
 
@@ -208,6 +226,7 @@ defineExpose<{ slides: Ref<Slide[]> }>({ slides })
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none; /* for Firefox */
+    touch-action: pan-x;
 
     &::-webkit-scrollbar {
         display: none; /* for Chrome, Safari, and Opera */
@@ -216,6 +235,6 @@ defineExpose<{ slides: Ref<Slide[]> }>({ slides })
 
 .item {
     flex-shrink: 0;
-    scroll-snap-align: start;
+    scroll-snap-align: var(--v-slider-scroll-snap-align, start);
 }
 </style>

@@ -101,6 +101,7 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         resizeObserver = null
     }
 
+    watch(isDragging, setStyle)
     function setStyle(isGrabbing?: boolean) {
         const element = getHtmlElement(options.element)
         if (!element) return
