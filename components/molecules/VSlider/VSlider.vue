@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { getHtmlElement } from '~/utils/ref/get-html-element'
-import { debounce, throttle } from 'throttle-debounce'
+import { throttle } from 'throttle-debounce'
 
 type ScrollToOptions = {
     scrollEndCallback?: () => void
