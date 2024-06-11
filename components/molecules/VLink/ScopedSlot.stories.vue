@@ -19,8 +19,19 @@
             <VLink v-slot="{ href, target, rel }" url="https://google.com" custom>
                 <VButton :href="href" :target="target" :rel="rel" theme="dark" filled icon-name="check" label="Label" />
             </VLink>
+            <VLink v-slot="{ href, target, rel }" url="https://google.com" custom>
+                <VButton
+                    :href="href"
+                    :target="target"
+                    :rel="rel"
+                    theme="light"
+                    filled
+                    icon-name="check"
+                    label="Label"
+                />
+            </VLink>
             <VLink v-slot="linkProps" url="https://google.com" custom>
-                <VButton v-bind="linkProps" filled theme="light">
+                <VButton v-bind="linkProps">
                     Slot button label
                     <template #icon>
                         <VIcon name="check" />
