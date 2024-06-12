@@ -157,9 +157,7 @@ export default defineNuxtConfig({
     // https://eslint.nuxt.com/packages/module
     eslint: {
         config: {
-            stylistic: {
-                indent: 4,
-            },
+            stylistic: true,
         },
     },
 })
