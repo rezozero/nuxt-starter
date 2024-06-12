@@ -226,11 +226,11 @@ export default defineComponent({
     }
 
     // HOVER
-    @media (hover: hover) {
-    }
+    // @media (hover: hover) {
+    // }
 
     // VARIANTS
-    //&--variant-menu {
+    // &--variant-menu {
     //    @include v-button-css-vars-by-size($v-button-menu-rounded, 's', 'rounded');
     //    @include v-button-default-css-vars($v-button-menu);
     //
@@ -239,7 +239,7 @@ export default defineComponent({
     //            @include v-button-size($key, menu);
     //        }
     //    }
-    //}
+    // }
 }
 
 // can't apply class to icon slot directly
@@ -272,11 +272,6 @@ export default defineComponent({
     display: var(--v-button-label-display);
     text-overflow: ellipsis;
     white-space: nowrap;
-
-    .root--raw:not(.root--has-icon) & {
-        margin-right: 0;
-        margin-left: 0;
-    }
 
     // button with icon at first position and without background color / border
     .root--raw:not(.root--icon-last) & {
