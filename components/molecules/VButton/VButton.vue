@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { Theme } from '#imports'
 import { NuxtLink } from '#components'
 
-export const vButtonSizes = ['s', 'm', 'l'] as const
+export const vButtonSizes = ['sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
 export type Variant = 'menu' | 'anchor'
 
@@ -62,6 +62,8 @@ export default defineComponent({
         const hasIcon = computed(() => hasIconSlot.value || !!props.iconName)
         const hasLabel = computed(() => !!slots.default || !!props.label)
 
+        const isRawStyle = computed(() => !props.outlined && !props.filled && !props.elevated)
+
         const { themeClass } = useTheme({ props })
         const $style = useCssModule()
         const rootClasses = computed(() => {
@@ -73,11 +75,12 @@ export default defineComponent({
                 props.disabled && $style['root--disabled'],
                 props.rounded && $style['root--rounded'],
                 props.iconLast && $style['root--icon-last'],
-                hasIcon.value && $style['root--has-icon'],
-                hasLabel.value && $style['root--has-label'],
                 props.loading && $style['root--loading'],
                 props.variant && $style[`root--variant-${props.variant}`],
                 typeof props.size === 'string' && $style[`root--size-${props.size}`],
+                hasIcon.value && $style['root--has-icon'],
+                hasLabel.value && $style['root--has-label'],
+                isRawStyle.value && $style['root--raw'],
                 themeClass.value,
             ]
         })
@@ -155,13 +158,12 @@ export default defineComponent({
     display: var(--v-button-display, inline-flex);
     align-items: center;
     justify-content: var(--v-button-justify-content, center);
+    border: initial;
 
     // Clear user-agent style
-    border: initial;
     background-color: initial;
     color: var(--v-button-color, var(--theme-foreground-color));
-    font-weight: var(--v-button-font-weight, 500);
-    text-transform: var(--v-button-text-transform, none);
+    text-decoration: initial;
 
     // PROPS STYLE
     &--icon-last {
@@ -185,9 +187,10 @@ export default defineComponent({
     }
 
     // button without background color / border
-    &:not(.root--outlined, .root--filled) {
-        --v-button-height: initial;
-        --v-button-padding-inline: 0;
+    &--raw {
+        // Revert default value
+        height: var(--v-button-raw-height);
+        padding-inline: var(--v-button-raw-padding-inline);
     }
 
     // LOADING
@@ -267,23 +270,27 @@ export default defineComponent({
 
     position: relative;
     display: var(--v-button-label-display);
-
-    // center typo vertically
-    margin-top: rem(-2);
-
-    // hover
-    text-decoration: var(--v-button-label-text-decoration);
     text-overflow: ellipsis;
-    text-underline-offset: rem(3);
     white-space: nowrap;
 
+    .root--raw:not(.root--has-icon) & {
+        margin-right: 0;
+        margin-left: 0;
+    }
+
     // button with icon at first position and without background color / border
-    .root:not(.root--icon-last, .root--outlined, .root--filled) & {
+    .root--raw:not(.root--icon-last) & {
         margin-right: 0;
     }
 
     // button with icon at last position and without background color / border
-    .root--icon-last:not(.root--outlined, .root--filled) & {
+    .root--icon-last.root--raw & {
+        margin-left: 0;
+    }
+
+    // Raw text button
+    .root--raw:not(.root--has-icon) & {
+        margin-right: 0;
         margin-left: 0;
     }
 }

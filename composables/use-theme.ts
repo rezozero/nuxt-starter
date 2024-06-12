@@ -3,6 +3,7 @@ import type { MaybeRefOrGetter } from 'vue'
 import { THEME_PROVIDER_KEY } from '~/composables/use-theme-provider'
 import type appConfig from '~/app.config'
 
+// TODO: type isn't infer
 export type Theme = (typeof appConfig)['themes'][number]
 
 export interface ThemeProps {
