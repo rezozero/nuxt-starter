@@ -36,7 +36,20 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
         </NuxtStoryVariant>
 
         <NuxtStoryVariant title="Sizes">
-            <VButton v-for="size in sizes" :key="`${size}-size`" :label="`Button ${size}`" outlined :size="size" />
+            <VStoryThemeProvider>
+                <VButton
+                    v-for="size in sizes"
+                    :key="`${size}-size-theme-default`"
+                    :label="`Button ${size}`"
+                    outlined
+                    :size="size"
+                />
+            </VStoryThemeProvider>
+        </NuxtStoryVariant>
+
+        <NuxtStoryVariant title="Theme prop">
+            <VButton :label="`Button Dark`" theme="dark" outlined />
+            <VButton :label="`Button Dark`" theme="light" outlined />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

@@ -113,7 +113,7 @@ export default defineComponent({
 @use 'sass:map';
 
 @if global-variable-exists('themes') {
-    $themes: map-merge(
+    $themes: map.deep-merge(
             $themes,
             (
                 dark: (
