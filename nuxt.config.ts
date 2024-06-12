@@ -20,6 +20,7 @@ export default defineNuxtConfig({
         '@nuxtjs/sitemap',
         '@vueuse/nuxt',
         '@rezo-zero/nuxt-cache-control',
+        "@nuxt/eslint"
     ],
     components: [
         '~/components/atoms',
