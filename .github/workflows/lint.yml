@@ -29,6 +29,6 @@ jobs:
             - name: Install dependencies
               run: pnpm install
             - name: Lint scripts
-              run: pnpm lint:script
+              run: pnpm lint:js
             - name: Lint styles
-              run: pnpm lint:style
+              run: pnpm lint:css
