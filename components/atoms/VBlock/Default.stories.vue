@@ -2,10 +2,10 @@
 const walker = {
     '@id': '',
     '@type': '',
-    item: {
+    'item': {
         slug: 'block-slug',
     },
-    children: [],
+    'children': [],
 }
 </script>
 

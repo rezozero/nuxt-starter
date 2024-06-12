@@ -4,9 +4,14 @@ const { themes } = useAppConfig()
 
 <template>
     <div :class="$style.root">
-        <VThemeProvider v-for="theme in themes" :key="theme" v-slot="{ themeClass }" :preferred-theme="theme">
+        <VThemeProvider
+            v-for="theme in themes"
+            :key="theme"
+            v-slot="{ themeClass }"
+            :preferred-theme="theme"
+        >
             <div :class="[themeClass, $style.item]">
-                <slot></slot>
+                <slot />
             </div>
         </VThemeProvider>
     </div>

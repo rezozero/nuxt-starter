@@ -9,7 +9,7 @@ const apiFetch = $fetch.create({
     method: 'GET',
     headers: {
         'accept-encoding': 'gzip, deflate',
-        Accept: 'application/ld+json',
+        'Accept': 'application/ld+json',
     },
     baseURL: useApiUrl(), // Auto imports within the server folder aren't supported
 })
@@ -32,7 +32,7 @@ function fetchResourcesByLocale(locale: string) {
     const nodes = fetchAllByLocale('/nodes_sources', locale, {
         'node.nodeType.reachable': true,
         'node.visible': true,
-        noIndex: false,
+        'noIndex': false,
     })
 
     // const today = new Date()
@@ -52,10 +52,10 @@ function fetchResourcesByLocale(locale: string) {
 export default defineSitemapEventHandler(async () => {
     const locales = await apiFetch<HydraCollection<RoadizTranslation>>('/translations', {
         params: { available: true },
-    }).then((response) => response['hydra:member'].map(({ locale }) => locale))
+    }).then(response => response['hydra:member'].map(({ locale }) => locale))
 
-    const resourcesLocalized = locales.map((locale) => fetchResourcesByLocale(locale)).flat()
+    const resourcesLocalized = locales.map(locale => fetchResourcesByLocale(locale)).flat()
     const resources = (await Promise.all(resourcesLocalized)).flat()
 
-    return resources.filter((r) => r?.url).map((resource) => asSitemapUrl(resource.url as string))
+    return resources.filter(r => r?.url).map(resource => asSitemapUrl(resource.url as string))
 })

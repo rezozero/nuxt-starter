@@ -7,7 +7,7 @@ export function getResponseAlternateLinks(links: string): Array<RoadizAlternateL
         .filter((link: string) => {
             return link
                 .split(';')
-                .map((attribute) => attribute.trim())
+                .map(attribute => attribute.trim())
                 .includes('type="text/html"')
         })
         .map((link: string) => {

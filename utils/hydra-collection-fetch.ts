@@ -22,7 +22,8 @@ export async function hydraCollectionFetch<T>(url: string, request?: FetchOption
 
             active = !!response?.['hydra:view']?.['hydra:next']
             page++
-        } else {
+        }
+        else {
             active = false
         }
     } while (active)

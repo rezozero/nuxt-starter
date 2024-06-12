@@ -2,7 +2,9 @@
 
 <template>
     <NuxtStory>
-        <template #aside>Style are updated on VL breakpoint from css</template>
+        <template #aside>
+            Style are updated on VL breakpoint from css
+        </template>
         <NuxtStoryVariant title="Update size depending on breakpoint">
             <VLinkButton
                 url="https://google.com"

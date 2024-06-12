@@ -20,6 +20,7 @@ export default defineNuxtConfig({
         '@nuxtjs/sitemap',
         '@vueuse/nuxt',
         '@rezo-zero/nuxt-cache-control',
+        '@nuxt/eslint',
     ],
     components: [
         '~/components/atoms',
@@ -91,11 +92,11 @@ export default defineNuxtConfig({
                     // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
                     'Content-Security-Policy': [
                         // Only allows these iframe origins
-                        "frame-src 'self' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com",
+                        'frame-src \'self\' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com',
                         // Only allows these script origins
-                        //"script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
+                        // "script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
                         // Only allows these images origins
-                        //"img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
+                        // "img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
                     ].join('; '),
                 },
             },
@@ -118,7 +119,7 @@ export default defineNuxtConfig({
         strategy: 'prefix_except_default',
         detectBrowserLanguage: false,
         defaultLocale,
-        locales: locales.map((locale) => ({
+        locales: locales.map(locale => ({
             code: locale,
             file: `nuxt.${locale}.json`,
         })),
@@ -134,7 +135,7 @@ export default defineNuxtConfig({
             hd: 1920, // additional size
             qhd: 2500, // additional size
         },
-        // @ts-ignore not working with [1]
+        // @ts-expect-error not working with [1]
         densities: '1',
         presets: {
             default: {
@@ -152,5 +153,13 @@ export default defineNuxtConfig({
             '**/*.stories.vue',
             '!playground', // exclude layer stories
         ],
+    },
+    // https://eslint.nuxt.com/packages/module
+    eslint: {
+        config: {
+            stylistic: {
+                indent: 4,
+            },
+        },
     },
 })

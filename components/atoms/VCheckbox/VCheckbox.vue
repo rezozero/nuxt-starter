@@ -1,6 +1,9 @@
 <template>
     <span :class="$style.root">
-        <VIcon name="check" :class="$style.icon" />
+        <VIcon
+            name="check"
+            :class="$style.icon"
+        />
     </span>
 </template>
 

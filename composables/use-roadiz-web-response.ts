@@ -25,8 +25,9 @@ export async function useRoadizWebResponse<T>(path?: string) {
                 alternateLinks,
                 headers: Object.fromEntries(response.headers), // headers to POJO format
             }
-        } catch (error) {
-            // @ts-ignore cannot know the error type
+        }
+        catch (error) {
+            // @ts-expect-error cannot know the error type
             return { error: createError(error) }
         }
     })

@@ -3,11 +3,11 @@ const blocks = [
     {
         '@id': 'walker-id',
         '@type': 'RoadizWalker',
-        item: {
+        'item': {
             '@id': 'item-id',
             '@type': 'ContentBlock',
         },
-        children: [],
+        'children': [],
     },
 ]
 </script>

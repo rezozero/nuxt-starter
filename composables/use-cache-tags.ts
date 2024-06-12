@@ -1,7 +1,7 @@
 import { useSSRContext } from 'vue'
 
 export function useCacheTags(cacheTags?: string) {
-    if (process.client || !cacheTags) {
+    if (import.meta.client || !cacheTags) {
         return
     }
 
@@ -16,7 +16,7 @@ export function useCacheTags(cacheTags?: string) {
         // console.log('cacheTags', cacheTags)
         // Inject the cache control options into the SSR context
         ssrContext.event.context.cacheTags = [ssrContext.event.context.cacheTags, cacheTags]
-            .filter((value) => typeof value === 'string')
+            .filter(value => typeof value === 'string')
             .join(',')
     }
 }
