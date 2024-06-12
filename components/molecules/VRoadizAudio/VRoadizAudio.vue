@@ -12,9 +12,9 @@ const playerElement = ref<HTMLElement | null>(null)
 let player: Plyr | null = null
 
 const internalSrc = computed(() => {
-    return props.document?.relativePath &&
-        !props.document.relativePath.startsWith('http') &&
-        !props.document.relativePath.startsWith('/')
+    return props.document?.relativePath
+        && !props.document.relativePath.startsWith('http')
+        && !props.document.relativePath.startsWith('/')
         ? useRoadizDocumentUrl(props.document.relativePath)
         : props.document?.relativePath
 })
@@ -66,7 +66,7 @@ async function createPlayer() {
         iconPrefix: 'plyr-icon',
         ...props.plyr,
     }
-    const PlyrClass = await import('plyr').then((module) => module.default)
+    const PlyrClass = await import('plyr').then(module => module.default)
 
     player = new PlyrClass(playerElement.value, options)
     player.elements.container?.classList.add($style['plyr-native-container'])
@@ -78,9 +78,21 @@ onMounted(() => {
 </script>
 
 <template>
-    <iframe v-if="isEmbed" :src="embedSrc" :class="$style.iframe" />
-    <audio v-else ref="playerElement" controls :class="$style.iframe">
-        <source :src="internalSrc" :type="document?.mimeType || 'audio/mpeg'" />
+    <iframe
+        v-if="isEmbed"
+        :src="embedSrc"
+        :class="$style.iframe"
+    />
+    <audio
+        v-else
+        ref="playerElement"
+        controls
+        :class="$style.iframe"
+    >
+        <source
+            :src="internalSrc"
+            :type="document?.mimeType || 'audio/mpeg'"
+        >
     </audio>
 </template>
 

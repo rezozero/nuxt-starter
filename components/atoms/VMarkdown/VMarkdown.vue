@@ -38,7 +38,8 @@ export default defineComponent({
 
             if (props.parsed) {
                 return props.content
-            } else {
+            }
+            else {
                 const options = { renderer }
 
                 if (props.inline) return marked.parseInline(content, options)
@@ -78,11 +79,11 @@ export default defineComponent({
         }
 
         onMounted(() => {
-            root.value?.querySelectorAll('a').forEach((link) => link.addEventListener('click', onLinkClick))
+            root.value?.querySelectorAll('a').forEach(link => link.addEventListener('click', onLinkClick))
         })
 
         onBeforeUnmount(() => {
-            root.value?.querySelectorAll('a').forEach((link) => link.removeEventListener('click', onLinkClick))
+            root.value?.querySelectorAll('a').forEach(link => link.removeEventListener('click', onLinkClick))
         })
 
         return () =>

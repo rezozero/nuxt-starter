@@ -10,8 +10,14 @@ const imageProps = {
 
 <template>
     <NuxtStory>
-        <VPicture v-bind="imageProps" preload>
-            <VPictureSource :modifiers="{ crop: '400x600' }" media="(max-width: 1024px)" />
+        <VPicture
+            v-bind="imageProps"
+            preload
+        >
+            <VPictureSource
+                :modifiers="{ crop: '400x600' }"
+                media="(max-width: 1024px)"
+            />
         </VPicture>
     </NuxtStory>
 </template>

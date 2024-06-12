@@ -31,9 +31,9 @@ export default defineComponent({
         // A VLink without URL or reference will render nothing except the default slot if present, fallback to the label, or at least nothing
         if (!url && !props.document?.relativePath) {
             return () =>
-                slots.default?.({ label: props.label }) ||
-                (typeof props.label === 'string' && h('span', attrs, props.label)) ||
-                null
+                slots.default?.({ label: props.label })
+                || (typeof props.label === 'string' && h('span', attrs, props.label))
+                || null
         }
 
         // Define attributes
@@ -48,10 +48,12 @@ export default defineComponent({
 
         if (isDownload) {
             Object.assign(attributes, { href: useRoadizDocumentUrl(props.document?.relativePath) })
-        } else if (isInternal) {
+        }
+        else if (isInternal) {
             // Prevent NuxtLink to add rel attrs if it is absolute internal url
             Object.assign(attributes, { to: url?.replace(siteUrl, '') })
-        } else if (isExternal) {
+        }
+        else if (isExternal) {
             Object.assign(attributes, { href: props.url })
         }
 

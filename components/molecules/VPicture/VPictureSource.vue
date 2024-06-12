@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 import type { Head } from '@unhead/schema'
+import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 
 const props = defineProps({
     media: String,
@@ -38,11 +38,11 @@ const options: ImageOptions = computed(() => {
             ...props.modifiers,
             fit: props.fit || props.modifiers?.fit,
             quality:
-                props.quality ||
-                props.modifiers?.quality ||
-                picturePropsValue?.quality ||
-                picturePropsValue?.modifiers?.quality ||
-                $img.options.quality,
+                props.quality
+                || props.modifiers?.quality
+                || picturePropsValue?.quality
+                || picturePropsValue?.modifiers?.quality
+                || $img.options.quality,
         },
         width: props.width || props.modifiers?.width || picturePropsValue?.width,
         height: props.height || props.modifiers?.height || picturePropsValue?.height,
@@ -75,8 +75,8 @@ const sources = computed(() => {
 
     if (!src) return []
 
-    const internalFormat =
-        props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
+    const internalFormat
+        = props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
     const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
 
     return formats.map((format) => {
@@ -125,5 +125,9 @@ if (preload) {
 </script>
 
 <template>
-    <source v-for="(source, index) in sources" :key="index" v-bind="source" />
+    <source
+        v-for="(source, index) in sources"
+        :key="index"
+        v-bind="source"
+    >
 </template>

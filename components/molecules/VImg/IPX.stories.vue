@@ -14,19 +14,35 @@ const imageProps = {
             <VImg v-bind="imageProps" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Modifiers / crop">
-            <VImg v-bind="imageProps" width="200" height="400" />
+            <VImg
+                v-bind="imageProps"
+                width="200"
+                height="400"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Modifiers / blur">
-            <VImg v-bind="imageProps" :modifiers="{ blur: 10 }" />
+            <VImg
+                v-bind="imageProps"
+                :modifiers="{ blur: 10 }"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Placeholder / default">
-            <VImg v-bind="imageProps" placeholder />
+            <VImg
+                v-bind="imageProps"
+                placeholder
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Placeholder / color">
-            <VImg v-bind="imageProps" placeholder="#ccc" />
+            <VImg
+                v-bind="imageProps"
+                placeholder="#ccc"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Not found">
-            <VImg v-bind="imageProps" src="wrong-url.jpg" />
+            <VImg
+                v-bind="imageProps"
+                src="wrong-url.jpg"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

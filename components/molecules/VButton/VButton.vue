@@ -45,12 +45,13 @@ export default defineComponent({
         })
 
         const linkProps = computed(() => {
-            const result: Record<string, any> = {}
+            const result: Record<string, unknown> = {}
 
             // If the tag is forced to be a link <a>, then it shouldn't have a `to` prop (`to` is for NuxtLink component)
             if (isRelativePath.value && internalTag.value !== 'a') {
                 result.to = url.value
-            } else if (props.href) {
+            }
+            else if (props.href) {
                 result.href = props.href
             }
 
@@ -100,10 +101,26 @@ export default defineComponent({
         :disabled="(internalTag === 'button' && disabled) || undefined"
         v-bind="linkProps"
     >
-        <VSpinner v-if="hasIcon && loading" ref="icon" :class="$style.icon" />
-        <VIcon v-else-if="iconName" :class="$style.icon" :name="iconName" />
-        <slot v-else-if="hasIconSlot" ref="icon" :class="$style.icon" name="icon" />
-        <span v-if="hasLabel" :class="$style.label">
+        <VSpinner
+            v-if="hasIcon && loading"
+            ref="icon"
+            :class="$style.icon"
+        />
+        <VIcon
+            v-else-if="iconName"
+            :class="$style.icon"
+            :name="iconName"
+        />
+        <slot
+            v-else-if="hasIconSlot"
+            ref="icon"
+            :class="$style.icon"
+            name="icon"
+        />
+        <span
+            v-if="hasLabel"
+            :class="$style.label"
+        >
             <slot>{{ label }}</slot>
         </span>
     </component>

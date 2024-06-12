@@ -1,5 +1,5 @@
 import type { AvailableRouterMethod, NitroFetchRequest } from 'nitropack'
-import { FetchError } from 'ofetch'
+import type { FetchError } from 'ofetch'
 import type { Ref } from 'vue'
 import type { AsyncData, FetchResult, UseFetchOptions } from 'nuxt/app'
 import type { KeysOf, PickFrom } from '#app/composables/asyncData'

@@ -13,7 +13,8 @@ const jwt = computed(() => {
 
     if (typeof window !== 'undefined' && typeof window.atob !== 'undefined') {
         decodedBase64 = window.atob(base64)
-    } else {
+    }
+    else {
         decodedBase64 = Buffer.from(base64, 'base64').toString()
     }
 
@@ -43,10 +44,20 @@ function stopPreview() {
 </script>
 
 <template>
-    <div v-if="jwt" :class="$style.root">
-        <div :class="$style.user">Previewing as: {{ jwt.username }}</div>
+    <div
+        v-if="jwt"
+        :class="$style.root"
+    >
+        <div :class="$style.user">
+            Previewing as: {{ jwt.username }}
+        </div>
         <div>Expire at: {{ remainingTime }}</div>
-        <button :class="$style.button" @click.prevent="stopPreview">Stop previewing</button>
+        <button
+            :class="$style.button"
+            @click.prevent="stopPreview"
+        >
+            Stop previewing
+        </button>
     </div>
 </template>
 

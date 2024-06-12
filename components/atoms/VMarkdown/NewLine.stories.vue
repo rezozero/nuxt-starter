@@ -9,13 +9,23 @@ const htmlHexaCode = `Title &#x0A; new line`
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Content with \n\n">
-            <VMarkdown :content="content" class="text-button-md" />
+            <VMarkdown
+                :content="content"
+                class="text-button-md"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Template string with backspace">
-            <VMarkdown :content="contentTemplateString" class="text-button-md" />
+            <VMarkdown
+                :content="contentTemplateString"
+                class="text-button-md"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Hexa code">
-            <VMarkdown :class="$style['html-code']" :content="htmlHexaCode" class="text-button-md" />
+            <VMarkdown
+                :class="$style['html-code']"
+                :content="htmlHexaCode"
+                class="text-button-md"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

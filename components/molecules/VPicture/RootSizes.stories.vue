@@ -11,7 +11,11 @@ const imageProps = {
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Root sizes">
-            <VPicture v-bind="imageProps" sizes="xs:100vw xl:50vw hd:50vw" format="webp">
+            <VPicture
+                v-bind="imageProps"
+                sizes="xs:100vw xl:50vw hd:50vw"
+                format="webp"
+            >
                 <VPictureSource />
             </VPicture>
         </NuxtStoryVariant>

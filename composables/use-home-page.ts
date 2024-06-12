@@ -16,7 +16,7 @@ export function useHomePage() {
         const locales: string[] = $i18n?.localeCodes?.value || []
 
         // test `/` or `/{locale}` depending on the current locale and the i18n route strategy from Nuxt i18n or Roadiz
-        return route.path === '/' || locales.map((locale) => joinURL('/', locale)).includes(joinURL('/', route.path))
+        return route.path === '/' || locales.map(locale => joinURL('/', locale)).includes(joinURL('/', route.path))
     })
 
     const homePagePath = computed(() => {

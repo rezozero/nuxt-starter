@@ -11,7 +11,8 @@ async function initI18n(locale?: string) {
     if (locale) {
         const { $i18n } = nuxtApp
         await $i18n.setLocale(locale)
-    } else {
+    }
+    else {
         // get the locale from the route (prefix) or cookie ?
     }
 }
@@ -86,13 +87,13 @@ function initSeoMeta(webResponse?: RoadizWebResponse) {
     const { isActive: previewIsActive } = useRoadizPreview()
     const img = useImage()
     const image = () => {
-        const image =
-            head?.shareImage?.relativePath ||
+        const image
+            = head?.shareImage?.relativePath
             // @ts-ignore not sure the `images` property exists, but generally it does
-            head?.images?.[0]?.relativePath ||
+            || head?.images?.[0]?.relativePath
             // @ts-ignore not sure the `image` property exists, but generally it does
-            head?.image?.[0]?.relativePath ||
-            commonContent.value?.head?.shareImage?.relativePath
+            || head?.image?.[0]?.relativePath
+            || commonContent.value?.head?.shareImage?.relativePath
 
         if (image) {
             return img(
@@ -106,7 +107,8 @@ function initSeoMeta(webResponse?: RoadizWebResponse) {
                     provider: 'interventionRequest',
                 },
             )
-        } else {
+        }
+        else {
             return joinURL(runtimeConfig.public.site.url, '/images/share.jpg')
         }
     }

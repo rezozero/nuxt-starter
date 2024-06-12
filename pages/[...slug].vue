@@ -38,7 +38,11 @@ const defaultPageEntity = computed(() => item && isPageEntity(item) && item)
 </script>
 
 <template>
-    <LazyVDefaultPage v-if="defaultPageEntity" :blocks="blocks" :entity="defaultPageEntity" />
+    <LazyVDefaultPage
+        v-if="defaultPageEntity"
+        :blocks="blocks"
+        :entity="defaultPageEntity"
+    />
 </template>
 
 <style module lang="scss"></style>

@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
-import { imgProps } from '#image/components/nuxt-img'
 import type { ImageOptions } from '@nuxt/image'
+import { imgProps } from '#image/components/nuxt-img'
 import { getInt, parseSize } from '#image'
 
 export const vImgProps = {
@@ -24,9 +24,9 @@ export default defineComponent({
         // PLACEHOLDER COLOR
         const placeholderColor = computed(
             () =>
-                typeof props.placeholder === 'string' &&
-                !props.placeholder.includes('.') && // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
-                props.placeholder,
+                typeof props.placeholder === 'string'
+                && !props.placeholder.includes('.') // assumes a placeholder with a dot (i.e. a file extension) is a file (e.g. `image.png`)
+                && props.placeholder,
         )
 
         // STYLE
@@ -81,15 +81,15 @@ export default defineComponent({
         )
         const responsiveImageData = computed(() => {
             return (
-                (props.sizes || props.densities) &&
-                $img.getSizes(props.src!, {
+                (props.sizes || props.densities)
+                && $img.getSizes(props.src!, {
                     ...options.value,
                     sizes: props.sizes,
                 })
             )
         })
         const internalSizes = computed(() => {
-            const result = responsiveImageData.value?.sizes
+            const result = responsiveImageData.value && responsiveImageData.value.sizes
 
             if (result === '100vw') return // do not output sizes="100vw" as it is the default value
 
@@ -98,7 +98,7 @@ export default defineComponent({
 
         // @see https://github.com/nuxt/image/blob/main/src/runtime/components/nuxt-img.ts
         if (props.preload) {
-            const isResponsive = responsiveImageData.value && Object.values(responsiveImageData.value).every((v) => v)
+            const isResponsive = responsiveImageData.value && Object.values(responsiveImageData.value).every(v => v)
 
             useHead({
                 link: [
@@ -109,10 +109,10 @@ export default defineComponent({
                         ...(!isResponsive
                             ? { href: src.value }
                             : {
-                                  href: responsiveImageData.value.src,
-                                  imagesizes: responsiveImageData.value.sizes,
-                                  imagesrcset: responsiveImageData.value.srcset,
-                              }),
+                                    href: responsiveImageData.value.src,
+                                    imagesizes: responsiveImageData.value.sizes,
+                                    imagesrcset: responsiveImageData.value.srcset,
+                                }),
                         ...(typeof props.preload !== 'boolean' && props.preload.fetchPriority
                             ? { fetchpriority: props.preload.fetchPriority }
                             : {}),

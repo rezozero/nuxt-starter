@@ -9,7 +9,10 @@ defineProps<VBlockProps>()
 </script>
 
 <template>
-    <component :is="tag || 'section'" :id="item?.slug">
+    <component
+        :is="tag || 'section'"
+        :id="item?.slug"
+    >
         <slot />
     </component>
 </template>

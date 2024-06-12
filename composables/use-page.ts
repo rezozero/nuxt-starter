@@ -8,7 +8,7 @@ export interface Page {
 }
 
 function pageHasMissingKey(page: Page) {
-    return ['title', 'webResponse', 'alternateLinks'].some((key) => !page[key as keyof Page])
+    return ['title', 'webResponse', 'alternateLinks'].some(key => !page[key as keyof Page])
 }
 
 interface UsePageOptions extends Page {}

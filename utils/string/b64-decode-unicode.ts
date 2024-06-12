@@ -2,7 +2,7 @@
  * Decode base64 string to UTF-8 string on client-side and Node.js
  */
 export function b64DecodeUnicode(str: string) {
-    if (!process.server) {
+    if (!import.meta.server) {
         return decodeURIComponent(
             Array.prototype.map
                 .call(window.atob(str), function (c: string) {

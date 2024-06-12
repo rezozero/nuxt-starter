@@ -10,6 +10,9 @@ const imageProps = {
 
 <template>
     <NuxtStory>
-        <VPicture v-bind="imageProps" preload />
+        <VPicture
+            v-bind="imageProps"
+            preload
+        />
     </NuxtStory>
 </template>

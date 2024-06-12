@@ -4,7 +4,7 @@
 function callDoneCallback(element: Element, done: () => void) {
     const animation = element
         .getAnimations()
-        .filter((animation) => (animation as CSSTransition).transitionProperty === 'height')[0]
+        .filter(animation => (animation as CSSTransition).transitionProperty === 'height')[0]
 
     if (animation) animation.finished.then(done)
     else done()
@@ -25,7 +25,7 @@ function onEnter(element: Element, done: () => void) {
 
     // Force repaint to make sure the
     // animation is triggered correctly.
-    // eslint-disable-next-line no-unused-expressions
+
     getComputedStyle(element).height
 
     requestAnimationFrame(() => {
@@ -44,7 +44,7 @@ function onLeave(element: Element, done: () => void) {
 
     // Force repaint to make sure the
     // animation is triggered correctly.
-    // eslint-disable-next-line no-unused-expressions
+
     getComputedStyle(element).height
 
     requestAnimationFrame(() => {
@@ -56,7 +56,12 @@ function onLeave(element: Element, done: () => void) {
 </script>
 
 <template>
-    <Transition name="expand" @enter="onEnter" @after-enter="onAfterEnter" @leave="onLeave">
+    <Transition
+        name="expand"
+        @enter="onEnter"
+        @after-enter="onAfterEnter"
+        @leave="onLeave"
+    >
         <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
         <slot />
     </Transition>

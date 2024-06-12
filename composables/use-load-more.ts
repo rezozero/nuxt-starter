@@ -34,7 +34,8 @@ export function useLoadMore<
 
             if (page?.['hydra:member']) {
                 result.push(...page['hydra:member'])
-            } else {
+            }
+            else {
                 result.push(...Array.from<null>({ length: itemsPerPage.value }).fill(null))
             }
         }
@@ -77,8 +78,8 @@ export function useLoadMore<
                 })
                 .catch((error) => {
                     if (
-                        !isNavigationFailure(error, NavigationFailureType.duplicated) &&
-                        !isNavigationFailure(error, NavigationFailureType.cancelled)
+                        !isNavigationFailure(error, NavigationFailureType.duplicated)
+                        && !isNavigationFailure(error, NavigationFailureType.cancelled)
                     ) {
                         throw new Error(error)
                     }
@@ -130,12 +131,13 @@ export function useLoadMore<
             })
 
             pageData.value = data.value
-        } else {
+        }
+        else {
             const { data } = useNuxtData<HydraCollection<ItemT>>(key)
 
-            pageData.value =
-                data.value ||
-                (await roadizFetch<HydraCollection<ItemT>>(options.url, {
+            pageData.value
+                = data.value
+                || (await roadizFetch<HydraCollection<ItemT>>(options.url, {
                     params,
                 }))
         }
@@ -178,8 +180,8 @@ export function useLoadMore<
             loadPage(itemPage)
 
             if (
-                (itemPage < page.value && scrollDirection === -1 && entry.intersectionRatio < 0.5) ||
-                (itemPage > page.value && scrollDirection === 1 && entry.intersectionRatio > 0.5)
+                (itemPage < page.value && scrollDirection === -1 && entry.intersectionRatio < 0.5)
+                || (itemPage > page.value && scrollDirection === 1 && entry.intersectionRatio > 0.5)
             ) {
                 page.value = itemPage
             }

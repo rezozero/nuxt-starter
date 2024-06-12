@@ -1,7 +1,7 @@
 import { inject } from 'vue'
 import type { MaybeRefOrGetter } from 'vue'
 import { THEME_PROVIDER_KEY } from '~/composables/use-theme-provider'
-import appConfig from '~/app.config'
+import type appConfig from '~/app.config'
 
 export type Theme = (typeof appConfig)['themes'][number]
 

@@ -10,6 +10,10 @@ const imageProps = {
 
 <template>
     <NuxtStory>
-        <VImg v-bind="imageProps" preload sizes="xs:100vw md:100vw xl:100vw" />
+        <VImg
+            v-bind="imageProps"
+            preload
+            sizes="xs:100vw md:100vw xl:100vw"
+        />
     </NuxtStory>
 </template>

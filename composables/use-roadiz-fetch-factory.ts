@@ -41,7 +41,7 @@ export function useRoadizFetchFactory<DefaultR extends NitroFetchRequest = Nitro
         },
         headers: {
             'accept-encoding': 'gzip, deflate',
-            accept: 'application/ld+json',
+            'accept': 'application/ld+json',
         },
         baseURL: useApiUrl(),
         ...options,

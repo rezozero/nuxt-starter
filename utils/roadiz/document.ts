@@ -33,9 +33,9 @@ export function isPDF(document: RoadizDocument | undefined): boolean {
 export function isAudio(document: RoadizDocument | undefined): boolean {
     const platform = document?.embedPlatform?.toLowerCase()
     return (
-        document?.mimeType === 'audio/mpeg' ||
-        document?.mimeType === 'audio/mp3' ||
-        (isEmbed(document) && !!platform && ['deezer', 'spotify', 'soundcloud'].includes(platform))
+        document?.mimeType === 'audio/mpeg'
+        || document?.mimeType === 'audio/mp3'
+        || (isEmbed(document) && !!platform && ['deezer', 'spotify', 'soundcloud'].includes(platform))
     )
 }
 
