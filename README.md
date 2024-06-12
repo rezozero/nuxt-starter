@@ -62,13 +62,13 @@ pnpm lint
 ### Lint and format script (JS / Vue files)
 
 ```bash
-pnpm lint:script
+pnpm lint:js
 ```
 
 ### Lint and format style (CSS / SCSS / Vue files)
 
 ```bash
-pnpm lint:style
+pnpm lint:css
 ```
 
 ### Lint fix (script and style)
