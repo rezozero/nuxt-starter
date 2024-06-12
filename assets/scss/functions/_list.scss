@@ -16,7 +16,7 @@
         }
     }
 
-    @if $result != null {
+    @if $result {
         $result: str-slice($result, str-length($glue) + 1, -1);
     }
 
