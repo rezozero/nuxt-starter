@@ -10,7 +10,7 @@
         "preview": "nuxi preview",
         "prepare": "nuxi prepare",
         "postinstall": "nuxi prepare && husky install",
-        "lint": "pnpm lint:script && pnpm lint:style",
+        "lint": "pnpm lint:js && pnpm lint:css",
         "lint-fix": "pnpm lint:js --fix && pnpm lint:css --fix",
         "lint:js": "eslint .",
         "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
