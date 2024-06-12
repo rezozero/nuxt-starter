@@ -4,14 +4,14 @@
     <NuxtStory>
         <template #aside>Style are updated on VL breakpoint from css</template>
         <NuxtStoryVariant title="Update size depending on breakpoint">
-            <VButtonLink
+            <VLinkButton
                 url="https://google.com"
                 label="Button label"
                 emphasis="primary"
                 icon-name="chevron-right"
                 :class="$style['button-emphasis-updated']"
             />
-            <VButtonLink
+            <VLinkButton
                 url="https://google.com"
                 label="Button label"
                 size="sm"

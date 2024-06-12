@@ -7,45 +7,45 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
         <NuxtStoryVariant title="Primary">
             <VStoryThemeProvider>
                 <div v-for="size in sizes" :key="'primary' + size" :class="$style.sizes">
-                    <VButtonLink :size="size" emphasis="primary" label="Extenal" url="https://google.com" />
-                    <VButtonLink :reference="{ url: '/path' }" :size="size" emphasis="primary" label="Internal" />
-                    <VButtonLink
+                    <VLinkButton :size="size" emphasis="primary" label="Extenal" url="https://google.com" />
+                    <VLinkButton :reference="{ url: '/path' }" :size="size" emphasis="primary" label="Internal" />
+                    <VLinkButton
                         :document="{ relativePath: '/document-path.pdf' }"
                         :size="size"
                         emphasis="primary"
                         label="document"
                     />
-                    <VButtonLink :size="size" emphasis="primary" label="Without link" />
+                    <VLinkButton :size="size" emphasis="primary" label="Without link" />
                 </div>
             </VStoryThemeProvider>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Secondary">
             <VStoryThemeProvider>
                 <div v-for="size in sizes" :key="'Secondary' + size" :class="$style.sizes">
-                    <VButtonLink :size="size" emphasis="secondary" label="Extenal" url="https://google.com" />
-                    <VButtonLink :reference="{ url: '/path' }" :size="size" emphasis="secondary" label="Internal" />
-                    <VButtonLink
+                    <VLinkButton :size="size" emphasis="secondary" label="Extenal" url="https://google.com" />
+                    <VLinkButton :reference="{ url: '/path' }" :size="size" emphasis="secondary" label="Internal" />
+                    <VLinkButton
                         :document="{ relativePath: '/document-path.pdf' }"
                         :size="size"
                         emphasis="secondary"
                         label="document"
                     />
-                    <VButtonLink :size="size" emphasis="secondary" label="Without link" />
+                    <VLinkButton :size="size" emphasis="secondary" label="Without link" />
                 </div>
             </VStoryThemeProvider>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Ternary">
             <VStoryThemeProvider>
                 <div v-for="size in sizes" :key="'Ternary' + size" :class="$style.sizes">
-                    <VButtonLink :size="size" emphasis="ternary" label="Extenal" url="https://google.com" />
-                    <VButtonLink :reference="{ url: '/path' }" :size="size" emphasis="ternary" label="Internal" />
-                    <VButtonLink
+                    <VLinkButton :size="size" emphasis="ternary" label="Extenal" url="https://google.com" />
+                    <VLinkButton :reference="{ url: '/path' }" :size="size" emphasis="ternary" label="Internal" />
+                    <VLinkButton
                         :document="{ relativePath: '/document-path.pdf' }"
                         :size="size"
                         emphasis="ternary"
                         label="document"
                     />
-                    <VButtonLink :size="size" emphasis="ternary" label="Without link" />
+                    <VLinkButton :size="size" emphasis="ternary" label="Without link" />
                 </div>
             </VStoryThemeProvider>
         </NuxtStoryVariant>
