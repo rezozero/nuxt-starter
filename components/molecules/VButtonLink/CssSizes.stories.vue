@@ -14,7 +14,7 @@
             <VButtonLink
                 url="https://google.com"
                 label="Button label"
-                size="s"
+                size="sm"
                 emphasis="primary"
                 icon-name="chevron-right"
                 :class="$style['button-size-updated']"
@@ -25,16 +25,16 @@
 
 <style lang="scss" module>
 .button-emphasis-updated {
-    @include v-button-css-vars-by-size($v-button, 'xl');
+    @include v-button-css-vars-by-size($v-button, 'lg');
 
     @include media('>=vl') {
-        @include v-button-css-vars-by-size($v-button, 's');
+        @include v-button-css-vars-by-size($v-button, 'sm');
     }
 }
 
 .button-size-updated {
     @include media('>=vl') {
-        @include v-button-css-vars-by-size($v-button, 'xl');
+        @include v-button-css-vars-by-size($v-button, 'lg');
     }
 }
 </style>

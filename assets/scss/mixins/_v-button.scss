@@ -16,9 +16,10 @@
     }
 }
 
-@mixin v-button-default-css-vars($vars, $prefix: '', $default: 'm') {
+@mixin v-button-default-css-vars($vars, $prefix: '', $default: 'md') {
     // get common values
     @include default-css-vars('v-button', $vars, $prefix, 'common');
+
     // get specific size value
     @include default-css-vars('v-button', $vars, $prefix, $default);
 }
@@ -29,7 +30,7 @@
 
 
 // Set the size of the button according to the breakpoints.
-@mixin v-button-responsive-sizes($sizes: (xs: s, lg: m), $variant: default) {
+@mixin v-button-responsive-sizes($sizes: (xs: sm, lg: md), $variant: default) {
     @if type-of($sizes) != 'map' or length($sizes) < 2 {
         @error "Set multiple breakpoints values";
     }
