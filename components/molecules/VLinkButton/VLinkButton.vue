@@ -29,7 +29,8 @@ export default defineComponent({
 
             if (props.emphasis === 'primary') {
                 Object.assign(result, { filled: true })
-            } else if (props.emphasis === 'secondary') {
+            }
+            else if (props.emphasis === 'secondary') {
                 Object.assign(result, { outlined: true })
             }
 
@@ -39,7 +40,7 @@ export default defineComponent({
         const buttonProps = computed(() => {
             return buttonKeyList.reduce(
                 (acc, key) => {
-                    // @ts-ignore:next-line
+                    // @ts-expect-error:next-line
                     if (isKeyOfButton(key) && props[key]) acc[key] = props[key]
                     return acc
                 },
@@ -56,19 +57,26 @@ export default defineComponent({
 </script>
 
 <template>
-    <VLink v-slot="vLinkProps" :document="document" :label="label" :reference="reference" :url="url" custom>
+    <VLink
+        v-slot="vLinkProps"
+        :document="document"
+        :label="label"
+        :reference="reference"
+        :url="url"
+        custom
+    >
         <VButton
             :class="$attrs.class"
             :disabled="!vLinkProps.href && !vLinkProps.to"
             :icon-name="
-                iconName ||
-                (!!vLinkProps.download || !!document
-                    ? 'download'
-                    : vLinkProps.href
-                      ? 'arrow-up-right'
-                      : vLinkProps.to
-                        ? 'chevron-small-right'
-                        : undefined)
+                iconName
+                    || (!!vLinkProps.download || !!document
+                        ? 'download'
+                        : vLinkProps.href
+                            ? 'arrow-up-right'
+                            : vLinkProps.to
+                                ? 'chevron-small-right'
+                                : undefined)
             "
             v-bind="{ ...vLinkProps, ...emphasisProps, ...buttonProps }"
         />
