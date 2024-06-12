@@ -14,7 +14,7 @@ const props = defineProps({
     fit: String,
     width: String,
     height: String,
-    modifiers: Object as PropType<Record<string, any>>,
+    modifiers: Object as PropType<Record<string, unknown>>,
     preload: {
         type: [Boolean, Object] as PropType<boolean | { fetchPriority?: 'auto' | 'high' | 'low' }>,
         default: undefined,
@@ -102,8 +102,8 @@ const sources = computed(() => {
 })
 
 // @see https://github.com/nuxt/image/blob/main/src/runtime/components/nuxt-picture.ts
-const picturePropsValue = toValue<VPictureProps>(pictureProps)
-const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue.preload)
+const picturePropsValue = pictureProps && toValue<VPictureProps>(pictureProps)
+const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue?.preload)
 
 if (preload) {
     const link: NonNullable<Head['link']>[number] = {
@@ -111,7 +111,7 @@ if (preload) {
         as: 'image',
         imagesrcset: sources.value[0].srcset,
         nonce: props.nonce,
-        ...(typeof props.preload !== 'boolean' && preload.fetchPriority
+        ...(typeof preload !== 'boolean' && preload.fetchPriority
             ? { fetchpriority: preload.fetchPriority }
             : {}),
     }

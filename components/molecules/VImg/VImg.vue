@@ -31,9 +31,7 @@ export default defineComponent({
 
         // STYLE
         const $style = useCssModule()
-        const style = computed(() => {
-            if (placeholderColor.value) return { '--v-img-placeholder': placeholderColor.value }
-        })
+        const style = computed(() => ({ '--v-img-placeholder': placeholderColor.value }))
 
         // LOAD
         const root = ref<HTMLImageElement | null>(null)

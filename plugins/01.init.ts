@@ -89,9 +89,9 @@ function initSeoMeta(webResponse?: RoadizWebResponse) {
     const image = () => {
         const image
             = head?.shareImage?.relativePath
-            // @ts-ignore not sure the `images` property exists, but generally it does
+            // @ts-expect-error not sure the `images` property exists, but generally it does
             || head?.images?.[0]?.relativePath
-            // @ts-ignore not sure the `image` property exists, but generally it does
+            // @ts-expect-error not sure the `image` property exists, but generally it does
             || head?.image?.[0]?.relativePath
             || commonContent.value?.head?.shareImage?.relativePath
 

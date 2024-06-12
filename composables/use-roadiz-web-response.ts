@@ -27,7 +27,7 @@ export async function useRoadizWebResponse<T>(path?: string) {
             }
         }
         catch (error) {
-            // @ts-ignore cannot know the error type
+            // @ts-expect-error cannot know the error type
             return { error: createError(error) }
         }
     })

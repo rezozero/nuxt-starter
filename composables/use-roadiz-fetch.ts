@@ -9,11 +9,13 @@ export function useRoadizFetch<
     ResT = void,
     ErrorT = FetchError,
     ReqT extends NitroFetchRequest = NitroFetchRequest,
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     Method extends AvailableRouterMethod<ReqT> = ResT extends void
         ? 'get' extends AvailableRouterMethod<ReqT>
             ? 'get'
             : AvailableRouterMethod<ReqT>
         : AvailableRouterMethod<ReqT>,
+    // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
     _ResT = ResT extends void ? FetchResult<ReqT, Method> : ResT,
     DataT = _ResT,
     PickKeys extends KeysOf<DataT> = KeysOf<DataT>,
