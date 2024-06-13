@@ -6,7 +6,10 @@ import vimeoVideo from '~/assets/stories/fixtures/documents/vimeo-01.json'
 <template>
     <NuxtStory :class="$style.root">
         <NuxtStoryVariant title="Mp4">
-            <VRoadizMedia :document="mp4Video" :class="$style.media" />
+            <VRoadizMedia
+                :document="mp4Video"
+                :class="$style.media"
+            />
         </NuxtStoryVariant>
 
         <NuxtStoryVariant title="Vimeo with img props">

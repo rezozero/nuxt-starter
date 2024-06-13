@@ -27,6 +27,8 @@ export default defineComponent({
             else if (isAudio(displayedDocument.value)) return 'audio'
             else if (displayImgTag) return 'image'
             else if (props.placeholder) return 'placeholder'
+
+            return undefined
         })
 
         // Node data
@@ -43,6 +45,8 @@ export default defineComponent({
             else if (mediaType.value === 'placeholder') {
                 return 'div'
             }
+
+            return undefined
         })
 
         if (!tag.value) return () => h('')
