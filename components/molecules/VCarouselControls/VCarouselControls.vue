@@ -40,7 +40,11 @@ function formatValue(n: number) {
                 <VIcon name="arrow-left" />
             </template>
         </VButton>
-        <div v-if="displayNumbers" class="text-body-xs" :class="$style.number">
+        <div
+            v-if="displayNumbers"
+            class="text-body-xs"
+            :class="$style.number"
+        >
             <span>{{ formatValue(index) }} / {{ formatValue(length - 1) }}</span>
         </div>
         <VButton

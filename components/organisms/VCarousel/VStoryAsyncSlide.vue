@@ -5,7 +5,9 @@ defineProps({
 </script>
 
 <template>
-    <div :class="$style.root">Slide {{ index }}</div>
+    <div :class="$style.root">
+        Slide {{ index }}
+    </div>
 </template>
 
 <style module lang="scss">

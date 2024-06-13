@@ -5,10 +5,17 @@ const index = ref(0)
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="default">
-            <VCarouselControls v-model:index="index" :length="3" display-numbers />
+            <VCarouselControls
+                v-model:index="index"
+                :length="3"
+                display-numbers
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="without numbers">
-            <VCarouselControls v-model:index="index" :length="3" />
+            <VCarouselControls
+                v-model:index="index"
+                :length="3"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

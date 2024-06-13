@@ -9,7 +9,7 @@ const snapGridLength = ref(numSlides)
 <template>
     <NuxtStory>
         <div
-            style="width: 500px; max-width: 100vw; border: 1px solid #ccc; overflow: hidden"
+            style=" overflow: hidden;width: 500px; max-width: 100vw; border: 1px solid #ccc"
         >
             <VCarousel
                 v-slot="{ slideClass }"
