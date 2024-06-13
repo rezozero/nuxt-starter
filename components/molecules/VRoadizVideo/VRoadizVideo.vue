@@ -28,7 +28,7 @@ const displayedThumbnail = computed(() => {
 
 const filteredVideoProps = computed(() => {
     return Object.keys(props).reduce((acc, key) => {
-        // @ts-ignore
+        // @ts-expect-error TODO: use pick() here
         if (commonVideoProps[key] || videoAttributes[key] || videoSrc[key]) acc[key] = props[key]
         return acc
     }, {})

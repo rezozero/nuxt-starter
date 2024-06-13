@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import video from '~/assets/stories/fixtures/documents/youtube-01.json'
+
 const defaultProps = {
     embedId: video.embedId,
     embedPlatform: video.embedPlatform,
@@ -14,7 +15,11 @@ const defaultProps = {
             <VVideoPlayer v-bind="defaultProps" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Autoplay">
-            <VVideoPlayer v-bind="defaultProps" autoplay :controls="false" />
+            <VVideoPlayer
+                v-bind="defaultProps"
+                autoplay
+                :controls="false"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
