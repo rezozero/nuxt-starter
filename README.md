@@ -185,3 +185,7 @@ It generates a sitemap from the `pages/` directory.
 Dynamic routes can be added with the server route `/api/sitemap`.
 
 Read the full module documentation [here](https://www.nuxtseo.com/sitemap/getting-started/installation).
+
+## Contributing
+
+Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
