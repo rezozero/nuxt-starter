@@ -41,6 +41,9 @@ importers:
       vue-multiselect:
         specifier: ^3.0.0
         version: 3.0.0
+      vue-recaptcha-v3:
+        specifier: ^2.0.1
+        version: 2.0.1(vue@3.4.27(typescript@5.4.5))
     devDependencies:
       '@nuxt/devtools':
         specifier: latest
@@ -4320,6 +4323,9 @@ packages:
     resolution: {integrity: sha512-hOS089on8RduqdbhvQ5Z37A0ESjsqz6qnRcffsMU3495FuTdqSm+7bhJ29JvIOsBDEEnan5DPu9t3To9VRlMzA==}
     engines: {node: '>=8.10.0'}
 
+  recaptcha-v3@1.10.0:
+    resolution: {integrity: sha512-aGTxYSk3FFNKnXeKDbLpgRDRyIHRZNBF5HyaXXAN1Aj4TSyyZvmoAn9CylvpqLV3pYpIQavwc+2rzhNFn5SsLQ==}
+
   redis-errors@1.2.0:
     resolution: {integrity: sha512-1qny3OExCf0UvUV/5wpYKf2YwPcOqXzkwKKSmKHiE6ZMQs5heeE/c8eXK+PNllPvmjgAbfnsbpkGZWy8cBpn9w==}
     engines: {node: '>=4'}
@@ -5242,6 +5248,11 @@ packages:
     resolution: {integrity: sha512-flFbp/gs9pZniXR6fans8smv1kDScJ8RS7rEpMjhVabiKeq7Qz3D9+eGsypncjfIyyU84saU88XZ0zjbD6Gq/g==}
     peerDependencies:
       vue: ^3.0.0
+
+  vue-recaptcha-v3@2.0.1:
+    resolution: {integrity: sha512-isEDtOfHU4wWRrZZuxciAELtQmPOeEEdicPNa0f1AOyLPy3sCcBEcpFt+FOcO3RQv5unJ3Yn5NlsWtXv9rXqjg==}
+    peerDependencies:
+      vue: ^3.0.11
 
   vue-resize@2.0.0-alpha.1:
     resolution: {integrity: sha512-7+iqOueLU7uc9NrMfrzbG8hwMqchfVfSzpVlCMeJQe4pyibqyoifDNbKTZvwxZKDvGkB+PdFeKvnGZMoEb8esg==}
@@ -10678,6 +10689,8 @@ snapshots:
     dependencies:
       picomatch: 2.3.1
 
+  recaptcha-v3@1.10.0: {}
+
   redis-errors@1.2.0: {}
 
   redis-parser@3.0.0:
@@ -11734,6 +11747,11 @@ snapshots:
 
   vue-observe-visibility@2.0.0-alpha.1(vue@3.4.27(typescript@5.4.5)):
     dependencies:
+      vue: 3.4.27(typescript@5.4.5)
+
+  vue-recaptcha-v3@2.0.1(vue@3.4.27(typescript@5.4.5)):
+    dependencies:
+      recaptcha-v3: 1.10.0
       vue: 3.4.27(typescript@5.4.5)
 
   vue-resize@2.0.0-alpha.1(vue@3.4.27(typescript@5.4.5)):
