@@ -42,8 +42,7 @@ const dimension = computed(() => {
 })
 
 const videoRatio = computed(() => {
-    const ratio = Number(dimension.value.width) / Number(dimension.value.height)
-    if (typeof ratio === 'number') return ratio
+    return Number(dimension.value.width) / Number(dimension.value.height)
 })
 
 const embedVideoAttrs = computed(() => {
