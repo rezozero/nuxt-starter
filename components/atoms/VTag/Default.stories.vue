@@ -3,7 +3,10 @@
 <template>
     <NuxtStory :class="$style.root">
         <VTag label="Tag label default" />
-        <VTag label="Tag label sm" size="sm" />
+        <VTag
+            label="Tag label sm"
+            size="sm"
+        />
     </NuxtStory>
 </template>
 

@@ -10,10 +10,23 @@ function onClick() {
 
 <template>
     <NuxtStory :class="$style.root">
-        <VButton :class="$style.button" emphasis="secondary" @click="onClick">Open</VButton>
+        <VButton
+            :class="$style.button"
+            emphasis="secondary"
+            @click="onClick"
+        >
+            Open
+        </VButton>
 
-        <VModal v-if="!hasLeave" v-model="isOpen" @enter="hasLeave = false" @after-leave="hasLeave = true">
-            <div :class="$style.content">content test</div>
+        <VModal
+            v-if="!hasLeave"
+            v-model="isOpen"
+            @enter="hasLeave = false"
+            @after-leave="hasLeave = true"
+        >
+            <div :class="$style.content">
+                content test
+            </div>
         </VModal>
     </NuxtStory>
 </template>

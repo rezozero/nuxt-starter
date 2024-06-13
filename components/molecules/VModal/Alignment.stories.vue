@@ -20,16 +20,31 @@ function open() {
     <NuxtStory :class="$style.root">
         <template #aside>
             <p>Modal position on enter:</p>
-            <br />
-            <select id="alignment-select" name="alignments" @input="onSelect">
-                <option value="">--Please choose an alignment--</option>
-                <option v-for="alignment in alignments" :key="alignment" :value="alignment">
+            <br>
+            <select
+                id="alignment-select"
+                name="alignments"
+                @input="onSelect"
+            >
+                <option value="">
+                    --Please choose an alignment--
+                </option>
+                <option
+                    v-for="alignment in alignments"
+                    :key="alignment"
+                    :value="alignment"
+                >
                     {{ alignment }}
                 </option>
             </select>
-            <br />
-            <br />
-            <VButton emphasis="primary" @click="open">Open</VButton>
+            <br>
+            <br>
+            <VButton
+                emphasis="primary"
+                @click="open"
+            >
+                Open
+            </VButton>
         </template>
 
         <VModal
@@ -39,7 +54,9 @@ function open() {
             @after-leave="hasLeave = true"
             @enter="hasLeave = false"
         >
-            <div :class="$style.content">content</div>
+            <div :class="$style.content">
+                content
+            </div>
         </VModal>
     </NuxtStory>
 </template>
