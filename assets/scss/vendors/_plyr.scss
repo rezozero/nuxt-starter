@@ -2,7 +2,7 @@
 
 .plyr {
     --plyr-video-background: transparent;
-    --plyr-video-controls-background: #{color(surface-overlay)};
+    --plyr-video-controls-background: #000;
     --plyr-video-progress-buffered-background: #{rgba(255, 255, 255, 0.3)};
     --plyr-range-fill-background: '#fff';
     --plyr-control-radius: 100%;
