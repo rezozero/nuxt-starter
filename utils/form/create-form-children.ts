@@ -6,7 +6,7 @@ import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
 
 export type ComponentsMap = Record<string, Component>
 
-type EmitType = (event: 'update:modelValue', ...args: any[]) => void
+type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
 export const RECAPTCHA_INPUT = 'g-recaptcha-response'
 
@@ -63,7 +63,7 @@ export default function createFormChildren(
             const parentModelValues = parentProps.modelValue || {}
             const currentModelValue = parentModelValues?.[key] || null
 
-            const defaultProps: Record<string, any> = {
+            const defaultProps: Record<string, unknown> = {
                 id,
                 'label': schema.title,
                 errorMessage,
@@ -78,7 +78,7 @@ export default function createFormChildren(
                 'autocomplete': schema.attr?.autocomplete || null,
                 // Binds reactivity
                 'modelValue': currentModelValue,
-                'onUpdate:modelValue': (value: any): void => {
+                'onUpdate:modelValue': (value: unknown): void => {
                     // Make sure null is passed as null and not as string
                     if (value === 'null') {
                         value = null
@@ -196,7 +196,7 @@ export default function createFormChildren(
                     ...defaultAttrs,
                 }
                 const type = schema.widget || schema.type
-                const props: Record<string, any> = {
+                const props: Record<string, unknown> = {
                     ...defaultProps,
                     type,
                     required,
@@ -220,7 +220,7 @@ export default function createFormChildren(
                 }
 
                 if (schema.widget === 'joined') {
-                    const props: Record<string, any> = {
+                    const props: Record<string, unknown> = {
                         ...defaultProps,
                         required,
                         modelValue: currentModelValue ? (currentModelValue as Array<string>).join(', ') : '',
@@ -263,7 +263,7 @@ export default function createFormChildren(
                 const attrs: Record<string, string> = {
                     ...defaultAttrs,
                 }
-                const props: Record<string, any> = {
+                const props: Record<string, unknown> = {
                     ...defaultProps,
                     type,
                     required,
@@ -275,12 +275,12 @@ export default function createFormChildren(
                 }
                 else if (type === 'number') {
                     props.type = 'string'
-                    props['onUpdate:modelValue'] = (value: any) =>
+                    props['onUpdate:modelValue'] = (value: unknown) =>
                         emit('update:modelValue', { ...parentModelValues, [key]: Number.parseFloat(value) })
                 }
                 else if (type === 'integer') {
                     props.type = 'number'
-                    props['onUpdate:modelValue'] = (value: any) =>
+                    props['onUpdate:modelValue'] = (value: unknown) =>
                         emit('update:modelValue', { ...parentModelValues, [key]: Number.parseInt(value) })
                     props.step = '1'
                 }
@@ -294,7 +294,7 @@ export default function createFormChildren(
                     else {
                         props.modelValue = ''
                     }
-                    props.step = 'any'
+                    props.step = 'unknown'
                     props.type = 'datetime-local'
                 }
                 else if (type === 'file') {
