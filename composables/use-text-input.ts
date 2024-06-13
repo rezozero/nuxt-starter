@@ -5,9 +5,11 @@ export interface TextInputProps extends FormElementProps {
     modelValue?: string
 }
 
+type EmitFunction = (event: string, value?: string) => void
+
 export const textInputEmits = ['update:modelValue']
 
-export function useTextInput(props: TextInputProps, emit: Function, element: Ref<HTMLInputElement | null>) {
+export function useTextInput(props: TextInputProps, emit: EmitFunction, element: Ref<HTMLInputElement | null>) {
     const isFocused = ref(false)
     const model = ref(props.modelValue)
 
