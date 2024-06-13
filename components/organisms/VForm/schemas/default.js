@@ -7,7 +7,7 @@ export default {
             title: 'Nom',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 1,
         },
@@ -16,7 +16,7 @@ export default {
             title: 'Prénom',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 2,
         },
@@ -25,7 +25,7 @@ export default {
             title: 'Adresse e-mail',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'email',
             propertyOrder: 3,
@@ -35,7 +35,7 @@ export default {
             title: 'Ville',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 4,
         },
@@ -44,25 +44,25 @@ export default {
             title: 'ZIP/Postal Code',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 6,
         },
         votre_demande_concerne: {
             items: {
                 type: 'string',
-                enum: ["Un événement d'entreprise", 'Le mécénat', "La soirée de Gala de l'Opéra de Lyon", 'Autre'],
+                enum: ['Un événement d\'entreprise', 'Le mécénat', 'La soirée de Gala de l\'Opéra de Lyon', 'Autre'],
                 enum_titles: [
-                    "Un événement d'entreprise",
+                    'Un événement d\'entreprise',
                     'Le mécénat',
-                    "La soirée de Gala de l'Opéra de Lyon",
+                    'La soirée de Gala de l\'Opéra de Lyon',
                     'Autre',
                 ],
                 options: {
                     enum_titles: [
-                        "Un événement d'entreprise",
+                        'Un événement d\'entreprise',
                         'Le mécénat',
-                        "La soirée de Gala de l'Opéra de Lyon",
+                        'La soirée de Gala de l\'Opéra de Lyon',
                         'Autre',
                     ],
                 },
@@ -73,7 +73,7 @@ export default {
             title: 'Votre demande concerne',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 7,
         },
@@ -82,7 +82,7 @@ export default {
             title: 'Message',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'textarea',
             propertyOrder: 8,
@@ -92,7 +92,7 @@ export default {
             title: 'Oui, je souhaite recevoir de l’information de l’Opéra de Lyon !',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'checkbox',
             propertyOrder: 9,
@@ -107,7 +107,7 @@ export default {
             title: 'Choix simple',
             attr: {
                 'data-group': null,
-                placeholder: 'Choisir',
+                'placeholder': 'Choisir',
             },
             propertyOrder: 10,
         },

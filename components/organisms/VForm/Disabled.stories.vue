@@ -4,6 +4,9 @@ import schema from './schemas/disabled'
 
 <template>
     <NuxtStory>
-        <VForm :schema="schema" disabled />
+        <VForm
+            :schema="schema"
+            disabled
+        />
     </NuxtStory>
 </template>

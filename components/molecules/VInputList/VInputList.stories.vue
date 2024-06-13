@@ -16,10 +16,20 @@ const multiValue = ref([])
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="default">
-            <VInputList id="unique" :class="$style.input" v-bind="data" />
+            <VInputList
+                id="unique"
+                :class="$style.input"
+                v-bind="data"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Multiple">
-            <VInputList id="multiple" v-model:model-value="multiValue" :class="$style.input" multiple v-bind="data" />
+            <VInputList
+                id="multiple"
+                v-model:model-value="multiValue"
+                :class="$style.input"
+                multiple
+                v-bind="data"
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

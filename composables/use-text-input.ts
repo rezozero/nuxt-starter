@@ -27,7 +27,7 @@ export function useTextInput(props: TextInputProps, emit: Function, element: Ref
 
     watch(
         () => props.modelValue,
-        (v) => (model.value = v),
+        v => (model.value = v),
     )
 
     watch(model, (value) => {

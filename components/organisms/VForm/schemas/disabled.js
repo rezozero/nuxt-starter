@@ -16,7 +16,7 @@ export default {
             title: 'Oui, je souhaite recevoir de l’information de l’Opéra de Lyon !',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'checkbox',
             propertyOrder: 9,
@@ -31,7 +31,7 @@ export default {
             title: 'Choix simple',
             attr: {
                 'data-group': null,
-                placeholder: 'Choisir',
+                'placeholder': 'Choisir',
             },
             propertyOrder: 10,
         },

@@ -4,6 +4,9 @@ const value = 'Default value'
 
 <template>
     <NuxtStory>
-        <VInput v-model="value" description="Lorem ipsum" />
+        <VInput
+            v-model="value"
+            description="Lorem ipsum"
+        />
     </NuxtStory>
 </template>

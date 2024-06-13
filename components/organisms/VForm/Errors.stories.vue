@@ -2,7 +2,6 @@
 import schema from './schemas/errors'
 
 const submitCallback = () => {
-    // eslint-disable-next-line prefer-promise-reject-errors
     return Promise.reject({
         response: {
             data: {
@@ -58,6 +57,11 @@ const submitCallback = () => {
 
 <template>
     <NuxtStory>
-        <VForm :schema="schema" :submit-callback="submitCallback" action="test-errors" novalidate />
+        <VForm
+            :schema="schema"
+            :submit-callback="submitCallback"
+            action="test-errors"
+            novalidate
+        />
     </NuxtStory>
 </template>

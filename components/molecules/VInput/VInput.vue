@@ -53,8 +53,11 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
                 @blur="onBlur"
                 @focus="onFocus"
                 @input="onInput"
+            >
+            <LazyVCheckbox
+                v-if="isCheckbox || isRadio"
+                :class="$style.checkbox"
             />
-            <LazyVCheckbox v-if="isCheckbox || isRadio" :class="$style.checkbox" />
         </template>
     </VFieldWrapper>
 </template>

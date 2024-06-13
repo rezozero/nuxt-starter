@@ -11,17 +11,17 @@ type EmitType = (event: 'update:modelValue', ...args: any[]) => void
 export const RECAPTCHA_INPUT = 'g-recaptcha-response'
 
 const defaultComponentMaps: Record<string, Component | undefined> = {
-    inputList: defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
-    hiddenInput: defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
-    input: defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
+    'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
+    'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
+    'input': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
     'new-password': undefined,
-    textarea: defineAsyncComponent(() => import('~/components/molecules/VTextarea/VTextarea.vue')),
-    markdown: undefined,
-    checkbox: defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
-    select: defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
-    file: defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
-    selectExpanded: defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
-    selectMultipleExpanded: defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
+    'textarea': defineAsyncComponent(() => import('~/components/molecules/VTextarea/VTextarea.vue')),
+    'markdown': undefined,
+    'checkbox': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
+    'select': defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
+    'file': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
+    'selectExpanded': defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
+    'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
 }
 
 export default function createFormChildren(
@@ -30,7 +30,7 @@ export default function createFormChildren(
     componentsMap?: ComponentsMap,
 ): VNodeChild | undefined {
     const rootSchema = parentProps.schema
-    const propertiesLength = Object.keys(rootSchema?.properties || {}).filter((key) => key !== RECAPTCHA_INPUT).length
+    const propertiesLength = Object.keys(rootSchema?.properties || {}).filter(key => key !== RECAPTCHA_INPUT).length
     const requiredProperties = rootSchema?.required || []
     const parents = parentProps.parents
     const mergedComponentsMap = { ...defaultComponentMaps, ...componentsMap }
@@ -46,17 +46,17 @@ export default function createFormChildren(
         .map((property, propertyIndex) => {
             const key = property[0]
             const schema = property[1] as JsonSchemaExtended
-            const error = parentProps.errors?.find((item) => item.propertyPath === key)
+            const error = parentProps.errors?.find(item => item.propertyPath === key)
             const errorMessage = error?.message ? $i18n.t(error?.message).toString() : undefined
             const isInvalid = error && error.message
             const id = parentProps.id ? `${parentProps.id}-${key}` : key
             const required = requiredProperties === true ? requiredProperties : requiredProperties.includes(key)
             const name = parents?.length ? parents.slice().concat([key]).join('[') + ']'.repeat(parents.length) : key
             const lastItem = propertyIndex === propertiesLength - 1
-            const typeWithoutSeparator =
-                schema.type === 'boolean' ||
-                schema.widget === 'choice-multiple-expanded' ||
-                schema.widget === 'choice-expanded'
+            const typeWithoutSeparator
+                = schema.type === 'boolean'
+                || schema.widget === 'choice-multiple-expanded'
+                || schema.widget === 'choice-expanded'
             /*
              * Make initial field value optional
              */
@@ -65,19 +65,19 @@ export default function createFormChildren(
 
             const defaultProps: Record<string, any> = {
                 id,
-                label: schema.title,
+                'label': schema.title,
                 errorMessage,
                 isInvalid,
                 name,
                 parents,
-                hideSeparator: lastItem && typeWithoutSeparator,
-                description: schema.description,
-                hint: schema.description,
-                disabled: schema.attr?.disabled || parentProps.disabled,
-                placeholder: schema.attr?.placeholder || null,
-                autocomplete: schema.attr?.autocomplete || null,
+                'hideSeparator': lastItem && typeWithoutSeparator,
+                'description': schema.description,
+                'hint': schema.description,
+                'disabled': schema.attr?.disabled || parentProps.disabled,
+                'placeholder': schema.attr?.placeholder || null,
+                'autocomplete': schema.attr?.autocomplete || null,
                 // Binds reactivity
-                modelValue: currentModelValue,
+                'modelValue': currentModelValue,
                 'onUpdate:modelValue': (value: any): void => {
                     // Make sure null is passed as null and not as string
                     if (value === 'null') {
@@ -98,15 +98,16 @@ export default function createFormChildren(
                     ...defaultProps,
                     schema,
                     mergedComponentsMap,
-                    virtual: schema?.attr?.virtual,
-                    schemaKey: key,
-                    modelValue: parentModelValues,
+                    'virtual': schema?.attr?.virtual,
+                    'schemaKey': key,
+                    'modelValue': parentModelValues,
                     'onUpdate:modelValue': (value: object): void => {
                         const finalValue = { ...parentModelValues, ...value }
                         emit('update:modelValue', finalValue)
                     },
                 })
-            } else if (schema.type === 'object') {
+            }
+            else if (schema.type === 'object') {
                 // nested object = fieldset
                 return h(LazyVFormFieldset, {
                     ...defaultProps,
@@ -128,8 +129,8 @@ export default function createFormChildren(
             // input list
             if (schema.widget === 'choice-multiple-expanded' || schema.widget === 'choice-expanded') {
                 const isMultiple = schema.widget === 'choice-multiple-expanded'
-                const component =
-                    isMultiple && mergedComponentsMap.selectMultipleExpanded
+                const component
+                    = isMultiple && mergedComponentsMap.selectMultipleExpanded
                         ? mergedComponentsMap.selectMultipleExpanded
                         : mergedComponentsMap.selectExpanded || mergedComponentsMap.select
                 const enumList = isMultiple
@@ -160,13 +161,13 @@ export default function createFormChildren(
             // select
             if (schema.type === 'array' || schema.enum) {
                 const isMultiple = schema.type === 'array'
-                const items =
-                    schema.items && Array.isArray(schema.items)
+                const items
+                    = schema.items && Array.isArray(schema.items)
                         ? (schema.items as JsonSchemaExtended[])?.[0]
                         : schema.items
                 const enumList = isMultiple ? items?.enum : schema.enum
-                const component =
-                    isMultiple && mergedComponentsMap.selectMultipleExpanded
+                const component
+                    = isMultiple && mergedComponentsMap.selectMultipleExpanded
                         ? mergedComponentsMap.selectMultipleExpanded
                         : mergedComponentsMap.select
 
@@ -271,31 +272,37 @@ export default function createFormChildren(
 
                 if (type === 'boolean' || type === 'checkbox') {
                     props.type = 'checkbox'
-                } else if (type === 'number') {
+                }
+                else if (type === 'number') {
                     props.type = 'string'
                     props['onUpdate:modelValue'] = (value: any) =>
                         emit('update:modelValue', { ...parentModelValues, [key]: Number.parseFloat(value) })
-                } else if (type === 'integer') {
+                }
+                else if (type === 'integer') {
                     props.type = 'number'
                     props['onUpdate:modelValue'] = (value: any) =>
                         emit('update:modelValue', { ...parentModelValues, [key]: Number.parseInt(value) })
                     props.step = '1'
-                } else if (type === 'datetime' || type === 'datetime-local') {
+                }
+                else if (type === 'datetime' || type === 'datetime-local') {
                     if (props.modelValue) {
                         // Handle timezones between data and client
                         const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
                         const localISOTime = new Date(Date.parse(props.modelValue) - tzOffset).toISOString()
                         props.modelValue = localISOTime.split('.')[0]
-                    } else {
+                    }
+                    else {
                         props.modelValue = ''
                     }
                     props.step = 'any'
                     props.type = 'datetime-local'
-                } else if (type === 'file') {
+                }
+                else if (type === 'file') {
                     if (props.name && attrs.multiple) {
                         props.name = props.name + '[]'
                     }
-                } else if (type === 'password') {
+                }
+                else if (type === 'password') {
                     props.type = 'password'
                 }
 

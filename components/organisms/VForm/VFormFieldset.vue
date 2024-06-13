@@ -33,11 +33,24 @@ const internalParents = computed((): string[] => {
 </script>
 
 <template>
-    <fieldset :disabled="disabled" class="fieldset" :class="$style.root" :name="name">
-        <legend v-if="label" class="fieldset__legend" :class="$style.legend">
+    <fieldset
+        :disabled="disabled"
+        class="fieldset"
+        :class="$style.root"
+        :name="name"
+    >
+        <legend
+            v-if="label"
+            class="fieldset__legend"
+            :class="$style.legend"
+        >
             {{ label }}
         </legend>
-        <div v-if="description" class="fieldset__element" :class="$style.description">
+        <div
+            v-if="description"
+            class="fieldset__element"
+            :class="$style.description"
+        >
             <div class="fr-hint-text">
                 {{ description }}
             </div>

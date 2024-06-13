@@ -22,9 +22,10 @@ function onOptionInput(inputValue: InputListOption['value']) {
 
     if (Array.isArray(currentValue)) {
         newValue = currentValue.includes(inputValue)
-            ? currentValue.filter((v) => v !== inputValue)
+            ? currentValue.filter(v => v !== inputValue)
             : [...currentValue, inputValue]
-    } else {
+    }
+    else {
         newValue = currentValue === inputValue ? null : inputValue
     }
 
@@ -49,13 +50,30 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
         :hide-separator="hideSeparator"
         tag="fieldset"
     >
-        <legend v-if="label" :class="$style.legend">
+        <legend
+            v-if="label"
+            :class="$style.legend"
+        >
             {{ label }}
             <VRequiredMark v-if="required" />
         </legend>
-        <input v-if="displayRequiredGroupInput" :class="$style['input-group-validation']" required type="checkbox" />
-        <p v-if="description" :class="$style.description">{{ description }}</p>
-        <div v-for="option in options" :key="option.value" :class="$style['input-wrapper']">
+        <input
+            v-if="displayRequiredGroupInput"
+            :class="$style['input-group-validation']"
+            required
+            type="checkbox"
+        >
+        <p
+            v-if="description"
+            :class="$style.description"
+        >
+            {{ description }}
+        </p>
+        <div
+            v-for="option in options"
+            :key="option.value"
+            :class="$style['input-wrapper']"
+        >
             <VInput
                 :id="id + '-' + option.value"
                 v-model="option.value"

@@ -31,7 +31,7 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
             :class="$style.textarea"
             @focus="onFocus"
             @blur="onBlur"
-        ></textarea>
+        />
     </VFieldWrapper>
 </template>
 

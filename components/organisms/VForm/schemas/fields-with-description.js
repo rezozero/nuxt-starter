@@ -7,7 +7,7 @@ export default {
             title: 'Date and time',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'datetime',
             description:
@@ -19,7 +19,7 @@ export default {
             title: 'Date',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'date',
             description:
@@ -37,7 +37,7 @@ export default {
             title: 'Textarea',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'textarea',
             description:
@@ -49,7 +49,7 @@ export default {
             title: 'Markdown',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'textarea',
             description:
@@ -61,7 +61,7 @@ export default {
             title: 'Boolean',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'checkbox',
             description:
@@ -73,7 +73,7 @@ export default {
             title: 'Number int',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             description:
                 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. ',
@@ -84,7 +84,7 @@ export default {
             title: 'Number float',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             description:
                 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. ',
@@ -95,7 +95,7 @@ export default {
             title: 'Email',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'email',
             description:
@@ -112,7 +112,7 @@ export default {
             title: 'Choice single',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             description:
                 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. ',
@@ -129,7 +129,7 @@ export default {
             title: 'Choice single extended',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             description:
                 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. ',
@@ -150,7 +150,7 @@ export default {
             title: 'Choice multiple',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             description:
                 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. ',
@@ -172,7 +172,7 @@ export default {
             title: 'Choice multiple extended',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             description:
                 'Nullam id dolor id nibh ultricies vehicula ut id elit. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor. ',
@@ -183,7 +183,7 @@ export default {
             title: 'Documents',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'file',
             description:

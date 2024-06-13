@@ -9,6 +9,9 @@ const options: VSelectOption[] = [...Array(4)].map((_, i) => ({
 
 <template>
     <NuxtStory>
-        <VSelect :options="options" multiple />
+        <VSelect
+            :options="options"
+            multiple
+        />
     </NuxtStory>
 </template>

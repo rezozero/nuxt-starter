@@ -5,11 +5,22 @@ const route = useRoute()
 <template>
     <NuxtStory :class="$style.root">
         <NuxtStoryVariant title="Default">
-            <VInput :class="$style.item" label="Lorem ipsum" type="checkbox" />
+            <VInput
+                :class="$style.item"
+                label="Lorem ipsum"
+                type="checkbox"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Required">
-            <form :action="route.path" :class="$style.item">
-                <VInput label="Lorem ipsum" required type="checkbox" />
+            <form
+                :action="route.path"
+                :class="$style.item"
+            >
+                <VInput
+                    label="Lorem ipsum"
+                    required
+                    type="checkbox"
+                />
                 <button>Submit</button>
             </form>
         </NuxtStoryVariant>

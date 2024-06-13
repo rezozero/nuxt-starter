@@ -38,8 +38,9 @@ const isFilled = computed(() => {
 
 const isSelectedOption = (option: VSelectOption): boolean => {
     if (Array.isArray(internalValue.value)) {
-        return typeof internalValue.value.find((value) => value === option.value) !== 'undefined'
-    } else {
+        return typeof internalValue.value.find(value => value === option.value) !== 'undefined'
+    }
+    else {
         return internalValue.value === option.value
     }
 }
@@ -54,7 +55,8 @@ const getSelectValue = (selectElement: HTMLSelectElement): SelectValue => {
             }
         }
         return value
-    } else {
+    }
+    else {
         return selectElement.value || null
     }
 }
@@ -86,7 +88,13 @@ const onSelectChange = (event: Event) => {
                 @change="onSelectChange"
                 @focus="() => (isFocused = true)"
             >
-                <option v-if="!multiple" :selected="!isFilled" value>{{ placeholder }}</option>
+                <option
+                    v-if="!multiple"
+                    :selected="!isFilled"
+                    value
+                >
+                    {{ placeholder }}
+                </option>
                 <option
                     v-for="option in options"
                     :key="option.value"
@@ -96,7 +104,13 @@ const onSelectChange = (event: Event) => {
                     {{ option.label }}
                 </option>
             </select>
-            <SvgIcon v-if="!multiple" :class="$style.icon" height="24" name="chevron-down" width="24" />
+            <SvgIcon
+                v-if="!multiple"
+                :class="$style.icon"
+                height="24"
+                name="chevron-down"
+                width="24"
+            />
         </div>
     </VFieldWrapper>
 </template>

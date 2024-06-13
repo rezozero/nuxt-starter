@@ -7,7 +7,7 @@ export default {
             title: 'Date and time',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'datetime',
             propertyOrder: 1,
@@ -17,7 +17,7 @@ export default {
             title: 'Date',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'date',
             propertyOrder: 2,
@@ -31,7 +31,7 @@ export default {
             title: 'Textarea',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'textarea',
             propertyOrder: 3,
@@ -41,7 +41,7 @@ export default {
             title: 'Markdown',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'textarea',
             propertyOrder: 4,
@@ -51,7 +51,7 @@ export default {
             title: 'Boolean',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'checkbox',
             propertyOrder: 5,
@@ -61,7 +61,7 @@ export default {
             title: 'Number int',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 6,
         },
@@ -70,7 +70,7 @@ export default {
             title: 'Number float',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 7,
         },
@@ -79,7 +79,7 @@ export default {
             title: 'Email',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'email',
             propertyOrder: 8,
@@ -94,7 +94,7 @@ export default {
             title: 'Choice single',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 9,
         },
@@ -109,7 +109,7 @@ export default {
             title: 'Choice single extended',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 10,
         },
@@ -132,7 +132,7 @@ export default {
             title: 'Choice multiple',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 11,
         },
@@ -152,7 +152,7 @@ export default {
             title: 'Choice multiple extended',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             propertyOrder: 12,
         },
@@ -161,7 +161,7 @@ export default {
             title: 'Documents',
             attr: {
                 'data-group': null,
-                placeholder: null,
+                'placeholder': null,
             },
             widget: 'file',
             propertyOrder: 14,

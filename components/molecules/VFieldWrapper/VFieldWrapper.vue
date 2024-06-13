@@ -32,16 +32,35 @@ const classNames = computed(() => [
 </script>
 
 <template>
-    <component :is="tag" :class="classNames">
+    <component
+        :is="tag"
+        :class="classNames"
+    >
         <div :class="$style.field">
-            <label v-if="label" :class="$style.label" :for="id">
-                <slot name="beforeLabel" />{{ label }}<VRequiredMark v-if="required"
-            /></label>
+            <label
+                v-if="label"
+                :class="$style.label"
+                :for="id"
+            >
+                <slot name="beforeLabel" />{{ label }}<VRequiredMark v-if="required" /></label>
             <slot />
         </div>
-        <p v-if="description" :class="$style.description">{{ description }}</p>
-        <div v-if="errors" :class="$style.errors">
-            <div v-for="(value, name, index) in errors" :key="index">{{ value }}</div>
+        <p
+            v-if="description"
+            :class="$style.description"
+        >
+            {{ description }}
+        </p>
+        <div
+            v-if="errors"
+            :class="$style.errors"
+        >
+            <div
+                v-for="(value, name, index) in errors"
+                :key="index"
+            >
+                {{ value }}
+            </div>
         </div>
     </component>
 </template>
