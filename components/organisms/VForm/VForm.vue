@@ -237,12 +237,14 @@ const formattedSchema = computed(() => {
             <div>
                 <p
                     v-if="errorMessage"
+                    role="status"
                     :class="$style.errors"
                 >
                     {{ $t(errorMessage) }}
                 </p>
                 <p
                     v-if="isSuccess"
+                    role="status"
                     :class="$style.success"
                 >
                     {{ successLabel || $t('form.success') }}
