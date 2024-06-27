@@ -162,6 +162,14 @@ export default defineComponent({
         }
     }
 
+    ol, ul, menu, summary {
+        list-style: none;
+    }
+
+    ol {
+        counter-reset: item;
+    }
+
     li {
         position: relative;
         padding: rem(8) 0 rem(8) rem(40);
@@ -194,10 +202,6 @@ export default defineComponent({
                 content: '';
             }
         }
-    }
-
-    ol {
-        counter-reset: item;
     }
 
     ol li {
