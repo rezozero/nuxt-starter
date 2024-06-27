@@ -69,6 +69,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
     border: none;
     grid-column: 1/-1;
     grid-row: 1;
+    user-select: auto; // Safari - solving issue when using user-select:none on the <body> text input doesn't working
 
     &[type='radio'],
     &[type='checkbox'] {
