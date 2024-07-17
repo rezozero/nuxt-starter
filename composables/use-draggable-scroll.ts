@@ -6,28 +6,26 @@ interface Point {
 }
 
 interface UseDraggableScrollOptions {
-    element: TemplateElementRef
-    onMouseUp?: (event: MouseEvent) => void
-    onMouseDown?: () => void
+    inertia?: boolean
 }
 
 // Amount of pixels for detecting if the element is being dragged or just clicked.
 const MIN_DRAG_AMOUNT = 6
 
-export function useDraggableScroll(options: UseDraggableScrollOptions) {
+export function useDraggableScroll(target: TemplateElementRef, options: UseDraggableScrollOptions) {
     const isDragging = ref(false)
     const hasScroll = ref(false)
+    const xDirection = ref(1)
 
     let isListening = false
     let dragged = false
     let dragAmount: Point = { x: 0, y: 0 }
     let resizeObserver: ResizeObserver | null = null
-
-    const XDirection = ref(1)
     let oldX = 0
+
     function setDragDirection(e: MouseEvent) {
         if (!isDragging.value || e.pageX == oldX) return
-        XDirection.value = e.pageX < oldX ? -1 : 1
+        xDirection.value = e.pageX < oldX ? -1 : 1
         oldX = e.pageX
     }
 
@@ -38,23 +36,19 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
 
         document.addEventListener('mousemove', onMouseMove)
         document.addEventListener('mouseup', onMouseUp)
-
-        options.onMouseDown?.()
     }
 
-    function onMouseUp(event: MouseEvent) {
+    function onMouseUp() {
         removeListeners()
 
         isDragging.value = false
 
         dragged = dragAmount.x > MIN_DRAG_AMOUNT || dragAmount.y > MIN_DRAG_AMOUNT
         dragAmount = { x: 0, y: 0 }
-
-        options.onMouseUp?.(event)
     }
 
     function onMouseMove(event: MouseEvent) {
-        const element = getHtmlElement(options.element)
+        const element = getHtmlElement(target)
 
         if (!element) return
 
@@ -87,7 +81,8 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     }
 
     function createResizeObserver() {
-        const element = getHtmlElement(options.element)
+        const element = getHtmlElement(target)
+
         if (!element) return
 
         resizeObserver = new ResizeObserver(function () {
@@ -103,7 +98,8 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
 
     watch(isDragging, setStyle)
     function setStyle(isGrabbing?: boolean) {
-        const element = getHtmlElement(options.element)
+        const element = getHtmlElement(target)
+
         if (!element) return
 
         hasScroll.value = element.scrollWidth > element.clientWidth || element.scrollHeight > element.clientHeight
@@ -113,7 +109,8 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     }
 
     function listen() {
-        const element = getHtmlElement(options.element)
+        const element = getHtmlElement(target)
+
         if (!element) return
 
         createResizeObserver()
@@ -124,8 +121,8 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
         isListening = true
     }
 
-    function destroy(el?: UseDraggableScrollOptions['element']) {
-        const element = getHtmlElement(options.element) || (el && getHtmlElement(el))
+    function destroy(el?: typeof target) {
+        const element = getHtmlElement(target) || (el && getHtmlElement(el))
 
         if (!element) return
 
@@ -138,8 +135,8 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     }
 
     // Stop listening if element ref become nullish
-    if (isRef(options.element)) {
-        watch(options.element, (el, prevEl) => {
+    if (isRef(target)) {
+        watch(target, (el, prevEl) => {
             if (el && !isListening) listen()
             else if (!el && isListening) destroy(prevEl)
         })
@@ -148,5 +145,5 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     onMounted(listen)
     onUnmounted(destroy)
 
-    return { isDragging, hasScroll, setStyle, XDirection }
+    return { isDragging, hasScroll, setStyle, xDirection }
 }
