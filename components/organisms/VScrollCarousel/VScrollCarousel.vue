@@ -87,8 +87,7 @@ const visibleSlideLength = computed(() => {
 const lastReachableIndex = computed(() => slides.value.length - visibleSlideLength.value)
 
 // Slider utils
-const isDragging = ref(false)
-const { setStyle, hasScroll } = useDraggableScroll({ element: root, onMouseUp, onMouseDown })
+const { setStyle, hasScroll, isDragging } = useDraggableScroll(root)
 
 const hasTransition = ref(false)
 function scrollTo(index: number, options?: ScrollToOptions) {
@@ -128,16 +127,13 @@ onMounted(() => {
     scrollSnapTypeStored = getHtmlElement(root)?.style['scrollSnapType'] || 'x mandatory'
 })
 
-function onMouseDown() {
-    isDragging.value = true
-
-    const element = getHtmlElement(root)
-    if (!element) return
-
-    // When scroll-snap-type: x mandatory is set dragAmount is too small to allow snapping on the next div
-    // https://www.reddit.com/r/webdev/comments/17pxznp/how_to_drag_scroll_with_snap_behaviour/
-    element.style['scrollSnapType'] = 'none'
-}
+watch(isDragging, () => {
+    if (isDragging.value) {
+        // When scroll-snap-type: x mandatory is set dragAmount is too small to allow snapping on the next div
+        // https://www.reddit.com/r/webdev/comments/17pxznp/how_to_drag_scroll_with_snap_behaviour/
+        if (root.value) root.value.style['scrollSnapType'] = 'none'
+    }
+})
 
 function onDragTransitionEnd() {
     if (isDragging.value) return
@@ -153,10 +149,10 @@ function onDragTransitionEnd() {
     element.style['scrollSnapType'] = scrollSnapTypeStored
 }
 
-function onMouseUp() {
-    isDragging.value = false
-    scrollTo(currentIndex.value, { scrollEndCallback: onDragTransitionEnd })
-}
+// function onMouseUp() {
+//     isDragging.value = false
+//     scrollTo(currentIndex.value, { scrollEndCallback: onDragTransitionEnd })
+// }
 
 // Update slide index and slide direction
 const onScrollCallback = throttle(100, setScrollLeft)
@@ -213,28 +209,23 @@ defineExpose<{ slides: Ref<Slide[]> }>({ slides })
 
 <template>
     <div ref="root" :class="$style.root" @scroll="onScroll" @scrollend="onScrollEnd">
-        <slot :item-class="$style.item" />
+        <slot :slide-class="$style.slide" />
     </div>
 </template>
 
 <style lang="scss" module>
 .root {
     display: flex;
-    max-width: 100%;
     -webkit-overflow-scrolling: touch;
     -ms-overflow-style: none; /* for Internet Explorer, Edge */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scrollbar-width: none; /* for Firefox */
     touch-action: pan-x;
-
-    &::-webkit-scrollbar {
-        display: none; /* for Chrome, Safari, and Opera */
-    }
 }
 
-.item {
+.slide {
     flex-shrink: 0;
-    scroll-snap-align: var(--v-slider-scroll-snap-align, start);
+    scroll-snap-align: var(--v-carousel-slide-scroll-snap-align, start);
 }
 </style>

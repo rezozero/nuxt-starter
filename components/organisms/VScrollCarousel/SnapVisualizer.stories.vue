@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
 import type { VSlider } from '#components'
-import type { Slide } from '~/components/molecules/VSlider/VSlider.vue'
+import type { Slide } from '~/components/molecules/VSlider/VCarousel.vue'
+
+const itemLength = ref(18)
+const value = ref(25)
+const slideIndex = ref(0)
 
 const vSliderInstance = ref<ComponentPublicInstance<typeof VSlider> | null>(null)
 const slides = computed(() => vSliderInstance.value?.slides as Slide[])
@@ -23,13 +27,29 @@ watch(slides, (value) => {
 
 <template>
     <NuxtStory>
-        <VSlider v-slot="{ itemClass }" ref="vSliderInstance" :class="$style.root">
-            <div v-for="item in 10" :key="item" :class="[$style.item, itemClass]">
+        <template #aside>
+            <h4>Slide Index: {{ slideIndex }}</h4>
+            <h4>Slide Length: {{ itemLength }}</h4>
+            <button @click="() => (itemLength = itemLength - 1)">Remove slide</button>
+            <button @click="() => (itemLength = itemLength + 1)">Add slide</button>
+            <hr />
+            <h4>Slide width: {{ value }} %</h4>
+            <label for="item-width">
+                <input id="item-width" v-model="value" type="range" name="item-width" min="10" step="5" max="100" />
+            </label>
+        </template>
+        <VSlider v-slot="{ itemClass }" ref="vSliderInstance" v-model="slideIndex" :class="$style.root">
+            <div v-for="item in itemLength" :key="item" :class="[$style.item, itemClass]">
                 <div class="marker marker-left"></div>
                 {{ item }}
                 <div class="marker marker-right"></div>
             </div>
         </VSlider>
+
+        <div>
+            <button @click="() => (slideIndex = slideIndex - 1)">Prev</button>
+            <button @click="() => (slideIndex = slideIndex + 1)">Next</button>
+        </div>
     </NuxtStory>
 </template>
 
@@ -54,31 +74,23 @@ watch(slides, (value) => {
     gap: rem(24);
     padding-block: rem(48);
 
-    &--with-scroll-bar {
-        scrollbar-width: thin;
+    :global(.nuxt-story__main) {
+        touch-action: pan-x;
     }
 }
 
 .item {
     display: flex;
-    width: flex-grid(2, 10);
-    height: rem(300);
+    width: calc(((100% - 99 * var(--gutter)) / 100) * v-bind(value) + ((v-bind(value) - 1) * var(--gutter)));
+    height: rem(260);
     align-items: center;
     justify-content: center;
     border: 1px solid black;
     background-color: #ffd6d6;
 
     &:nth-child(odd) :global(.marker) {
-        width: 8px;
+        width: 4px;
         background-color: blue;
-    }
-
-    &:nth-child(2n) {
-        width: flex-grid(6, 10);
-    }
-
-    &:nth-child(3n) {
-        width: flex-grid(5, 10);
     }
 }
 </style>

@@ -12,5 +12,6 @@ module.exports = {
         '@typescript-eslint/ban-ts-comment': 'off',
         'vue/require-default-prop': 'off', // props could be undefined
         'vue/padding-line-between-blocks': 'warn',
+        'vue/multi-word-component-names': 'off', // this gonna disappear in the next version
     },
 }

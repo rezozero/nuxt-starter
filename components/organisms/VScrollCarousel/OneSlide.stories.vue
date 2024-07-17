@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ComponentPublicInstance } from 'vue'
 import type { VSlider } from '#components'
-import type { Slide } from '~/components/molecules/VSlider/VSlider.vue'
+import type { Slide } from '~/components/molecules/VSlider/VCarousel.vue'
 
 const itemLength = ref(6)
 const slideIndex = ref(0)
