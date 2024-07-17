@@ -6,16 +6,17 @@ interface Point {
 }
 
 interface UseDraggableScrollOptions {
-    inertia?: boolean
+    minDragAmount?: number
 }
 
 // Amount of pixels for detecting if the element is being dragged or just clicked.
 const MIN_DRAG_AMOUNT = 6
 
-export function useDraggableScroll(target: TemplateElementRef, options: UseDraggableScrollOptions) {
+export function useDraggableScroll(target: TemplateElementRef, options?: UseDraggableScrollOptions) {
     const isDragging = ref(false)
     const hasScroll = ref(false)
     const xDirection = ref(1)
+    const minDragAmount = options?.minDragAmount || MIN_DRAG_AMOUNT
 
     let isListening = false
     let dragged = false
@@ -43,7 +44,7 @@ export function useDraggableScroll(target: TemplateElementRef, options: UseDragg
 
         isDragging.value = false
 
-        dragged = dragAmount.x > MIN_DRAG_AMOUNT || dragAmount.y > MIN_DRAG_AMOUNT
+        dragged = dragAmount.x > minDragAmount || dragAmount.y > minDragAmount
         dragAmount = { x: 0, y: 0 }
     }
 
