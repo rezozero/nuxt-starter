@@ -128,26 +128,53 @@ onMounted(() => {
 })
 
 watch(isDragging, () => {
+    if (!root.value) return
+
     if (isDragging.value) {
-        // When scroll-snap-type: x mandatory is set dragAmount is too small to allow snapping on the next div
-        // https://www.reddit.com/r/webdev/comments/17pxznp/how_to_drag_scroll_with_snap_behaviour/
-        if (root.value) root.value.style['scrollSnapType'] = 'none'
+        // Disable scroll snap when dragging (scroll snap prevent manual scroll)
+        root.value.style.scrollSnapType = 'none'
+    } else {
+        const currentX = root.value.scrollLeft
+
+        // Restore scroll snap
+        root.value.style.scrollSnapType = scrollSnapTypeStored
+
+        requestAnimationFrame(() => {
+            if (!root.value) return
+
+            // Safari need to force reflow to compute next scroll position
+            root.value.style.display = 'none'
+            root.value?.offsetHeight
+            root.value.style.display = ''
+
+            const destX = root.value.scrollLeft
+
+            // Firefox has already the right scroll position
+            // But Chrome and Safari need help to smooth scroll to the right position
+            if (destX === currentX) return
+
+            // Disable scroll snap when dragging (scroll snap prevent manual scroll)
+            root.value.style.scrollSnapType = 'none'
+
+            root.value.scrollTo({ left: currentX })
+
+            requestAnimationFrame(() => {
+                if (!root.value) return
+
+                root.value.addEventListener(
+                    'scrollend',
+                    () => {
+                        if (root.value) root.value.style.scrollSnapType = scrollSnapTypeStored
+                    },
+                    { once: true },
+                )
+
+                // Go to the right scroll position with smooth transition
+                root.value!.scrollTo({ left: destX, behavior: 'smooth' })
+            })
+        })
     }
 })
-
-function onDragTransitionEnd() {
-    if (isDragging.value) return
-
-    isDragging.value = false
-    isScrolling.value = false
-
-    const element = getHtmlElement(root)
-    if (!element) return
-
-    // Sometimes scrollSnapType is set before scroll transition is fully done
-    // this cause a scroll jump
-    element.style['scrollSnapType'] = scrollSnapTypeStored
-}
 
 // function onMouseUp() {
 //     isDragging.value = false
@@ -155,11 +182,11 @@ function onDragTransitionEnd() {
 // }
 
 // Update slide index and slide direction
-const onScrollCallback = throttle(100, setScrollLeft)
+const onScrollCallback = throttle(100, onScroll)
 
 function onScroll() {
-    isScrolling.value = true
-    onScrollCallback()
+    console.log(isDragging.value)
+    // onScrollCallback()
 }
 
 function onScrollEnd() {
@@ -208,7 +235,7 @@ defineExpose<{ slides: Ref<Slide[]> }>({ slides })
 </script>
 
 <template>
-    <div ref="root" :class="$style.root" @scroll="onScroll" @scrollend="onScrollEnd">
+    <div ref="root" :class="$style.root">
         <slot :slide-class="$style.slide" />
     </div>
 </template>
@@ -217,15 +244,13 @@ defineExpose<{ slides: Ref<Slide[]> }>({ slides })
 .root {
     display: flex;
     -webkit-overflow-scrolling: touch;
-    -ms-overflow-style: none; /* for Internet Explorer, Edge */
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    scrollbar-width: none; /* for Firefox */
     touch-action: pan-x;
 }
 
 .slide {
     flex-shrink: 0;
-    scroll-snap-align: var(--v-carousel-slide-scroll-snap-align, start);
+    scroll-snap-align: var(--v-scroll-carousel-slide-scroll-snap-align, start);
 }
 </style>
