@@ -72,6 +72,7 @@ export default defineNuxtConfig({
             preprocessorOptions: {
                 scss: {
                     additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+                    quietDeps: true,
                 },
             },
         },

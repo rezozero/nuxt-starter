@@ -152,7 +152,6 @@ export default defineComponent({
 
 .root {
     @include v-button-default-css-vars($v-button);
-    @include theme-variants;
 
     position: var(--v-button-position, relative);
     display: var(--v-button-display, inline-flex);
@@ -164,6 +163,8 @@ export default defineComponent({
     background-color: initial;
     color: var(--v-button-color, var(--theme-foreground-color));
     text-decoration: initial;
+
+    @include theme-variants;
 
     // PROPS STYLE
     &--icon-last {
