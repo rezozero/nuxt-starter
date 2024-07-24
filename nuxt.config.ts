@@ -7,6 +7,7 @@ const locales = ['fr']
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
+
     // Don't use layer for now
     // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     modules: [
@@ -22,12 +23,14 @@ export default defineNuxtConfig({
         '@rezo-zero/nuxt-cache-control',
         '@nuxt/eslint',
     ],
+
     components: [
         '~/components/atoms',
         '~/components/molecules',
         '~/components/organisms',
         { path: '~/components/blocks/', global: true },
     ],
+
     runtimeConfig: {
         public: {
             version,
@@ -66,7 +69,9 @@ export default defineNuxtConfig({
             },
         },
     },
+
     css: ['~/assets/scss/main.scss'],
+
     vite: {
         css: {
             preprocessorOptions: {
@@ -83,6 +88,7 @@ export default defineNuxtConfig({
             }),
         ],
     },
+
     nitro: {
         routeRules: {
             '/**': {
@@ -110,11 +116,13 @@ export default defineNuxtConfig({
             },
         },
     },
+
     // https://github.com/nuxt-modules/svg-sprite#options
     svgSprite: {
         input: '~/assets/images/icons',
         output: '~/assets/images/sprites',
     },
+
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
         strategy: 'prefix_except_default',
@@ -127,6 +135,7 @@ export default defineNuxtConfig({
         lazy: true,
         langDir: 'assets/locales/',
     },
+
     // https://image.nuxt.com/get-started/configuration
     image: {
         quality: 75,
@@ -144,10 +153,12 @@ export default defineNuxtConfig({
             },
         },
     },
+
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
         sources: ['/api/sitemap'],
     },
+
     // https://github.com/rezozero/nuxt-stories
     stories: {
         pattern: [
@@ -155,6 +166,7 @@ export default defineNuxtConfig({
             '!playground', // exclude layer stories
         ],
     },
+
     // https://eslint.nuxt.com/packages/module
     eslint: {
         config: {
@@ -163,4 +175,6 @@ export default defineNuxtConfig({
             },
         },
     },
+
+    compatibilityDate: '2024-07-24',
 })
