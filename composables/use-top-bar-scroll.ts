@@ -38,7 +38,7 @@ export function useTopBarScroll(hiddenThresholdDown = 130, hiddenThresholdUp = 3
     })
 
     onBeforeUnmount(() => {
-        scrollCallback && window.removeEventListener('scroll', scrollCallback)
+        if (scrollCallback) window.removeEventListener('scroll', scrollCallback)
     })
 
     return { isHidden, isOnPageTop }

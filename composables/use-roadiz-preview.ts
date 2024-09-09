@@ -3,7 +3,7 @@ interface UsePreviewState {
     token: string | undefined
 }
 
-interface UsePreviewOptions extends UsePreviewState {}
+type UsePreviewOptions = UsePreviewState
 
 export function useRoadizPreview(options?: UsePreviewOptions) {
     const state = useState<UsePreviewState>('preview', () => {

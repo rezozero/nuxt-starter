@@ -44,7 +44,8 @@ function cancelAnimations() {
 
 function disableScroll() {
     const element = getHtmlElement(toValue(props.scrollableElement) || root.value)
-    element && disableBodyScroll(element, { reserveScrollBarGap: true })
+
+    if (element) disableBodyScroll(element, { reserveScrollBarGap: true })
 }
 
 function enableScroll() {

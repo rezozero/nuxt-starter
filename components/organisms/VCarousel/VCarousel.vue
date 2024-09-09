@@ -109,7 +109,7 @@ async function createSwiper() {
                 isEnd.value = swiper.isEnd
             },
             init: (swiper: Swiper): void => {
-                swiper && options?.on?.init?.(swiper)
+                if (swiper) options?.on?.init?.(swiper)
                 resizeObserver?.observe(swiper.wrapperEl)
                 checkSwiperActivation(swiper)
                 updateSlidesFocusCapability(swiper)
