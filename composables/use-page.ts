@@ -11,7 +11,7 @@ function pageHasMissingKey(page: Page) {
     return ['title', 'webResponse', 'alternateLinks'].some(key => !page[key as keyof Page])
 }
 
-interface UsePageOptions extends Page {}
+type UsePageOptions = Page
 
 export function usePage(options?: UsePageOptions) {
     const nextPage = useNextPage()

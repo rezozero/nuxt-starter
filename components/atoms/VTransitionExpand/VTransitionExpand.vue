@@ -25,7 +25,7 @@ function onEnter(element: Element, done: () => void) {
 
     // Force repaint to make sure the
     // animation is triggered correctly.
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     getComputedStyle(element).height
 
     requestAnimationFrame(() => {
@@ -44,7 +44,7 @@ function onLeave(element: Element, done: () => void) {
 
     // Force repaint to make sure the
     // animation is triggered correctly.
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     getComputedStyle(element).height
 
     requestAnimationFrame(() => {
