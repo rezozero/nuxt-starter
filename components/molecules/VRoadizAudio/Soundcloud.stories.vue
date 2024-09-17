@@ -4,6 +4,6 @@ import document from 'assets/stories/fixtures/documents/soundcloud-01.json'
 
 <template>
     <NuxtStory>
-        <VAudio :document="document" />
+        <VRoadizAudio :document="document" />
     </NuxtStory>
 </template>

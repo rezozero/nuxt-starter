@@ -6,6 +6,10 @@ import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/embed'
 
+import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
+
+import('assets/scss/vendors/_plyr.scss')
+
 const props = defineProps({
     ...videoSrc,
     ...videoAttributes,
@@ -118,7 +122,7 @@ async function createPlayer() {
         disableContextMenu: false,
         controls: ['play', 'progress', 'current-time', 'mute', 'fullscreen'],
         ...props.plyr,
-        iconUrl: '/images/plyr-icons.svg', // TODO: use Vite to import this file. But it's not working for now.
+        iconUrl: (plyrIconsUrl as string),
         iconPrefix: 'plyr-icon',
         autoplay: autoplay.value,
         muted: muted.value,

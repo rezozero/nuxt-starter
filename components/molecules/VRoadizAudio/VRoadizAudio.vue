@@ -2,6 +2,10 @@
 import type { RoadizDocument } from '@roadiz/types'
 import type Plyr from 'plyr'
 
+import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
+
+import('assets/scss/vendors/_plyr.scss')
+
 const props = defineProps<{
     document?: RoadizDocument
     plyr?: Plyr.Options
@@ -62,7 +66,7 @@ async function createPlayer() {
 
     const options: Plyr.Options = {
         disableContextMenu: false,
-        iconUrl: '/images/plyr-icons.svg', // TODO: use Vite to import this file. But it's not working for now.
+        iconUrl: (plyrIconsUrl as string),
         iconPrefix: 'plyr-icon',
         ...props.plyr,
     }
