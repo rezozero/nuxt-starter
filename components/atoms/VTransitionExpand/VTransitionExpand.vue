@@ -66,3 +66,17 @@ function onLeave(element: Element, done: () => void) {
         <slot />
     </Transition>
 </template>
+
+<style lang="scss">
+.expand-enter-active,
+.expand-leave-active {
+    overflow: hidden;
+    transition: opacity .3s, height .3s;
+}
+
+.expand-enter,
+.expand-leave-to {
+    height: 0;
+    opacity: 0;
+}
+</style>
