@@ -8,7 +8,7 @@ import { getEmbedSrc } from '~/utils/embed'
 
 import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
 
-import('assets/scss/vendors/_plyr.scss')
+import('~/assets/scss/vendors/_plyr.scss')
 
 const props = defineProps({
     ...videoSrc,

@@ -4,7 +4,7 @@ import type Plyr from 'plyr'
 
 import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
 
-import('assets/scss/vendors/_plyr.scss')
+import('~/assets/scss/vendors/_plyr.scss')
 
 const props = defineProps<{
     document?: RoadizDocument
