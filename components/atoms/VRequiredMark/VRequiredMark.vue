@@ -6,6 +6,6 @@
 .root {
     display: inline;
 
-    //color: red;
+    // color: red;
 }
 </style>

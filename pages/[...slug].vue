@@ -45,4 +45,4 @@ const defaultPageEntity = computed(() => item && isPageEntity(item) && item)
     />
 </template>
 
-<style module lang="scss"></style>
+<!-- <style module lang="scss"></style> -->
