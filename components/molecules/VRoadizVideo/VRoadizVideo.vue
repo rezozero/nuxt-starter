@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
+import pick from 'lodash/pick'
 import { isImage } from '~/utils/roadiz/document'
 import { commonVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
@@ -26,13 +27,7 @@ const displayedThumbnail = computed(() => {
     return documents.find(document => isImage(document))
 })
 
-const filteredVideoProps = computed(() => {
-    return Object.keys(props).reduce((acc, key) => {
-        // @ts-expect-error TODO: use pick() here
-        if (commonVideoProps[key] || videoAttributes[key] || videoSrc[key]) acc[key] = props[key]
-        return acc
-    }, {})
-})
+const filteredVideoProps = computed(() => pick(props, Object.keys({ ...commonVideoProps, ...videoAttributes, ...videoSrc })))
 
 const dimension = computed(() => {
     return {
