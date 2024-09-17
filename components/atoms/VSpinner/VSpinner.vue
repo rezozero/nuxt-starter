@@ -1,17 +1,26 @@
 <script setup lang="ts">
-withDefaults(
-    defineProps<{
-        playState?: 'paused' | 'running'
-    }>(),
-    {
-        playState: 'running',
-    },
-)
+const props = defineProps<{
+    playState?: 'paused' | 'running'
+    size?: number
+}>()
+
+const boxSize = computed(() => props.size || 50)
+const half = computed(() => boxSize.value / 2)
+const strokeWidth = computed(() => Math.max(boxSize.value / 10, 1))
+const radius = computed(() => half.value - strokeWidth.value / 2)
+
+const perimeter = computed(() => radius.value * 2 * Math.PI)
 </script>
 
 <template>
-    <svg :class="$style.root" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
-        <circle :class="$style.circle" cx="25" cy="25" r="20" stroke-width="5" />
+    <svg
+        :height="boxSize"
+        :width="boxSize"
+        :class="$style.root"
+        :viewBox="`0 0 ${boxSize} ${boxSize}`"
+        xmlns="http://www.w3.org/2000/svg"
+    >
+        <circle :class="$style.circle" :cx="half" :cy="half" :r="radius" :stroke-width="strokeWidth" />
     </svg>
 </template>
 
@@ -26,18 +35,18 @@ withDefaults(
 
 @keyframes dash {
     0% {
-        stroke-dasharray: 1, 200;
+        stroke-dasharray: 1, v-bind(perimeter);
         stroke-dashoffset: 0;
     }
 
     50% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -35;
+        stroke-dasharray: calc(v-bind(perimeter) * 0.3px), v-bind(perimeter);
+        stroke-dashoffset: calc(v-bind(perimeter) * -0.2px);
     }
 
     100% {
-        stroke-dasharray: 89, 200;
-        stroke-dashoffset: -124;
+        stroke-dasharray: calc(v-bind(perimeter) * 0.3px), v-bind(perimeter);
+        stroke-dashoffset: calc(v-bind(perimeter) * -1px);
     }
 }
 
@@ -51,7 +60,7 @@ withDefaults(
     animation-play-state: inherit;
     fill: none;
     stroke: currentcolor;
-    stroke-dasharray: 1, 200;
+    stroke-dasharray: 1, v-bind(perimeter);
     stroke-dashoffset: 0;
     stroke-linecap: round;
 }
