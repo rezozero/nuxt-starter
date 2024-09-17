@@ -16,34 +16,43 @@
     }
 }
 
-@mixin v-button-default-css-vars($vars, $prefix: '', $default: 'm') {
-    // get common values
-    @include default-css-vars('v-button', $vars, $prefix, 'common');
-    // get specific size value
-    @include default-css-vars('v-button', $vars, $prefix, $default);
-}
-
 @mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
     @include css-vars-by-size('v-button', $vars, $size, $prefix);
 }
 
+/**
+ * Set property with appropriate css var name and default value
+ */
+@mixin init-v-button-css-vars($vars, $prefix: '', $default: 'md') {
+    // Add common values
+    @include default-css-vars('v-button', $vars, $prefix, 'common');
 
-// Set the size of the button according to the breakpoints.
-@mixin v-button-responsive-sizes($sizes: (xs: s, lg: m), $variant: default) {
-    @if type-of($sizes) != 'map' or length($sizes) < 2 {
-        @error "Set multiple breakpoints values";
-    }
+    // Add specific size values
+    @include default-css-vars('v-button', $vars, $prefix, $default);
+}
 
-    $first-value: list.nth(map.values($sizes), 1);
+/**
+ * Get css vars for a specific variant
+ */
+@mixin v-button-variant-css-vars($vars: $v-button-size-vars-by-variant, $name: '', $prefix: '') {
+    @if map-has-key($vars, $name) {
+        $variant-values: map.get($vars, $name);
 
-    @include v-button-size($first-value, $variant);
+        // Loop through variant template item
+        @each $vars, $prefixes in $variant-values {
+            $variant-prefix: nth($prefixes, 2);
 
-    $first-breakpoint: list.nth(map.keys($sizes), 1);
-    $sizes: map-remove($sizes, $first-breakpoint);
-
-    @each $breakpoint, $size in $sizes {
-        @include media('>=#{$breakpoint}') {
-            @include v-button-size($size, $variant);
+            @if $variant-prefix == $prefix {
+                @include init-v-button-css-vars(nth($vars, 2), $prefix);
+            }
         }
     }
+}
+
+@mixin init-v-button-emphasis-css-vars($name: 'high', $prefix: '') {
+    @include v-button-variant-css-vars($v-button-emphasis, $name, $prefix);
+}
+
+@mixin init-v-button-variant-css-vars($name: '', $prefix: '') {
+    @include v-button-variant-css-vars($v-button-variants, $name, $prefix);
 }

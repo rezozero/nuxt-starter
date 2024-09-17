@@ -3,29 +3,34 @@ import type { PropType } from 'vue'
 import type { Theme } from '#imports'
 import { NuxtLink } from '#components'
 
-export const vButtonSizes = ['s', 'm', 'l'] as const
+export const vButtonSizes = ['sm', 'md', 'lg', 'xl'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
+
 export type Variant = 'menu' | 'anchor'
 
+export const vButtonEmphasis = ['low', 'medium', 'high']
+export type VButtonEmphasis = (typeof vButtonEmphasis)[number]
+
 export const vButtonProps = {
-    filled: Boolean,
-    loading: Boolean,
+    tag: [String, Boolean] as PropType<string | false>,
     iconName: String,
     label: [String, Boolean] as PropType<string | false>,
-    size: [String, Boolean] as PropType<VButtonSize | false>,
+    href: String,
+    to: String,
+    iconLast: { type: Boolean, default: true },
+    // state
+    loading: Boolean,
+    disabled: Boolean,
+    // Style
+    filled: Boolean,
     elevated: Boolean,
     rounded: Boolean,
     outlined: Boolean,
-    disabled: Boolean,
-    tag: [String, Boolean] as PropType<string | false>,
-    href: String,
-    to: String,
-    iconLast: {
-        type: Boolean,
-        default: true,
-    },
+    // Vars
+    size: [String, Boolean] as PropType<VButtonSize | false>,
     variant: String as PropType<Variant>,
     theme: [String, Boolean] as PropType<Theme | false>,
+    emphasis: String as PropType<VButtonEmphasis>,
 }
 
 export default defineComponent({
@@ -66,15 +71,16 @@ export default defineComponent({
         const rootClasses = computed(() => {
             return [
                 $style.root,
+                props.iconLast && $style['root--icon-last'],
+                hasLabel.value && $style['root--has-label'],
+                hasIcon.value && $style['root--has-icon'],
                 props.outlined && $style['root--outlined'],
                 props.filled && $style['root--filled'],
                 props.elevated && $style['root--elevated'],
                 props.disabled && $style['root--disabled'],
                 props.rounded && $style['root--rounded'],
-                props.iconLast && $style['root--icon-last'],
-                hasIcon.value && $style['root--has-icon'],
-                hasLabel.value && $style['root--has-label'],
                 props.loading && $style['root--loading'],
+                props.emphasis && $style[`root--emphasis-${props.emphasis}`],
                 props.variant && $style[`root--variant-${props.variant}`],
                 typeof props.size === 'string' && $style[`root--size-${props.size}`],
                 themeClass.value,
@@ -100,7 +106,7 @@ export default defineComponent({
         :disabled="(internalTag === 'button' && disabled) || undefined"
         v-bind="linkProps"
     >
-        <VSpinner v-if="hasIcon && loading" ref="icon" :class="$style.icon" />
+        <VSpinner v-if="hasIcon && loading" ref="icon" :class="$style.icon" :size="24" />
         <VIcon v-else-if="iconName" :class="$style.icon" :name="iconName" />
         <slot v-else-if="hasIconSlot" ref="icon" :class="$style.icon" name="icon" />
         <span v-if="hasLabel" :class="$style.label">
@@ -110,92 +116,53 @@ export default defineComponent({
 </template>
 
 <style lang="scss" module>
+@use 'sass:list';
 @use 'sass:map';
 
-@if global-variable-exists('themes') {
-    $themes: map-merge(
-            $themes,
-            (
-                dark: (
-                    v-button-disabled-color: #757575,
-                    v-button-disabled-foreground: #757575,
-                    v-button-disabled-background: #e3e3e3,
-                ),
-                light: (
-                    v-button-disabled-foreground: #9f9f9f,
-                    v-button-disabled-background: #e3e3e3,
-                    v-button-disabled-outlined: #9f9f9f,
-                ),
-            )
-    );
-}
-
 .root {
-    @include v-button-default-css-vars($v-button);
+    @include init-v-button-css-vars($v-button);
     @include theme-variants;
-
-    position: var(--v-button-position, relative);
-    display: var(--v-button-display, inline-flex);
-    align-items: center;
-    justify-content: var(--v-button-justify-content, center);
-    color: var(--v-button-color, var(--theme-foreground-color));
-    font-weight: var(--v-button-font-weight, 500);
-    text-transform: var(--v-button-text-transform, none);
-
-    // Clear user-agent style
-    border: initial;
-    background-color: initial;
 
     // PROPS STYLE
     &--icon-last {
         flex-direction: row-reverse;
     }
 
+    &:where(#{&}--outlined, #{&}--filled, #{&}--rounded, #{&}--elevated) {
+        @include init-v-button-css-vars($v-button-spacing);
+    }
+
     &--rounded {
-        @include v-button-default-css-vars($v-button-rounded, 'rounded');
+        @include init-v-button-css-vars($v-button-rounded, 'rounded');
     }
 
     &--outlined {
-        @include v-button-default-css-vars($v-button-outlined, 'outlined');
+        @include init-v-button-css-vars($v-button-outlined, 'outlined');
     }
 
     &--filled {
-        @include v-button-default-css-vars($v-button-filled, 'filled');
+        @include init-v-button-css-vars($v-button-filled, 'filled');
     }
 
     &--elevated {
         box-shadow: 0 2px 32px 0 rgba(#000, 0.1);
     }
 
-    // button without background color / border
-    &:not(.root--outlined, .root--filled) {
-        --v-button-height: initial;
-        --v-button-padding-inline: 0;
-    }
-
-    // LOADING
     &--loading {
         cursor: wait;
         pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
     }
 
+    &:not(:where([inert], #{&}--disabled)) {
+        cursor: var(--v-button-cursor, pointer);
+    }
+
     // DISABLED
-    &[inert],
-    &--disabled {
-        color: var(--v-button-disabled-color, var(--theme-v-button-disabled-foreground));
+    &:where([inert], #{&}--disabled) {
+        color: var(--v-button-disabled-color, lightgray);
 
         // prevents click on disabled link (<a> or <nuxt-link>)
         pointer-events: none;
-    }
-
-    &--outlined[inert],
-    &--disabled#{&}--outlined {
-        --v-button-outlined-border-color: var(--v-button-disabled-color, var(--theme-v-button-disabled-foreground));
-    }
-
-    &--filled[inert],
-    &--disabled#{&}--filled {
-        background: var(--theme-v-button-disabled-background);
     }
 
     // SIZES
@@ -205,69 +172,48 @@ export default defineComponent({
         }
     }
 
-    // HOVER
-    @media (hover: hover) {
-    }
+    // EMPHASIS
+    @each $emphasis-key, $vars in $v-button-emphasis {
+        &--emphasis-#{$emphasis-key} {
+            @include init-v-button-emphasis-css-vars($emphasis-key);
+        }
 
-    // VARIANTS
-    //&--variant-menu {
-    //    @include v-button-css-vars-by-size($v-button-menu-rounded, 's', 'rounded');
-    //    @include v-button-default-css-vars($v-button-menu);
-    //
-    //    @each $key, $value in $v-button-menu {
-    //        &--size-#{$key} {
-    //            @include v-button-size($key, menu);
-    //        }
-    //    }
-    //}
+        $available-sizes: '';
+
+        @each $item in $vars {
+            $var-content: map.get($item, 'vars');
+
+            @each $size-key, $val in $var-content {
+                @if $size-key != 'common' and list.index($available-sizes, $size-key) == null {
+                    $available-sizes: append($available-sizes, $size-key);
+                }
+            }
+        }
+
+        // Set css var by size
+        @each $size in $available-sizes {
+            &--emphasis-#{$emphasis-key}.root--size-#{$size} {
+                @include v-button-size($size, $emphasis-key);
+            }
+        }
+
+        // Wait for Theme PR to add
+        // Add filtered emphasis css var theme
+        //@each $theme-key, $value in $themes {
+        //    &--emphasis-#{$emphasis-key}.root--theme-#{$theme-key} {
+        //        @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
+        //    }
+        //}
+    }
 }
 
-// can't apply class to icon slot directly
 // be aware than all nested svg are styled
 .root svg,
 .icon {
-    @include v-button-default-css-vars($v-button-icon, 'icon');
-
-    z-index: 1;
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    justify-content: center;
-    color: var(--v-button-icon-color, currentColor);
-    line-height: 0;
-    rotate: var(--v-button-icon-rotate);
-    transform-origin: center;
-    transition: rotate 0.3s;
-
-    .root--loading & {
-        width: rem(24);
-        height: rem(24);
-    }
+    @include init-v-button-css-vars($v-button-icon, 'icon');
 }
 
 .label {
-    @include v-button-default-css-vars($v-button-label, 'label');
-
-    position: relative;
-    display: var(--v-button-label-display);
-
-    // center typo vertically
-    margin-top: rem(-2);
-
-    // hover
-    text-decoration: var(--v-button-label-text-decoration);
-    text-overflow: ellipsis;
-    text-underline-offset: rem(3);
-    white-space: nowrap;
-
-    // button with icon at first position and without background color / border
-    .root:not(.root--icon-last, .root--outlined, .root--filled) & {
-        margin-right: 0;
-    }
-
-    // button with icon at last position and without background color / border
-    .root--icon-last:not(.root--outlined, .root--filled) & {
-        margin-left: 0;
-    }
+    @include init-v-button-css-vars($v-button-label, 'label');
 }
 </style>
