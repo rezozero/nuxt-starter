@@ -2,7 +2,7 @@
 import type { RoadizDocument } from '@roadiz/types'
 import { type Component, h, type PropType } from 'vue'
 import type { VRoadizVideo, VRoadizImage } from '#components'
-import { LazyVRoadizImage, LazyVRoadizVideo, LazyVAudio } from '#components'
+import { LazyVRoadizImage, LazyVRoadizVideo, LazyVRoadizAudio } from '#components'
 import { isAudio, isImage, isPDF, isVideo } from '~/utils/roadiz/document'
 
 type VVideoProps = InstanceType<typeof VRoadizVideo>['$props']
@@ -40,7 +40,7 @@ export default defineComponent({
                 return LazyVRoadizImage
             }
             else if (mediaType.value === 'audio') {
-                return LazyVAudio
+                return LazyVRoadizAudio
             }
             else if (mediaType.value === 'placeholder') {
                 return 'div'
