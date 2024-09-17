@@ -144,10 +144,10 @@ const classNames = computed(() => [
         transform: translate3d(0, -100%, 0) scale(0.7);
     }
 
-    //.root--focused:not(.root--inline, .root--disabled) &,
-    //.root--filled:not(.root--inline, .root--disabled) & {
-    //    opacity: 0.5;
-    //}
+    // .root--focused:not(.root--inline, .root--disabled) &,
+    // .root--filled:not(.root--inline, .root--disabled) & {
+    //     opacity: 0.5;
+    // }
 }
 
 .description,

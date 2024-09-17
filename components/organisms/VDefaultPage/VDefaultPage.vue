@@ -8,12 +8,9 @@ defineProps<{
 </script>
 
 <template>
-    <div :class="$style.root">
+    <div>
         {{ entity.title || 'VDefaultPage' }}
     </div>
 </template>
 
-<style lang="scss" module>
-.root {
-}
-</style>
+<!-- <style lang="scss" module></style> -->

@@ -5,19 +5,25 @@
 }
 
 @mixin text-h2 {
+    font-size: rem(64);
 }
 
 @mixin text-h3 {
+    font-size: rem(48);
 }
 
 @mixin text-h4 {
+    font-size: rem(36);
 }
 
 @mixin text-h5 {
+    font-size: rem(24);
 }
 
 @mixin text-body {
+    font-size: rem(18);
 }
 
 @mixin text-body-s {
+    font-size: rem(16);
 }
