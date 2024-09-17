@@ -55,9 +55,9 @@ export default defineComponent({
                 sizes:
                     props.sizes
                     || (!isPicture.value
-                    && !props.densities
-                    && ($img.options.presets?.default?.sizes || $img.options.screens))
-                    || undefined,
+                        && !props.densities
+                        && ($img.options.presets?.default?.sizes || $img.options.screens))
+                        || undefined,
                 provider: 'interventionRequest',
                 modifiers: {
                     ...modifiers.value,
