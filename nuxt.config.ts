@@ -1,12 +1,23 @@
 import svgLoader from 'vite-svg-loader'
+import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 
 const defaultLocale = 'fr'
 const locales = ['fr']
 
+const isNuxtStories = process.env.NUXT_STORIES === '1'
+
+const plugins: (NuxtPlugin | string)[] = []
+
+if (isNuxtStories) {
+    plugins.push('./plugins/stories/msw.ts')
+}
+
 export default defineNuxtConfig({
     devtools: { enabled: true },
+
+    plugins,
 
     // Don't use layer for now
     // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
