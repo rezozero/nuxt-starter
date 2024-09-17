@@ -1,3 +1,7 @@
+.container {
+    @include container;
+}
+
 .grid {
     @include grid;
 }
