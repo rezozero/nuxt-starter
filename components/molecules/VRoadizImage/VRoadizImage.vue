@@ -4,8 +4,8 @@ import type { PropType } from 'vue'
 import pick from 'lodash/pick'
 import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
-import { imgProps } from '#image/components/nuxt-img'
-import { pictureProps } from '#image/components/nuxt-picture'
+import { imgProps } from '#image/components/NuxtImg.vue'
+import { pictureProps } from '#image/components/NuxtPicture.vue'
 
 export const vRoadizImageProps = {
     ...imgProps,
