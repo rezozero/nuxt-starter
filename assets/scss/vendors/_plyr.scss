@@ -7,8 +7,8 @@
     --plyr-range-fill-background: '#fff';
     --plyr-control-radius: 100%;
     --plyr-control-spacing: #{rem(32)};
-    --plyr-video-control-background-hover: #{rgba(color(white), 0.05)};
-    --plyr-video-control-color-hover: #{color(white)};
+    --plyr-video-control-background-hover: $colors-white-5;
+    --plyr-video-control-color-hover: $colors-white-100;
     --plyr-control-icon-size: 24px;
     --plyr-range-track-height: 3px;
 

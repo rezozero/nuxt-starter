@@ -126,7 +126,7 @@ const onSelectChange = (event: Event) => {
 
     &--multiple {
         padding: rem(10);
-        border: 1px solid rgba(color(black), 0.3);
+        border: 1px solid $colors-black-30;
     }
 
     &:not(#{&}--multiple) {
@@ -148,7 +148,7 @@ const onSelectChange = (event: Event) => {
 
 .select[multiple]:focus option:checked,
 .select[multiple] option:checked {
-    $color: color(grey-100); // rgba(color(black), 0.1);
+    $color: $colors-gray-100; // $colors-black-10;
 
     background: $color linear-gradient(0deg, $color 0%, $color 100%);
 }

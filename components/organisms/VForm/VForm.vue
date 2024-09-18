@@ -276,12 +276,12 @@ const formattedSchema = computed(() => {
 <style lang="scss" module>
 .errors {
     margin: 1em 0;
-    color: color(error);
+    color: $colors-error;
 }
 
 .success {
     margin: 1em 0;
-    color: color(success);
+    color: $colors-success;
 }
 
 .footer {
@@ -290,6 +290,6 @@ const formattedSchema = computed(() => {
 
 .gdpr {
     margin-top: rem(32);
-    color: var(--v-form-gdpr-color, color(grey-500));
+    color: var(--v-form-gdpr-color, $colors-gray-500);
 }
 </style>

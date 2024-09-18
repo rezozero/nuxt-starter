@@ -90,7 +90,7 @@ const classNames = computed(() => [
     align-items: start;
     padding-top: rem(18);
     padding-bottom: rem(14);
-    border-bottom: 1px solid rgba(color(black), 0.3);
+    border-bottom: 1px solid $colors-black-30;
     transition: border-color 0.3s;
 
     .root--hide-separator & {
@@ -100,7 +100,7 @@ const classNames = computed(() => [
 
     .root--focused &,
     .root--filled & {
-        border-color: color(black);
+        border-color: $colors-black-100;
     }
 }
 
@@ -164,6 +164,6 @@ const classNames = computed(() => [
 }
 
 .errors {
-    color: red;
+    color: $colors-error;
 }
 </style>

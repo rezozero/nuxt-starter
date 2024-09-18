@@ -1,11 +1,21 @@
+// Export themes from variable2css figma plugin
+// https://www.figma.com/community/plugin/1261234393153346915/variables2css
+
+// Generated output is sass, need to convert to scss
+// CMD f + CMD r could help
+
 $themes: (
     light: (
-        foreground-color: color(black),
-        background-color: #fff,
+        color-content-primary: $colors-black-100,
+        color-surfaces-primary: $colors-white-100,
     ),
     dark: (
-        foreground-color: #fff,
-        background-color: color(black),
-    )
+        color-content-primary: $colors-white-100,
+        color-surfaces-primary: $colors-black-100,
+    ),
+    red: (
+        color-content-primary: $colors-error,
+        color-surfaces-primary: $colors-warning,
+    ),
 );
 $default-theme: light;
