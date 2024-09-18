@@ -1,79 +1,81 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
-import type { Placement } from 'floating-vue'
-import { Tooltip as VTooltip } from 'floating-vue'
+import type { Placement, Tooltip } from 'floating-vue'
 
-defineProps({
+import { hash } from 'ohash'
+
+const props = defineProps({
     placement: {
         type: String as PropType<Placement>,
         default: 'top-end',
     },
-    content: { type: String },
+    content: String,
+    container: {
+        type: String,
+        default: 'body',
+    },
 })
 
-const id = useId()
+// Workaround for https://github.com/Akryum/floating-vue/issues/1006
+const id = computed(() => hash(props.content))
+
+const tooltipProps = computed(() => {
+    return {
+        distance: '0',
+        skidding: '-8',
+        placement: props.placement,
+        triggers: ['hover', 'focus', 'click'],
+        container: props.container,
+        delay: { show: 0, hide: 100 },
+        ariaId: id.value,
+        handleResize: true,
+        eagerMount: true,
+    }
+})
+
+const displayedComponent = shallowRef<string | typeof Tooltip>('div')
+const isTooltipComponentDisplayed = computed(() => displayedComponent.value !== 'div')
+
+async function onUserInteract() {
+    if (isTooltipComponentDisplayed.value) return
+
+    import('assets/scss/vendors/_floating-vue.scss')
+    displayedComponent.value = (await import('floating-vue')).Tooltip
+}
 </script>
 
 <template>
-    <VTooltip
-        :distance="9"
-        :placement="placement"
-        :triggers="['hover', 'focus']"
-        :popper-triggers="['hover']"
-        :overflow-padding="16"
-        :aria-id="id"
-        :delay="{ show: 0, hide: 100 }"
+    <component
+        :is="displayedComponent"
         :class="$style.root"
+        v-bind="isTooltipComponentDisplayed ? tooltipProps : undefined"
+        @mouseover="onUserInteract"
+        @click="onUserInteract"
     >
-        <button :class="$style.button">
-            <VIcon
-                name="copyright"
-                width="8"
-                height="8"
-            />
-        </button>
+        <VCopyrightButton />
         <template #popper>
-            <VMarkdown
-                :class="$style.popper"
-                :content="content"
-            >
-                <slot />
-            </VMarkdown>
+            <slot>
+                <VMarkdown
+                    :class="$style.content"
+                    :content="content"
+                />
+            </slot>
         </template>
-    </VTooltip>
+    </component>
 </template>
 
 <style lang="scss" module>
 .root {
     position: absolute;
-    right: var(--v-copyright-right, rem(16));
-    bottom: var(--v-copyright-bottom, rem(16));
+    right: var(--v-copyright-right, 0);
+    bottom: var(--v-copyright-bottom, 0);
 }
 
-.button {
-    display: flex;
-    width: var(--v-copyright-button-width, rem(16));
-    height: var(--v-copyright-button-height, rem(16));
-    align-items: center;
-    justify-content: center;
-    border-radius: 100vmax;
-    background-color: var(--v-copyright-button-background-color, #fff);
-    color: var(--v-copyright-button-foreground-color, #000);
-    transition: background-color 0.3s;
+.content {
+    max-width: rem(276);
 
-    @include media('>=md') {
-        width: var(--v-copyright-button-width, rem(24));
-        height: var(--v-copyright-button-height, rem(24));
+    p {
+        padding: 0;
     }
-
-    @media (hover: hover) {
-        &:hover {
-            background-color: var(--v-copyright-button-background-color-hover, #ccc);
-        }
-    }
-}
-
-.popper {
-    max-width: var(--v-copyright-popper-max-width, rem(200));
 }
 </style>

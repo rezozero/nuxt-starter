@@ -1,0 +1,18 @@
+@import "floating-vue/dist/style.css";
+
+.v-popper__arrow-container {
+    display: none;
+    visibility: hidden;
+}
+
+.v-popper--theme-tooltip .v-popper__inner {
+    padding: rem(12);
+    border-radius: initial;
+    background-color: var(--theme-color-surfaces-primary);
+    color: var(--theme-color-content-primary);
+    word-break: break-word;
+
+    @include media('>=md') {
+        padding: rem(24);
+    }
+}
