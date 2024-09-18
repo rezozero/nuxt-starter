@@ -1,67 +1,23 @@
-<script setup lang="ts">
-const props = defineProps<{
-    playState?: 'paused' | 'running'
-    size?: number
-}>()
+<script lang="ts" setup>
+const playState = ref('running')
 
-const boxSize = computed(() => props.size || 50)
-const half = computed(() => boxSize.value / 2)
-const strokeWidth = computed(() => Math.max(boxSize.value / 10, 1))
-const radius = computed(() => half.value - strokeWidth.value / 2)
-
-const perimeter = computed(() => radius.value * 2 * Math.PI)
+function toggle() {
+    playState.value = playState.value === 'running' ? 'paused' : 'running'
+}
 </script>
 
 <template>
-    <svg
-        :height="boxSize"
-        :width="boxSize"
-        :class="$style.root"
-        :viewBox="`0 0 ${boxSize} ${boxSize}`"
-        xmlns="http://www.w3.org/2000/svg"
-    >
-        <circle :class="$style.circle" :cx="half" :cy="half" :r="radius" :stroke-width="strokeWidth" />
-    </svg>
+    <NuxtStory>
+        <template #aside>
+            <VButton filled @click="toggle">Toggle state</VButton>
+        </template>
+        <VSpinner :play-state="playState" :class="$style.root" />
+    </NuxtStory>
 </template>
 
 <style lang="scss" module>
-// @see https://codepen.io/zapdev/pen/MYJRaj
-
-@keyframes rotate {
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes dash {
-    0% {
-        stroke-dasharray: 1, v-bind(perimeter);
-        stroke-dashoffset: 0;
-    }
-
-    50% {
-        stroke-dasharray: calc(v-bind(perimeter) * 0.3px), v-bind(perimeter);
-        stroke-dashoffset: calc(v-bind(perimeter) * -0.2px);
-    }
-
-    100% {
-        stroke-dasharray: calc(v-bind(perimeter) * 0.3px), v-bind(perimeter);
-        stroke-dashoffset: calc(v-bind(perimeter) * -1px);
-    }
-}
-
 .root {
-    animation: rotate 1.5s linear infinite;
-    animation-play-state: var(--v-spinner-play-state, v-bind(playState));
-}
-
-.circle {
-    animation: dash 1.5s ease-in-out infinite 0s;
-    animation-play-state: inherit;
-    fill: none;
-    stroke: currentcolor;
-    stroke-dasharray: 1, v-bind(perimeter);
-    stroke-dashoffset: 0;
-    stroke-linecap: round;
+    width: 200px;
+    height: 200px;
 }
 </style>
