@@ -98,9 +98,21 @@ export default defineComponent({
         :disabled="(internalTag === 'button' && disabled) || undefined"
         v-bind="linkProps"
     >
-        <VIcon v-if="iconName" :class="$style.icon" :name="iconName" />
-        <slot v-else-if="hasIconSlot" ref="icon" :class="$style.icon" name="icon" />
-        <span v-if="hasLabel" :class="$style.label">
+        <VIcon
+            v-if="iconName"
+            :class="$style.icon"
+            :name="iconName"
+        />
+        <slot
+            v-else-if="hasIconSlot"
+            ref="icon"
+            :class="$style.icon"
+            name="icon"
+        />
+        <span
+            v-if="hasLabel"
+            :class="$style.label"
+        >
             <slot>{{ label }}</slot>
         </span>
     </component>

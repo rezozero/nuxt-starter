@@ -3,16 +3,36 @@
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="outlined">
-            <VButton label="default" :class="$style.button" icon-name="check" outlined />
+            <VButton
+                label="default"
+                :class="$style.button"
+                icon-name="check"
+                outlined
+            />
             <VButton
                 label="with breakpoint"
                 :class="[$style.button, $style['button--responsive']]"
                 icon-name="check"
                 outlined
             />
-            <VButton label="SM" :class="[$style.button, $style['button--sm']]" icon-name="check" outlined />
-            <VButton label="MD" :class="[$style.button, $style['button--md']]" icon-name="check" outlined />
-            <VButton label="LG" :class="[$style.button, $style['button--lg']]" icon-name="check" outlined />
+            <VButton
+                label="SM"
+                :class="[$style.button, $style['button--sm']]"
+                icon-name="check"
+                outlined
+            />
+            <VButton
+                label="MD"
+                :class="[$style.button, $style['button--md']]"
+                icon-name="check"
+                outlined
+            />
+            <VButton
+                label="LG"
+                :class="[$style.button, $style['button--lg']]"
+                icon-name="check"
+                outlined
+            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

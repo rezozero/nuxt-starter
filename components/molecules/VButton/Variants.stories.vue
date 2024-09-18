@@ -21,11 +21,17 @@ const commonsProps = {
         <NuxtStoryVariant title="Only css">
             <button :class="$style['button-custom']">
                 <span :class="$style.label">Default label</span>
-                <VIcon name="arrow-line-right" :class="$style.icon" />
+                <VIcon
+                    name="arrow-line-right"
+                    :class="$style.icon"
+                />
             </button>
             <button :class="[$style['button-custom'], $style['button-custom--xl']]">
                 <span :class="$style.label">Default label</span>
-                <VIcon name="arrow-line-right" :class="$style.icon" />
+                <VIcon
+                    name="arrow-line-right"
+                    :class="$style.icon"
+                />
             </button>
         </NuxtStoryVariant>
     </NuxtStory>

@@ -5,7 +5,13 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Default">
-            <VButton v-for="size in sizes" :key="size" :label="`Button label ${size}`" :size="size" icon-name="check" />
+            <VButton
+                v-for="size in sizes"
+                :key="size"
+                :label="`Button label ${size}`"
+                :size="size"
+                icon-name="check"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Filled">
             <VButton
