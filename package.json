@@ -47,6 +47,7 @@
         "vite-svg-loader": "^5.1.0"
     },
     "dependencies": {
+        "@floating-ui/vue": "^1.1.5",
         "@sentry/browser": "^8.19.0",
         "@sentry/node": "^8.19.0",
         "@sentry/vue": "^8.19.0",
@@ -54,6 +55,7 @@
         "@vue-a11y/skip-to": "^2.1.2",
         "@vueuse/core": "^11.0.3",
         "body-scroll-lock": "^3.1.5",
+        "floating-vue": "^5.2.2",
         "lodash": "^4.17.21",
         "marked": "^14.1.2",
         "plyr": "^3.7.8",
