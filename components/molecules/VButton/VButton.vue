@@ -183,7 +183,7 @@ export default defineComponent({
             $var-content: map.get($item, 'vars');
 
             @each $size-key, $val in $var-content {
-                @if $size-key != 'common' and list.index($available-sizes, $size-key) == null {
+                @if $size-key != 'common' and not list.index($available-sizes, $size-key) {
                     $available-sizes: append($available-sizes, $size-key);
                 }
             }
@@ -198,11 +198,11 @@ export default defineComponent({
 
         // Wait for Theme PR to add
         // Add filtered emphasis css var theme
-        //@each $theme-key, $value in $themes {
+        // @each $theme-key, $value in $themes {
         //    &--emphasis-#{$emphasis-key}.root--theme-#{$theme-key} {
         //        @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
         //    }
-        //}
+        // }
     }
 
     // VARIANT
@@ -217,7 +217,7 @@ export default defineComponent({
             $var-content: map.get($item, 'vars');
 
             @each $size-key, $val in $var-content {
-                @if $size-key != 'common' and list.index($available-sizes, $size-key) == null {
+                @if $size-key != 'common' and not list.index($available-sizes, $size-key) {
                     $available-sizes: append($available-sizes, $size-key);
                 }
             }
@@ -231,11 +231,11 @@ export default defineComponent({
 
         // Wait for Theme PR to add
         // Add filtered emphasis css var theme
-        //@each $theme-key, $value in $themes {
+        // @each $theme-key, $value in $themes {
         //    &--variant-#{$emphasis-key}.root--theme-#{$theme-key} {
         //        @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
         //    }
-        //}
+        // }
     }
 }
 
