@@ -1,16 +1,12 @@
-@mixin grid {
-    @include grid-gap;
-
-    display: grid;
+@mixin grid-container {
     width: var(--grid-width);
     max-width: var(--grid-max-width);
-    margin: 0 auto;
-    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+    margin-inline: auto;
 }
 
-@mixin grid-gap {
-    @supports (gap: 0) {
-        /* autoprefixer grid: off */
-        gap: 0 var(--gutter);
-    }
+@mixin grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
+
+    @include grid-container;
 }

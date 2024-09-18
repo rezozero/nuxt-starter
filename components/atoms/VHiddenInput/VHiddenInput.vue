@@ -5,5 +5,10 @@ defineProps<FormElementProps>()
 </script>
 
 <template>
-    <input :id="id" type="hidden" :name="name" :value="modelValue" />
+    <input
+        :id="id"
+        type="hidden"
+        :name="name"
+        :value="modelValue"
+    >
 </template>

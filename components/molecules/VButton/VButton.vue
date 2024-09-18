@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { Theme } from '#imports'
 import { NuxtLink } from '#components'
 
-export const vButtonSizes = ['s', 'm', 'l'] as const
+export const vButtonSizes = ['sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
 export type Variant = 'menu' | 'anchor'
 
@@ -45,12 +45,13 @@ export default defineComponent({
         })
 
         const linkProps = computed(() => {
-            const result: Record<string, any> = {}
+            const result: Record<string, unknown> = {}
 
             // If the tag is forced to be a link <a>, then it shouldn't have a `to` prop (`to` is for NuxtLink component)
             if (isRelativePath.value && internalTag.value !== 'a') {
                 result.to = url.value
-            } else if (props.href) {
+            }
+            else if (props.href) {
                 result.href = props.href
             }
 
@@ -60,6 +61,8 @@ export default defineComponent({
         const hasIconSlot = computed(() => !!slots.icon)
         const hasIcon = computed(() => hasIconSlot.value || !!props.iconName)
         const hasLabel = computed(() => !!slots.default || !!props.label)
+
+        const isRawStyle = computed(() => !props.outlined && !props.filled && !props.elevated)
 
         const { themeClass } = useTheme({ props })
         const $style = useCssModule()
@@ -72,11 +75,12 @@ export default defineComponent({
                 props.disabled && $style['root--disabled'],
                 props.rounded && $style['root--rounded'],
                 props.iconLast && $style['root--icon-last'],
-                hasIcon.value && $style['root--has-icon'],
-                hasLabel.value && $style['root--has-label'],
                 props.loading && $style['root--loading'],
                 props.variant && $style[`root--variant-${props.variant}`],
                 typeof props.size === 'string' && $style[`root--size-${props.size}`],
+                hasIcon.value && $style['root--has-icon'],
+                hasLabel.value && $style['root--has-label'],
+                isRawStyle.value && $style['root--raw'],
                 themeClass.value,
             ]
         })
@@ -100,10 +104,26 @@ export default defineComponent({
         :disabled="(internalTag === 'button' && disabled) || undefined"
         v-bind="linkProps"
     >
-        <VSpinner v-if="hasIcon && loading" ref="icon" :class="$style.icon" />
-        <VIcon v-else-if="iconName" :class="$style.icon" :name="iconName" />
-        <slot v-else-if="hasIconSlot" ref="icon" :class="$style.icon" name="icon" />
-        <span v-if="hasLabel" :class="$style.label">
+        <VSpinner
+            v-if="hasIcon && loading"
+            ref="icon"
+            :class="$style.icon"
+        />
+        <VIcon
+            v-else-if="iconName"
+            :class="$style.icon"
+            :name="iconName"
+        />
+        <slot
+            v-else-if="hasIconSlot"
+            ref="icon"
+            :class="$style.icon"
+            name="icon"
+        />
+        <span
+            v-if="hasLabel"
+            :class="$style.label"
+        >
             <slot>{{ label }}</slot>
         </span>
     </component>
@@ -113,7 +133,7 @@ export default defineComponent({
 @use 'sass:map';
 
 @if global-variable-exists('themes') {
-    $themes: map-merge(
+    $themes: map.deep-merge(
             $themes,
             (
                 dark: (
@@ -132,19 +152,19 @@ export default defineComponent({
 
 .root {
     @include v-button-default-css-vars($v-button);
-    @include theme-variants;
 
     position: var(--v-button-position, relative);
     display: var(--v-button-display, inline-flex);
     align-items: center;
     justify-content: var(--v-button-justify-content, center);
-    color: var(--v-button-color, var(--theme-foreground-color));
-    font-weight: var(--v-button-font-weight, 500);
-    text-transform: var(--v-button-text-transform, none);
+    border: initial;
 
     // Clear user-agent style
-    border: initial;
     background-color: initial;
+    color: var(--v-button-color, var(--theme-foreground-color));
+    text-decoration: initial;
+
+    @include theme-variants;
 
     // PROPS STYLE
     &--icon-last {
@@ -168,9 +188,10 @@ export default defineComponent({
     }
 
     // button without background color / border
-    &:not(.root--outlined, .root--filled) {
-        --v-button-height: initial;
-        --v-button-padding-inline: 0;
+    &--raw {
+        // Revert default value
+        height: var(--v-button-raw-height);
+        padding-inline: var(--v-button-raw-padding-inline);
     }
 
     // LOADING
@@ -206,11 +227,11 @@ export default defineComponent({
     }
 
     // HOVER
-    @media (hover: hover) {
-    }
+    // @media (hover: hover) {
+    // }
 
     // VARIANTS
-    //&--variant-menu {
+    // &--variant-menu {
     //    @include v-button-css-vars-by-size($v-button-menu-rounded, 's', 'rounded');
     //    @include v-button-default-css-vars($v-button-menu);
     //
@@ -219,7 +240,7 @@ export default defineComponent({
     //            @include v-button-size($key, menu);
     //        }
     //    }
-    //}
+    // }
 }
 
 // can't apply class to icon slot directly
@@ -250,23 +271,22 @@ export default defineComponent({
 
     position: relative;
     display: var(--v-button-label-display);
-
-    // center typo vertically
-    margin-top: rem(-2);
-
-    // hover
-    text-decoration: var(--v-button-label-text-decoration);
     text-overflow: ellipsis;
-    text-underline-offset: rem(3);
     white-space: nowrap;
 
     // button with icon at first position and without background color / border
-    .root:not(.root--icon-last, .root--outlined, .root--filled) & {
+    .root--raw:not(.root--icon-last) & {
         margin-right: 0;
     }
 
     // button with icon at last position and without background color / border
-    .root--icon-last:not(.root--outlined, .root--filled) & {
+    .root--icon-last.root--raw & {
+        margin-left: 0;
+    }
+
+    // Raw text button
+    .root--raw:not(.root--has-icon) & {
+        margin-right: 0;
         margin-left: 0;
     }
 }

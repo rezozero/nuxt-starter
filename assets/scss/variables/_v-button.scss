@@ -8,34 +8,27 @@ $v-button: (
     common: (
         font-weight: 500,
     ),
-    s: (
+    sm: (
         font-size: rem(14),
         min-width: rem(36), // width with icon-only
         padding-inline: rem(8),
         height: rem(36),
         max-width: rem(200),
     ),
-    m: (
+    md: (
         font-size: rem(16),
         min-width: rem(44),
         padding-inline: rem(12),
         height: rem(44),
         max-width: rem(350),
     ),
-    l: (
+    lg: (
         font-size: rem(20),
         min-width: rem(60),
         padding-inline: rem(16),
         height: rem(60),
         max-width: rem(350),
     ),
-    xl: (
-        font-size: rem(24),
-        min-width: rem(48),
-        padding-inline: rem(8),
-        height: rem(48),
-        max-width: rem(350),
-    )
 );
 
 // icon
@@ -43,17 +36,14 @@ $v-button-icon: ();
 
 // label
 $v-button-label: (
-    s: (
+    sm: (
         margin-inline: rem(2),
     ),
-    m: (
+    md: (
         margin-inline: rem(4),
     ),
-    l: (
+    lg: (
         margin-inline: rem(6),
-    ),
-    xl: (
-        margin-inline: rem(2) rem(2),
     ),
 );
 
@@ -63,22 +53,19 @@ $v-button-rounded: (
         border-radius: rem(2),
     ),
 );
-
 $v-button-filled: (
     common: (
         background-color: var(--theme-foreground-color),
         color: var(--theme-background-color),
     ),
 );
-
 $v-button-outlined: (
     common: (
         border-width: 2px,
         border-style: solid,
-        border-color: currentColor
+        border-color: currentcolor
     ),
 );
-
 $v-button-disabled: (
     common: (
         color: var(--theme-v-button-disabled-color),
@@ -86,7 +73,6 @@ $v-button-disabled: (
         border-color: var(--v-button-disabled-outlined-border-color),
     ),
 );
-
 $v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),

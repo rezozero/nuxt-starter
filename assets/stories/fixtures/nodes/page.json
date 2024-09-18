@@ -1,0 +1,15 @@
+{
+  "@id": "/api/pages/1",
+  "@type": "Page",
+  "node": {
+    "@id": "/api/nodes/285",
+    "@type": "Node",
+    "nodeName": "internal-page",
+    "visible": true,
+    "tags": []
+  },
+  "publishedAt": "2022-10-13T16:10:16+02:00",
+  "title": "Internal page",
+  "slug": "internal-page",
+  "url": "/internal-page"
+}

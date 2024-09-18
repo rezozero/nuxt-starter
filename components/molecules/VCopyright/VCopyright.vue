@@ -26,10 +26,17 @@ const id = useId()
         :class="$style.root"
     >
         <button :class="$style.button">
-            <VIcon name="copyright" width="8" height="8" />
+            <VIcon
+                name="copyright"
+                width="8"
+                height="8"
+            />
         </button>
         <template #popper>
-            <VMarkdown :class="$style.popper" :content="content">
+            <VMarkdown
+                :class="$style.popper"
+                :content="content"
+            >
                 <slot />
             </VMarkdown>
         </template>

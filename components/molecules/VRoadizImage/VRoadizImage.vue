@@ -1,11 +1,11 @@
 <script lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
+import pick from 'lodash/pick'
 import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
-import { imgProps } from '#image/components/nuxt-img'
-import { pictureProps } from '#image/components/nuxt-picture'
-import pick from 'lodash/pick'
+import { imgProps } from '#image/components/NuxtImg.vue'
+import { pictureProps } from '#image/components/NuxtPicture.vue'
 
 export const vRoadizImageProps = {
     ...imgProps,
@@ -39,8 +39,8 @@ export default defineComponent({
         const isPicture = computed(() => !!slots.default || props.tag === 'picture')
         const copyright = computed(
             () =>
-                (typeof props.copyright === 'string' && props.copyright) ||
-                (props.copyright === true && document.value?.copyright),
+                (typeof props.copyright === 'string' && props.copyright)
+                || (props.copyright === true && document.value?.copyright),
         )
         const $img = useImage()
         const imageComponentProps = computed(() => {
@@ -53,11 +53,11 @@ export default defineComponent({
                 placeholder: document.value?.imageAverageColor,
                 format: props.format || 'webp',
                 sizes:
-                    props.sizes ||
-                    (!isPicture.value &&
-                        !props.densities &&
-                        ($img.options.presets?.default?.sizes || $img.options.screens)) ||
-                    undefined,
+                    props.sizes
+                    || (!isPicture.value
+                        && !props.densities
+                        && ($img.options.presets?.default?.sizes || $img.options.screens))
+                        || undefined,
                 provider: 'interventionRequest',
                 modifiers: {
                     ...modifiers.value,

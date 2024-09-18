@@ -16,5 +16,9 @@ defineProps({
 </script>
 
 <template>
-    <SvgIcon :name="name" :width="width" :height="height" />
+    <SvgIcon
+        :name="name"
+        :width="width"
+        :height="height"
+    />
 </template>

@@ -6,4 +6,4 @@
     </div>
 </template>
 
-<style module lang="scss"></style>
+<!-- <style module lang="scss"></style> -->
