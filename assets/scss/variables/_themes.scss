@@ -13,9 +13,5 @@ $themes: (
         color-content-primary: $colors-white-100,
         color-surfaces-primary: $colors-black-100,
     ),
-    red: (
-        color-content-primary: $colors-error,
-        color-surfaces-primary: $colors-warning,
-    ),
 );
 $default-theme: light;
