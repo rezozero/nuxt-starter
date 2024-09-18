@@ -11,7 +11,7 @@ useMockRequest(
             properties: {
                 'nom': {
                     type: 'string',
-                    title: 'Nom',
+                    title: 'Nom 3',
                     attr: {
                         'data-group': null,
                         'placeholder': 'Votre nom',
@@ -876,6 +876,8 @@ useMockRequest(
 
 <template>
     <NuxtStory>
-        <VForm :schema="schema" />
+        <ClientOnly>
+            <VForm :schema="schema" />
+        </ClientOnly>
     </NuxtStory>
 </template>
