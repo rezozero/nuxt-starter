@@ -23,7 +23,7 @@
 /**
  * Set property with appropriate css var name and default value
  */
-@mixin init-v-button-css-vars($vars, $prefix: '', $default: 'md') {
+@mixin v-button-css-vars($vars, $prefix: '', $default: 'md') {
     // Add common values
     @include default-css-vars('v-button', $vars, $prefix, 'common');
 
@@ -43,16 +43,8 @@
             $variant-prefix: nth($prefixes, 2);
 
             @if $variant-prefix == $prefix {
-                @include init-v-button-css-vars(nth($vars, 2), $prefix);
+                @include v-button-css-vars(nth($vars, 2), $prefix);
             }
         }
     }
-}
-
-@mixin init-v-button-emphasis-css-vars($name: 'high', $prefix: '') {
-    @include v-button-variant-css-vars($v-button-emphasis, $name, $prefix);
-}
-
-@mixin init-v-button-variant-css-vars($name: '', $prefix: '') {
-    @include v-button-variant-css-vars($v-button-variants, $name, $prefix);
 }

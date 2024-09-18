@@ -6,7 +6,7 @@ import { NuxtLink } from '#components'
 export const vButtonSizes = ['sm', 'md', 'lg', 'xl'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
 
-export type Variant = 'menu' | 'anchor'
+export type Variant = 'menu'
 
 export const vButtonEmphasis = ['low', 'medium', 'high']
 export type VButtonEmphasis = (typeof vButtonEmphasis)[number]
@@ -120,7 +120,7 @@ export default defineComponent({
 @use 'sass:map';
 
 .root {
-    @include init-v-button-css-vars($v-button);
+    @include v-button-css-vars($v-button);
     @include theme-variants;
 
     // PROPS STYLE
@@ -129,19 +129,19 @@ export default defineComponent({
     }
 
     &:where(#{&}--outlined, #{&}--filled, #{&}--rounded, #{&}--elevated) {
-        @include init-v-button-css-vars($v-button-spacing);
+        @include v-button-css-vars($v-button-spacing);
     }
 
     &--rounded {
-        @include init-v-button-css-vars($v-button-rounded, 'rounded');
+        @include v-button-css-vars($v-button-rounded, 'rounded');
     }
 
     &--outlined {
-        @include init-v-button-css-vars($v-button-outlined, 'outlined');
+        @include v-button-css-vars($v-button-outlined, 'outlined');
     }
 
     &--filled {
-        @include init-v-button-css-vars($v-button-filled, 'filled');
+        @include v-button-css-vars($v-button-filled, 'filled');
     }
 
     &--elevated {
@@ -175,9 +175,10 @@ export default defineComponent({
     // EMPHASIS
     @each $emphasis-key, $vars in $v-button-emphasis {
         &--emphasis-#{$emphasis-key} {
-            @include init-v-button-emphasis-css-vars($emphasis-key);
+            @include v-button-variant-css-vars($v-button-emphasis, $emphasis-key);
         }
 
+        // Get available sizes from emphasis vars
         $available-sizes: '';
 
         @each $item in $vars {
@@ -205,15 +206,48 @@ export default defineComponent({
         //    }
         //}
     }
+
+    // VARIANT
+    @each $variant-key, $vars in $v-button-variants {
+        &--variant-#{$variant-key} {
+            @include v-button-variant-css-vars($v-button-variants, $variant-key);
+        }
+
+        $available-sizes: '';
+
+        @each $item in $vars {
+            $var-content: map.get($item, 'vars');
+
+            @each $size-key, $val in $var-content {
+                @if $size-key != 'common' and list.index($available-sizes, $size-key) == null {
+                    $available-sizes: append($available-sizes, $size-key);
+                }
+            }
+        }
+
+        @each $size in $available-sizes {
+            &--variant-#{$variant-key}.root--size-#{$size} {
+                @include v-button-size($size, $variant-key);
+            }
+        }
+
+        // Wait for Theme PR to add
+        // Add filtered emphasis css var theme
+        //@each $theme-key, $value in $themes {
+        //    &--variant-#{$emphasis-key}.root--theme-#{$theme-key} {
+        //        @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
+        //    }
+        //}
+    }
 }
 
 // be aware than all nested svg are styled
 .root svg,
 .icon {
-    @include init-v-button-css-vars($v-button-icon, 'icon');
+    @include v-button-css-vars($v-button-icon, 'icon');
 }
 
 .label {
-    @include init-v-button-css-vars($v-button-label, 'label');
+    @include v-button-css-vars($v-button-label, 'label');
 }
 </style>
