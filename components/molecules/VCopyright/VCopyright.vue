@@ -67,8 +67,8 @@ async function onUserInteract() {
 <style lang="scss" module>
 .root {
     position: absolute;
-    right: var(--v-copyright-right, 0);
-    bottom: var(--v-copyright-bottom, 0);
+    right: var(--v-copyright-right, #{rem(16)});
+    bottom: var(--v-copyright-bottom, #{rem(16)});
 }
 
 .content {
