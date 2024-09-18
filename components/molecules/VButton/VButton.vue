@@ -2,6 +2,7 @@
 import type { PropType } from 'vue'
 import type { Theme } from '#imports'
 import { NuxtLink } from '#components'
+import type { PossibleRoutePath } from '~/composables/use-path-link-parser'
 
 export const vButtonSizes = ['sm', 'md', 'lg', 'xl'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
@@ -15,8 +16,7 @@ export const vButtonProps = {
     tag: [String, Boolean] as PropType<string | false>,
     iconName: String,
     label: [String, Boolean] as PropType<string | false>,
-    href: String,
-    to: String,
+    to: [String, Object] as PropType<PossibleRoutePath>,
     iconLast: { type: Boolean, default: true },
     // state
     loading: Boolean,
@@ -35,29 +35,23 @@ export const vButtonProps = {
 
 export default defineComponent({
     props: vButtonProps,
-    setup(props, { slots, attrs }) {
-        const url = computed(() => props.href || props.to)
+    setup(props, { slots }) {
+        const { isRelative, isExternal, url } = usePathLinkParser(props.to)
 
-        const isRelativePath = computed(() => url.value?.charAt(0) === '/')
-
-        const internalTag = computed((): string | typeof NuxtLink => {
+        const internalTag = computed(() => {
             if (typeof props.tag === 'string') return props.tag
 
-            // a target on a link could be used to deactivate the NuxtLink
-            if (isRelativePath.value && typeof attrs.target !== 'string') return NuxtLink
-            else if (props.href) return 'a'
+            // Let NuxtLink handle external link
+            if (isRelative.value || isExternal.value) return NuxtLink
             else return 'button'
         })
 
         const linkProps = computed(() => {
-            const result: Record<string, any> = {}
-
-            // If the tag is forced to be a link <a>, then it shouldn't have a `to` prop (`to` is for NuxtLink component)
-            if (isRelativePath.value && internalTag.value !== 'a') {
-                result.to = url.value
-            } else if (props.href) {
-                result.href = props.href
+            const result: Record<string, unknown> = {
+                to: url.value,
             }
+
+            if (isExternal.value) result.target = '_blank'
 
             return result
         })
