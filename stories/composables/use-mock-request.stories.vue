@@ -21,7 +21,3 @@ $fetch('api/fake-request')
 <template>
     <NuxtStory />
 </template>
-
-<style module lang="scss">
-
-</style>
