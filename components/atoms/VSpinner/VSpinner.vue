@@ -20,7 +20,13 @@ const perimeter = computed(() => radius.value * 2 * Math.PI)
         :viewBox="`0 0 ${boxSize} ${boxSize}`"
         xmlns="http://www.w3.org/2000/svg"
     >
-        <circle :class="$style.circle" :cx="half" :cy="half" :r="radius" :stroke-width="strokeWidth" />
+        <circle
+            :class="$style.circle"
+            :cx="half"
+            :cy="half"
+            :r="radius"
+            :stroke-width="strokeWidth"
+        />
     </svg>
 </template>
 
