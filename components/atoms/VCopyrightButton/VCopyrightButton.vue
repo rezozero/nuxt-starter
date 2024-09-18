@@ -15,9 +15,9 @@
 
 <style lang="scss" module>
 .root {
-    width: var(--v-information-button-width, #{rem(18 + 8 * 2)}); // Increase size for clickable zone on mobile
-    height: var(--v-information-button-height, #{rem(18 + 8 * 2)}); // Increase size for clickable zone on mobile
-    color: var(--v-information-button-foreground-color, #000);
+    width: var(--v-copyright-button-width, #{rem(18 + 8 * 2)}); // Increase size for clickable zone on mobile
+    height: var(--v-copyright-button-height, #{rem(18 + 8 * 2)}); // Increase size for clickable zone on mobile
+    color: var(--v-copyright-button-foreground-color, #000);
     isolation: isolate;
 
     &::before {
@@ -26,13 +26,13 @@
         width: rem(18);
         height: rem(18);
         border-radius: 100vmax;
-        background-color: var(--v-information-button-background-color, #fff);
+        background-color: var(--v-copyright-button-background-color, #fff);
         content: '';
     }
 
     @include media('>=md') {
-        width: var(--v-information-button-width, #{rem(20 + 8 * 2)});
-        height: var(--v-information-button-height, #{rem(20 + 8 * 2)});
+        width: var(--v-copyright-button-width, #{rem(20 + 8 * 2)});
+        height: var(--v-copyright-button-height, #{rem(20 + 8 * 2)});
 
         &::before {
             width: rem(20);
