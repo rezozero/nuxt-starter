@@ -13,8 +13,8 @@ interface HydraError {
     '@type': string
     'hydra:title': string
     'hydra:description': string
-    message?: string
-    trace: Array<HydraErrorTraceItem>
+    'message'?: string
+    'trace': Array<HydraErrorTraceItem>
 }
 
 interface HydraErrorTraceItem {

@@ -9,10 +9,10 @@ export function useAlternateLinks(links?: RoadizAlternateLink[]) {
     const { $i18n } = useNuxtApp()
 
     const availableAlternateLinks = computed(() => {
-        const locales =
-            ($i18n.locales.value?.some((locale: unknown) => typeof locale === 'string')
+        const locales
+            = ($i18n.locales.value?.some((locale: unknown) => typeof locale === 'string')
                 ? ($i18n.locales.value as unknown as string[])
-                : ($i18n.locales.value as LocaleObject[]).map((locale) => locale.code)) || []
+                : ($i18n.locales.value as LocaleObject[]).map(locale => locale.code)) || []
 
         return alternateLinks.value.sort((a: RoadizAlternateLink, b: RoadizAlternateLink) => {
             const indexA = locales.includes(a.locale) ? locales.indexOf(a.locale) : 9999

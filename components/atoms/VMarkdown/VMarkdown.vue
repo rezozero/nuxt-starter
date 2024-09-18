@@ -38,7 +38,8 @@ export default defineComponent({
 
             if (props.parsed) {
                 return props.content
-            } else {
+            }
+            else {
                 const options = { renderer }
 
                 if (props.inline) return marked.parseInline(content, options)
@@ -78,11 +79,11 @@ export default defineComponent({
         }
 
         onMounted(() => {
-            root.value?.querySelectorAll('a').forEach((link) => link.addEventListener('click', onLinkClick))
+            root.value?.querySelectorAll('a').forEach(link => link.addEventListener('click', onLinkClick))
         })
 
         onBeforeUnmount(() => {
-            root.value?.querySelectorAll('a').forEach((link) => link.removeEventListener('click', onLinkClick))
+            root.value?.querySelectorAll('a').forEach(link => link.removeEventListener('click', onLinkClick))
         })
 
         return () =>
@@ -161,6 +162,14 @@ export default defineComponent({
         }
     }
 
+    ol, ul, menu, summary {
+        list-style: none;
+    }
+
+    ol {
+        counter-reset: item;
+    }
+
     li {
         position: relative;
         padding: rem(8) 0 rem(8) rem(40);
@@ -193,10 +202,6 @@ export default defineComponent({
                 content: '';
             }
         }
-    }
-
-    ol {
-        counter-reset: item;
     }
 
     ol li {

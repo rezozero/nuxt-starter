@@ -9,9 +9,15 @@ function toggle() {
 <template>
     <NuxtStory>
         <template #aside>
-            <VButton filled @click="toggle">Toggle state</VButton>
+            <h3>Current state: {{ playState }}</h3>
+            <button @click="toggle">
+                Toggle state
+            </button>
         </template>
-        <VSpinner :play-state="playState" :class="$style.root" />
+        <VSpinner
+            :play-state="playState"
+            :class="$style.root"
+        />
     </NuxtStory>
 </template>
 

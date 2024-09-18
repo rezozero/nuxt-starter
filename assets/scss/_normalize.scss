@@ -5,27 +5,6 @@
     box-sizing: border-box;
 }
 
-/* Remove list styles (bullets/numbers) */
-ol, ul, menu, summary {
-    list-style: none;
-}
-
-/* For images to not be able to exceed their container */
-img {
-    max-inline-size: 100%;
-    max-block-size: 100%;
-}
-
-/* Safari - solving issue when using user-select:none on the <body> text input doesn't working */
-input, textarea {
-    user-select: auto;
-}
-
-/* revert the 'white-space' property for textarea elements on Safari */
-textarea {
-    white-space: revert;
-}
-
 /* revert for bug in Chromium browsers
    - fix for the content editable attribute will work properly.
    - webkit-user-select: auto; added for Safari in case of using user-select:none on wrapper element */

@@ -1,8 +1,8 @@
+import type { RoadizNodesSources } from '@roadiz/types'
 import type { UnionToIntersection } from '~/utils/types'
-import type { RoadizNodeType } from '@roadiz/types'
 
-export type MenuNodeType = RoadizNodeType
+export type MenuNodeType = RoadizNodesSources
 export type MenuNodeKeyMerged = Partial<UnionToIntersection<MenuNodeType>>
 
-export type ReachableItem = RoadizNodeType
+export type ReachableItem = RoadizNodesSources
 export type ReachableItemMerged = Partial<UnionToIntersection<ReachableItem>>
