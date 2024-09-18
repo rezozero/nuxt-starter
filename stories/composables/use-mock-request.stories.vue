@@ -9,13 +9,15 @@ useMockRequest(
     }),
 )
 
-$fetch('api/fake-request')
-    .then((response) => {
-        console.log(response)
-    })
-    .catch((error) => {
-        console.error(error)
-    })
+onMounted(() => {
+    $fetch('api/fake-request')
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((error) => {
+            console.error(error)
+        })
+})
 </script>
 
 <template>
