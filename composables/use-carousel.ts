@@ -10,26 +10,56 @@ interface UseCarouselOptions {
     asyncSlides?: boolean
     lazy?: boolean
     init?: () => void
-    observerOptions?: IntersectionObserverInit | undefined
 }
 
 export function useCarousel(options?: UseCarouselOptions) {
-    const { lazy, observerOptions, element, asyncSlides, init } = options || {}
+    const { lazy, element, asyncSlides, init } = options || {}
     const isVisible = ref(false)
     const numRegisteredSlides = ref(0)
     const initialized = ref(false)
+    const observer: IntersectionObserver | null = null
 
-    let observer: IntersectionObserver | null = null
+    // Resize observer
+    const isOverflowing = ref(false)
+    const { stop: stopResizeObserver } = useResizeObserver(element, () => {
+        isOverflowing.value = !!isLastSlideOverflowing()
+    })
 
-    const registerSlide = (): number => {
-        return numRegisteredSlides.value++
+    const lastChild = computed(() => {
+        if (!element?.value) return
+
+        const children = [...element.value.children] as HTMLElement[]
+        return children[children.length - 1]
+    })
+
+    function isLastSlideOverflowing() {
+        const wrapper = toValue(element)
+        const slide = toValue(lastChild)
+
+        if (!wrapper || !slide) return
+
+        return slide.getBoundingClientRect().right > wrapper.getBoundingClientRect().right
     }
 
-    watch(isVisible, () => {
-        if (isVisible) {
-            disposeObserver()
+    watch(isOverflowing, (value) => {
+        if (value && isVisible.value && !initialized.value) {
+            stopResizeObserver()
+            initWhenPossible()
+        }
+    })
 
-            if (!initialized) initWhenPossible()
+    // Intersection observer
+    const { stop: stopIntersectionObserver } = useIntersectionObserver(
+        element,
+        ([{ isIntersecting }]) => {
+            isVisible.value = isIntersecting
+        },
+    )
+
+    watch(isVisible, (value) => {
+        if (value && isOverflowing.value && !initialized.value) {
+            stopIntersectionObserver()
+            initWhenPossible()
         }
     })
 
@@ -41,8 +71,10 @@ export function useCarousel(options?: UseCarouselOptions) {
         }
     }
 
-    const initWhenPossible = async () => {
-        if (asyncSlides) await checkIfSlidesAreReady()
+    async function initWhenPossible() {
+        if (asyncSlides) {
+            await checkIfSlidesAreReady()
+        }
         else {
             initialized.value = true
             init?.()
@@ -51,34 +83,17 @@ export function useCarousel(options?: UseCarouselOptions) {
 
     const initCarousel = () => {}
 
-    const createObserver = () => {
-        if (!element?.value) return
-
-        observer = new IntersectionObserver(onObserverChange, {
-            rootMargin: '200px 0',
-            ...observerOptions,
-        })
-        observer.observe(element.value)
-    }
-
-    const onObserverChange = ([entry]: IntersectionObserverEntry[]) => {
-        return (isVisible.value = entry.isIntersecting)
-    }
-
-    const disposeObserver = () => {
-        observer?.disconnect()
-        observer = null
-    }
-
     onMounted(() => {
-        if (lazy) createObserver()
-        else initWhenPossible()
+        if (lazy) return
+
+        stopResizeObserver()
+        stopIntersectionObserver()
+        initWhenPossible()
     })
 
-    onBeforeUnmount(() => {
-        disposeObserver()
-    })
-
+    const registerSlide = (): number => {
+        return numRegisteredSlides.value++
+    }
     provide('registerSlide', registerSlide)
 
     return { numSlides: numRegisteredSlides, initialized, observer, isVisible }

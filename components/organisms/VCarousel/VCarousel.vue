@@ -1,15 +1,7 @@
 <script lang="ts" setup>
 import type { Swiper, SwiperModule, SwiperOptions } from 'swiper/types'
-import type { Theme } from '#imports'
 import { focusFirstElement } from '~/utils/a11y/focusable'
 import { getHtmlElement } from '~/utils/ref/get-html-element'
-
-interface InnerControlsCarouselProps {
-    displayNumbers?: boolean
-    controlsClass?: string
-    totalSlides: number
-    theme?: Theme
-}
 
 export interface VCarouselProps {
     tag?: string
@@ -17,23 +9,19 @@ export interface VCarouselProps {
     swiperWrapperTag?: string
     swiperWrapperClass?: string
     lazy?: boolean
-    modelValue?: number
     asyncSlides?: boolean
     swiperOptions?: SwiperOptions
-    observerOptions?: IntersectionObserverInit
-    controlsOptions?: InnerControlsCarouselProps
 }
 
-const props = defineProps<VCarouselProps>()
+const slideIndex = defineModel<number>('index', { default: 0 })
+const snapLength = defineModel<number>('snapLength')
+const carouselEnabled = defineModel<boolean>('enabled', { default: false })
+
+const props = withDefaults(defineProps<VCarouselProps & { index?: number, enabled: boolean } >(), { lazy: true })
 
 const emit = defineEmits<{
-    'update:modelValue': [number]
-    'enable': []
-    'disable': []
-    'snapGridLengthChange': [number]
-    'progress': [number]
-    'transitioningSlide': [boolean]
-    'transitionEnd': [Swiper]
+    progress: [number]
+    onSlideEnd: []
 }>()
 
 const root = ref<HTMLElement | null>(null)
@@ -43,8 +31,7 @@ useCarousel({
     element: swiperWrapper,
     lazy: props.lazy,
     asyncSlides: props.asyncSlides,
-    observerOptions: props.observerOptions,
-    init: initCarousel,
+    init: createSwiper,
 })
 
 // STYLE
@@ -57,12 +44,6 @@ const rootClasses = computed(() => {
 let isLoadingSwiper: boolean = false
 let swiper: Swiper | null = null
 let resizeObserver: ResizeObserver | null = null
-
-function initCarousel() {
-    createSwiper()
-}
-
-const isEnd = ref(false)
 
 const slots = defineSlots<{
     default: (slotProps: { slideClass: string[] }) => void
@@ -90,7 +71,7 @@ async function createSwiper() {
 
     swiper = new SwiperBundle.Swiper(root.value, {
         modules,
-        grabCursor: true,
+        // grabCursor: true,
         preventInteractionOnTransition: false,
         threshold: 6,
         slidesPerView: 'auto',
@@ -98,18 +79,19 @@ async function createSwiper() {
         loopPreventsSliding: false,
         touchEventsTarget: 'container', // fire touchStart event also on slide margin
         watchOverflow: true,
-        initialSlide: props.modelValue,
+        initialSlide: slideIndex.value,
         ...props.swiperOptions,
         on: {
             ...props.swiperOptions?.on,
             snapIndexChange: (swiper: Swiper): void => {
-                emit('update:modelValue', options?.loop ? swiper.realIndex : swiper.snapIndex)
+                slideIndex.value = options?.loop ? swiper.realIndex : swiper.snapIndex
+                // emit('update:modelValue', options?.loop ? swiper.realIndex : swiper.snapIndex)
 
                 // with slidesPerView: 'auto' slideNext is disabled when last slide is fully enter in window
-                isEnd.value = swiper.isEnd
+                if (swiper.isEnd) emit('onSlideEnd')
             },
             init: (swiper: Swiper): void => {
-                if (swiper) options?.on?.init?.(swiper)
+                swiper && options?.on?.init?.(swiper)
                 resizeObserver?.observe(swiper.wrapperEl)
                 checkSwiperActivation(swiper)
                 updateSlidesFocusCapability(swiper)
@@ -120,13 +102,6 @@ async function createSwiper() {
             progress: (_swiper: Swiper, progress: number) => {
                 emit('progress', progress)
             },
-            beforeTransitionStart() {
-                emit('transitioningSlide', true)
-            },
-            transitionEnd(swiper: Swiper) {
-                emit('transitioningSlide', false)
-                emit('transitionEnd', swiper)
-            },
             slideChangeTransitionEnd: (swiper: Swiper) => {
                 updateSlidesFocusCapability(swiper)
 
@@ -134,7 +109,7 @@ async function createSwiper() {
                 if (currentSlideEl) focusFirstElement(currentSlideEl)
             },
             snapGridLengthChange: (swiper: Swiper) => {
-                emit('snapGridLengthChange', swiper.snapGrid.length)
+                snapLength.value = swiper.snapGrid.length
             },
         },
     })
@@ -154,12 +129,14 @@ function checkSwiperActivation(swiper: Swiper) {
 
     if ((swiper.allowSlideNext || swiper.allowSlidePrev) && !isGrid && !hasColumnFlexDirection) {
         swiper.enable()
-        emit('enable')
+        carouselEnabled.value = true
+        swiper.setGrabCursor()
     }
     else {
         swiper.slideTo(0)
         swiper.disable()
-        emit('disable')
+        carouselEnabled.value = false
+        swiper.unsetGrabCursor()
     }
 }
 
@@ -185,49 +162,23 @@ function onResizeObserverChange() {
 }
 
 watch(
-    () => props.modelValue,
+    () => props.index,
     () => {
-        if (typeof props.modelValue === 'undefined' || !swiper) return
+        if (typeof props.index === 'undefined' || !swiper) return
 
-        if (props.swiperOptions?.loop) swiper.slideToLoop(props.modelValue)
-        else swiper.slideTo(props.modelValue)
+        if (props.swiperOptions?.loop) swiper.slideToLoop(props.index)
+        else swiper.slideTo(props.index)
     },
 )
 
-onBeforeUnmount(() => {
-    disposeSwiper()
-})
-
-// controls
-// const totalSlides = computed(() => {
-//     const slideSlots = slots.default?.({ slideClass: [$style.slide, 'swiper-slide'] })?.[0]?.children
-//     return Array.isArray(slideSlots) ? slideSlots.length : 1
-// })
-
-const currentIndex = computed({
-    get() {
-        return props.modelValue || 0
-    },
-    set(value: number) {
-        emit('update:modelValue', value)
-    },
-})
+onBeforeUnmount(disposeSwiper)
 </script>
 
 <template>
-    <VCarouselControls
-        v-if="controlsOptions"
-        v-model:index="currentIndex"
-        :class="[$style.controls, controlsOptions.controlsClass]"
-        :display-numbers="controlsOptions.displayNumbers"
-        :is-end="isEnd"
-        :length="controlsOptions.totalSlides"
-        :theme="controlsOptions.theme"
-    />
     <component
         :is="tag || 'div'"
         ref="root"
-        :class="[rootClasses, $attrs.class]"
+        :class="rootClasses"
     >
         <component
             :is="swiperWrapperTag || 'div'"
@@ -254,7 +205,7 @@ const currentIndex = computed({
 .swiper-wrapper {
     display: flex;
     min-width: var(--v-carousel-swiper-wrapper-min-width, 100%);
-    max-width: var(--v-carousel-swiper-wrapper-max-width);
+    max-width: var(--v-carousel-swiper-wrapper-max-width, 100%);
     height: var(--v-carousel-swiper-wrapper-height);
     flex-shrink: 0;
     align-items: var(--v-carousel-swiper-wrapper-align-item);
@@ -265,6 +216,7 @@ const currentIndex = computed({
 
 .slide {
     width: var(--v-carousel-slide-width, 100%);
+    height: var(--v-carousel-slide-height);
     flex-shrink: 0;
     margin-right: var(--v-carousel-slide-margin-right);
 
