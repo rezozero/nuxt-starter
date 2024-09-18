@@ -19,7 +19,6 @@ export const vButtonProps = {
     to: [String, Object] as PropType<PossibleRoutePath>,
     iconLast: { type: Boolean, default: true },
     // state
-    loading: Boolean,
     disabled: Boolean,
     // Style
     filled: Boolean,
@@ -73,7 +72,6 @@ export default defineComponent({
                 props.elevated && $style['root--elevated'],
                 props.disabled && $style['root--disabled'],
                 props.rounded && $style['root--rounded'],
-                props.loading && $style['root--loading'],
                 props.emphasis && $style[`root--emphasis-${props.emphasis}`],
                 props.variant && $style[`root--variant-${props.variant}`],
                 typeof props.size === 'string' && $style[`root--size-${props.size}`],
@@ -100,8 +98,7 @@ export default defineComponent({
         :disabled="(internalTag === 'button' && disabled) || undefined"
         v-bind="linkProps"
     >
-        <VSpinner v-if="hasIcon && loading" ref="icon" :class="$style.icon" :size="24" />
-        <VIcon v-else-if="iconName" :class="$style.icon" :name="iconName" />
+        <VIcon v-if="iconName" :class="$style.icon" :name="iconName" />
         <slot v-else-if="hasIconSlot" ref="icon" :class="$style.icon" name="icon" />
         <span v-if="hasLabel" :class="$style.label">
             <slot>{{ label }}</slot>
@@ -140,11 +137,6 @@ export default defineComponent({
 
     &--elevated {
         box-shadow: 0 2px 32px 0 rgba(#000, 0.1);
-    }
-
-    &--loading {
-        cursor: wait;
-        pointer-events: none; // prevents click on disabled link (<a> or <nuxt-link>)
     }
 
     &:not(:where([inert], #{&}--disabled)) {
