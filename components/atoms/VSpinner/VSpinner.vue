@@ -1,29 +1,29 @@
 <script setup lang="ts">
-const props = defineProps<{
-    playState?: 'paused' | 'running'
-    size?: number
-}>()
+const props = withDefaults(
+    defineProps<{
+        playState?: 'paused' | 'running'
+        size?: number
+    }>(), { size: 50 })
 
-const boxSize = computed(() => props.size || 50)
-const half = computed(() => boxSize.value / 2)
-const strokeWidth = computed(() => Math.max(boxSize.value / 10, 1))
-const radius = computed(() => half.value - strokeWidth.value / 2)
+const halfSize = computed(() => props.size / 2)
+const strokeWidth = computed(() => Math.max(props.size / 10, 1))
+const radius = computed(() => halfSize.value - strokeWidth.value / 2)
 
 const perimeter = computed(() => radius.value * 2 * Math.PI)
 </script>
 
 <template>
     <svg
-        :height="boxSize"
-        :width="boxSize"
+        :height="size"
+        :width="size"
         :class="$style.root"
-        :viewBox="`0 0 ${boxSize} ${boxSize}`"
+        :viewBox="`0 0 ${size} ${size}`"
         xmlns="http://www.w3.org/2000/svg"
     >
         <circle
             :class="$style.circle"
-            :cx="half"
-            :cy="half"
+            :cx="halfSize"
+            :cy="halfSize"
             :r="radius"
             :stroke-width="strokeWidth"
         />
