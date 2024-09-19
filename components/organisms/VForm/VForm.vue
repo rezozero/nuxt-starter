@@ -186,15 +186,7 @@ async function onSubmit(event: FormDataEvent): Promise<void> {
 }
 
 // SCHEMA
-const loadedSchema = ref<JsonSchemaExtended | null>(null)
-if (typeof props.schema === 'string') {
-    // the url returned by the API has already the endpoint prefix
-    const url = useJoinApiUrl(props.schema)
-
-    const { data } = await useRoadizFetch<JsonSchemaExtended>(url)
-
-    loadedSchema.value = data.value
-}
+const { data: loadedSchema } = typeof props.schema === 'string' ? await useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(props.schema)) : { data: null }
 
 const gdprContent = computed(() => props.gdpr && t('form.gdpr'))
 const rawSchema = computed(() => (typeof props.schema === 'object' ? props.schema : loadedSchema.value))

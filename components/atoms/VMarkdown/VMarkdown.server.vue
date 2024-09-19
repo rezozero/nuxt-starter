@@ -1,24 +1,31 @@
 <script lang="ts">
+import type { Tokens } from 'marked'
 import { marked } from 'marked'
-import { getSlotChildrenText } from '~/utils/vue/get-slot-children-text'
+import { getSlotsInnerText } from '~/utils/vue/get-slot-children-text'
 
 const renderer = new marked.Renderer()
 const linkRenderer = renderer.link
 
-renderer.link = (href: string, title: string, text: string) => {
-    let html = linkRenderer.call(renderer, href, title, text)
+marked.use({
+    useNewRenderer: true,
+    renderer: {
+        link(linkTokens: Tokens.Link) {
+            let html = linkRenderer.call(this.parser.renderer, linkTokens)
+            const href = linkTokens.href
 
-    if (href && href.startsWith('http') && !html.includes('target="_blank"')) {
-        html = html.replace(/^<a /, '<a target="_blank" ')
-    }
+            if (href && href.startsWith('http') && !html.includes('target="_blank"')) {
+                html = html.replace(/^<a /, '<a target="_blank" ')
+            }
 
-    // All downloadable links (with an extension) should open in a new tab
-    if (href && href.match(/\.(?!html|php)([a-z0-9]{3,4})$/i) && !html.includes('_blank')) {
-        html = html.replace(/^<a /, '<a target="_blank" ')
-    }
+            // All downloadable links (with an extension) should open in a new tab
+            if (href && href.match(/\.(?!html|php)([a-z0-9]{3,4})$/i) && !html.includes('_blank')) {
+                html = html.replace(/^<a /, '<a target="_blank" ')
+            }
 
-    return html
-}
+            return html
+        },
+    },
+})
 
 export default defineComponent({
     props: {
@@ -32,18 +39,16 @@ export default defineComponent({
         const router = useRouter()
         const $style = useCssModule()
         const parsedContent = computed(() => {
-            const content = getSlotChildrenText(slots.default?.()) || props.content
+            const content = getSlotsInnerText(slots) || props.content
 
             if (typeof content === 'undefined') return
 
             if (props.parsed) {
-                return props.content
+                return content
             }
             else {
-                const options = { renderer }
-
-                if (props.inline) return marked.parseInline(content, options)
-                else return marked(content, options)
+                if (props.inline) return marked.parseInline(content)
+                else return marked(content)
             }
         })
 
@@ -61,7 +66,6 @@ export default defineComponent({
             if (link.hasAttribute('download')) return
 
             const href = link.getAttribute('href')
-
             if (!href) return
 
             // mailto
@@ -140,12 +144,16 @@ export default defineComponent({
     }
 
     a {
+        color: inherit;
         text-decoration: underline;
         text-underline-offset: 0.1em;
-    }
+        transition: opacity 0.2s ease(out-quad);
 
-    blockquote + p {
-        margin-top: 1em;
+        @media (hover: hover) {
+            &:hover {
+                opacity: 0.6;
+            }
+        }
     }
 
     hr {
@@ -173,7 +181,6 @@ export default defineComponent({
     li {
         position: relative;
         padding: rem(8) 0 rem(8) rem(40);
-        border-bottom: 1px solid rgb(0 0 0 / 20%);
 
         &:last-child {
             border: none;
