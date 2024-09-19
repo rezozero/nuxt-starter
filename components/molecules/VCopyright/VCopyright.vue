@@ -52,7 +52,7 @@ async function onUserInteract() {
         @mouseover="onUserInteract"
         @click="onUserInteract"
     >
-        <VCopyrightButton />
+        <VCopyrightButton @focus="onUserInteract" />
         <template #popper>
             <slot>
                 <VMarkdown
