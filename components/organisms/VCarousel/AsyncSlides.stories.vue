@@ -9,12 +9,11 @@ const snapGridLength = ref(numSlides)
 <template>
     <NuxtStory>
         <div
-            style=" overflow: hidden;width: 500px; max-width: 100vw; border: 1px solid #ccc"
+            style="overflow: hidden;width: 500px; max-width: 100vw; border: 1px solid #ccc"
         >
             <VCarousel
                 v-slot="{ slideClass }"
-                v-model="slideIndex"
-                @snap-grid-length-change="snapGridLength = $event"
+                v-model:index="slideIndex"
             >
                 <VStoryAsyncSlide
                     v-for="i in numSlides"
@@ -24,7 +23,7 @@ const snapGridLength = ref(numSlides)
                 />
             </VCarousel>
             <VCarouselControls
-                v-model:index="slideIndex"
+                v-model="slideIndex"
                 :length="snapGridLength"
             />
         </div>
