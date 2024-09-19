@@ -6,12 +6,12 @@
 
 $themes: (
     light: (
-        color-content-primary: $colors-black-100,
-        color-surfaces-primary: $colors-white-100,
+        color-content-primary: #000,
+        color-surfaces-primary: #fff,
     ),
     dark: (
-        color-content-primary: $colors-white-100,
-        color-surfaces-primary: $colors-black-100,
+        color-content-primary: #fff,
+        color-surfaces-primary: #000,
     ),
 );
 $default-theme: light;

@@ -86,11 +86,11 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
         padding: 0.4em 1em;
         border: none;
         border-radius: 1em;
-        background-color: $colors-black-20;
+        background-color: rgb(1 1 1 / 20%);
         font-size: rem(14);
 
         .root--theme-dark & {
-            background-color: $colors-white-50;
+            background-color: rgb(255 255 255 / 50%);
         }
     }
 
@@ -104,7 +104,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
     }
 
     &::placeholder {
-        color: $colors-black-100;
+        color: rgb(1 1 1);
         opacity: 0.5;
     }
 }

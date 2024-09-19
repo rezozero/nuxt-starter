@@ -32,7 +32,7 @@ $check-border-width: 2px;
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background-color: $colors-white-100;
+        background-color: rgb(255 255 255);
         content: '';
     }
 }
@@ -43,7 +43,7 @@ $check-border-width: 2px;
     position: absolute;
     top: -$offset;
     left: -$offset;
-    color: $colors-white-100;
+    color: rgb(255 255 255);
     visibility: hidden;
 
     :global(input)[type='checkbox']:checked + .root & {

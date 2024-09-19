@@ -2,13 +2,13 @@
 
 .plyr {
     --plyr-video-background: transparent;
-    --plyr-video-controls-background: #000;
-    --plyr-video-progress-buffered-background: #{rgba(255, 255, 255, 0.3)};
-    --plyr-range-fill-background: '#fff';
+    --plyr-video-controls-background: rgb(1 1 1);
+    --plyr-video-progress-buffered-background: rgb(255 255 255 / 30%);
+    --plyr-range-fill-background: rgb(255 255 255);
     --plyr-control-radius: 100%;
     --plyr-control-spacing: #{rem(32)};
-    --plyr-video-control-background-hover: $colors-white-5;
-    --plyr-video-control-color-hover: $colors-white-100;
+    --plyr-video-control-background-hover: rgb(255 255 255 / 5%);
+    --plyr-video-control-color-hover: rgb(255 255 255);
     --plyr-control-icon-size: 24px;
     --plyr-range-track-height: 3px;
 

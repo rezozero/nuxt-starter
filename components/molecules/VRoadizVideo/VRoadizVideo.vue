@@ -135,7 +135,7 @@ const embedVideoAttrs = computed(() => {
 
     &--placeholder {
         aspect-ratio: 16 / 9;
-        background-color: $colors-gray-50;
+        background-color: rgb(246 246 246);
     }
 }
 </style>

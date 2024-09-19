@@ -317,7 +317,7 @@ $offset: var(--v-modal-offset, 0);
     position: relative;
     z-index: 2001;
     width: var(--v-modal-width, 100%);
-    background-color: $colors-white-100;
+    background-color: rgb(255 255 255);
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
     pointer-events: none;
@@ -364,7 +364,7 @@ $offset: var(--v-modal-offset, 0);
     }
 
     &::backdrop {
-        background-color: $colors-black-80;
+        background-color: rgb(1 1 1 / 80%);
         opacity: 0;
         transition:
             opacity 0.3s,
@@ -391,7 +391,7 @@ $offset: var(--v-modal-offset, 0);
     width: 48px;
     height: 48px;
     border-radius: 100vmax;
-    background-color: $colors-white-100;
+    background-color: rgb(255 255 255);
     pointer-events: all;
 
     @include media('<md') {
