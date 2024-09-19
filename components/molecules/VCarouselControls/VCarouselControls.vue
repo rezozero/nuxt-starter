@@ -40,7 +40,7 @@ function formatValue(n: number) {
 function setIndicatorWidth() {
     if (!scroll.value || !thumb.value) return // can be undefined in SSR
 
-    thumb.value?.style.setProperty('--thumb-width', (scroll.value?.offsetWidth / props.length / scroll.value?.offsetWidth) * 100 + '%')
+    thumb.value?.style.setProperty('--v-carousel-controls-thumb-width', (scroll.value?.offsetWidth / props.length / scroll.value?.offsetWidth) * 100 + '%')
 }
 
 function setIndicatorPosition(index: number) {
@@ -126,10 +126,8 @@ function onClick(event: Event) {
 }
 
 .thumb {
-    --thumb-width: 100%;
-
     position: relative;
-    width: clamp(#{rem(22)}, var(--thumb-width), 50%);
+    width: clamp(#{rem(22)}, var(--v-carousel-controls-thumb-width), 100%);
     height: 100%;
     background-color: var(--theme-color-controls-selected, currentColor);
     content: '';
