@@ -2,7 +2,7 @@
 import type { PropType } from 'vue'
 import type { Theme } from '#imports'
 import { NuxtLink } from '#components'
-import type { PossibleRoutePath } from '~/composables/use-path-link-parser'
+import type { PossibleRoute } from '~/composables/use-route-href'
 
 export const vButtonSizes = ['sm', 'md', 'lg', 'xl'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
@@ -16,7 +16,7 @@ export const vButtonProps = {
     tag: [String, Boolean] as PropType<string | false>,
     iconName: String,
     label: [String, Boolean] as PropType<string | false>,
-    to: [String, Object] as PropType<PossibleRoutePath>,
+    to: [Object, String] as PropType<PossibleRoute>,
     iconLast: { type: Boolean, default: true },
     // state
     disabled: Boolean,
@@ -34,23 +34,28 @@ export const vButtonProps = {
 
 export default defineComponent({
     props: vButtonProps,
-    setup(props, { slots }) {
-        const { isRelative, isExternal, url } = usePathLinkParser(props.to)
+    setup(props, { slots, attrs }) {
+        const { isRelative, isExternal, href } = useRouteHref(props.to)
 
         const internalTag = computed(() => {
             if (typeof props.tag === 'string') return props.tag
-
-            // Let NuxtLink handle external link
-            if (isRelative.value || isExternal.value) return NuxtLink
+            else if (isRelative.value) return NuxtLink
+            else if (isExternal.value) return 'a'
             else return 'button'
         })
 
         const linkProps = computed(() => {
             const result: Record<string, unknown> = {
-                to: url.value,
+                disabled: internalTag.value === 'button' && props.disabled ? true : undefined,
             }
 
-            if (isExternal.value) result.target = '_blank'
+            if (isRelative.value) {
+                result.to = href.value
+            }
+            else if (isExternal.value) {
+                result.href = href.value
+                result.rel = attrs.rel || 'noopener noreferrer'
+            }
 
             return result
         })
@@ -95,7 +100,6 @@ export default defineComponent({
     <component
         :is="internalTag"
         :class="rootClasses"
-        :disabled="(internalTag === 'button' && disabled) || undefined"
         v-bind="linkProps"
     >
         <VIcon
@@ -196,13 +200,12 @@ export default defineComponent({
             }
         }
 
-        // Wait for Theme PR to add
-        // Add filtered emphasis css var theme
-        // @each $theme-key, $value in $themes {
-        //    &--emphasis-#{$emphasis-key}.root--theme-#{$theme-key} {
-        //        @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
-        //    }
-        // }
+         // Add filtered emphasis css var theme
+         @each $theme-key, $value in $themes {
+            &--emphasis-#{$emphasis-key}.root--theme-#{$theme-key} {
+                @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
+            }
+         }
     }
 
     // VARIANT
@@ -229,13 +232,12 @@ export default defineComponent({
             }
         }
 
-        // Wait for Theme PR to add
-        // Add filtered emphasis css var theme
-        // @each $theme-key, $value in $themes {
-        //    &--variant-#{$emphasis-key}.root--theme-#{$theme-key} {
-        //        @include theme($theme-key, $match: 'buttons-#{$emphasis-key}');
-        //    }
-        // }
+         // Add filtered emphasis css var theme
+         @each $theme-key, $value in $themes {
+            &--variant-#{$variant-key}.root--theme-#{$theme-key} {
+                @include theme($theme-key, $match: 'buttons-#{$variant-key}');
+            }
+         }
     }
 }
 
