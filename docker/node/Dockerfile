@@ -10,8 +10,8 @@ WORKDIR /usr/src/nuxt-app
 
 HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I http://localhost:3000
 
-# copy the app, note .dockerignore
-COPY .output /usr/src/nuxt-app/.output
+# copy the app as "node" user, note .dockerignore
+COPY --chown=node:node .output /usr/src/nuxt-app/.output
 # set app serving to permissive / assigned
 ENV HOST=0.0.0.0
 # set app port
@@ -20,6 +20,12 @@ ENV NODE_ENV=production
 ENV NITRO_PRESET=node_cluster
 # expose 5000 on container
 EXPOSE 3000
+
+# Always run app as a non-root user for security matter
+# Official node images create a "node" user
+# @see https://github.com/nodejs/docker-node/blob/main/Dockerfile-alpine.template#L6
+USER node
+
 # start the app
 CMD [ "node", ".output/server/index.mjs" ]
 

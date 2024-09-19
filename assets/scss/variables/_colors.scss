@@ -1,19 +1,5 @@
-$colors: (
-    white: #fff,
-    black: #010101,
+// Export variables from variable2css figma plugin
+// https://www.figma.com/community/plugin/1261234393153346915/variables2css
 
-    grey-50: #F6F6F6,
-    grey-100: #F0F0F0,
-    grey-200: #E3E3E3,
-    grey-300: #D1D1D1,
-    grey-400: #9F9F9F,
-    grey-500: #757575,
-    grey-600: #616161,
-    grey-700: #4F4F4F,
-    grey-800: #313131,
-    grey-900: #1D1D1D,
-
-    error: #F44336,
-    warning: #F58561,
-    success: #22BB96,
-);
+/* Used for avoid error when using */
+$colors: ();
