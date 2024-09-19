@@ -161,7 +161,7 @@ export default defineComponent({
 
     // Clear user-agent style
     background-color: initial;
-    color: var(--v-button-color, var(--theme-foreground-color));
+    color: var(--v-button-color, var(--theme-color-content-primary));
     text-decoration: initial;
 
     @include theme-variants;

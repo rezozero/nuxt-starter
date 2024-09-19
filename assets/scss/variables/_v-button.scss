@@ -55,8 +55,8 @@ $v-button-rounded: (
 );
 $v-button-filled: (
     common: (
-        background-color: var(--theme-foreground-color),
-        color: var(--theme-background-color),
+        background-color: var(--theme-color-content-primary),
+        color: var(--theme-color-surfaces-primary),
     ),
 );
 $v-button-outlined: (
