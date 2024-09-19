@@ -1,8 +1,8 @@
 <script lang="ts">
 import type { PropType } from 'vue'
+import type { RouteLocationRaw } from 'vue-router'
 import type { Theme } from '#imports'
 import { NuxtLink } from '#components'
-import type { PossibleRoute } from '~/composables/use-route-href'
 
 export const vButtonSizes = ['sm', 'md', 'lg', 'xl'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
@@ -16,7 +16,7 @@ export const vButtonProps = {
     tag: [String, Boolean] as PropType<string | false>,
     iconName: String,
     label: [String, Boolean] as PropType<string | false>,
-    to: [Object, String] as PropType<PossibleRoute>,
+    to: [Object, String] as PropType<RouteLocationRaw>,
     iconLast: { type: Boolean, default: true },
     // state
     disabled: Boolean,
@@ -34,30 +34,11 @@ export const vButtonProps = {
 
 export default defineComponent({
     props: vButtonProps,
-    setup(props, { slots, attrs }) {
-        const { isRelative, isExternal, href } = useRouteHref(props.to)
-
+    setup(props, { slots }) {
         const internalTag = computed(() => {
             if (typeof props.tag === 'string') return props.tag
-            else if (isRelative.value) return NuxtLink
-            else if (isExternal.value) return 'a'
+            else if (props.to) return NuxtLink
             else return 'button'
-        })
-
-        const linkProps = computed(() => {
-            const result: Record<string, unknown> = {
-                disabled: internalTag.value === 'button' && props.disabled ? true : undefined,
-            }
-
-            if (isRelative.value) {
-                result.to = href.value
-            }
-            else if (isExternal.value) {
-                result.href = href.value
-                result.rel = attrs.rel || 'noopener noreferrer'
-            }
-
-            return result
         })
 
         const hasIconSlot = computed(() => !!slots.icon)
@@ -86,7 +67,6 @@ export default defineComponent({
 
         return {
             internalTag,
-            linkProps,
             hasIconSlot,
             hasIcon,
             hasLabel,
@@ -100,7 +80,8 @@ export default defineComponent({
     <component
         :is="internalTag"
         :class="rootClasses"
-        v-bind="linkProps"
+        :to="to"
+        :disabled="internalTag === 'button' && disabled ? true : undefined"
     >
         <VIcon
             v-if="iconName"

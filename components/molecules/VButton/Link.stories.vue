@@ -49,11 +49,6 @@ const firstRoute = router.options.routes[0]
                 :to="firstRoute"
                 outlined
             />
-            <VButton
-                label="Undefined named route"
-                :to="{ name: 'unknown route' }"
-                outlined
-            />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
