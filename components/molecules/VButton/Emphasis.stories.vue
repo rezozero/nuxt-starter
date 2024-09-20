@@ -3,7 +3,6 @@ import { vButtonSizes } from '~/components/molecules/VButton/VButton.vue'
 
 const commonsProps = {
     label: 'Default label',
-    iconName: 'arrow-line-right',
 }
 </script>
 

@@ -40,11 +40,9 @@ export default defineComponent({
             else if (props.to) return NuxtLink
             else return 'button'
         })
-
         const hasIconSlot = computed(() => !!slots.icon)
         const hasIcon = computed(() => hasIconSlot.value || !!props.iconName)
         const hasLabel = computed(() => !!slots.default || !!props.label)
-
         const { themeClass } = useTheme({ props })
         const $style = useCssModule()
         const rootClasses = computed(() => {
@@ -83,17 +81,15 @@ export default defineComponent({
         :to="to"
         :disabled="internalTag === 'button' && disabled ? true : undefined"
     >
-        <VIcon
-            v-if="iconName"
-            :class="$style.icon"
-            :name="iconName"
-        />
         <slot
-            v-else-if="hasIconSlot"
-            ref="icon"
-            :class="$style.icon"
             name="icon"
-        />
+        >
+            <VIcon
+                v-if="iconName"
+                :class="$style.icon"
+                :name="iconName"
+            />
+        </slot>
         <span
             v-if="hasLabel"
             :class="$style.label"
