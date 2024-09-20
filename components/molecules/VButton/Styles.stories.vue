@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const styleList = ['', 'outlined', 'rounded', 'filled', 'elevated', 'disabled', 'loading']
+const styleList = ['', 'outlined', 'rounded', 'filled', 'elevated', 'disabled']
 </script>
 
 <template>
