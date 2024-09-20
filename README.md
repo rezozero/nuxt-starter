@@ -7,8 +7,7 @@
 - SCSS for styles
 - Typescript for scripts
 - PNPM as package manager
-- EsLint / StyleLint for linting
-- Prettier for code formatting
+- EsLint / StyleLint for linting and code formatting
 
 ##  Environment variables
 
