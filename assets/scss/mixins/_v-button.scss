@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use 'sass:list';
 
-// @mixin v-button-size() -- Include all CSS var value by size for specific variant
+// @mixin v-button-size() -- Include all CSS var values by size for specific variant
 // @example v-button-size('sm', 'menu')
 // --v-button-menu-font-size: 12px
 @mixin v-button-size($size, $variant: default) {
