@@ -16,18 +16,19 @@
     }
 }
 
-// @mixin v-button-css-vars-by-size() -- Include CSS var value by size for specific variant
+// @mixin v-button-css-vars-by-size() -- Include CSS var values by size for specific variant
 @mixin v-button-css-vars-by-size($vars, $size, $prefix: '') {
     @include css-vars-by-size('v-button', $vars, $size, $prefix);
 }
 
 
-// @mixin v-button-css-vars() -- Set common and default size properties with the appropriate CSS var name and fallback value
+// @mixin v-button-css-vars() -- Set common and default size properties with the appropriate CSS var names and fallback values
 //  {map} $vars: Object that is referencing for setting the properties
-//  {string} $prefix: string to add between v-button and property name in CSS var
+//  {string} $prefix: string to add between "v-button" default prefix and property name in CSS var
 //  {string} $default: Object key that which set fallback value
-// @example v-button-css-vars('sm', 'menu')
-// font-size: var(--v-button-menu-font-size, rem(12));
+// @example 
+// returns font-size: var(--v-button-menu-font-size, rem(12));
+// v-button-css-vars('sm', 'menu')
 @mixin v-button-css-vars($vars, $prefix: '', $default: 'md') {
     @include default-css-vars('v-button', $vars, $prefix, 'common');
     @include default-css-vars('v-button', $vars, $prefix, $default);
