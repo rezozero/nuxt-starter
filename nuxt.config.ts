@@ -87,6 +87,12 @@ export default defineNuxtConfig({
                 scss: {
                     additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
                     quietDeps: true,
+                    // For now, just silence the deprecation warning.
+                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
+                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
+                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
+                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
+                    silenceDeprecations: ['legacy-js-api'],
                 },
             },
         },
