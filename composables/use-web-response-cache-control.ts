@@ -2,7 +2,7 @@ import type { RoadizWebResponse } from '@roadiz/types'
 
 export function useWebResponseCacheControl(webResponse?: RoadizWebResponse) {
     const maxAge = webResponse?.maxAge
-    const cacheControlConfig = useRuntimeConfig().cacheControl
+    const cacheControlConfig = useRuntimeConfig().public.cacheControl
 
     useCacheControl({
         maxAge:
