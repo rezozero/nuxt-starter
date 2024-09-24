@@ -18,16 +18,14 @@ const { webResponse, item, error, headers, alternateLinks } = await useRoadizWeb
 // I18N
 const nuxtApp = useNuxtApp()
 await callOnce(async () => {
-    await nuxtApp.runWithContext(async () => {
-        const locale = (webResponse.item as RoadizNodesSources)?.translation?.locale
+    const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
 
-        if (locale) {
-            await nuxtApp.$i18n.setLocale(locale)
-        }
-        else {
-            // get the locale from the route (prefix) or cookie ?
-        }
-    })
+    if (locale) {
+        await nuxtApp.$i18n.setLocale(locale)
+    }
+    else {
+        // get the locale from the route (prefix) or cookie ?
+    }
 
     useAlternateLinks(alternateLinks)
 })
