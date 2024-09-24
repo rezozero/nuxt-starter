@@ -1,7 +1,7 @@
 import { joinURL } from 'ufo'
 
-export function useHomePage() {
-    const { homeItem } = useCommonContent()
+export async function useHomePage() {
+    const { homeItem } = await useCommonContent()
     const route = useRoute()
 
     const isHomePage = computed(() => {
