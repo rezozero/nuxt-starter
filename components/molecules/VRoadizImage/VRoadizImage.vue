@@ -16,15 +16,18 @@ export const vRoadizImageProps = {
     copyright: [String, Boolean],
 }
 
+type InterventionRequestProps = typeof interventionRequestProps
+type InterventionRequestPropsKeys = keyof InterventionRequestProps
+
 export default defineComponent({
     props: vRoadizImageProps,
     setup(props, { slots }) {
         const $style = useCssModule()
         const document = computed(() => (Array.isArray(props.document) ? props.document[0] : props.document))
         const modifiers = computed(() => {
-            const result = pick<typeof props, keyof typeof interventionRequestProps>(
+            const result = pick<Writeable<typeof props>, InterventionRequestPropsKeys>(
                 props,
-                Object.keys(interventionRequestProps) as keyof typeof interventionRequestProps,
+                Object.keys(interventionRequestProps) as Array<InterventionRequestPropsKeys>,
             )
 
             if (document.value?.imageCropAlignment && !result.align) {
