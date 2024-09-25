@@ -39,6 +39,7 @@ export function useRoadizFetchFactory<DefaultR extends NitroFetchRequest = Nitro
                 message: context.response.statusText,
             })
         },
+        timeout: 10000,
         headers: {
             'accept-encoding': 'gzip, deflate',
             'accept': 'application/ld+json',

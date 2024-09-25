@@ -3,6 +3,8 @@ import type { RoadizNodesSources } from '@roadiz/types'
 import { getBlockCollection } from '~/utils/roadiz/block'
 import { isPageEntity } from '~/utils/roadiz/entity'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
+import { useRoadizHead } from '~/composables/use-roadiz-head'
+import { useRoadizSeoMeta } from '~/composables/use-roadiz-seo-meta'
 
 definePageMeta({
     pageTransition: defaultPageTransition,
@@ -11,11 +13,29 @@ definePageMeta({
 // Roadiz handles the routing
 defineI18nRoute(false)
 
-const { webResponse, item, error, headers } = await useRoadizWebResponse<RoadizNodesSources>()
+const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<RoadizNodesSources>()
+
+// I18N
+const nuxtApp = useNuxtApp()
+await callOnce(async () => {
+    const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
+
+    if (locale) {
+        await nuxtApp.$i18n.setLocale(locale)
+    }
+    else {
+        // get the locale from the route (prefix) or cookie ?
+    }
+
+    useAlternateLinks(alternateLinks)
+})
 
 if (error) {
     showError(error)
 }
+
+await useRoadizSeoMeta(webResponse)
+await useRoadizHead(webResponse, alternateLinks)
 
 // Cache tags
 useCacheTags(headers[useRuntimeConfig().public.cacheTags?.key])
