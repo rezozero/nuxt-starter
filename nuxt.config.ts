@@ -2,12 +2,9 @@ import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
-
-const defaultLocale = 'fr'
-const locales = ['fr']
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n.config'
 
 const isNuxtStories = process.env.NUXT_STORIES === '1'
-
 const plugins: (NuxtPlugin | string)[] = []
 
 if (isNuxtStories) {
@@ -139,13 +136,17 @@ export default defineNuxtConfig({
     i18n: {
         strategy: 'prefix_except_default',
         detectBrowserLanguage: false,
-        defaultLocale,
-        locales: locales.map(locale => ({
+        defaultLocale: I18N_DEFAULT_LOCALE,
+        locales: I18N_LOCALES.map(locale => ({
             code: locale,
             file: `nuxt.${locale}.json`,
         })),
         lazy: true,
         langDir: 'assets/locales/',
+        compilation: {
+            // Message can contains HTML tag
+            strictMessage: false,
+        },
     },
     // https://image.nuxt.com/get-started/configuration
     image: {
