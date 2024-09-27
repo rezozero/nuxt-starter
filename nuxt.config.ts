@@ -32,6 +32,7 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@rezo-zero/nuxt-cache-control',
         '@nuxt/eslint',
+        '@nuxtjs/robots',
     ],
     components: [
         '~/components/atoms',
@@ -168,6 +169,18 @@ export default defineNuxtConfig({
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
         sources: ['/api/sitemap'],
+    },
+    // https://nuxtseo.com/robots/getting-started/installation
+    robots: {
+        credits: false,
+        allow: ['/'],
+        groups: [
+            {
+                comment: ['Non localized route'],
+                disallow: ['/rz-admin', '/_icons'],
+                _skipI18n: true,
+            },
+        ],
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {
