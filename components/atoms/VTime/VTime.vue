@@ -121,5 +121,3 @@ const isDateRange = computed(
         :datetime="startDateTime"
     >{{ startDateText }}</time>
 </template>
-
-<style module lang="scss"></style>
