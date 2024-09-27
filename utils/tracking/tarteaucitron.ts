@@ -15,30 +15,30 @@ export interface TarteaucitronConfigOptions {
 export function createTarteaucitronConfig(options: TarteaucitronConfigOptions): string {
     let script = `
         tarteaucitron.init({
-    	  "privacyUrl": "${options.policyUrl}",
-          "bodyPosition": "bottom",
-    	  "hashtag": "#cookie_consent",
-    	  "cookieName": "cookie_consent",
-    	  "orientation": "bottom",
-          "groupServices": false,
-          "serviceDefaultState": "wait",
-    	  "showAlertSmall": false,
-    	  "cookieslist": false,
-          "closePopup": false,
-          "showIcon": false,
-          "iconPosition": "BottomRight",
-    	  "adblocker": false,
-          "DenyAllCta" : true,
-          "AcceptAllCta" : true,
-          "highPrivacy": true,
-    	  "handleBrowserDNTRequest": false,
-    	  "removeCredit": true,
-    	  "moreInfoLink": false,
-          "useExternalCss": true, /* Use _tarteaucitron.scss */
-          "useExternalJs": false,
-          "readmoreLink": "",
-          "mandatory": true,
-          "mandatoryCta": true
+            "privacyUrl": "${options.policyUrl}",
+            "bodyPosition": "bottom",
+            "hashtag": "#cookie_consent",
+            "cookieName": "cookie_consent",
+            "orientation": "bottom",
+            "groupServices": false,
+            "serviceDefaultState": "wait",
+            "showAlertSmall": false,
+            "cookieslist": false,
+            "closePopup": false,
+            "showIcon": false,
+            "iconPosition": "BottomRight",
+            "adblocker": false,
+            "DenyAllCta" : true,
+            "AcceptAllCta" : true,
+            "highPrivacy": true,
+            "handleBrowserDNTRequest": false,
+            "removeCredit": true,
+            "moreInfoLink": false,
+            "useExternalCss": true, /* Use _tarteaucitron.scss */
+            "useExternalJs": false,
+            "readmoreLink": "",
+            "mandatory": true,
+            "mandatoryCta": true
         });
     `
 

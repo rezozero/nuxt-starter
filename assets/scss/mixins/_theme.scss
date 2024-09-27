@@ -1,20 +1,31 @@
 // Get css vars for a specific theme
-@mixin theme($theme-key) {
+// Filtered by match
+@mixin theme($theme-key, $match: null) {
     @if global-variable-exists('themes') and map-has-key($themes, $theme-key) {
         $theme: map-get($themes, $theme-key);
 
         @each $key, $value in $theme {
-            --theme-#{$key}: #{$value};
+            @if not $match {
+                --theme-#{$key}: #{$value};
+            } @else if type-of($match) == list {
+                @each $match-value in $match {
+                    @if str-index($key, $match-value) {
+                        --theme-#{$key}: #{$value};
+                    }
+                }
+            } @else if str-index($key, $match) {
+                --theme-#{$key}: #{$value};
+            }
         }
     }
 }
 
 // create theme variant class names
-@mixin theme-variants() {
+@mixin theme-variants($match: null) {
     @if global-variable-exists('themes') {
         @each $key, $value in $themes {
             &--theme-#{"" + $key} {
-                @include theme($key);
+                @include theme($key, $match);
             }
         }
     }

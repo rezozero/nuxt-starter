@@ -1,6 +1,9 @@
 <template>
     <span :class="$style.root">
-        <VIcon name="check" :class="$style.icon" />
+        <VIcon
+            name="check"
+            :class="$style.icon"
+        />
     </span>
 </template>
 
@@ -29,7 +32,7 @@ $check-border-width: 2px;
         width: 6px;
         height: 6px;
         border-radius: 50%;
-        background-color: color(white);
+        background-color: rgb(255 255 255);
         content: '';
     }
 }
@@ -40,7 +43,7 @@ $check-border-width: 2px;
     position: absolute;
     top: -$offset;
     left: -$offset;
-    color: color(white);
+    color: rgb(255 255 255);
     visibility: hidden;
 
     :global(input)[type='checkbox']:checked + .root & {

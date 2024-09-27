@@ -1,4 +1,4 @@
-@mixin component-default-vars($vars, $base: '', $prefix: '', $default: 'm') {
+@mixin component-default-vars($vars, $base: '', $prefix: '', $default: 'md') {
     @if map-has-key($vars, $default) {
         $default: map-get($vars, $default);
 
@@ -18,7 +18,7 @@
     }
 }
 
-@mixin default-css-vars($base-name, $vars, $prefix: '', $default: 'm') {
+@mixin default-css-vars($base-name, $vars, $prefix: '', $default: 'md') {
     @include component-default-vars($vars, $base-name, $prefix, $default);
 }
 

@@ -7,8 +7,7 @@
 - SCSS for styles
 - Typescript for scripts
 - PNPM as package manager
-- EsLint / StyleLint for linting
-- Prettier for code formatting
+- EsLint / StyleLint for linting and code formatting
 
 ##  Environment variables
 
@@ -62,13 +61,13 @@ pnpm lint
 ### Lint and format script (JS / Vue files)
 
 ```bash
-pnpm lint:script
+pnpm lint:js
 ```
 
 ### Lint and format style (CSS / SCSS / Vue files)
 
 ```bash
-pnpm lint:style
+pnpm lint:css
 ```
 
 ### Lint fix (script and style)
@@ -177,12 +176,6 @@ Fill the .env file with the values for enabling Sentry.
 SENTRY_DSN=
 ```
 
-## Layer
-
-The application uses [@rezo-zero/nuxt-layer](https://github.com/rezozero/nuxt-layer).  
-It extends the application with a set of features.  
-Learn more about Nuxt layer [here](https://nuxt.com/docs/guide/going-further/layers).
-
 
 ## Sitemap
 
@@ -191,3 +184,7 @@ It generates a sitemap from the `pages/` directory.
 Dynamic routes can be added with the server route `/api/sitemap`.
 
 Read the full module documentation [here](https://www.nuxtseo.com/sitemap/getting-started/installation).
+
+## Contributing
+
+Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.

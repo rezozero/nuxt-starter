@@ -1,22 +1,40 @@
 import svgLoader from 'vite-svg-loader'
+import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
 import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 
 const defaultLocale = 'fr'
 const locales = ['fr']
 
+const isNuxtStories = process.env.NUXT_STORIES === '1'
+
+const plugins: (NuxtPlugin | string)[] = []
+
+if (isNuxtStories) {
+    plugins.push('./plugins/stories/msw.ts')
+}
+
 export default defineNuxtConfig({
+    compatibilityDate: '2024-07-24',
     devtools: { enabled: true },
-    extends: ['github:rezozero/nuxt-layer#v0.1.5'],
+    experimental: {
+        asyncContext: true,
+    },
+    plugins,
+    // Don' use layer for now
+    // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     modules: [
-        '@nuxtjs/i18n',
         '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
         '@rezo-zero/nuxt-stories',
+        '@nuxtjs/i18n',
         '@nuxtjs/sitemap',
+        '@vueuse/nuxt',
+        '@rezo-zero/nuxt-cache-control',
+        '@nuxt/eslint',
     ],
     components: [
         '~/components/atoms',
@@ -52,6 +70,14 @@ export default defineNuxtConfig({
             sentry: {
                 dsn: '',
             },
+            cacheControl: {
+                maxAge: 60 * 60, // 1 hour
+                staleWhileRevalidate: 60 * 2, // 2 minutes
+                public: true,
+            },
+            cacheTags: {
+                key: 'cache-tags',
+            },
         },
     },
     css: ['~/assets/scss/main.scss'],
@@ -60,6 +86,13 @@ export default defineNuxtConfig({
             preprocessorOptions: {
                 scss: {
                     additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+                    quietDeps: true,
+                    // For now, just silence the deprecation warning.
+                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
+                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
+                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
+                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
+                    silenceDeprecations: ['legacy-js-api'],
                 },
             },
         },
@@ -80,11 +113,11 @@ export default defineNuxtConfig({
                     // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
                     'Content-Security-Policy': [
                         // Only allows these iframe origins
-                        "frame-src 'self' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com",
+                        'frame-src \'self\' *.youtube.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com',
                         // Only allows these script origins
-                        //"script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
+                        // "script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
                         // Only allows these images origins
-                        //"img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
+                        // "img-src 'self' 'unsafe-inline' *.googleapis.com *.gstatic.com",
                     ].join('; '),
                 },
             },
@@ -104,11 +137,10 @@ export default defineNuxtConfig({
     },
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
-        // Use no_prefix strategy to avoid redirecting localized paths without locale prefix
-        strategy: 'no_prefix',
+        strategy: 'prefix_except_default',
         detectBrowserLanguage: false,
         defaultLocale,
-        locales: locales.map((locale) => ({
+        locales: locales.map(locale => ({
             code: locale,
             file: `nuxt.${locale}.json`,
         })),
@@ -127,7 +159,7 @@ export default defineNuxtConfig({
             hd: 1920, // additional size
             qhd: 2500, // additional size
         },
-        // @ts-ignore not working with [1]
+        // @ts-expect-error not working with [1]
         densities: '1',
         presets: {
             default: {
@@ -145,5 +177,13 @@ export default defineNuxtConfig({
             '**/*.stories.vue',
             '!playground', // exclude layer stories
         ],
+    },
+    // https://eslint.nuxt.com/packages/module
+    eslint: {
+        config: {
+            stylistic: {
+                indent: 4,
+            },
+        },
     },
 })

@@ -1,0 +1,98 @@
+@use "sass:map";
+@use "sass:math";
+
+$v-button-size-vars-by-variant: () !default;
+
+/* HIGH EMPHASIS */
+$v-button-high-emphasis: (
+    common: (
+        background-color: var(--theme-color-buttons-high-bg),
+        color: var(--theme-color-buttons-high-content),
+    ),
+    sm: (
+        font-size: rem(12),
+        min-width: rem(40),
+        padding-inline: rem(12),
+        height: rem(40),
+    ),
+    md: (
+        font-size: rem(14),
+        min-width: rem(56),
+        padding-inline: rem(16),
+        height: rem(56),
+    ),
+);
+$v-button-high-emphasis-icon: ();
+$v-button-high-emphasis-label: (
+    sm: (
+        margin-inline: rem(6),
+    ),
+    md: (
+        margin-inline: rem(8),
+    ),
+);
+
+/* MEDIUM EMPHASIS */
+$v-button-medium-emphasis: (
+    common: (
+        border-style: solid,
+        border-color: var(--theme-color-buttons-medium-border),
+        border-width: 1px,
+        background-color: var(--theme-color-buttons-medium-bg),
+        color: var(--theme-color-buttons-medium-content)
+    ),
+    sm: (
+        font-size: rem(12),
+        min-width: rem(40),
+        padding-inline: rem(12),
+        height: rem(40),
+    ),
+    md: (
+        font-size: rem(14),
+        min-width: rem(56),
+        padding-inline: rem(16),
+        height: rem(56),
+    ),
+);
+$v-button-medium-emphasis-icon: ();
+$v-button-medium-emphasis-label: (
+    sm: (
+        margin-inline: rem(6),
+    ),
+    md: (
+        margin-inline: rem(8),
+    ),
+);
+
+/* LOW EMPHASIS */
+$v-button-low-emphasis: (
+    common: (
+        color: var(--theme-color-buttons-low-content)
+    ),
+);
+$v-button-low-emphasis-icon: ();
+$v-button-low-emphasis-label: (
+    common: (
+        margin-right: rem(4),
+    ),
+);
+
+// Merged
+$v-button-emphasis: (
+    high: (
+        (vars: $v-button-high-emphasis, prefix: ''),
+        (vars: $v-button-high-emphasis-icon, prefix: 'icon'),
+        (vars: $v-button-high-emphasis-label, prefix: 'label'),
+    ),
+    medium: (
+        (vars: $v-button-medium-emphasis, prefix: ''),
+        (vars: $v-button-medium-emphasis-icon, prefix: 'icon'),
+        (vars: $v-button-medium-emphasis-label, prefix: 'label'),
+    ),
+    low: (
+        (vars: $v-button-low-emphasis, prefix: ''),
+        (vars: $v-button-low-emphasis-icon, prefix: 'icon'),
+        (vars: $v-button-low-emphasis-label, prefix: 'label'),
+    ),
+);
+$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, $v-button-emphasis);

@@ -2,6 +2,10 @@
 import type { RoadizDocument } from '@roadiz/types'
 import type Plyr from 'plyr'
 
+import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
+
+import('~/assets/scss/vendors/_plyr.scss')
+
 const props = defineProps<{
     document?: RoadizDocument
     plyr?: Plyr.Options
@@ -12,9 +16,9 @@ const playerElement = ref<HTMLElement | null>(null)
 let player: Plyr | null = null
 
 const internalSrc = computed(() => {
-    return props.document?.relativePath &&
-        !props.document.relativePath.startsWith('http') &&
-        !props.document.relativePath.startsWith('/')
+    return props.document?.relativePath
+        && !props.document.relativePath.startsWith('http')
+        && !props.document.relativePath.startsWith('/')
         ? useRoadizDocumentUrl(props.document.relativePath)
         : props.document?.relativePath
 })
@@ -62,11 +66,11 @@ async function createPlayer() {
 
     const options: Plyr.Options = {
         disableContextMenu: false,
-        iconUrl: '/images/plyr-icons.svg', // TODO: use Vite to import this file. But it's not working for now.
+        iconUrl: (plyrIconsUrl as string),
         iconPrefix: 'plyr-icon',
         ...props.plyr,
     }
-    const PlyrClass = await import('plyr').then((module) => module.default)
+    const PlyrClass = await import('plyr').then(module => module.default)
 
     player = new PlyrClass(playerElement.value, options)
     player.elements.container?.classList.add($style['plyr-native-container'])
@@ -78,9 +82,21 @@ onMounted(() => {
 </script>
 
 <template>
-    <iframe v-if="isEmbed" :src="embedSrc" :class="$style.iframe" />
-    <audio v-else ref="playerElement" controls :class="$style.iframe">
-        <source :src="internalSrc" :type="document?.mimeType || 'audio/mpeg'" />
+    <iframe
+        v-if="isEmbed"
+        :src="embedSrc"
+        :class="$style.iframe"
+    />
+    <audio
+        v-else
+        ref="playerElement"
+        controls
+        :class="$style.iframe"
+    >
+        <source
+            :src="internalSrc"
+            :type="document?.mimeType || 'audio/mpeg'"
+        >
     </audio>
 </template>
 

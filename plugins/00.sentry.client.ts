@@ -5,7 +5,6 @@ export default defineNuxtPlugin({
     name: 'sentry',
     parallel: true,
     setup(nuxtApp) {
-        const router = useRouter()
         const runtimeConfig = useRuntimeConfig()
         const { sentry, site } = runtimeConfig.public
 
@@ -17,11 +16,7 @@ export default defineNuxtPlugin({
             app: nuxtApp.vueApp,
             dsn: sentry.dsn,
             environment: site.environment,
-            integrations: [
-                new Sentry.BrowserTracing({
-                    routingInstrumentation: Sentry.vueRouterInstrumentation(router),
-                }),
-            ],
+            integrations: [Sentry.browserTracingIntegration({ router: useRouter() })],
         })
     },
 })

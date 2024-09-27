@@ -4,9 +4,14 @@ const { themes } = useAppConfig()
 
 <template>
     <div :class="$style.root">
-        <VThemeProvider v-for="theme in themes" :key="theme" v-slot="{ themeClass }" :preferred-theme="theme">
+        <VThemeProvider
+            v-for="theme in themes"
+            :key="theme"
+            v-slot="{ themeClass }"
+            :preferred-theme="theme"
+        >
             <div :class="[themeClass, $style.item]">
-                <slot></slot>
+                <slot :theme="theme" />
             </div>
         </VThemeProvider>
     </div>
@@ -23,7 +28,7 @@ const { themes } = useAppConfig()
     width: 50%;
     flex-wrap: wrap;
     padding: rem(30);
-    background-color: var(--theme-background-color);
+    background-color: var(--theme-color-surfaces-primary);
     gap: rem(15);
 }
 </style>

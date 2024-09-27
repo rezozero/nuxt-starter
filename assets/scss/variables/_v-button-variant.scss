@@ -1,0 +1,50 @@
+@use "sass:map";
+@use "sass:math";
+
+$v-button-size-vars-by-variant: () !default;
+
+/* MENU */
+$v-button-variant-menu: (
+    common: (
+        border-style: solid,
+        border-color: var(--theme-color-buttons-menu-border),
+        background-color: var(--theme-color-buttons-menu-bg),
+        border-width: 1px,
+        color: var(--theme-color-buttons-menu-label)
+    ),
+    sm: (
+        font-size: rem(12),
+        min-width: rem(40),
+        padding-inline: rem(12),
+        height: rem(40),
+    ),
+    md: (
+        font-size: rem(14),
+        min-width: rem(56),
+        padding-inline: rem(16),
+        height: rem(56),
+    ),
+);
+$v-button-variant-menu-icon: (
+    common: (
+        color: var(--theme-color-buttons-menu-icon-light),
+    ),
+);
+$v-button-variant-menu-label: (
+    sm: (
+        margin-inline: rem(6),
+    ),
+    md: (
+        margin-inline: rem(8),
+    ),
+);
+
+// Merged
+$v-button-variants: (
+    menu: (
+        (vars: $v-button-variant-menu, prefix: ''),
+        (vars: $v-button-variant-menu-icon, prefix: 'icon'),
+        (vars: $v-button-variant-menu-label, prefix: 'label'),
+    ),
+);
+$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, $v-button-variants);
