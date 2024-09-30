@@ -2,13 +2,13 @@
 const props = withDefaults(
     defineProps<{
         playState?: 'paused' | 'running'
-        size?: number
+        size?: number | string
     }>(), { size: 50 })
 
-const halfSize = computed(() => props.size / 2)
-const strokeWidth = computed(() => Math.max(props.size / 10, 1))
+const formattedSize = computed(() => typeof props.size === 'string' ? Number(props.size) : props.size)
+const halfSize = computed(() => formattedSize.value / 2)
+const strokeWidth = computed(() => Math.max(formattedSize.value / 10, 1))
 const radius = computed(() => halfSize.value - strokeWidth.value / 2)
-
 const perimeter = computed(() => radius.value * 2 * Math.PI)
 </script>
 

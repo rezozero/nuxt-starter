@@ -124,10 +124,24 @@ export function useLoadMore<
         pages.value = newPages
 
         if (import.meta.server) {
+            const nuxtApp = useNuxtApp()
+            const cacheTagsKey = useRuntimeConfig().public.cacheTags?.key
             const { data } = await useRoadizFetch<HydraCollection<ItemT>, unknown>(options.url, {
                 params,
                 key,
                 deep: false,
+                onResponse({ response }) {
+                    if (cacheTagsKey) {
+                        // temp assign cacheTags to response._data for useCacheTags()
+                        response._data.cacheTags = response.headers.get(cacheTagsKey)
+                    }
+                },
+            })
+
+            // keep Nuxt context for useCacheTags()
+            nuxtApp.runWithContext(() => {
+                useCacheTags(data.value?.cacheTags)
+                delete data.value?.cacheTags // remove the temp cacheTags property
             })
 
             pageData.value = data.value
