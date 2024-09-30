@@ -67,8 +67,8 @@ importers:
         specifier: ^8.5.5
         version: 8.5.5(magicast@0.3.5)(rollup@4.22.4)(vue@3.5.8(typescript@5.5.4))
       '@nuxtjs/sitemap':
-        specifier: ^6.1.0
-        version: 6.1.0(h3@1.12.0)(magicast@0.3.5)(rollup@4.22.4)(vite@5.4.7(@types/node@22.6.1)(sass@1.79.3)(terser@5.33.0))(vue@3.5.8(typescript@5.5.4))
+        specifier: ^6.1.1
+        version: 6.1.1(h3@1.12.0)(magicast@0.3.5)(rollup@4.22.4)(vite@5.4.7(@types/node@22.6.1)(sass@1.79.3)(terser@5.33.0))(vue@3.5.8(typescript@5.5.4))
       '@nuxtjs/svg-sprite':
         specifier: ^1.0.2
         version: 1.0.2(magicast@0.3.5)(rollup@4.22.4)
@@ -1059,8 +1059,8 @@ packages:
     resolution: {integrity: sha512-HVXRy61VBACIwmap1WxuhT9nNf6liU9L9LQSB6D7LDJ+8w57Cc6qWHRJ7dNI9sI/IQ2FQWk7PkTWriybAd3MlQ==}
     engines: {node: ^14.16.0 || >=16.11.0}
 
-  '@nuxtjs/sitemap@6.1.0':
-    resolution: {integrity: sha512-xFigHDBRwkRDBxz4VfQfcRv/pwdvA4ab/UW89NI8smt2BaeoKVQfH+brJGD+lcvlEhZ5G9RCPxCYmDevfEL6PA==}
+  '@nuxtjs/sitemap@6.1.1':
+    resolution: {integrity: sha512-wjvaqLm+kecH7K22E9eKzxolfWlcBL3Nw1/UHJUz7UcLMfFNl8T28MMx7xeVKR5oNeFYCHJTWbqNJ+ZXjb727g==}
     engines: {node: '>=18.0.0'}
 
   '@nuxtjs/svg-sprite@1.0.2':
@@ -6249,7 +6249,7 @@ snapshots:
       - vue-i18n-bridge
       - webpack-sources
 
-  '@nuxtjs/sitemap@6.1.0(h3@1.12.0)(magicast@0.3.5)(rollup@4.22.4)(vite@5.4.7(@types/node@22.6.1)(sass@1.79.3)(terser@5.33.0))(vue@3.5.8(typescript@5.5.4))':
+  '@nuxtjs/sitemap@6.1.1(h3@1.12.0)(magicast@0.3.5)(rollup@4.22.4)(vite@5.4.7(@types/node@22.6.1)(sass@1.79.3)(terser@5.33.0))(vue@3.5.8(typescript@5.5.4))':
     dependencies:
       '@nuxt/devtools-kit': 1.5.1(magicast@0.3.5)(rollup@4.22.4)(vite@5.4.7(@types/node@22.6.1)(sass@1.79.3)(terser@5.33.0))
       '@nuxt/kit': 3.13.2(magicast@0.3.5)(rollup@4.22.4)
