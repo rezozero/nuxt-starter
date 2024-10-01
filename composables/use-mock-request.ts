@@ -6,7 +6,13 @@ export function useMockRequest(...handlers: RequestHandler[]) {
     $msw?.use(...handlers)
 
     const router = useRouter()
-    const unwatchRouter = router.beforeEach(() => {
+    const unwatchRouter = router.beforeEach((to, from) => {
+        if (to.path == from.path) {
+            // the route is the same, we don't want to reset the handlers
+            return
+        }
+
+        $msw?.resetHandlers(...handlers)
         // maybe other handlers have been added in the meantime, then we filter them out
         const newHandlers = $msw?.listHandlers().filter(handler => !handlers.includes(handler))
 
