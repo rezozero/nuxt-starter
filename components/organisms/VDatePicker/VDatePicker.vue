@@ -92,9 +92,9 @@ function onDayClick() {
 <style lang="scss" module>
 @use 'sass:math';
 
-///**
-// * ⚠️ Overrides DatePicker (vendor) style
-// */
+//
+//  ⚠️ Overrides DatePicker (vendor) style
+//
 
 .root {
     &:global(.vc-container) {
@@ -112,12 +112,8 @@ function onDayClick() {
     --vc-accent-50: #fff;
     --vc-accent-100: #fff;
     --vc-accent-200: #f0f0f0;
-    //--vc-accent-300: #7dd3fc;
-    //--vc-accent-400: #38bdf8;
     --vc-accent-500: #757575;
     --vc-accent-600: #010101;
-    //--vc-accent-700: #4f4f4f;
-    //--vc-accent-800: #313131;
     --vc-accent-900: #010101;
     --vc-gray-50: #fff;
     --vc-gray-100: #f0f0f0;
