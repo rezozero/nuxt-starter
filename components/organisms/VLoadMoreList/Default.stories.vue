@@ -3,7 +3,12 @@ import { delay, http, HttpResponse } from 'msw'
 
 const NUM_PAGES = 8
 
-const loadingDelay = ref(0)
+const props = defineProps({
+    loadingDelay: {
+        type: Number,
+        default: 0,
+    },
+})
 
 useMockRequest(
     http.get('*/items', async ({ request }) => {
@@ -13,7 +18,7 @@ useMockRequest(
         const page = typeof pageParam === 'string' ? Number(pageParam) - 1 : 0
         const itemsPerPage = typeof itemsPerPageParam === 'string' ? Number(itemsPerPageParam) : 6
 
-        // await delay(loadingDelay.value)
+        await delay(props.loadingDelay)
 
         return HttpResponse.json({
             'hydra:member': Array.from({ length: itemsPerPage }).map((_, index) => ({
@@ -51,7 +56,7 @@ useMockRequest(
     display: flex;
     align-items: center;
     justify-content: center;
-    aspect-ratio: 300/200;
+    aspect-ratio: 300/350;
     background-color: #eee;
 }
 </style>
