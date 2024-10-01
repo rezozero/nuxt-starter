@@ -96,7 +96,7 @@ function onDayClick() {
 //  ⚠️ Overrides DatePicker (vendor) style
 //
 
-.root :global(.vc-container) {
+.root:global(.vc-container) {
     width: 100%;
     max-width: rem(380);
 
@@ -125,25 +125,23 @@ function onDayClick() {
     --vc-focus-ring: none; // default: 0 0 0 2px rgba(150, 150, 150, 0.4);
 }
 
-.root {
-    :global(.vc-header.is-lg) {
-        --vc-text-lg: #{rem(20)};
+.root :global(.vc-header.is-lg) {
+    --vc-text-lg: #{rem(20)};
 
-        margin-top: initial;
-    }
+    margin-top: initial;
+}
 
-    :global(.vc-weeks) {
-        margin-top: rem(16);
-    }
+.root :global(.vc-weeks) {
+    margin-top: rem(16);
+}
 
-    :global(.vc-weekday) {
-        text-transform: uppercase;
-    }
+.root :global(.vc-weekday) {
+    text-transform: uppercase;
+}
 
-    // Remove last row if all days are in the next month
-    :global(.vc-week:last-child:has(div.is-not-in-month:first-child):has(div.is-not-in-month:last-child)) {
-        display: none;
-    }
+// Remove last row if all days are in the next month
+.root :global(.vc-week:last-child:has(div.is-not-in-month:first-child):has(div.is-not-in-month:last-child)) {
+    display: none;
 }
 
 // Month container
@@ -187,13 +185,11 @@ function onDayClick() {
 }
 
 // Today style
-.root {
-    :global(.vc-bars) {
-        width: initial;
-    }
+.root :global(.vc-bars) {
+    width: initial;
+}
 
-    .today {
-        width: 28px;
-    }
+.root .today {
+    width: 28px;
 }
 </style>
