@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
-import { defineAsyncComponent, hydrateOnVisible } from 'vue'
+import { defineAsyncComponent } from 'vue'
 import type { DatePickerModel } from 'v-calendar/src/use/datePicker'
 import type { SimpleDateRange } from 'v-calendar/dist/types/src/utils/date/range'
 
