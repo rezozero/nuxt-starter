@@ -315,9 +315,8 @@ function onClick(event: MouseEvent) {
 $offset: var(--v-modal-offset, 0);
 
 .root {
-    position: relative;
-    z-index: 2001;
     width: var(--v-modal-width, 100%);
+    max-width: var(--v-modal-max-width, #{rem(800)}); // override the <dialog> default max-width
     background-color: rgb(255 255 255);
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
@@ -325,43 +324,36 @@ $offset: var(--v-modal-offset, 0);
     scroll-behavior: smooth;
     touch-action: pan-y;
 
-    @include media('<md') {
-        // Fixed bottom modal on mobile
-        position: fixed;
-        max-height: 100svh;
-        inset: auto 0 0;
+    @supports (max-height: 100svh) {
+            max-height: 100svh;
     }
 
-    @include media('>=md') {
-        max-height: 100vh;
+    @supports not (max-height: 100svh) {
+            max-height: 100vh;
+    }
 
-        &[class*='--align-'] {
-            position: fixed;
-        }
+    &--align-left,
+    &--align-bottom-left,
+    &--align-top-left {
+        margin-left: 0
+    }
 
-        &--align-left,
-        &--align-top-left,
-        &--align-top {
-            top: $offset;
-            left: $offset;
-        }
+    &--align-top-left,
+    &--align-top-right,
+    &--align-top {
+        margin-top: 0;
+    }
 
-        &--align-top-right,
-        &--align-right {
-            top: $offset;
-            right: $offset;
-        }
+    &--align-top-right,
+    &--align-bottom-right,
+    &--align-right {
+        margin-right: 0;
+    }
 
-        &--align-bottom-right {
-            right: $offset;
-            bottom: $offset;
-        }
-
-        &--align-bottom,
-        &--align-bottom-left {
-            bottom: $offset;
-            left: $offset;
-        }
+    &--align-bottom-right,
+    &--align-bottom,
+    &--align-bottom-left {
+        margin-bottom: 0;
     }
 
     &::backdrop {
@@ -394,10 +386,6 @@ $offset: var(--v-modal-offset, 0);
     border-radius: 100vmax;
     background-color: rgb(255 255 255);
     pointer-events: all;
-
-    @include media('<md') {
-        --v-button-display: flex;
-    }
 
     @include media('>=md') {
         display: var(--v-modal-close-display, flex);

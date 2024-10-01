@@ -18,19 +18,17 @@ function open() {
                 Open
             </VButton>
         </template>
-
-        <VModal
+        <LazyVModal
             v-if="!hasLeave"
             v-model="isOpen"
             :class="$style.modal"
-            align="bottom"
             @enter="hasLeave = false"
             @after-leave="hasLeave = true"
         >
             <div :class="$style.inner">
                 content
             </div>
-        </VModal>
+        </LazyVModal>
     </NuxtStory>
 </template>
 
