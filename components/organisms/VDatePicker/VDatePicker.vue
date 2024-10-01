@@ -97,12 +97,11 @@ function onDayClick() {
 //
 
 .root :global(.vc-container) {
-        width: 100%;
-        max-width: rem(380);
+    width: 100%;
+    max-width: rem(380);
 
-        &[columns='2'] {
-            max-width: rem(660);
-        }
+    &[columns='2'] {
+        max-width: rem(660);
     }
 }
 
