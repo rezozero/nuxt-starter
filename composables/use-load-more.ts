@@ -12,6 +12,8 @@ export type UseLoadMoreOptions<ParamsT> = {
 
 const ITEMS_PER_PAGE = 12
 
+type CacheTagsContainer<T> = T & { cacheTags?: string }
+
 export function useLoadMore<
     ItemT extends RoadizNodesSources = RoadizNodesSources,
     ParamsT extends RoadizRequestParams = RoadizRequestParams,
@@ -126,7 +128,7 @@ export function useLoadMore<
         if (import.meta.server) {
             const nuxtApp = useNuxtApp()
             const cacheTagsKey = useRuntimeConfig().public.cacheTags?.key
-            const { data } = await useRoadizFetch<HydraCollection<ItemT>, unknown>(options.url, {
+            const { data } = await useRoadizFetch<CacheTagsContainer<HydraCollection<ItemT>>, unknown>(options.url, {
                 params,
                 key,
                 deep: false,
