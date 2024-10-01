@@ -96,8 +96,7 @@ function onDayClick() {
 //  ⚠️ Overrides DatePicker (vendor) style
 //
 
-.root {
-    &:global(.vc-container) {
+.root :global(.vc-container) {
         width: 100%;
         max-width: rem(380);
 
