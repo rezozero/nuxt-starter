@@ -301,10 +301,11 @@ function onClick(event: MouseEvent) {
         <slot name="close">
             <VButton
                 :class="$style.close"
-                icon-name="cross"
                 theme="light"
                 @click="close"
-            />
+            >
+                {{ $t('close') }}
+            </VButton>
         </slot>
         <slot />
     </dialog>
