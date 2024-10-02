@@ -153,11 +153,11 @@ export default defineNuxtConfig({
     image: {
         quality: 75,
         screens: {
-            xs: 375, // override size to match our breakpoints
-            sm: 480, // overridden
-            vl: 1280, // overridden
-            xl: 1440, // overridden
-            xxl: 1600, // overridden
+            xs: 375, // override nuxt/img sizes to match our breakpoints
+            sm: 480, // override
+            vl: 1280, // override
+            xl: 1440, // override
+            xxl: 1600, // override
             hd: 1920, // additional size
             qhd: 2500, // additional size
         },
@@ -165,7 +165,7 @@ export default defineNuxtConfig({
         densities: '1',
         presets: {
             default: {
-                sizes: 'xs:100vw sm:100vw md:100vw lg:100vw vl:100vw xl:100vw xxl:100vw hd:100vw qhd:100vw',
+                sizes: 'xs:100vw md:100vw lg:100vw vl:100vw xl:100vw hd:100vw qhd:100vw',
             },
         },
     },
