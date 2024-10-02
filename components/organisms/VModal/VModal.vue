@@ -331,28 +331,34 @@ $offset: var(--v-modal-offset, 0);
             max-height: 100vh;
     }
 
-    &--align-left,
-    &--align-bottom-left,
-    &--align-top-left {
-        margin-left: 0
-    }
-
-    &--align-top-left,
-    &--align-top-right,
-    &--align-top {
-        margin-top: 0;
-    }
-
-    &--align-top-right,
-    &--align-bottom-right,
-    &--align-right {
-        margin-right: 0;
-    }
-
-    &--align-bottom-right,
-    &--align-bottom,
-    &--align-bottom-left {
+    @include media('<md') {
         margin-bottom: 0;
+    }
+
+    @include media('>=md') {
+        &--align-left,
+        &--align-bottom-left,
+        &--align-top-left {
+            margin-left: 0
+        }
+
+        &--align-top-left,
+        &--align-top-right,
+        &--align-top {
+            margin-top: 0;
+        }
+
+        &--align-top-right,
+        &--align-bottom-right,
+        &--align-right {
+            margin-right: 0;
+        }
+
+        &--align-bottom-right,
+        &--align-bottom,
+        &--align-bottom-left {
+            margin-bottom: 0;
+        }
     }
 
     &::backdrop {
