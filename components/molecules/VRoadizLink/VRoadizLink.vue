@@ -6,7 +6,7 @@ import { NuxtLink } from '#components'
 import type { ReachableItem } from '~/types/app'
 import { isInternalUrl } from '~/utils/url'
 
-export const vLinkProps = {
+export const vRoadizLinkProps = {
     label: [String, Boolean],
     reference: [Array, Object] as PropType<ReachableItem[] | ReachableItem>,
     url: String,
@@ -17,7 +17,7 @@ export const vLinkProps = {
 
 export default defineComponent({
     inheritAttrs: false,
-    props: vLinkProps,
+    props: vRoadizLinkProps,
     setup(props, { attrs, slots }) {
         const reference = props.reference && Array.isArray(props.reference) ? props.reference[0] : props.reference
         const url = props.url || reference?.url
@@ -28,7 +28,7 @@ export default defineComponent({
         const isExternal = !isInternal && !!url
         const isDownload = !isInternal && !isExternal && !!props.document
 
-        // A VLink without URL or reference will render nothing except the default slot if present, fallback to the label, or at least nothing
+        // A VRoadizLink without URL or reference will render nothing except the default slot if present, fallback to the label, or at least nothing
         if (!url && !props.document?.relativePath) {
             return () =>
                 slots.default?.({ label: props.label })
@@ -57,7 +57,7 @@ export default defineComponent({
             Object.assign(attributes, { href: props.url })
         }
 
-        // Custom VLink will pass all attributes to the default slot and render it (i.e. render-less component behavior)
+        // Custom VRoadizLink will pass all attributes to the default slot and render it (i.e. render-less component behavior)
         if (props.custom) {
             const vNode = slots.default?.({
                 download: isDownload ? '' : undefined,

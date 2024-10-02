@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-import { vLinkProps } from '~/components/molecules/VLink/VLink.vue'
+import { vRoadizLinkProps } from '~/components/molecules/VRoadizLink/VRoadizLink.vue'
 import { vButtonProps } from '~/components/molecules/VButton/VButton.vue'
 
 type KeyOfButton = keyof typeof vButtonProps
@@ -8,7 +8,7 @@ export type VButtonEmphasis = 'primary' | 'secondary' | 'ternary'
 
 export const vButtonLinkProps = {
     ...vButtonProps,
-    ...vLinkProps,
+    ...vRoadizLinkProps,
     emphasis: {
         type: [String, Boolean] as PropType<VButtonEmphasis | false>,
         default: 'secondary',
@@ -57,7 +57,7 @@ export default defineComponent({
 </script>
 
 <template>
-    <VLink
+    <VRoadizLink
         v-slot="vLinkProps"
         :document="document"
         :label="label"
@@ -80,5 +80,5 @@ export default defineComponent({
             "
             v-bind="{ ...vLinkProps, ...emphasisProps, ...buttonProps }"
         />
-    </VLink>
+    </VRoadizLink>
 </template>

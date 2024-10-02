@@ -3,7 +3,7 @@
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Node Reference">
-            <VLink
+            <VRoadizLink
                 v-slot="linkProps"
                 :reference="{ url: '/page-path' }"
                 custom
@@ -13,10 +13,10 @@
                     label="button label"
                     outlined
                 />
-            </VLink>
+            </VRoadizLink>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="External url">
-            <VLink
+            <VRoadizLink
                 v-slot="linkProps"
                 url="https://google.com"
                 custom
@@ -25,8 +25,8 @@
                     label="Bind all scoped slot props"
                     v-bind="linkProps"
                 />
-            </VLink>
-            <VLink
+            </VRoadizLink>
+            <VRoadizLink
                 v-slot="{ href, target, rel }"
                 url="https://google.com"
                 custom
@@ -37,16 +37,16 @@
                     :rel="rel"
                     label="Scoped slot props destructuring"
                 />
-            </VLink>
+            </VRoadizLink>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="External url">
-            <VLink
+            <VRoadizLink
                 v-slot="{ href, target, rel }"
                 url="https://google.com"
                 custom
             >
                 <VButton
-                    :href="href"
+                    :to="href"
                     :target="target"
                     :rel="rel"
                     theme="dark"
@@ -54,14 +54,14 @@
                     icon-name="check"
                     label="Label"
                 />
-            </VLink>
-            <VLink
+            </VRoadizLink>
+            <VRoadizLink
                 v-slot="{ href, target, rel }"
                 url="https://google.com"
                 custom
             >
                 <VButton
-                    :href="href"
+                    :to="href"
                     :target="target"
                     :rel="rel"
                     theme="light"
@@ -69,8 +69,8 @@
                     icon-name="check"
                     label="Label"
                 />
-            </VLink>
-            <VLink
+            </VRoadizLink>
+            <VRoadizLink
                 v-slot="linkProps"
                 url="https://google.com"
                 custom
@@ -81,7 +81,7 @@
                         <VIcon name="check" />
                     </template>
                 </VButton>
-            </VLink>
+            </VRoadizLink>
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

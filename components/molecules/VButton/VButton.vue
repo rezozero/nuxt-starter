@@ -17,6 +17,7 @@ export const vButtonProps = {
     iconName: String,
     label: [String, Boolean] as PropType<string | false>,
     to: [Object, String] as PropType<RouteLocationRaw>,
+    href: [Object, String] as PropType<RouteLocationRaw>, // alias for `to` (same as <NuxtLink>)
     iconLast: { type: Boolean, default: true },
     // state
     disabled: Boolean,
@@ -37,7 +38,7 @@ export default defineComponent({
     setup(props, { slots }) {
         const internalTag = computed(() => {
             if (typeof props.tag === 'string') return props.tag
-            else if (props.to) return NuxtLink
+            else if (props.to || props.href) return NuxtLink
             else return 'button'
         })
         const hasIconSlot = computed(() => !!slots.icon)
@@ -79,6 +80,7 @@ export default defineComponent({
         :is="internalTag"
         :class="rootClasses"
         :to="to"
+        :href="href"
         :disabled="internalTag === 'button' && disabled ? true : undefined"
     >
         <slot
