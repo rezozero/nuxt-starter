@@ -17,8 +17,7 @@ function onClick() {
         >
             Open
         </VButton>
-
-        <VModal
+        <LazyVModal
             v-if="!hasLeave"
             v-model="isOpen"
             @enter="hasLeave = false"
@@ -27,7 +26,7 @@ function onClick() {
             <div :class="$style.content">
                 content test
             </div>
-        </VModal>
+        </LazyVModal>
     </NuxtStory>
 </template>
 

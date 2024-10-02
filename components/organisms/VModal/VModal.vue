@@ -70,8 +70,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 // Animations
-const preferredMotion = usePreferredReducedMotion()
-const prefersReducedMotion = computed(() => preferredMotion.value === 'reduce')
+const preferredReducedMotion = usePreferredReducedMotion()
 
 // Animation: In
 function enter() {
@@ -90,7 +89,7 @@ function enter() {
         window.scrollTo(0, scrollY)
     })
 
-    if (prefersReducedMotion.value) {
+    if (preferredReducedMotion.value === 'reduce') {
         afterEnter()
         return
     }
@@ -179,7 +178,7 @@ function leave() {
     disposeKeyUpListener()
     emits('leave')
 
-    if (prefersReducedMotion.value) {
+    if (preferredReducedMotion.value === 'reduce') {
         afterLeave()
         return
     }
@@ -301,10 +300,11 @@ function onClick(event: MouseEvent) {
         <slot name="close">
             <VButton
                 :class="$style.close"
-                icon-name="cross"
                 theme="light"
                 @click="close"
-            />
+            >
+                {{ $t('close') }}
+            </VButton>
         </slot>
         <slot />
     </dialog>
@@ -314,9 +314,8 @@ function onClick(event: MouseEvent) {
 $offset: var(--v-modal-offset, 0);
 
 .root {
-    position: relative;
-    z-index: 2001;
     width: var(--v-modal-width, 100%);
+    max-width: var(--v-modal-max-width, #{rem(800)}); // override the <dialog> default max-width
     background-color: rgb(255 255 255);
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
@@ -324,42 +323,41 @@ $offset: var(--v-modal-offset, 0);
     scroll-behavior: smooth;
     touch-action: pan-y;
 
+    @supports (max-height: 100svh) {
+            max-height: 80svh;
+    }
+
+    @supports not (max-height: 100svh) {
+            max-height: 80vh;
+    }
+
     @include media('<md') {
-        // Fixed bottom modal on mobile
-        position: fixed;
-        max-height: 100svh;
-        inset: auto 0 0;
+        margin-bottom: 0;
     }
 
     @include media('>=md') {
-        max-height: 100vh;
-
-        &[class*='--align-'] {
-            position: fixed;
+        &--align-left,
+        &--align-bottom-left,
+        &--align-top-left {
+            margin-left: 0
         }
 
-        &--align-left,
         &--align-top-left,
+        &--align-top-right,
         &--align-top {
-            top: $offset;
-            left: $offset;
+            margin-top: 0;
         }
 
         &--align-top-right,
+        &--align-bottom-right,
         &--align-right {
-            top: $offset;
-            right: $offset;
+            margin-right: 0;
         }
 
-        &--align-bottom-right {
-            right: $offset;
-            bottom: $offset;
-        }
-
+        &--align-bottom-right,
         &--align-bottom,
         &--align-bottom-left {
-            bottom: $offset;
-            left: $offset;
+            margin-bottom: 0;
         }
     }
 
@@ -393,10 +391,6 @@ $offset: var(--v-modal-offset, 0);
     border-radius: 100vmax;
     background-color: rgb(255 255 255);
     pointer-events: all;
-
-    @include media('<md') {
-        --v-button-display: flex;
-    }
 
     @include media('>=md') {
         display: var(--v-modal-close-display, flex);

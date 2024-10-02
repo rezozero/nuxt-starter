@@ -153,8 +153,11 @@ export default defineNuxtConfig({
     image: {
         quality: 75,
         screens: {
-            xs: 375, // override size to match our breakpoints
-            xl: 1440, // override size to match our breakpoints
+            xs: 375, // override nuxt/img sizes to match our breakpoints
+            sm: 480, // override
+            vl: 1280, // override
+            xl: 1440, // override
+            xxl: 1600, // override
             hd: 1920, // additional size
             qhd: 2500, // additional size
         },

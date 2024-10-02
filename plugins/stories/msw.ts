@@ -13,7 +13,7 @@ export default defineNuxtPlugin(async () => {
     else if (import.meta.client) {
         const { worker } = await import('assets/stories/mocks/browser')
 
-        worker.start({
+        await worker.start({
             quiet: true,
             onUnhandledRequest: 'bypass',
         })

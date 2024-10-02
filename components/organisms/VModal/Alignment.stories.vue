@@ -47,7 +47,7 @@ function open() {
             </VButton>
         </template>
 
-        <VModal
+        <LazyVModal
             v-if="!hasLeave"
             v-model="isOpen"
             :align="selectedAlign"
@@ -57,7 +57,7 @@ function open() {
             <div :class="$style.content">
                 content
             </div>
-        </VModal>
+        </LazyVModal>
     </NuxtStory>
 </template>
 

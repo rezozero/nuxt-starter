@@ -47,6 +47,7 @@
     "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
+    "@popperjs/core": "^2.11.8",
     "@sentry/browser": "^8.32.0",
     "@sentry/node": "^8.32.0",
     "@sentry/vue": "^8.31.0",
@@ -60,6 +61,7 @@
     "plyr": "^3.7.8",
     "swiper": "^11.1.14",
     "tiny-emitter": "^2.1.0",
+    "v-calendar": "^3.1.2",
     "vue-multiselect": "^3.1.0",
     "vue-recaptcha-v3": "^2.0.1"
   },
