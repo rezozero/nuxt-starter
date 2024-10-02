@@ -324,11 +324,11 @@ $offset: var(--v-modal-offset, 0);
     touch-action: pan-y;
 
     @supports (max-height: 100svh) {
-            max-height: 100svh;
+            max-height: 80svh;
     }
 
     @supports not (max-height: 100svh) {
-            max-height: 100vh;
+            max-height: 80vh;
     }
 
     @include media('<md') {
