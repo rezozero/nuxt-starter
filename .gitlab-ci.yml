@@ -52,7 +52,7 @@ include:
     # See https://pnpm.io/continuous-integration#gitlab-ci
     before_script:
         - corepack enable
-        - corepack prepare pnpm@latest-8 --activate
+        - corepack prepare pnpm --activate
         - pnpm config set store-dir .pnpm-store
     script:
         - cd frontend
