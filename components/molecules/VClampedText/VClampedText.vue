@@ -49,8 +49,8 @@ useResizeObserver(root, updateDisabled)
 <style lang="scss" module>
 .root {
     display: -webkit-box;
-    width: 100%;
     overflow: hidden;
+    width: 100%;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--v-clamped-text-line-clamp, v-bind(lines));
 

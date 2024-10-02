@@ -6,8 +6,8 @@
 
 @mixin grid {
     display: grid;
-    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
     gap: var(--gutter);
+    grid-template-columns: repeat(var(--grid-columns), minmax(0, 1fr));
 
     @include grid-container;
 }
