@@ -21,7 +21,7 @@
     "@nuxt/eslint": "^0.5.7",
     "@nuxt/image": "^1.8.0",
     "@nuxtjs/i18n": "^8.5.5",
-    "@nuxtjs/sitemap": "^6.1.0",
+    "@nuxtjs/sitemap": "^6.1.1",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.1.1",
     "@rezo-zero/nuxt-cache-control": "^0.1.6",
@@ -37,7 +37,7 @@
     "msw": "^2.4.9",
     "nuxt": "^3.13.2",
     "postcss-html": "^1.7.0",
-    "sass": "^1.79.3",
+    "sass": "^1.79.4",
     "stylelint": "^16.9.0",
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
@@ -47,8 +47,8 @@
     "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
-    "@sentry/browser": "^8.31.0",
-    "@sentry/node": "^8.31.0",
+    "@sentry/browser": "^8.32.0",
+    "@sentry/node": "^8.32.0",
     "@sentry/vue": "^8.31.0",
     "@types/lodash": "^4.17.9",
     "@vue-a11y/skip-to": "^2.1.2",

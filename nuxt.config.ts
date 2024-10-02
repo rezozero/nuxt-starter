@@ -16,6 +16,7 @@ export default defineNuxtConfig({
     devtools: { enabled: true },
     experimental: {
         asyncContext: true,
+        appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
     plugins,
     // Don' use layer for now

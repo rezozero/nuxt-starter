@@ -1,0 +1,16 @@
+{
+    "@id": "/api/alerts/120",
+    "@type": "Alert",
+    "title": "this is a title",
+    "slug": "this-is-a-title",
+    "publishedAt": "2021-06-01T00:00:00+00:00",
+    "node": {
+        "@id": "/api/nodes/1",
+        "@type": "Node",
+        "visible": true
+    },
+    "content": "Etiam porta sem malesuada magna mollis euismod. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus",
+    "linkLabel": "En savoir plus",
+    "linkExternalUrl": "https://google.com",
+    "linkInternalReference": []
+}
