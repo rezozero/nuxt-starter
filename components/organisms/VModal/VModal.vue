@@ -70,8 +70,7 @@ function onKeyDown(event: KeyboardEvent) {
 }
 
 // Animations
-const preferredMotion = usePreferredReducedMotion()
-const prefersReducedMotion = computed(() => preferredMotion.value === 'reduce')
+const preferredReducedMotion = usePreferredReducedMotion()
 
 // Animation: In
 function enter() {
@@ -90,7 +89,7 @@ function enter() {
         window.scrollTo(0, scrollY)
     })
 
-    if (prefersReducedMotion.value) {
+    if (preferredReducedMotion.value === 'reduce') {
         afterEnter()
         return
     }
@@ -179,7 +178,7 @@ function leave() {
     disposeKeyUpListener()
     emits('leave')
 
-    if (prefersReducedMotion.value) {
+    if (preferredReducedMotion.value === 'reduce') {
         afterLeave()
         return
     }
