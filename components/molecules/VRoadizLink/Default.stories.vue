@@ -14,67 +14,67 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Url prop">
-            <VLink
+            <VRoadizLink
                 label="External link with url"
                 url="https:google.com"
             />
-            <VLink
+            <VRoadizLink
                 label="Internal link with url"
                 url="/page-test"
             />
-            <VLink
+            <VRoadizLink
                 label="FullPath url"
                 :url="siteUrlConfigPath"
             />
             <ClientOnly>
-                <VLink
+                <VRoadizLink
                     label="currentBase url"
                     :url="currentBaseUrl"
                 />
             </ClientOnly>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Link without label">
-            <VLink url="https:google.com" />
-            <VLink url="/page-test" />
-            <VLink :url="siteUrlConfigPath" />
+            <VRoadizLink url="https:google.com" />
+            <VRoadizLink url="/page-test" />
+            <VRoadizLink :url="siteUrlConfigPath" />
             <ClientOnly>
-                <VLink :url="currentBaseUrl" />
+                <VRoadizLink :url="currentBaseUrl" />
             </ClientOnly>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Slot label">
-            <VLink url="https:google.com">
+            <VRoadizLink url="https:google.com">
                 External Link
-            </VLink>
-            <VLink url="/page-test">
+            </VRoadizLink>
+            <VRoadizLink url="/page-test">
                 Internal Link
-            </VLink>
-            <VLink :url="siteUrlConfigPath">
+            </VRoadizLink>
+            <VRoadizLink :url="siteUrlConfigPath">
                 FullPath url
-            </VLink>
+            </VRoadizLink>
             <ClientOnly>
-                <VLink :url="currentBaseUrl">
+                <VRoadizLink :url="currentBaseUrl">
                     CurrentBase url
-                </VLink>
+                </VRoadizLink>
             </ClientOnly>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Internal link from reference prop">
-            <VLink
+            <VRoadizLink
                 label="Internal link"
                 :reference="[page]"
             />
-            <VLink
+            <VRoadizLink
                 label="Internal link"
                 :reference="page"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Document link">
-            <VLink
+            <VRoadizLink
                 label="Document link"
                 :document="download"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Image link">
-            <VLink
+            <VRoadizLink
                 :reference="page"
                 :class="$style['link-image']"
             >
@@ -85,7 +85,7 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
                     width="400"
                     height="400"
                 />
-            </VLink>
+            </VRoadizLink>
         </NuxtStoryVariant>
     </NuxtStory>
 </template>

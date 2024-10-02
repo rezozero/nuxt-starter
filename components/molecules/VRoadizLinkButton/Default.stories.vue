@@ -11,25 +11,25 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
                     :key="'primary' + size"
                     :class="$style.sizes"
                 >
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :size="size"
                         emphasis="primary"
                         label="Extenal"
                         url="https://google.com"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :reference="{ url: '/path' }"
                         :size="size"
                         emphasis="primary"
                         label="Internal"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :document="{ relativePath: '/document-path.pdf' }"
                         :size="size"
                         emphasis="primary"
                         label="document"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :size="size"
                         emphasis="primary"
                         label="Without link"
@@ -44,25 +44,25 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
                     :key="'Secondary' + size"
                     :class="$style.sizes"
                 >
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :size="size"
                         emphasis="secondary"
                         label="Extenal"
                         url="https://google.com"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :reference="{ url: '/path' }"
                         :size="size"
                         emphasis="secondary"
                         label="Internal"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :document="{ relativePath: '/document-path.pdf' }"
                         :size="size"
                         emphasis="secondary"
                         label="document"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :size="size"
                         emphasis="secondary"
                         label="Without link"
@@ -77,25 +77,25 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
                     :key="'Ternary' + size"
                     :class="$style.sizes"
                 >
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :size="size"
                         emphasis="ternary"
                         label="Extenal"
                         url="https://google.com"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :reference="{ url: '/path' }"
                         :size="size"
                         emphasis="ternary"
                         label="Internal"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :document="{ relativePath: '/document-path.pdf' }"
                         :size="size"
                         emphasis="ternary"
                         label="document"
                     />
-                    <VLinkButton
+                    <VRoadizLinkButton
                         :size="size"
                         emphasis="ternary"
                         label="Without link"
