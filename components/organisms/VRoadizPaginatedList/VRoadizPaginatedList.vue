@@ -2,8 +2,6 @@
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { HydraCollection, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
 import { usePaginatedList } from '~/composables/use-paginated-list'
-import { slugify } from '~/utils/string/slugify'
-import { generateHashFromObject } from '~/utils/string/generate-hash-from-object'
 
 const props = defineProps({
     url: {
@@ -24,8 +22,9 @@ const internalParams = computed(() => ({
     page: page.value,
     itemsPerPage: itemsPerPage.value,
 }))
-const itemBaseId = computed(() => {
-    return slugify(props.url) + '-' + generateHashFromObject(internalParams.value)
+const { itemBaseId } = useList({
+    url: props.url,
+    params: internalParams,
 })
 const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
     params: internalParams,

@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
-import { generateHashFromObject } from '~/utils/string/generate-hash-from-object'
-import { slugify } from '~/utils/string/slugify'
 
 const props = defineProps({
     url: {
@@ -25,8 +23,9 @@ const { items, page, loadPage, hasMoreItems, isPending } = useRoadizLoadMore<Roa
     params: internalParams,
 })
 
-const itemBaseId = computed(() => {
-    return slugify(props.url) + '-' + generateHashFromObject(internalParams.value)
+const { itemBaseId } = useList({
+    url: props.url,
+    params: internalParams,
 })
 
 if (import.meta.server) {
