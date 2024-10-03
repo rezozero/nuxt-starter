@@ -33,7 +33,7 @@ useMockRequest(
 <template>
     <NuxtStory>
         <ClientOnly>
-            <VLoadMoreList url="/items">
+            <VRoadizLoadMoreList url="/items">
                 <template #item="{ item, classNames }">
                     <div
                         v-if="item"
@@ -46,7 +46,7 @@ useMockRequest(
                         :class="[classNames, $style.item]"
                     />
                 </template>
-            </VLoadMoreList>
+            </VRoadizLoadMoreList>
         </ClientOnly>
     </NuxtStory>
 </template>
