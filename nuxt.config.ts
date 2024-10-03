@@ -33,6 +33,7 @@ export default defineNuxtConfig({
         '@vueuse/nuxt',
         '@rezo-zero/nuxt-cache-control',
         '@nuxt/eslint',
+        '@nuxtjs/robots',
     ],
     components: [
         '~/components/atoms',
@@ -187,5 +188,10 @@ export default defineNuxtConfig({
                 indent: 4,
             },
         },
+    },
+    // https://nuxtseo.com/robots/api/config
+    robots: {
+        allow: ['/'],
+        disallow: ['/rz-admin', '/maintenance', '/_icons', '/api'],
     },
 })
