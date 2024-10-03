@@ -35,7 +35,7 @@
 }
 
 .text {
-    @include loading-animation-text-placeholder();
+    @include loading-animation-text-placeholder;
 
     width: 15ch;
 }
