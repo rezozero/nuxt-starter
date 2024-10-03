@@ -20,6 +20,7 @@ const props = defineProps({
 })
 
 const index = defineModel({
+    type: Number,
     default: 1,
 })
 
