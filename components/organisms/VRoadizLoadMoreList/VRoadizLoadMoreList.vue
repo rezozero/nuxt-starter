@@ -19,7 +19,7 @@ const internalParams = computed(() => ({
     ...props.params,
 }))
 
-const { items, page, loadPage, hasMoreItems, isPending } = useLoadMore<RoadizNodesSources>({
+const { items, page, loadPage, hasMoreItems, isPending } = useRoadizLoadMore<RoadizNodesSources>({
     url: props.url,
     element: list,
     params: internalParams,

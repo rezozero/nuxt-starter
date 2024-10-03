@@ -14,7 +14,7 @@ const ITEMS_PER_PAGE = 12
 
 type CacheTagsContainer<T> = T & { cacheTags?: string }
 
-export function useLoadMore<
+export function useRoadizLoadMore<
     ItemT extends RoadizNodesSources = RoadizNodesSources,
     ParamsT extends RoadizRequestParams = RoadizRequestParams,
 >(options: UseLoadMoreOptions<ParamsT>) {
