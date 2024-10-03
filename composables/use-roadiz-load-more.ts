@@ -14,7 +14,7 @@ const ITEMS_PER_PAGE = 12
 
 type CacheTagsContainer<T> = T & { cacheTags?: string }
 
-export function useLoadMore<
+export async function useRoadizLoadMore<
     ItemT extends RoadizNodesSources = RoadizNodesSources,
     ParamsT extends RoadizRequestParams = RoadizRequestParams,
 >(options: UseLoadMoreOptions<ParamsT>) {
@@ -214,6 +214,15 @@ export function useLoadMore<
         if (!element) return
 
         element.scrollIntoView()
+    }
+
+    if (import.meta.server) {
+        // On server side, we need to load the current page before to render the component.
+        await loadPage(page.value)
+    }
+    else {
+        // On client side, we need to lazy load the current page AND display the skeleton immediately.
+        loadPage(page.value)
     }
 
     return { items, page, hasMoreItems, loadPage, isPending, totalItems }

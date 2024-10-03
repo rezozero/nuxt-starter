@@ -1,0 +1,9 @@
+.loading-animation {
+    @include loading-animation('global');
+}
+
+@keyframes loading-animation {
+    100% {
+        background-position: -480% 0;
+    }
+}

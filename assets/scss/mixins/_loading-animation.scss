@@ -1,0 +1,44 @@
+@mixin loading-animation($scope: 'local') {
+    $animation: loading-animation 1.4s infinite ease(in-out-circ);
+    $background-color: #ccc;
+    $gradient-color: #d5d5d5;
+
+    @if  $scope == 'global' {
+        animation: $animation;
+    } @else {
+        // if the scope is local (CSS module), it should use the global class name
+        :global {
+            animation: $animation;
+        }
+    }
+
+    background-color: $background-color;
+    background-image: linear-gradient(
+            to right,
+            transparent 0%,
+            $gradient-color 10%,
+            $gradient-color 20%,
+            transparent 30%
+    );
+    background-position: 120% 0;
+    background-size: 120% 100%;
+    content: '';
+
+    @media (prefers-reduced-motion: reduce) {
+        animation: none;
+        background: none;
+    }
+}
+
+@mixin loading-animation-text-placeholder($radius: true) {
+    @include loading-animation;
+
+    @if  $radius {
+        border-radius: 100vmax;
+    }
+
+    &::before {
+        display: inline-block;
+        content: '';
+    }
+}

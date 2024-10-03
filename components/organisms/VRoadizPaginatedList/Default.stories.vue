@@ -16,7 +16,7 @@ useMockRequest(
         const itemsPerPageParam = url.searchParams.get('itemsPerPage')
         const pageParam = url.searchParams.get('page')
         const page = typeof pageParam === 'string' ? Number(pageParam) - 1 : 0
-        const itemsPerPage = typeof itemsPerPageParam === 'string' ? Number(itemsPerPageParam) : 6
+        const itemsPerPage = typeof itemsPerPageParam === 'string' ? Number(itemsPerPageParam) : 12
 
         await delay(props.loadingDelay)
 
@@ -33,7 +33,7 @@ useMockRequest(
 <template>
     <NuxtStory>
         <ClientOnly>
-            <VLoadMoreList url="/items">
+            <VRoadizPaginatedList url="/items">
                 <template #item="{ item, classNames }">
                     <div
                         v-if="item"
@@ -43,10 +43,11 @@ useMockRequest(
                     </div>
                     <div
                         v-else
+                        class="loading-animation"
                         :class="[classNames, $style.item]"
                     />
                 </template>
-            </VLoadMoreList>
+            </VRoadizPaginatedList>
         </ClientOnly>
     </NuxtStory>
 </template>
