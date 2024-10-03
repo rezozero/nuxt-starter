@@ -17,7 +17,7 @@ const internalParams = computed(() => ({
     ...props.params,
 }))
 
-const { items, page, loadPage, hasMoreItems, isPending } = useRoadizLoadMore<RoadizNodesSources>({
+const { items, hasMoreItems, isPending } = await useRoadizLoadMore<RoadizNodesSources>({
     url: props.url,
     element: list,
     params: internalParams,
@@ -27,15 +27,6 @@ const { itemBaseId } = useList({
     url: props.url,
     params: internalParams,
 })
-
-if (import.meta.server) {
-    // On server side, we need to load the current page before to render the component.
-    await loadPage(page.value)
-}
-else {
-    // On client side, we need to lazy load the current page AND display the skeleton immediately.
-    loadPage(page.value)
-}
 </script>
 
 <template>
