@@ -169,12 +169,6 @@ const { themeClass } = useTheme()
     transition: 0.3s ease(out-quad);
     transition-property: background-color, color;
 
-    @media (hover: hover) {
-        &:hover:not(#{&}--active) {
-            background-color: #ccc;
-        }
-    }
-
     &--active {
         background-color: #000;
         color: #fff;
@@ -189,6 +183,12 @@ const { themeClass } = useTheme()
     justify-content: center;
     color: inherit;
     text-decoration: none;
+
+    @media (hover: hover) {
+        &:hover:not(.item--active &) {
+            background-color: #ccc;
+        }
+    }
 }
 
 .buttons {
