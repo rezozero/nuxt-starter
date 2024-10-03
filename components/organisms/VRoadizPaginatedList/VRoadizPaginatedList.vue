@@ -15,7 +15,7 @@ const props = defineProps({
 })
 
 const root = ref<HTMLElement | null>(null)
-const { page } = usePaginatedList({
+const { page, isScrollingToTop } = usePaginatedList({
     element: root,
 })
 const itemsPerPage = computed(() => props.params?.itemsPerPage || 12)
@@ -27,11 +27,15 @@ const internalParams = computed(() => ({
 const itemBaseId = computed(() => {
     return slugify(props.url) + '-' + generateHashFromObject(internalParams.value)
 })
-const { data } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
+const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
     params: internalParams,
     watch: [page],
 })
 const items = computed(() => {
+    if (status.value === 'pending' || isScrollingToTop.value) {
+        return Array.from({ length: itemsPerPage.value }).map(() => null)
+    }
+
     return data.value?.['hydra:member'] || []
 })
 const totalItems = computed(() => {

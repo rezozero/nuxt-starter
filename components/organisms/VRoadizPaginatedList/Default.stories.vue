@@ -43,6 +43,7 @@ useMockRequest(
                     </div>
                     <div
                         v-else
+                        class="loading-animation"
                         :class="[classNames, $style.item]"
                     />
                 </template>
