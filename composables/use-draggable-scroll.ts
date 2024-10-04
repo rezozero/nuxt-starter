@@ -33,8 +33,6 @@ export function useDraggableScroll(options: UseDraggableScrollOptions) {
     }
 
     function onMouseDown() {
-        removeListeners()
-
         isDragging.value = true
 
         document.addEventListener('mousemove', onMouseMove)
