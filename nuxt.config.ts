@@ -61,7 +61,9 @@ export default defineNuxtConfig({
                 url: '',
                 containerID: '',
             },
-            googleTagManager: '',
+            googleTagManager: {
+                id: '',
+            },
             recaptcha: {
                 siteKey: '',
                 version: 3,
