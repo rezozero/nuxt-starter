@@ -32,7 +32,7 @@
     "@types/body-scroll-lock": "^3.1.2",
     "@types/json-schema": "^7.0.15",
     "@vueuse/nuxt": "^11.1.0",
-    "eslint": "^9.11.1",
+    "eslint": "^9.12.0",
     "husky": "^9.1.6",
     "include-media": "^2.0.0",
     "msw": "^2.4.9",
