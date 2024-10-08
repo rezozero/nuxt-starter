@@ -48,6 +48,7 @@
     "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
+    "@gtm-support/vue-gtm": "^3.1.0",
     "@popperjs/core": "^2.11.8",
     "@sentry/browser": "^8.33.1",
     "@sentry/node": "^8.33.1",

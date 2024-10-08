@@ -1,8 +1,6 @@
 import { joinURL } from 'ufo'
 import type { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/types'
 import type { Link, Script } from '@unhead/schema'
-import { createGoogleTagManagerScript } from '~/utils/tracking/google-tag-manager'
-import { createMatomoTagManagerScript } from '~/utils/tracking/matomo-tag-manager'
 
 export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: RoadizAlternateLink[]) {
     const nuxtApp = useNuxtApp()
@@ -27,22 +25,6 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
         }
     })
     if (alternateLinksHead) link.push(...alternateLinksHead)
-
-    // GOOGLE TAG MANAGER
-    // Google Tag Manager must not be loaded by tarteaucitron, it must configure tarteaucitron itself.
-    // Notice: by using GTM you must comply with GDPR and cookie consent or just use
-    // tarteaucitron with GA4, Matomo or Plausible
-    const googleTagManager = runtimeConfig.public.googleTagManager
-    if (googleTagManager && googleTagManager !== '') {
-        script.push(createGoogleTagManagerScript(googleTagManager))
-    }
-
-    // MATOMO
-    const matomoURL = runtimeConfig.public.matomo?.url
-    const matomoContainerID = runtimeConfig.public.matomo?.containerID
-    if (matomoURL && matomoContainerID && matomoURL !== '' && matomoContainerID !== '') {
-        script.push(createMatomoTagManagerScript(matomoContainerID, matomoURL))
-    }
 
     useHead({
         htmlAttrs: {
