@@ -26,18 +26,18 @@ useDraggableScroll({
 <style module lang="scss">
 .root {
     display: flex;
-    flex-wrap: nowrap;
-    white-space: nowrap;
-    overflow-x: auto;
     width: 100%;
     max-width: rem(400px);
+    flex-wrap: nowrap;
     gap: rem(24);
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 .item {
     width: rem(200);
+    flex-shrink: 0;
     aspect-ratio: 300/200;
     background-color: #ccc;
-    flex-shrink: 0;
 }
 </style>
