@@ -49,9 +49,9 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
-    "@sentry/browser": "^8.33.0",
+    "@sentry/browser": "^8.33.1",
     "@sentry/node": "^8.33.1",
-    "@sentry/vue": "^8.31.0",
+    "@sentry/vue": "^8.33.1",
     "@types/lodash": "^4.17.10",
     "@vue-a11y/skip-to": "^2.1.2",
     "@vueuse/core": "^11.1.0",
