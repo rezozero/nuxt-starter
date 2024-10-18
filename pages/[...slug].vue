@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
 import { getBlockCollection } from '~/utils/roadiz/block'
 import { isPageEntity } from '~/utils/roadiz/entity'
@@ -49,6 +49,16 @@ const route = useRoute()
 if (item?.url && item.url !== route.path) {
     await navigateTo({ path: item?.url }, { redirectCode: 301 })
 }
+
+const nodeTitle = computed(() => {
+    return webResponse?.head.metaTitle || (item as { name?: string })?.name || item?.title
+})
+
+usePage({
+    webResponse,
+    alternateLinks,
+    title: nodeTitle.value,
+})
 
 // Get blocks from web response
 const blocks = computed(() => (webResponse?.blocks && getBlockCollection(webResponse.blocks)) || [])
