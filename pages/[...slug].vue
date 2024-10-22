@@ -23,7 +23,7 @@ await useRoadizSeoMeta(webResponse)
 useRoadizHead(webResponse, alternateLinks)
 
 // Cache tags
-useCacheTags(headers[useRuntimeConfig().public.cacheTags?.key])
+useCacheTags(headers?.[useRuntimeConfig().public.cacheTags?.key])
 
 // Cache control
 useWebResponseCacheControl(webResponse)
