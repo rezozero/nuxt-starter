@@ -11,7 +11,7 @@ await callOnce(async () => {
     const { webResponse, alternateLinks } = await useRoadizWebResponse()
 
     // fill page data
-    usePage({ webResponse, alternateLinks })
+    useCurrentPage({ webResponse, alternateLinks })
 
     // init I18N
     const nuxtApp = useNuxtApp()
