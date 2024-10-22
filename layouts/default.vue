@@ -2,7 +2,7 @@
 import type { RoadizNodesSources } from '@roadiz/types'
 
 // init Roadiz page data (i.e. dynamic page)
-callOnce(async () => {
+await callOnce(async () => {
     const route = useRoute()
 
     // check if it's a dynamic page
@@ -15,20 +15,18 @@ callOnce(async () => {
 
     // init I18N
     const nuxtApp = useNuxtApp()
-    await callOnce(async () => {
-        const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
+    const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
 
-        if (locale) {
-            // set the current global locale
-            await nuxtApp.$i18n.setLocale(locale)
-        }
-        else {
-            // get the locale from the route (prefix) or cookie ?
-        }
+    if (locale) {
+        // set the current global locale
+        await nuxtApp.$i18n.setLocale(locale)
+    }
+    else {
+        // get the locale from the route (prefix) or cookie ?
+    }
 
-        // init alternate links
-        useAlternateLinks(alternateLinks)
-    })
+    // init alternate links
+    useAlternateLinks(alternateLinks)
 })
 </script>
 
