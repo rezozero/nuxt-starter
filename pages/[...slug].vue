@@ -20,7 +20,7 @@ if (error) {
 }
 
 await useRoadizSeoMeta(webResponse)
-await useRoadizHead(webResponse, alternateLinks)
+useRoadizHead(webResponse, alternateLinks)
 
 // Cache tags
 useCacheTags(headers[useRuntimeConfig().public.cacheTags?.key])
