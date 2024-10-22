@@ -15,21 +15,6 @@ defineI18nRoute(false)
 
 const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<RoadizNodesSources>()
 
-// I18N
-const nuxtApp = useNuxtApp()
-await callOnce(async () => {
-    const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
-
-    if (locale) {
-        await nuxtApp.$i18n.setLocale(locale)
-    }
-    else {
-        // get the locale from the route (prefix) or cookie ?
-    }
-
-    useAlternateLinks(alternateLinks)
-})
-
 if (error) {
     showError(error)
 }
