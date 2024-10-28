@@ -51,7 +51,7 @@
     "@gtm-support/vue-gtm": "^3.1.0",
     "@popperjs/core": "^2.11.8",
     "@sentry/browser": "^8.34.0",
-    "@sentry/node": "^8.34.0",
+    "@sentry/node": "^8.35.0",
     "@sentry/vue": "^8.34.0",
     "@types/lodash": "^4.17.10",
     "@vue-a11y/skip-to": "^2.1.2",
