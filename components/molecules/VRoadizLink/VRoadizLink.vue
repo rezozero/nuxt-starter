@@ -26,10 +26,12 @@ export default defineComponent({
 
         const isInternal = isInternalUrl(url, siteUrl)
         const isExternal = !isInternal && !!url
-        const isDownload = !isInternal && !isExternal && !!props.document
+
+        const document = props.document && Array.isArray(props.document) ? props.document[0] : props.document
+        const isDownload = !isInternal && !isExternal && !!document
 
         // A VRoadizLink without URL or reference will render nothing except the default slot if present, fallback to the label, or at least nothing
-        if (!url && !props.document?.relativePath) {
+        if (!url && !document?.relativePath) {
             return () =>
                 slots.default?.({ label: props.label })
                 || (typeof props.label === 'string' && h('span', attrs, props.label))
@@ -47,7 +49,7 @@ export default defineComponent({
         }
 
         if (isDownload) {
-            Object.assign(attributes, { href: useRoadizDocumentUrl(props.document?.relativePath) })
+            Object.assign(attributes, { href: useRoadizDocumentUrl(document?.relativePath) })
         }
         else if (isInternal) {
             // Prevent NuxtLink to add rel attrs if it is absolute internal url
@@ -60,7 +62,7 @@ export default defineComponent({
         // Custom VRoadizLink will pass all attributes to the default slot and render it (i.e. render-less component behavior)
         if (props.custom) {
             const vNode = slots.default?.({
-                download: isDownload ? '' : undefined,
+                download: isDownload,
                 ...attributes,
             })
 
