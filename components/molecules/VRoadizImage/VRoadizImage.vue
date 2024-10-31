@@ -60,7 +60,7 @@ export default defineComponent({
                     || (!isPicture.value
                         && !props.densities
                         && ($img.options.presets?.default?.sizes || $img.options.screens))
-                        || undefined,
+                    || undefined,
                 provider: 'interventionRequest',
                 modifiers: {
                     ...modifiers.value,

@@ -12,15 +12,6 @@ if (isNuxtStories) {
 }
 
 export default defineNuxtConfig({
-    compatibilityDate: '2024-07-24',
-    devtools: { enabled: true },
-    experimental: {
-        asyncContext: true,
-        appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
-    },
-    plugins,
-    // Don' use layer for now
-    // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     modules: [
         '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
@@ -35,12 +26,17 @@ export default defineNuxtConfig({
         '@nuxt/eslint',
         '@nuxtjs/robots',
     ],
+    plugins,
+    // Don' use layer for now
+    // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     components: [
         '~/components/atoms',
         '~/components/molecules',
         '~/components/organisms',
         { path: '~/components/blocks/', global: true },
     ],
+    devtools: { enabled: true },
+    css: ['~/assets/scss/main.scss'],
     runtimeConfig: {
         public: {
             version,
@@ -81,29 +77,11 @@ export default defineNuxtConfig({
             },
         },
     },
-    css: ['~/assets/scss/main.scss'],
-    vite: {
-        css: {
-            preprocessorOptions: {
-                scss: {
-                    additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
-                    quietDeps: true,
-                    // For now, just silence the deprecation warning.
-                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
-                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
-                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
-                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
-                    silenceDeprecations: ['legacy-js-api'],
-                },
-            },
-        },
-        plugins: [
-            // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
-            svgLoader({
-                defaultImport: 'url',
-            }),
-        ],
+    experimental: {
+        asyncContext: true,
+        appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
+    compatibilityDate: '2024-07-24',
     nitro: {
         routeRules: {
             '/**': {
@@ -131,10 +109,35 @@ export default defineNuxtConfig({
             },
         },
     },
-    // https://github.com/nuxt-modules/svg-sprite#options
-    svgSprite: {
-        input: '~/assets/images/icons',
-        output: '~/assets/images/sprites',
+    vite: {
+        css: {
+            preprocessorOptions: {
+                scss: {
+                    additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+                    quietDeps: true,
+                    // For now, just silence the deprecation warning.
+                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
+                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
+                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
+                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
+                    silenceDeprecations: ['legacy-js-api'],
+                },
+            },
+        },
+        plugins: [
+            // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
+            svgLoader({
+                defaultImport: 'url',
+            }),
+        ],
+    },
+    // https://eslint.nuxt.com/packages/module
+    eslint: {
+        config: {
+            stylistic: {
+                indent: 4,
+            },
+        },
     },
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
@@ -172,6 +175,11 @@ export default defineNuxtConfig({
             },
         },
     },
+    // https://nuxtseo.com/robots/api/config
+    robots: {
+        allow: ['/'],
+        disallow: ['/rz-admin', '/maintenance', '/_icons', '/api'],
+    },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
         sources: ['/api/sitemap'],
@@ -183,17 +191,9 @@ export default defineNuxtConfig({
             '!playground', // exclude layer stories
         ],
     },
-    // https://eslint.nuxt.com/packages/module
-    eslint: {
-        config: {
-            stylistic: {
-                indent: 4,
-            },
-        },
-    },
-    // https://nuxtseo.com/robots/api/config
-    robots: {
-        allow: ['/'],
-        disallow: ['/rz-admin', '/maintenance', '/_icons', '/api'],
+    // https://github.com/nuxt-modules/svg-sprite#options
+    svgSprite: {
+        input: '~/assets/images/icons',
+        output: '~/assets/images/sprites',
     },
 })
