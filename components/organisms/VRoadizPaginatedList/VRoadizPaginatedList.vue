@@ -37,8 +37,9 @@ const items = computed(() => {
 
     return data.value?.['hydra:member'] || []
 })
-const totalItems = computed(() => {
-    return (data.value?.['hydra:totalItems'] / itemsPerPage.value) || 0
+const pageLength = computed(() => {
+    const totalItems = data.value?.['hydra:totalItems'] || 0
+    return Math.ceil(totalItems / itemsPerPage.value)
 })
 </script>
 
@@ -49,23 +50,23 @@ const totalItems = computed(() => {
     >
         <template v-if="items.length">
             <div
-                class="grid"
                 :class="$style.list"
+                class="grid"
             >
                 <template
                     v-for="(item, index) in items"
                     :key="itemBaseId + '-' + index"
                 >
                     <slot
-                        v-bind="{ item, classNames: $style.item, index }"
                         name="item"
+                        v-bind="{ item, classNames: $style.item, index }"
                     />
                 </template>
             </div>
             <VPagination
                 v-model="page"
-                :length="totalItems"
                 :class="$style.pagination"
+                :length="pageLength"
             />
         </template>
         <slot
