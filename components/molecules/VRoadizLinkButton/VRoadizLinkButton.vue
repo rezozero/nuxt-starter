@@ -67,10 +67,10 @@ export default defineComponent({
     >
         <VButton
             :class="$attrs.class"
-            :disabled="!vLinkProps.href && !vLinkProps.to"
+            :disabled="!vLinkProps.href && !vLinkProps.to && !vLinkProps.download"
             :icon-name="
                 iconName
-                    || (!!vLinkProps.download || !!document
+                    || (!!vLinkProps.download
                         ? 'download'
                         : vLinkProps.href
                             ? 'arrow-up-right'
