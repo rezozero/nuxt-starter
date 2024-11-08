@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import { delay, http, HttpResponse } from 'msw'
 
 const NUM_PAGES = 8
@@ -9,6 +9,14 @@ const props = defineProps({
         default: 0,
     },
 })
+
+function generatePlaceholder(index: number) {
+    return {
+        '@id': `item-${index}`,
+        '@type': 'Custom item',
+        'title': undefined,
+    }
+}
 
 useMockRequest(
     http.get('*/items', async ({ request }) => {
@@ -33,7 +41,10 @@ useMockRequest(
 <template>
     <NuxtStory>
         <ClientOnly>
-            <VRoadizPaginatedList url="/items">
+            <VRoadizPaginatedList
+                :generate-placeholder="generatePlaceholder"
+                url="/items"
+            >
                 <template #item="{ item, classNames }">
                     <div
                         v-if="item"
@@ -43,8 +54,8 @@ useMockRequest(
                     </div>
                     <div
                         v-else
-                        class="loading-animation"
                         :class="[classNames, $style.item]"
+                        class="loading-animation"
                     />
                 </template>
             </VRoadizPaginatedList>
