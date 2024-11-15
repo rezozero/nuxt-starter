@@ -10,7 +10,6 @@ group "default" {
     targets = ["frontend"]
 }
 
-
 target "frontend" {
     name = "frontend-${item.name}"
     platforms = ["linux/amd64"]

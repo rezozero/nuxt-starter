@@ -1,5 +1,5 @@
 ARG NODE_VERSION=20.18.0
-ARG USER_UID=1000
+ARG UID=1000
 
 #############
 # Node      #
@@ -9,7 +9,7 @@ FROM node:${NODE_VERSION}-bookworm-slim AS node
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
-ARG USER_UID
+ARG UID
 
 # Fix: "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory"
 ENV NODE_OPTIONS="--max_old_space_size=4096"
@@ -30,9 +30,9 @@ apt-get --quiet --yes --no-install-recommends --verbose-versions install \
 rm -rf /var/lib/apt/lists/*
 
 # User
-groupmod --gid ${USER_UID} node
-usermod --uid ${USER_UID} node
-chown --verbose --recursive node:node /home/node
+groupmod --gid ${UID} node
+usermod --uid ${UID} node
+chown --verbose --recursive ${UID}:${UID} /home/node
 echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
 
 # App
@@ -56,11 +56,11 @@ USER node
 
 # Make sure to copy pnpm-lock.yaml .npmrc to stick to the same versions
 # and avoid any issues with the versions of the dependencies
-COPY --link --chown=node:node package.json pnpm-lock.yaml .npmrc ./
+COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml .npmrc ./
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
-COPY --link --chown=node:node . .
+COPY --link --chown=${UID}:${UID} . .
 
 RUN pnpm build
 
@@ -79,7 +79,7 @@ HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I h
 
 USER node
 
-COPY --link --from=node-prod-build --chown=node:node /app/.output .
+COPY --link --from=node-prod-build --chown=${UID}:${UID} /app/.output .
 
 CMD ["node", "server/index.mjs"]
 
@@ -99,4 +99,5 @@ COPY --link docker/nginx/redirections.conf /etc/nginx/redirections.conf
 
 HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I http://localhost
 
-COPY --link --from=node-prod-build --chown=www-data:www-data /app/.output/public /var/www/html/public
+# Nginx user is 1000
+COPY --link --from=node-prod-build --chown=1000:1000 /app/.output/public /var/www/html/public
