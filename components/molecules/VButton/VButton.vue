@@ -116,7 +116,7 @@ export default defineComponent({
     @include theme-variants;
 
     // PROPS STYLE
-    &--icon-last {
+    &--icon-last {gs
         flex-direction: row-reverse;
     }
 

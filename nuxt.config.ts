@@ -1,7 +1,6 @@
 import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
-import { hoistUseStatements } from './utils/vite/hoist-use-statements'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n.config'
 
 const isNuxtStories = process.env.NUXT_STORIES === '1'
@@ -113,7 +112,6 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-                    // additionalData: `@use "~/assets/scss/_style-resources.scss" as *;`,
                     quietDeps: true,
                     // For now, just silence the deprecation warning.
                     // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
