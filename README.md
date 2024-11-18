@@ -196,7 +196,7 @@ You can test build node image with the following command:
 docker buildx build --target node-prod -t nuxt-starter/node .
 ```
 
-Or use docker buildx bake to build all images in parallel:
+Or use docker buildx bake to build all images in parallel. Update `docker-bake.hcl` file with your own values.
 
 ```bash
 docker buildx bake
