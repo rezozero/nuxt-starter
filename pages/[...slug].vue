@@ -13,7 +13,8 @@ definePageMeta({
 // Roadiz handles the routing
 defineI18nRoute(false)
 
-const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<RoadizNodesSources>()
+const route = useRoute()
+const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<RoadizNodesSources>(route.path)
 
 if (error) {
     showError(error)
@@ -27,8 +28,6 @@ useCacheTags(headers?.[useRuntimeConfig().public.cacheTags?.key])
 
 // Cache control
 useWebResponseCacheControl(webResponse)
-
-const route = useRoute()
 
 // Force redirect when web response URL is not matching current route path
 if (item?.url && item.url !== route.path) {
