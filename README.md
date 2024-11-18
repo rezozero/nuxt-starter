@@ -185,6 +185,25 @@ Dynamic routes can be added with the server route `/api/sitemap`.
 
 Read the full module documentation [here](https://www.nuxtseo.com/sitemap/getting-started/installation).
 
+## Docker build
+
+The application can be built and run in a Docker container. This starter provide a multi-stage Dockerfile
+with a production build and a Nginx server.
+
+You can test build node image with the following command:
+
+```bash
+docker buildx build --target node-prod -t nuxt-starter/node .
+```
+
+Or use docker buildx bake to build all images in parallel. Update `docker-bake.hcl` file with your own values.
+
+```bash
+docker buildx bake
+```
+
+This starter provide a .gitlab-ci.yml example file for a CI/CD pipeline using docker build.
+
 ## Contributing
 
 Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
