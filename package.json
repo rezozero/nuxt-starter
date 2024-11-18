@@ -20,7 +20,7 @@
     "@nuxt/devtools": "latest",
     "@nuxt/eslint": "^0.7.0",
     "@nuxt/image": "^1.8.1",
-    "@nuxtjs/i18n": "^8.5.5",
+    "@nuxtjs/i18n": "^9.0.0",
     "@nuxtjs/robots": "^4.1.11",
     "@nuxtjs/sitemap": "^6.1.5",
     "@nuxtjs/svg-sprite": "^1.0.2",
