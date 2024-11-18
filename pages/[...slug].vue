@@ -20,8 +20,10 @@ if (error) {
     showError(error)
 }
 
-await useRoadizSeoMeta(webResponse)
-useRoadizHead(webResponse, alternateLinks)
+if (import.meta.server) {
+    await useRoadizSeoMeta(webResponse)
+    useRoadizHead(webResponse, alternateLinks)
+}
 
 // Cache tags
 useCacheTags(headers?.[useRuntimeConfig().public.cacheTags?.key])
@@ -41,6 +43,10 @@ const nodeTitle = computed(() => {
 usePage({
     webResponse,
     alternateLinks,
+    title: nodeTitle.value,
+})
+
+useHead({
     title: nodeTitle.value,
 })
 
