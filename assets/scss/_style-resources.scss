@@ -2,15 +2,17 @@
 // all these resources will be included into every component imported by webpack
 // ⚠️ do not include css file
 
-// vendors
-@import "vendors/include-media";
 
-// functions
-@import "functions";
-
-// variables
-@import "variables";
+//
+// // vendors
+// @import "vendors/include-media";
+//
+// // functions
+@forward "functions";
+//
+// // variables
+// @import "variables";
 
 // mixins
-@import "mixins";
+@use "mixins" as *;
 

@@ -18,6 +18,8 @@ defineProps({
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .root {
     z-index: 1;
     display: var(--v-tag-display, inline-flex);

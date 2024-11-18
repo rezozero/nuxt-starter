@@ -38,29 +38,32 @@
 </template>
 
 <style lang="scss" module>
-.button {
-    &--sm {
-        @include v-button-size('sm');
-    }
+@use 'assets/scss/mixins/v-button' as *;
+@use 'assets/scss/mixins/include-media' as *;
 
-    &--md {
-        @include v-button-size('md');
-    }
-
-    &--lg {
-        @include v-button-size('lg');
-    }
-
-    &--responsive {
-        @include v-button-size('sm');
-
-        @include media('>=lg') {
-            @include v-button-size('md');
-        }
-
-        @include media('>=xxl') {
-            @include v-button-size('lg');
-        }
-    }
-}
+// .button {
+//     &--sm {
+//         @include v-button-size('sm');
+//     }
+//
+//     &--md {
+//         @include v-button-size('md');
+//     }
+//
+//     &--lg {
+//         @include v-button-size('lg');
+//     }
+//
+//     &--responsive {
+//         @include v-button-size('sm');
+//
+//         @include media('>=lg') {
+//             @include v-button-size('md');
+//         }
+//
+//         @include media('>=xxl') {
+//             @include v-button-size('lg');
+//         }
+//     }
+// }
 </style>

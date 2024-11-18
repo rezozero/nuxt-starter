@@ -1,3 +1,7 @@
+@use 'mixins/grid' as *;
+@use 'variables/grid' as *;
+@use 'variables/breakpoints' as *;
+
 .grid-container {
     @include grid-container;
 }

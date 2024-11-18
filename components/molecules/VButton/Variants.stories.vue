@@ -38,25 +38,29 @@ const commonsProps = {
 </template>
 
 <style lang="scss" module="">
-.root {
-    --theme-color-buttons-menu-bg: red;
-}
+@use 'assets/scss/mixins/v-button' as *;
+@use 'assets/scss/variables/v-button' as *;
+@use 'assets/scss/variables/v-button-variant' as *;
 
-.button-custom {
-    @include v-button-css-vars($v-button);
-    @include v-button-variant-css-vars($v-button-variants, 'menu');
-
-    &--xl {
-        @include v-button-size('xl');
-        @include v-button-size('xl', menu);
-    }
-
-    .label {
-        @include v-button-css-vars($v-button-variant-menu-label, 'label');
-    }
-
-    .icon {
-        @include v-button-css-vars($v-button-variant-menu-icon, 'icon');
-    }
-}
+// .root {
+//     --theme-color-buttons-menu-bg: red;
+// }
+//
+// .button-custom {
+//     @include v-button-css-vars($v-button);
+//     @include v-button-variant-css-vars($v-button-variants, 'menu');
+//
+//     &--xl {
+//         @include v-button-size('xl');
+//         @include v-button-size('xl', menu);
+//     }
+//
+//     .label {
+//         @include v-button-css-vars($v-button-variant-menu-label, 'label');
+//     }
+//
+//     .icon {
+//         @include v-button-css-vars($v-button-variant-menu-icon, 'icon');
+//     }
+// }
 </style>

@@ -1,5 +1,6 @@
 @use "sass:map";
 @use "sass:math";
+@use "../functions/rem" as *;
 
 $v-button-size-vars-by-variant: () !default;
 
@@ -118,7 +119,7 @@ $v-button-label: (
 );
 
 // Merged
-$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, (
+$v-button-size-vars-by-variant: map.merge($v-button-size-vars-by-variant, (
     default: (
         (vars: $v-button, prefix: ''),
         (vars: $v-button-spacing, prefix: ''),

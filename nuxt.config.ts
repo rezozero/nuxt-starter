@@ -113,7 +113,7 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: hoistUseStatements(`@import "~/assets/scss/_style-resources.scss";`),
+                    // additionalData: `@use "~/assets/scss/_style-resources.scss" as *;`,
                     quietDeps: true,
                     // For now, just silence the deprecation warning.
                     // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
