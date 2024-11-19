@@ -43,10 +43,10 @@
 
         // Loop through variant template item
         @each $vars, $prefixes in $variant-values {
-            $variant-prefix: nth($prefixes, 2);
+            $variant-prefix: list.nth($prefixes, 2);
 
             @if $variant-prefix == $prefix {
-                @include v-button-css-vars(nth($vars, 2), $prefix);
+                @include v-button-css-vars(list.nth($vars, 2), $prefix);
             }
         }
     }
