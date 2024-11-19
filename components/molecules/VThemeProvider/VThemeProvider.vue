@@ -11,6 +11,8 @@ const { themeClass } = useThemeProvider(props)
 </template>
 
 <style module lang="scss">
+@use "assets/scss/mixins/theme" as *;
+
 .root {
     @include theme-variants;
 

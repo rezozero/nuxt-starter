@@ -107,6 +107,8 @@ import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vu
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .root {
     :global(.nuxt-story-variant__main) {
         flex-direction: column;

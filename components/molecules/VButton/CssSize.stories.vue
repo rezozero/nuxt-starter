@@ -38,6 +38,9 @@
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/mixins/v-button' as *;
+@use 'assets/scss/mixins/include-media' as *;
+
 .button {
     &--sm {
         @include v-button-size('sm');

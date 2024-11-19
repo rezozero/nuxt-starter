@@ -76,6 +76,9 @@ const totalItems = computed(() => {
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/mixins/include-media' as *;
+@use 'assets/scss/functions/rem' as *;
+
 .root {
     display: flex;
     flex-wrap: wrap;

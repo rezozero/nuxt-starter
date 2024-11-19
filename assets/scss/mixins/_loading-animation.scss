@@ -1,3 +1,5 @@
+@use '../functions/ease' as *;
+
 @mixin loading-animation($scope: 'local') {
     $animation: loading-animation 1.4s infinite ease(in-out-circ);
     $background-color: #ccc;

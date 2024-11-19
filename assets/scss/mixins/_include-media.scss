@@ -1,4 +1,8 @@
-@import "include-media/dist/include-media";
+@use '../variables/breakpoints' as *;
+
+@forward "include-media/dist/include-media" with (
+    $breakpoints: $breakpoints
+);
 
 // @see https://eduardoboucas.github.io/include-media/documentation/#mixin-media
 $media-expressions: (

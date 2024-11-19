@@ -1,3 +1,7 @@
+@use "sass:list";
+@use "sass:meta";
+@use "sass:string";
+
 // @see https://gist.github.com/danielpchen/1bef5000cfda98dbf6be
 // @function implode() -- join list elements to form a single string
 //  {string} $pieces: the list of strings to implode
@@ -7,17 +11,17 @@
     $result: null;
 
     @for $i from 1 through length($pieces) {
-        $piece: nth($pieces, $i);
+        $piece: list.nth($pieces, $i);
 
-        @if type-of($piece) == list {
-            $result: unquote("#{$result}#{$glue}#{list-implode($piece, $glue)}");
+        @if meta.type-of($piece) == list {
+            $result: string.unquote("#{$result}#{$glue}#{list-implode($piece, $glue)}");
         } @else if $piece != '' {
-            $result: if($i == 1, $piece, unquote("#{$result}#{$glue}#{$piece}"));
+            $result: if($i == 1, $piece, string.unquote("#{$result}#{$glue}#{$piece}"));
         }
     }
 
     @if $result {
-        $result: str-slice($result, str-length($glue) + 1, -1);
+        $result: string.slice($result, string.length($glue) + 1, -1);
     }
 
     @return $result;

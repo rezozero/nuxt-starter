@@ -1,3 +1,5 @@
+@use 'mixins/loading-animation' as *;
+
 .loading-animation {
     @include loading-animation('global');
 }

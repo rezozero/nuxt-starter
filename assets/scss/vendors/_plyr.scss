@@ -1,4 +1,6 @@
-@import "plyr/src/sass/plyr";
+@use "plyr/src/sass/plyr";
+@use "../functions/rem" as *;
+@use "../mixins/include-media" as *;
 
 .plyr {
     --plyr-video-background: transparent;

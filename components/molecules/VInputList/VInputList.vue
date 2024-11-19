@@ -90,6 +90,8 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .input-group-validation {
     all: revert;
     position: absolute;

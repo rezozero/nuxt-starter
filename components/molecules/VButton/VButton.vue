@@ -104,6 +104,12 @@ export default defineComponent({
 <style lang="scss" module>
 @use 'sass:list';
 @use 'sass:map';
+@use 'assets/scss/mixins/v-button' as *;
+@use 'assets/scss/mixins/theme' as *;
+@use 'assets/scss/variables/v-button' as *;
+@use 'assets/scss/variables/v-button-variant' as *;
+@use 'assets/scss/variables/v-button-emphasis' as *;
+@use 'assets/scss/variables/themes' as *;
 
 .root {
     @include v-button-css-vars($v-button);
@@ -167,7 +173,7 @@ export default defineComponent({
 
             @each $size-key, $val in $var-content {
                 @if $size-key != 'common' and not list.index($available-sizes, $size-key) {
-                    $available-sizes: append($available-sizes, $size-key);
+                    $available-sizes: list.append($available-sizes, $size-key);
                 }
             }
         }
@@ -200,7 +206,7 @@ export default defineComponent({
 
             @each $size-key, $val in $var-content {
                 @if $size-key != 'common' and not list.index($available-sizes, $size-key) {
-                    $available-sizes: append($available-sizes, $size-key);
+                    $available-sizes: list.append($available-sizes, $size-key);
                 }
             }
         }

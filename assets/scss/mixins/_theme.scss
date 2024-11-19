@@ -1,19 +1,25 @@
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+@use "../variables/themes" as *;
+@use "../mixins/theme" as *;
+
 // Get css vars for a specific theme
 // Filtered by match
 @mixin theme($theme-key, $match: null) {
-    @if global-variable-exists('themes') and map-has-key($themes, $theme-key) {
-        $theme: map-get($themes, $theme-key);
+    @if meta.variable-exists('themes') and map.has-key($themes, $theme-key) {
+        $theme: map.get($themes, $theme-key);
 
         @each $key, $value in $theme {
             @if not $match {
                 --theme-#{$key}: #{$value};
-            } @else if type-of($match) == list {
+            } @else if meta.type-of($match) == list {
                 @each $match-value in $match {
-                    @if str-index($key, $match-value) {
+                    @if string.index($key, $match-value) {
                         --theme-#{$key}: #{$value};
                     }
                 }
-            } @else if str-index($key, $match) {
+            } @else if string.index($key, $match) {
                 --theme-#{$key}: #{$value};
             }
         }
@@ -22,7 +28,7 @@
 
 // create theme variant class names
 @mixin theme-variants($match: null) {
-    @if global-variable-exists('themes') {
+    @if meta.variable-exists('themes') {
         @each $key, $value in $themes {
             &--theme-#{"" + $key} {
                 @include theme($key, $match);

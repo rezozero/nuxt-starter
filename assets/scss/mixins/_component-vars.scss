@@ -1,6 +1,9 @@
+@use 'sass:map';
+@use '../functions/list' as *;
+
 @mixin component-default-vars($vars, $base: '', $prefix: '', $default: 'md') {
-    @if map-has-key($vars, $default) {
-        $default: map-get($vars, $default);
+    @if map.has-key($vars, $default) {
+        $default: map.get($vars, $default);
 
         @each $key, $value in $default {
             #{$key}: var(#{list-implode(('--', $base, $prefix, $key), '-')}, $value);
@@ -9,8 +12,8 @@
 }
 
 @mixin component-vars-by-size($vars, $size, $base: '', $prefix: '') {
-    @if map-has-key($vars, $size) {
-        $size-vars: map-get($vars, $size);
+    @if map.has-key($vars, $size) {
+        $size-vars: map.get($vars, $size);
 
         @each $key, $value in $size-vars {
             #{list-implode(('--', $base, $prefix, $key), '-')}: #{$value};

@@ -17,6 +17,9 @@
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+@use "assets/scss/functions/color" as *;
+
 .fallback,
 .date-picker {
     outline: 2px solid black;

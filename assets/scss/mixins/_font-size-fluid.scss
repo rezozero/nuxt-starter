@@ -1,4 +1,5 @@
 @use "sass:math";
+@use './property-fluid' as *;
 
 @mixin font-size-fluid($font-size, $breakpoint: null) {
     @include property-fluid(font-size, $font-size, $breakpoint: null);
