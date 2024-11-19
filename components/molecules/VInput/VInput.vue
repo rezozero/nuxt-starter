@@ -63,6 +63,8 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .input {
     width: 100%;
     padding-left: initial;

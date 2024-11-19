@@ -64,6 +64,9 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 
 <style lang="scss" module>
 @use 'sass:math';
+@use "assets/scss/functions/rem" as *;
+@use "assets/scss/mixins/theme" as *;
+@use "assets/scss/mixins/include-media" as *;
 
 .root {
     @include theme-variants;

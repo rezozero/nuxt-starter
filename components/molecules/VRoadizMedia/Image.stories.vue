@@ -40,6 +40,8 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .media {
     max-width: rem(600);
 }

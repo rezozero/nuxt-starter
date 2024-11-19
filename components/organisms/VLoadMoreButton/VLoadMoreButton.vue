@@ -33,6 +33,8 @@ const to = computed(() => {
 </template>
 
 <style module lang="scss">
+@use 'assets/scss/functions/rem' as *;
+
 .root {
     position: relative;
     display: flex;

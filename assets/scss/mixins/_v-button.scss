@@ -1,6 +1,6 @@
 @use 'sass:map';
 @use 'sass:list';
-@use 'component-vars' as *;
+@use './component-vars' as *;
 @use '../variables/v-button' as *;
 
 // @mixin v-button-size() -- Include all CSS var values by size for specific variant

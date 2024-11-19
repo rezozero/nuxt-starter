@@ -24,6 +24,8 @@ useDraggableScroll({
 </template>
 
 <style module lang="scss">
+@use 'assets/scss/functions/rem' as *;
+
 .root {
     display: flex;
     width: 100%;

@@ -116,7 +116,7 @@ export default defineComponent({
     @include theme-variants;
 
     // PROPS STYLE
-    &--icon-last {gs
+    &--icon-last {
         flex-direction: row-reverse;
     }
 
@@ -173,7 +173,7 @@ export default defineComponent({
 
             @each $size-key, $val in $var-content {
                 @if $size-key != 'common' and not list.index($available-sizes, $size-key) {
-                    $available-sizes: append($available-sizes, $size-key);
+                    $available-sizes: list.append($available-sizes, $size-key);
                 }
             }
         }
@@ -206,7 +206,7 @@ export default defineComponent({
 
             @each $size-key, $val in $var-content {
                 @if $size-key != 'common' and not list.index($available-sizes, $size-key) {
-                    $available-sizes: append($available-sizes, $size-key);
+                    $available-sizes: list.append($available-sizes, $size-key);
                 }
             }
         }

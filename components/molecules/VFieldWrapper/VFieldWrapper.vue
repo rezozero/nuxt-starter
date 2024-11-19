@@ -66,6 +66,8 @@ const classNames = computed(() => [
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .root {
     position: relative;
 

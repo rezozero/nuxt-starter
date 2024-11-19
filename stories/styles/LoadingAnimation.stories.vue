@@ -24,6 +24,8 @@
 </template>
 
 <style module lang="scss">
+@use "assets/scss/mixins/loading-animation" as *;
+
 .block {
     width: 100%;
     max-width: 500px;
@@ -35,8 +37,8 @@
 }
 
 .text {
-    @include loading-animation-text-placeholder;
-
     width: 15ch;
+
+    @include loading-animation-text-placeholder;
 }
 </style>

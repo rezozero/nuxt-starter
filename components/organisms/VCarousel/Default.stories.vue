@@ -30,6 +30,8 @@ const snapGridLength = ref(numSlides)
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .slide {
     --v-carousel-slide-width: #{rem(400)};
     --v-carousel-slide-margin-right: #{rem(20)};

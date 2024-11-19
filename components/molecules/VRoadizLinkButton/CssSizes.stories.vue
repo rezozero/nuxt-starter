@@ -26,6 +26,10 @@
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/mixins/include-media" as *;
+@use "assets/scss/mixins/v-button" as *;
+@use "assets/scss/variables/v-button" as *;
+
 .button-emphasis-updated {
     @include v-button-css-vars-by-size($v-button, 'lg');
 
