@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script  lang="ts" setup>
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { HydraCollection, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
 import { usePaginatedList } from '~/composables/use-paginated-list'
@@ -26,19 +26,27 @@ const { itemBaseId } = useList({
     url: props.url,
     params: internalParams,
 })
+
 const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
     params: internalParams,
     watch: [page],
 })
+
 const items = computed(() => {
     if (status.value === 'pending' || isScrollingToTop.value) {
-        return Array.from({ length: itemsPerPage.value }).map(() => null)
+        return [...Array(itemsPerPage.value).keys()].map(() => null)
     }
 
     return data.value?.['hydra:member'] || []
 })
-const totalItems = computed(() => {
-    return (data.value?.['hydra:totalItems'] / itemsPerPage.value) || 0
+
+const totalPages = computed(() => {
+    const totalItems = data.value?.['hydra:totalItems'] || 0
+    return Math.ceil(totalItems / itemsPerPage.value)
+})
+
+const hasMoreThanOnePage = computed(() => {
+    return (totalPages.value > itemsPerPage.value) || (page.value > 1)
 })
 </script>
 
@@ -49,23 +57,24 @@ const totalItems = computed(() => {
     >
         <template v-if="items.length">
             <div
-                class="grid"
                 :class="$style.list"
+                class="grid"
             >
                 <template
                     v-for="(item, index) in items"
                     :key="itemBaseId + '-' + index"
                 >
                     <slot
-                        v-bind="{ item, classNames: $style.item, index }"
                         name="item"
+                        v-bind="{ item, classNames: $style.item, index }"
                     />
                 </template>
             </div>
-            <VPagination
+            <LazyVPagination
+                v-if="hasMoreThanOnePage"
                 v-model="page"
-                :length="totalItems"
                 :class="$style.pagination"
+                :length="totalPages"
             />
         </template>
         <slot
