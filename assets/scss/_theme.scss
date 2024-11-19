@@ -1,3 +1,6 @@
+@use "mixins/theme" as *;
+@use "variables/themes" as *;
+
 :root {
     @include theme($default-theme);
 }

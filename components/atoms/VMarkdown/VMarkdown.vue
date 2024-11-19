@@ -102,6 +102,8 @@ export default defineComponent({
 
 <style lang="scss" module>
 @use 'sass:math';
+@use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/mixins/typography' as *;
 
 .root {
     h1,

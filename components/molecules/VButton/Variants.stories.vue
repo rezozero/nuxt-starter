@@ -38,6 +38,10 @@ const commonsProps = {
 </template>
 
 <style lang="scss" module="">
+@use 'assets/scss/mixins/v-button' as *;
+@use 'assets/scss/variables/v-button' as *;
+@use 'assets/scss/variables/v-button-variant' as *;
+
 .root {
     --theme-color-buttons-menu-bg: red;
 }

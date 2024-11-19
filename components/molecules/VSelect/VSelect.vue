@@ -116,6 +116,8 @@ const onSelectChange = (event: Event) => {
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .inner {
     display: grid;
     align-items: center;

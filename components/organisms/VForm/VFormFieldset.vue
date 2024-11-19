@@ -69,6 +69,8 @@ const internalParents = computed((): string[] => {
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/functions/rem' as *;
+
 .root {
     &:not(:first-child) {
         margin-top: rem(16);

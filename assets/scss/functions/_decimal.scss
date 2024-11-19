@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:meta";
 
 // _decimal.scss | MIT License | gist.github.com/terkel/4373420
 
@@ -20,16 +21,16 @@
     $n: 1;
 
     // $number must be a number
-    @if type-of($number) != number {
+    @if meta.type-of($number) != number {
         @warn '#{ $number } is not a number.';
         @return $number;
     }
 
     // $digits must be a unitless number
-    @if type-of($digits) != number {
+    @if meta.type-of($digits) != number {
         @warn '#{ $digits } is not a number.';
         @return $number;
-    } @else if not unitless($digits) {
+    } @else if not  math.is-unitless($digits) {
         @warn '#{ $digits } has a unit.';
         @return $number;
     }
@@ -39,11 +40,11 @@
     }
 
     @if $mode == round {
-        @return math.div(round($number * $n), $n);
+        @return math.div(math.round($number * $n), $n);
     } @else if $mode == ceil {
-        @return math.div(ceil($number * $n), $n);
+        @return math.div(math.ceil($number * $n), $n);
     } @else if $mode == floor {
-        @return math.div(floor($number * $n), $n);
+        @return math.div(math.floor($number * $n), $n);
     } @else {
         @warn '#{ $mode } is undefined keyword.';
         @return $number;

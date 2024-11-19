@@ -1,19 +1,10 @@
-// functions
-@import "functions";
-
-// variables
-@import "variables";
-
-// mixins
-@import "mixins";
-
 // commons
-@import "normalize";
-@import "common";
-@import "grid";
-@import "fonts";
-@import "typography";
-@import "loading-animation";
+@use "normalize";
+@use "common";
+@use "grid";
+@use "fonts";
+@use "typography";
+@use "loading-animation";
 
 // transitions
-@import "transitions/fade";
+@use "transitions/fade";

@@ -266,6 +266,8 @@ const formattedSchema = computed(() => {
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/functions/rem' as *;
+
 .errors {
     margin: 1em 0;
     color: rgb(244, 67, 54);

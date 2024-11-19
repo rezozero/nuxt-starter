@@ -1,3 +1,6 @@
+@use 'mixins/include-media' as *;
+@use 'functions/breakpoint' as *;
+
 :root {
     --size: #{breakpoint(sm, $strip-unit: true)};
 

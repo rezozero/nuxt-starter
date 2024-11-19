@@ -22,6 +22,8 @@ const imageProps = {
 </template>
 
 <style module lang="scss">
+@use "assets/scss/functions/rem" as *;
+
 .image-wrapper {
     max-width: rem(600);
 }

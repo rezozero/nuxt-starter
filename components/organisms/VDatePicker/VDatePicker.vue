@@ -91,6 +91,7 @@ function onDayClick() {
 
 <style lang="scss" module>
 @use 'sass:math';
+@use "assets/scss/functions/rem" as *;
 
 //
 //  ⚠️ Overrides DatePicker (vendor) style
