@@ -1,6 +1,6 @@
-<script generic="T extends JsonLdObject" lang="ts" setup>
+<script  lang="ts" setup>
 import type { ComponentPublicInstance, PropType } from 'vue'
-import type { HydraCollection, JsonLdObject, RoadizRequestNSParams } from '@roadiz/types'
+import type { HydraCollection, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
 import { usePaginatedList } from '~/composables/use-paginated-list'
 
 const props = defineProps({
@@ -10,7 +10,6 @@ const props = defineProps({
     },
     params: Object as PropType<RoadizRequestNSParams>,
     itemElements: Array as PropType<(ComponentPublicInstance | HTMLElement)[]>,
-    generatePlaceholder: Function as PropType<(i: number) => T>,
 })
 
 const root = ref<HTMLElement | null>(null)
@@ -28,16 +27,14 @@ const { itemBaseId } = useList({
     params: internalParams,
 })
 
-const { data, status } = await useRoadizFetch<HydraCollection<T>>(props.url, {
+const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
     params: internalParams,
     watch: [page],
 })
 
 const items = computed(() => {
     if (status.value === 'pending' || isScrollingToTop.value) {
-        return [...Array(itemsPerPage.value).keys()].map((i: number) => {
-            return props.generatePlaceholder?.(i) || null
-        })
+        return [...Array(itemsPerPage.value).keys()].map(() => null)
     }
 
     return data.value?.['hydra:member'] || []
@@ -51,11 +48,6 @@ const totalPages = computed(() => {
 const hasMoreThanOnePage = computed(() => {
     return (totalPages.value > itemsPerPage.value) || (page.value > 1)
 })
-
-defineSlots<{
-    'item': (props: { item: T | null, classNames: string, index: number }) => unknown
-    'no-result'?: () => unknown
-}>()
 </script>
 
 <template>

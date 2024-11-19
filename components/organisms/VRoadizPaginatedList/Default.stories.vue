@@ -10,14 +10,6 @@ const props = defineProps({
     },
 })
 
-function generatePlaceholder(index: number) {
-    return {
-        '@id': `item-${index}`,
-        '@type': 'Custom item',
-        'title': undefined,
-    }
-}
-
 useMockRequest(
     http.get('*/items', async ({ request }) => {
         const url = new URL(request.url)
@@ -42,7 +34,6 @@ useMockRequest(
     <NuxtStory>
         <ClientOnly>
             <VRoadizPaginatedList
-                :generate-placeholder="generatePlaceholder"
                 url="/items"
             >
                 <template #item="{ item, classNames }">
