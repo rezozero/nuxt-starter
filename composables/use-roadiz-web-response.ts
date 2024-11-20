@@ -5,9 +5,9 @@ import { getResponseAlternateLinks } from '~/utils/roadiz/get-response-alternate
 export async function useRoadizWebResponse<T>(path?: string) {
     path = joinURL('/', path || useRoute().path)
 
-    // Create a unique key for preventing refetching data between server and client.
+    // Create a unique key for preventing re-fetching data between server and client.
     const autoKey = `/web_response_by_path--${path}`
-
+    const nuxtApp = useNuxtApp()
     const { data } = await useAsyncData(autoKey, async () => {
         try {
             const fetch = useRoadizFetchFactory()
@@ -30,6 +30,8 @@ export async function useRoadizWebResponse<T>(path?: string) {
             // @ts-expect-error cannot know the error type
             return { error: createError(error) }
         }
+    }, {
+        getCachedData: key => nuxtApp.static.data[key] ?? nuxtApp.payload.data[key], // no re-fetch data if the key is already in the payload
     })
     const webResponse = data.value?.webResponse
 
