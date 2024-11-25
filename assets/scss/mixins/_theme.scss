@@ -2,7 +2,6 @@
 @use "sass:meta";
 @use "sass:string";
 @use "../variables/themes" as *;
-@use "../mixins/theme" as *;
 
 // Get css vars for a specific theme
 // Filtered by match
