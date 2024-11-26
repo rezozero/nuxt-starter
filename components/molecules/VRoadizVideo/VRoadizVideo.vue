@@ -93,6 +93,9 @@ const embedVideoAttrs = computed(() => {
 </template>
 
 <style lang="scss" module="">
+@use 'assets/scss/mixins/v-button' as *;
+@use 'assets/scss/mixins/include-media' as *;
+
 .root {
     --v-player-position: absolute;
     --v-player-height: 100%;

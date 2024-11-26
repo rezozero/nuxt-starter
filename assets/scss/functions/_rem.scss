@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use '../functions/strip-units' as *;
 
 /*
  * Pixel value to rem

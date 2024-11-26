@@ -11,6 +11,8 @@
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .root {
     :global(.nuxt-story__main) {
         display: flex;

@@ -98,6 +98,9 @@ function onClick(event: Event) {
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/mixins/include-media' as *;
+
 .root {
     display: var(--v-carousel-controls-display, flex);
     align-items: center;

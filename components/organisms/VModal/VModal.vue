@@ -311,6 +311,9 @@ function onClick(event: MouseEvent) {
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/mixins/include-media' as *;
+
 $offset: var(--v-modal-offset, 0);
 
 .root {

@@ -1,4 +1,6 @@
-@import "floating-vue/dist/style.css";
+@use "floating-vue/dist/style.css";
+@use "../functions/rem" as *;
+@use "../mixins/include-media" as *;
 
 .v-popper__arrow-container {
     display: none;

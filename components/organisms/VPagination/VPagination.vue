@@ -141,6 +141,11 @@ const { themeClass } = useTheme()
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/functions/ease' as *;
+@use 'assets/scss/mixins/theme' as *;
+@use 'assets/scss/mixins/include-media' as *;
+
 .root {
     display: flex;
     flex-wrap: wrap;

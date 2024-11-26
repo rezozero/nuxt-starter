@@ -14,6 +14,8 @@
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .container {
     position: relative;
     width: rem(200);

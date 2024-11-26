@@ -7,10 +7,6 @@ export interface Page {
     alternateLinks?: RoadizAlternateLink[]
 }
 
-function pageHasMissingKey(page: Page) {
-    return ['title', 'webResponse', 'alternateLinks'].some(key => !page[key as keyof Page])
-}
-
 type UsePageOptions = Page
 
 export function usePage(options?: UsePageOptions) {
@@ -22,13 +18,6 @@ export function usePage(options?: UsePageOptions) {
         webResponse: options?.webResponse,
         alternateLinks: options?.alternateLinks,
     }
-
-    watch(currentPage, (page) => {
-        useHead({ title: page.title })
-        useAlternateLinks(page.alternateLinks)
-    })
-
-    if (pageHasMissingKey(currentPage.value)) currentPage.value = { ...nextPage.value }
 
     function onPageTransitionAfterLeave() {
         currentPage.value = { ...nextPage.value }

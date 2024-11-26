@@ -23,6 +23,8 @@ defineProps({
 </template>
 
 <style lang="scss" module>
+@use "assets/scss/functions/rem" as *;
+
 .root {
     transition: background-color 0.3s;
 
