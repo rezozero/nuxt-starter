@@ -4,6 +4,7 @@ import { h, type PropType } from 'vue'
 import type { NuxtLinkProps } from '#app/components/nuxt-link'
 import { NuxtLink } from '#components'
 import type { ReachableItem } from '~/types/app'
+import { isInternalUrl } from '~/utils/url'
 
 export const vRoadizLinkProps = {
     label: [String, Boolean],
@@ -20,7 +21,6 @@ export default defineComponent({
     setup(props, { attrs, slots }) {
         const reference = computed(() => {
             if (!props.reference) return
-
             return Array.isArray(props.reference) ? props.reference[0] : props.reference
         })
 
@@ -30,10 +30,8 @@ export default defineComponent({
 
         const runtimeConfig = useRuntimeConfig()
         const siteUrl = runtimeConfig?.public?.site.url
-        const startWithSiteUrl = computed(() => siteUrl && url.value?.startsWith(siteUrl))
 
-        const isRelative = computed(() => url.value?.charAt(0) === '/' || url.value?.charAt(0) === '#')
-        const isInternal = computed(() => !!url.value && (isRelative.value || startWithSiteUrl.value))
+        const isInternal = computed(() => isInternalUrl(url.value, siteUrl))
         const isExternal = computed(() => !!url.value && !isInternal.value)
         const isDownload = computed(() => !!url.value && !isExternal.value && !!props.document?.relativePath)
 
@@ -67,15 +65,17 @@ export default defineComponent({
         })
 
         return () => {
-            if (!url.value || props.custom) {
+            if (props.custom) {
                 // Custom VRoadizLink will pass all attributes to the default slot
                 // and render it (i.e. render-less component behavior)
-                return slots.default?.({ ...attributes.value, label: props.label }) || (typeof props.label === 'string' && h('span', attrs, props.label)) || null
+                return slots.default?.(attributes.value)
             }
-            else {
-                // By default return a NuxtLink component
-                return h(NuxtLink, attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
+            else if (!url.value) {
+                return (slots.default && slots.default()) || (typeof props.label === 'string' && h('span', attrs, props.label)) || null
             }
+
+            // By default return a NuxtLink component
+            return h(NuxtLink, attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
         }
     },
 })

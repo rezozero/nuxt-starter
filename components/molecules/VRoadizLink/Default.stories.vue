@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import download from 'assets/stories/fixtures/documents/download-01.json'
 import page from 'assets/stories/fixtures/nodes/page.json'
 import { joinURL } from 'ufo'
@@ -23,13 +23,13 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
                 url="/page-test"
             />
             <VRoadizLink
-                label="FullPath url"
                 :url="siteUrlConfigPath"
+                label="FullPath url"
             />
             <ClientOnly>
                 <VRoadizLink
-                    label="currentBase url"
                     :url="currentBaseUrl"
+                    label="currentBase url"
                 />
             </ClientOnly>
         </NuxtStoryVariant>
@@ -59,32 +59,40 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Internal link from reference prop">
             <VRoadizLink
-                label="Internal link"
                 :reference="[page]"
+                label="Internal link"
             />
             <VRoadizLink
-                label="Internal link"
                 :reference="page"
+                label="Internal link"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Document link">
             <VRoadizLink
-                label="Document link"
                 :document="download"
+                label="Document link"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Image link">
             <VRoadizLink
-                :reference="page"
                 :class="$style['link-image']"
+                :reference="page"
             >
                 <NuxtImg
                     :class="$style.img"
-                    src="01.jpg"
-                    provider="interventionRequest"
-                    width="400"
                     height="400"
+                    provider="interventionRequest"
+                    src="01.jpg"
+                    width="400"
                 />
+            </VRoadizLink>
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="No link">
+            <VRoadizLink
+                label="Only label url"
+            />
+            <VRoadizLink>
+                only slot
             </VRoadizLink>
         </NuxtStoryVariant>
     </NuxtStory>
