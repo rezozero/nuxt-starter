@@ -1,14 +1,9 @@
 <script  lang="ts" setup>
 // // To use app components, ensure that they are not ignored in nuxt.config during pre-rendering build
-import { joinURL } from 'ufo'
 
 definePageMeta({
     layout: false,
 })
-
-const { homePagePath } = await useHomePage()
-const runtimeConfig = useRuntimeConfig()
-const homePageUrl = joinURL(runtimeConfig.public.site.url, homePagePath.value)
 
 defineI18nRoute(false)
 </script>
@@ -21,10 +16,11 @@ defineI18nRoute(false)
         <main>
             <p>{{ $t('maintenance_page.body') }}</p>
             <hr>
-            <VRoadizLinkButton
+            <VButton
                 :label="$t('refresh_page')"
-                :url="homePageUrl"
                 emphasis="primary"
+                icon-name="refresh"
+                onclick="window.location.reload()"
             />
         </main>
     </div>
