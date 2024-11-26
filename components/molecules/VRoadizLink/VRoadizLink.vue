@@ -19,59 +19,60 @@ export default defineComponent({
     inheritAttrs: false,
     props: vRoadizLinkProps,
     setup(props, { attrs, slots }) {
-        const reference = props.reference && Array.isArray(props.reference) ? props.reference[0] : props.reference
-        const url = props.url || reference?.url
+        const reference = computed(() => {
+            if (!props.reference) return
+            return Array.isArray(props.reference) ? props.reference[0] : props.reference
+        })
+
+        const url = computed(() => {
+            return props.url || reference.value?.url || props.document?.relativePath
+        })
+
         const runtimeConfig = useRuntimeConfig()
         const siteUrl = runtimeConfig?.public?.site.url
 
-        const isInternal = isInternalUrl(url, siteUrl)
-        const isExternal = !isInternal && !!url
+        const isInternal = computed(() => isInternalUrl(url.value, siteUrl))
+        const isExternal = computed(() => !!url.value && !isInternal.value)
+        const isDownload = computed(() => !!url.value && !isExternal.value && !!props.document?.relativePath)
 
-        const document = props.document && Array.isArray(props.document) ? props.document[0] : props.document
-        const isDownload = !isInternal && !isExternal && !!document
+        const attributes = computed(() => {
+            const mergedAttrs = { ...attrs, ...props.nuxtLinkProps }
+            if (!url.value) return mergedAttrs
 
-        // A VRoadizLink without URL or reference will render nothing except the default slot if present, fallback to the label, or at least nothing
-        if (!url && !document?.relativePath) {
-            return () =>
-                slots.default?.({ label: props.label })
-                || (typeof props.label === 'string' && h('span', attrs, props.label))
-                || null
+            if (isDownload.value) {
+                Object.assign(mergedAttrs, {
+                    href: useRoadizDocumentUrl(props.document?.relativePath),
+                    target: attrs?.target || '_blank',
+                    rel: attrs?.rel || 'noopener',
+                    download: '',
+                })
+            }
+            else if (isExternal.value) {
+                Object.assign(mergedAttrs, {
+                    href: props.url,
+                    target: attrs?.target || '_blank',
+                    rel: attrs?.rel || 'noopener',
+                })
+            }
+            else if (isInternal.value) {
+                // Prevent NuxtLink to add rel attrs if it is absolute internal url
+                Object.assign(mergedAttrs, {
+                    to: url.value?.replace(siteUrl, ''), // Force relative path
+                })
+            }
+
+            return mergedAttrs
+        })
+
+        return () => {
+            if (props.custom) {
+                // Custom VRoadizLink will pass all attributes to the default slot
+                // and render it (i.e. render-less component behavior)
+                return slots.default?.(attributes.value)
+            }
+
+            return h(NuxtLink, attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
         }
-
-        // Define attributes
-        const attributes = { ...attrs, ...props.nuxtLinkProps }
-
-        if (isDownload || isExternal) {
-            Object.assign(attributes, {
-                target: attrs?.target || '_blank',
-                rel: attrs?.rel || 'noopener',
-            })
-        }
-
-        if (isDownload) {
-            Object.assign(attributes, { href: useRoadizDocumentUrl(document?.relativePath) })
-        }
-        else if (isInternal) {
-            // Prevent NuxtLink to add rel attrs if it is absolute internal url
-            Object.assign(attributes, { to: url?.replace(siteUrl, '') })
-        }
-        else if (isExternal) {
-            Object.assign(attributes, { href: props.url })
-        }
-
-        // Custom VRoadizLink will pass all attributes to the default slot and render it (i.e. render-less component behavior)
-        if (props.custom) {
-            const vNode = slots.default?.({
-                download: isDownload,
-                ...attributes,
-            })
-
-            if (vNode?.length) return () => vNode[0]
-        }
-
-        // By default return a NuxtLink component
-        return () =>
-            h(NuxtLink, attributes, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
     },
 })
 </script>
