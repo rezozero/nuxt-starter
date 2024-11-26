@@ -36,11 +36,11 @@ export default defineComponent({
         const isDownload = computed(() => !!url.value && !isExternal.value && !!props.document?.relativePath)
 
         const attributes = computed(() => {
-            const attrsMerged = { ...attrs, ...props.nuxtLinkProps }
-            if (!url.value) return attrsMerged
+            const mergedAttrs = { ...attrs, ...props.nuxtLinkProps }
+            if (!url.value) return mergedAttrs
 
             if (isDownload.value) {
-                Object.assign(attrsMerged, {
+                Object.assign(mergedAttrs, {
                     href: useRoadizDocumentUrl(props.document?.relativePath),
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener',
@@ -48,7 +48,7 @@ export default defineComponent({
                 })
             }
             else if (isExternal.value) {
-                Object.assign(attrsMerged, {
+                Object.assign(mergedAttrs, {
                     href: props.url,
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener',
@@ -56,12 +56,12 @@ export default defineComponent({
             }
             else if (isInternal.value) {
                 // Prevent NuxtLink to add rel attrs if it is absolute internal url
-                Object.assign(attrsMerged, {
+                Object.assign(mergedAttrs, {
                     to: url.value?.replace(siteUrl, ''), // Force relative path
                 })
             }
 
-            return attrsMerged
+            return mergedAttrs
         })
 
         return () => {
