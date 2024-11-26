@@ -82,8 +82,7 @@ export default defineNuxtConfig({
         },
     },
     ignore: [
-        ...(isGenerateMaintenance ? ['layouts/**', 'pages/**', 'components/**', 'server/api/**'] : []),
-        // ...(isGenerateMaintenance ? ['!**/components/**/VRoadizLinkButton.*'] : []), // Allow specific component used in maintenance
+        ...(isGenerateMaintenance ? ['server/api/**'] : []),
         isGenerateMaintenance || isDev ? '!**/maintenance.vue' : undefined, // except maintenance
     ],
     features: {

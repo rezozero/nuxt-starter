@@ -21,41 +21,13 @@ defineI18nRoute(false)
         <main>
             <p>{{ $t('maintenance_page.body') }}</p>
             <hr>
-            <a
-                :class="$style.link"
-                :href="homePageUrl"
-            >
-                <span :class="$style.link__label">{{ $t('refresh_page') }}</span>
-                <SvgIcon
-                    :class="$style.link__icon"
-                    height="24"
-                    name="refresh"
-                    width="24"
-                />
-            </a>
+            <VRoadizLinkButton
+                :label="$t('refresh_page')"
+                :url="homePageUrl"
+                emphasis="primary"
+            />
         </main>
     </div>
 </template>
 
- <style lang="scss" module>
- @use 'assets/scss/mixins/v-button' as *;
- @use "assets/scss/functions/rem" as *;
- @use "assets/scss/variables/v-button" as *;
- @use "assets/scss/variables/v-button-emphasis" as *;
-
- .link {
-     @include v-button-css-vars($v-button-high-emphasis);
-
-     display: flex;
-     align-items: center;
-     gap: rem(6);
- }
-
- .link__label {
-     @include v-button-css-vars($v-button-high-emphasis-label, 'label');
- }
-
- .link__icon {
-     @include v-button-css-vars($v-button-high-emphasis-icon, 'icon');
- }
- </style>
+<!-- <style lang="scss" module></style> -->
