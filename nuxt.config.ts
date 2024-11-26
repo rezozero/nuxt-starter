@@ -3,6 +3,11 @@ import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n.config'
 
+const isDev = process.env.NODE_ENV === 'development'
+
+const isGenerate = process.argv.includes('generate')
+const isGenerateMaintenance = isGenerate && process.argv.includes('--maintenance')
+
 const isNuxtStories = process.env.NUXT_STORIES === '1'
 const plugins: (NuxtPlugin | string)[] = []
 
@@ -26,7 +31,7 @@ export default defineNuxtConfig({
         '@nuxtjs/robots',
     ],
     plugins,
-    // Don' use layer for now
+    // Don't use layer for now
     // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     components: [
         '~/components/atoms',
@@ -76,12 +81,31 @@ export default defineNuxtConfig({
             },
         },
     },
+    ignore: [
+        ...(isGenerateMaintenance ? ['server/api/**'] : []),
+        isGenerateMaintenance || isDev ? '!**/maintenance.vue' : undefined, // except maintenance
+    ],
+    features: {
+        noScripts: isGenerateMaintenance, // maintenance page does not need JS
+    },
     experimental: {
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
     compatibilityDate: '2024-07-24',
     nitro: {
+        prerender: {
+            autoSubfolderIndex: false,
+            crawlLinks: false,
+            failOnError: true,
+            ignore: [
+                (route) => {
+                    if (!isGenerateMaintenance) return false
+
+                    return !route.includes('maintenance')
+                },
+            ],
+        },
         routeRules: {
             '/**': {
                 headers: {
@@ -99,6 +123,12 @@ export default defineNuxtConfig({
                     ].join('; '),
                 },
             },
+            '/maintenance': {
+                prerender: isGenerateMaintenance,
+                headers: {
+                    'X-Robots-Tag': 'noindex',
+                },
+            },
             // Auto generated page by svgSprite module
             '/_icons': {
                 headers: {
@@ -109,6 +139,11 @@ export default defineNuxtConfig({
         },
     },
     vite: {
+        build: {
+            // If the generated svg-sprite file is under 4kb, the build process converts it to an inlined base64 file,
+            // which breaks the use of icons.
+            assetsInlineLimit: 0,
+        },
         css: {
             preprocessorOptions: {
                 scss: {
@@ -180,6 +215,7 @@ export default defineNuxtConfig({
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
+        enabled: !isGenerateMaintenance,
         sources: ['/api/sitemap'],
     },
     // https://github.com/rezozero/nuxt-stories
