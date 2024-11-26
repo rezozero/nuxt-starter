@@ -70,11 +70,7 @@ export default defineComponent({
                 // and render it (i.e. render-less component behavior)
                 return slots.default?.(attributes.value)
             }
-            else if (!url.value) {
-                return (slots.default && slots.default()) || (typeof props.label === 'string' && h('span', attrs, props.label)) || null
-            }
 
-            // By default return a NuxtLink component
             return h(NuxtLink, attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
         }
     },
