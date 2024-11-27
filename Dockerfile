@@ -64,6 +64,24 @@ COPY --link --chown=${UID}:${UID} . .
 
 RUN pnpm build
 
+##############################
+# Node - Maintenance - Build #
+##############################
+
+FROM node AS node-maintenance-build
+
+USER node
+
+# Make sure to copy pnpm-lock.yaml .npmrc to stick to the same versions
+# and avoid any issues with the versions of the dependencies
+COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml .npmrc ./
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+COPY --link --chown=${UID}:${UID} . .
+
+RUN pnpm generate:maintenance
+
 ###############
 # Node - Prod #
 ###############
@@ -83,8 +101,6 @@ COPY --link --from=node-prod-build --chown=${UID}:${UID} /app/.output .
 
 CMD ["node", "server/index.mjs"]
 
-
-
 #########
 # Nginx #
 #########
@@ -101,3 +117,16 @@ HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I h
 
 # Nginx user is 1000
 COPY --link --from=node-prod-build --chown=1000:1000 /app/.output/public /var/www/html/public
+
+#######################
+# Nginx - Maintenance #
+#######################
+
+FROM nginx:alpine AS nginx-maintenance
+
+LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
+
+# Copy Nuxt static files and rename maintenance to root page
+COPY --link --from=node-maintenance-build --chown=nginx:nginx /app/.output/public /usr/share/nginx/html
+
+RUN mv /usr/share/nginx/html/maintenance.html /usr/share/nginx/html/index.html

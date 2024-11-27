@@ -23,6 +23,10 @@ target "frontend" {
                 name = "nginx"
                 target = "nginx-prod"
             },
+            {
+                name = "maintenance"
+                target = "nginx-maintenance"
+            },
         ]
     }
     context = "."
