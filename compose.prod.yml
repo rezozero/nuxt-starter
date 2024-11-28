@@ -1,10 +1,10 @@
+# docker compose -f compose.prod.yml up --force-recreate
 services:
     prod-node:
         build:
             context: .
             target: node-prod
         environment:
-            NITRO_CLUSTER_WORKERS: 1
             NUXT_PUBLIC_API_URL: http://localhost:8088
             NUXT_PUBLIC_API_ENDPOINT_PREFIX: /api
             NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8088/assets

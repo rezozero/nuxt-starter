@@ -105,12 +105,9 @@ CMD ["pnpm", "dev"]
 
 FROM node AS node-prod
 
-ENV NITRO_HOST=0.0.0.0
 ENV NITRO_PORT=3000
 ENV NODE_ENV=production
-ENV NITRO_CLUSTER_WORKERS=1
-
-HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I http://localhost:3000
+ENV NITRO_CLUSTER_WORKERS=3
 
 USER node
 
