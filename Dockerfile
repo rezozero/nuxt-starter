@@ -51,7 +51,10 @@ WORKDIR /app
 
 FROM node AS node-prod-build
 
-ENV NITRO_PRESET=node_cluster
+ENV NITRO_PRESET=node_server
+# Use the cluster preset to run the app with multiple workers
+# There is an issue in Nitro 2.10.4
+#ENV NITRO_PRESET=node_cluster
 
 USER node
 
@@ -107,7 +110,12 @@ FROM node AS node-prod
 
 ENV NITRO_PORT=3000
 ENV NODE_ENV=production
-ENV NITRO_CLUSTER_WORKERS=3
+
+ENV NITRO_PRESET=node_server
+# Use the cluster preset to run the app with multiple workers
+# There is an issue in Nitro 2.10.4
+#ENV NITRO_PRESET=node_cluster
+#ENV NITRO_CLUSTER_WORKERS=3
 
 USER node
 
