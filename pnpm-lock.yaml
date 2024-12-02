@@ -118,8 +118,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       msw:
-        specifier: ^2.6.0
-        version: 2.6.5(@types/node@22.9.0)(typescript@5.5.4)
+        specifier: ^2.6.6
+        version: 2.6.6(@types/node@22.9.0)(typescript@5.5.4)
       nuxt:
         specifier: ^3.14.159
         version: 3.14.159(@parcel/watcher@2.5.0)(@types/node@22.9.0)(eslint@9.15.0(jiti@2.4.0))(ioredis@5.4.1)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.27.3)(sass@1.81.0)(stylelint@16.10.0(typescript@5.5.4))(terser@5.36.0)(typescript@5.5.4)(vite@5.4.11(@types/node@22.9.0)(sass@1.81.0)(terser@5.36.0))
@@ -3540,8 +3540,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  msw@2.6.5:
-    resolution: {integrity: sha512-PnlnTpUlOrj441kYQzzFhzMzMCGFT6a2jKUBG7zSpLkYS5oh8Arrbc0dL8/rNAtxaoBy0EVs2mFqj2qdmWK7lQ==}
+  msw@2.6.6:
+    resolution: {integrity: sha512-npfIIVRHKQX3Lw4aLWX4wBh+lQwpqdZNyJYB5K/+ktK8NhtkdsTxGK7WDrgknozcVyRI7TOqY6yBS9j2FTR+YQ==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -9204,7 +9204,7 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw@2.6.5(@types/node@22.9.0)(typescript@5.5.4):
+  msw@2.6.6(@types/node@22.9.0)(typescript@5.5.4):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
       '@bundled-es-modules/statuses': 1.0.1
