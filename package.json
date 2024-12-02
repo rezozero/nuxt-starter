@@ -23,7 +23,7 @@
     "@nuxt/image": "^1.8.1",
     "@nuxtjs/i18n": "^8.5.5",
     "@nuxtjs/robots": "^5.0.0",
-    "@nuxtjs/sitemap": "^6.1.5",
+    "@nuxtjs/sitemap": "^7.0.0",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.1.1",
     "@rezo-zero/nuxt-cache-control": "^0.1.6",
