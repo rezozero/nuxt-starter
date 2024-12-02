@@ -1,4 +1,5 @@
 ARG NODE_VERSION=20.18.0
+ARG NGINX_VERSION=1.27.2
 ARG UID=1000
 
 #############
@@ -50,7 +51,10 @@ WORKDIR /app
 
 FROM node AS node-prod-build
 
-ENV NITRO_PRESET=node_cluster
+ENV NITRO_PRESET=node_server
+# Use the cluster preset to run the app with multiple workers
+# There is an issue in Nitro 2.10.4
+#ENV NITRO_PRESET=node_cluster
 
 USER node
 
@@ -64,18 +68,54 @@ COPY --link --chown=${UID}:${UID} . .
 
 RUN pnpm build
 
+##############################
+# Node - Maintenance - Build #
+##############################
+
+FROM node AS node-maintenance-build
+
+USER node
+
+# Make sure to copy pnpm-lock.yaml .npmrc to stick to the same versions
+# and avoid any issues with the versions of the dependencies
+COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml .npmrc ./
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+COPY --link --chown=${UID}:${UID} . .
+
+RUN pnpm generate:maintenance
+
+###############
+# Node - DEV  #
+###############
+
+FROM node AS node-dev
+
+ENV NITRO_HOST=0.0.0.0
+ENV NITRO_PORT=3000
+
+USER node
+
+# In development, we need to expose the port 3000 and declare a volume on app folder
+VOLUME /app
+
+CMD ["pnpm", "dev"]
+
 ###############
 # Node - Prod #
 ###############
 
 FROM node AS node-prod
 
-ENV NITRO_HOST=0.0.0.0
 ENV NITRO_PORT=3000
 ENV NODE_ENV=production
-ENV NITRO_CLUSTER_WORKERS=2
 
-HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I http://localhost:3000
+ENV NITRO_PRESET=node_server
+# Use the cluster preset to run the app with multiple workers
+# There is an issue in Nitro 2.10.4
+#ENV NITRO_PRESET=node_cluster
+#ENV NITRO_CLUSTER_WORKERS=3
 
 USER node
 
@@ -83,21 +123,77 @@ COPY --link --from=node-prod-build --chown=${UID}:${UID} /app/.output .
 
 CMD ["node", "server/index.mjs"]
 
+#########
+# Nginx #
+#########
 
+FROM nginx:${NGINX_VERSION}-bookworm AS nginx
+
+LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
+
+ARG UID
+
+SHELL ["/bin/bash", "-e", "-o", "pipefail", "-c"]
+
+RUN <<EOF
+# Packages
+apt-get --quiet update
+apt-get --quiet --yes --purge --autoremove upgrade
+apt-get --quiet --yes --no-install-recommends --verbose-versions install \
+    less \
+    sudo
+rm -rf /var/lib/apt/lists/*
+
+# User
+groupmod --gid ${UID} nginx
+usermod --uid ${UID} nginx
+echo "nginx ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nginx
+
+# App
+install --verbose --owner nginx --group nginx --mode 0755 --directory /app
+EOF
+
+WORKDIR /app
 
 #########
 # Nginx #
 #########
 
-FROM roadiz/nginx-alpine AS nginx-prod
+FROM nginx AS nginx-prod
 
-LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
+# Silence entrypoint logs
+ENV NGINX_ENTRYPOINT_QUIET_LOGS=1
 
-COPY --link docker/nginx/conf.d /etc/nginx/conf.d
-COPY --link docker/nginx/nuxt_ip_filter.conf /etc/nginx/nuxt_ip_filter.conf
-COPY --link docker/nginx/redirections.conf /etc/nginx/redirections.conf
+# Config
+COPY --link docker/nginx/nginx.conf               /etc/nginx/nginx.conf
+COPY --link docker/nginx/redirections.conf        /etc/nginx/redirections.conf
+COPY --link docker/nginx/mime.types               /etc/nginx/mime.types
+COPY --link docker/nginx/conf.d/_gzip.conf        /etc/nginx/conf.d/_gzip.conf
+COPY --link docker/nginx/conf.d/_security.conf    /etc/nginx/conf.d/_security.conf
+COPY --link docker/nginx/conf.d/default.prod.conf /etc/nginx/conf.d/default.conf
 
 HEALTHCHECK --start-period=1m30s --interval=1m --timeout=6s CMD curl --fail -I http://localhost
 
-# Nginx user is 1000
-COPY --link --from=node-prod-build --chown=1000:1000 /app/.output/public /var/www/html/public
+COPY --link --from=node-prod-build --chown=${UID}:${UID} /app/.output/public /app/public
+
+#######################
+# Nginx - Maintenance #
+#######################
+
+FROM nginx AS nginx-maintenance
+
+# Silence entrypoint logs
+ENV NGINX_ENTRYPOINT_QUIET_LOGS=1
+
+# Config
+COPY --link docker/nginx/nginx.conf                   /etc/nginx/nginx.conf
+COPY --link docker/nginx/redirections.conf            /etc/nginx/redirections.conf
+COPY --link docker/nginx/mime.types                   /etc/nginx/mime.types
+COPY --link docker/nginx/conf.d/_gzip.conf            /etc/nginx/conf.d/_gzip.conf
+COPY --link docker/nginx/conf.d/_security.conf        /etc/nginx/conf.d/_security.conf
+COPY --link docker/nginx/conf.d/maintenance.prod.conf /etc/nginx/conf.d/default.conf
+
+# Copy Nuxt static files and rename maintenance to root page
+COPY --link --from=node-maintenance-build --chown=${UID}:${UID} /app/.output/public /app/public
+
+RUN mv /app/public/maintenance.html /app/public/index.html

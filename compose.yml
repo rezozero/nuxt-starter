@@ -1,7 +1,24 @@
 services:
+    node:
+        build:
+            context: .
+            target: node-dev
+        tmpfs:
+            - /tmp
+        volumes:
+            - ./:/app
+        ports:
+            - "3000:3000/tcp"
+        environment:
+            NUXT_PUBLIC_API_URL: http://localhost:8088
+            NUXT_PUBLIC_API_ENDPOINT_PREFIX: /api
+            NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8088/assets
+            NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL: http://localhost:8088/assets/n
+            NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH: /files
+
     intervention:
         image: ambroisemaupate/intervention-request:latest
         volumes:
             - ./assets/stories/images:/var/www/html/web/images:ro
         ports:
-            - 8080:80/tcp
+            - "8080:80/tcp"
