@@ -1,8 +1,14 @@
-import type { RoadizNodesSources } from '@roadiz/types'
+import type { RoadizWalker } from '@roadiz/types'
 import type { UnionToIntersection } from '~/utils/types'
+import type { NSMenu, NSMenuLink, NSPage } from '~/types/roadiz'
 
-export type MenuNodeType = RoadizNodesSources
-export type MenuNodeKeyMerged = Partial<UnionToIntersection<MenuNodeType>>
+export type ChildrenMenuType = NSMenu | NSMenuLink | NSPage
+export type ChildrenMenuTypeMerged = Partial<UnionToIntersection<ChildrenMenuType>>
 
-export type ReachableItem = RoadizNodesSources
+export type ReachableItem = NSPage
 export type ReachableItemMerged = Partial<UnionToIntersection<ReachableItem>>
+
+export type PageComponentProps<T = ReachableItem> = {
+    item: T
+    blocks?: RoadizWalker[]
+}
