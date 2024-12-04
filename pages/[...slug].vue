@@ -54,14 +54,14 @@ useHead({
 const blocks = computed(() => (webResponse?.blocks && getBlockCollection(webResponse.blocks)) || [])
 
 // Get default page entity
-const defaultPageEntity = computed(() => item && isPageEntity(item) && item)
+const pageItem = computed(() => isPageEntity(item) && item)
 </script>
 
 <template>
     <LazyVDefaultPage
-        v-if="defaultPageEntity"
+        v-if="pageItem"
         :blocks="blocks"
-        :entity="defaultPageEntity"
+        :item="pageItem"
     />
 </template>
 
