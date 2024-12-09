@@ -37,6 +37,7 @@ export default defineNuxtConfig({
         '~/components/atoms',
         '~/components/molecules',
         '~/components/organisms',
+        '~/components/pages',
         { path: '~/components/blocks/', global: true },
     ],
     devtools: { enabled: true },
