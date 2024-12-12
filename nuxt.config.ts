@@ -1,7 +1,7 @@
 import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n.config'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n/i18n.config'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -182,10 +182,9 @@ export default defineNuxtConfig({
             file: `nuxt.${locale}.json`,
         })),
         lazy: true,
-        langDir: 'assets/locales/',
+        langDir: 'locales',
         compilation: {
-            // Message can contains HTML tag
-            strictMessage: false,
+            strictMessage: false, // Message can contains HTML tag
         },
     },
     // https://image.nuxt.com/get-started/configuration
