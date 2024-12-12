@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
 
 // init Roadiz page data (i.e. dynamic page)
@@ -19,6 +19,8 @@ await callOnce(async () => {
 
     if (locale) {
         // set the current global locale
+        // If setLocale is call only on server side the locale will be reset on client
+        // https://github.com/nuxt/nuxt/discussions/21678
         await nuxtApp.$i18n.setLocale(locale)
     }
     else {
