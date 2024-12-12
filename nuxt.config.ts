@@ -175,12 +175,22 @@ export default defineNuxtConfig({
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
         strategy: 'prefix_except_default',
-        detectBrowserLanguage: false,
+        detectBrowserLanguage: {
+            useCookie: true,
+        },
         defaultLocale: I18N_DEFAULT_LOCALE,
-        locales: I18N_LOCALES.map(locale => ({
-            code: locale,
-            file: `nuxt.${locale}.json`,
-        })),
+        locales: I18N_LOCALES.map((locale) => {
+            // Order impact overriding message
+            return [
+                {
+                    code: locale,
+                    file: `nuxt.${locale}.json`,
+                },
+                {
+                    code: locale,
+                    file: `nuxt.${locale}.default.json`,
+                }]
+        }).flat(2),
         lazy: true,
         langDir: 'locales',
         compilation: {
