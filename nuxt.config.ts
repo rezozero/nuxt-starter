@@ -1,7 +1,7 @@
 import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n.config'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n/i18n.config'
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -175,17 +175,27 @@ export default defineNuxtConfig({
     // https://v8.i18n.nuxtjs.org/getting-started/setup
     i18n: {
         strategy: 'prefix_except_default',
-        detectBrowserLanguage: false,
+        detectBrowserLanguage: {
+            useCookie: true,
+            redirectOn: 'all',
+        },
         defaultLocale: I18N_DEFAULT_LOCALE,
-        locales: I18N_LOCALES.map(locale => ({
-            code: locale,
-            file: `nuxt.${locale}.json`,
-        })),
+        locales: I18N_LOCALES.map((locale) => {
+            // Order impact overriding message
+            return [
+                {
+                    code: locale,
+                    file: `nuxt.${locale}.json`,
+                },
+                {
+                    code: locale,
+                    file: `nuxt.${locale}.default.json`,
+                }]
+        }).flat(2),
         lazy: true,
-        langDir: 'assets/locales/',
+        langDir: 'locales',
         compilation: {
-            // Message can contains HTML tag
-            strictMessage: false,
+            strictMessage: false, // Message can contains HTML tag
         },
     },
     // https://image.nuxt.com/get-started/configuration
