@@ -1,8 +1,7 @@
 <script lang="ts" setup>
-import type { NSPage } from '~/types/roadiz'
 import type { PageComponentProps } from '~/types/app'
 
-defineProps<PageComponentProps<NSPage>>()
+defineProps<PageComponentProps>()
 </script>
 
 <template>

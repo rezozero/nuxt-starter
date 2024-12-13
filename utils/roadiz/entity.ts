@@ -1,5 +1,4 @@
 import type { JsonLdObject } from '@roadiz/types'
-import type { NSPage } from '~/types/roadiz'
 
 /*
  * Matches a JsonLdObject with a specific @type name.
@@ -10,7 +9,7 @@ import type { NSPage } from '~/types/roadiz'
 export function isEntityType(entity: JsonLdObject, type: string): boolean {
     const regex = new RegExp('^(?:NS)?' + type + '$', 'gi')
     const matches = entity['@type']?.match(regex)
-    return matches !== null && matches.length > 0
+    return !!matches && matches.length > 0
 }
 
 /*
@@ -29,7 +28,33 @@ export function isNodeType(entity: unknown): entity is JsonLdObject {
     return !!(entity && typeof entity === 'object' && '@id' in entity && '@type' in entity)
 }
 
-// ROADIZ NODE SOURCE
-export function isPageEntity(entity: JsonLdObject | undefined): entity is NSPage {
-    return !!entity && isEntityType(entity, 'Page')
+// NODE SOURCE
+export function isPageEntity(entity: JsonLdObject) {
+    return isEntityType(entity, 'Page')
+}
+
+export function isBlogPostEntity(entity: JsonLdObject) {
+    return isEntityType(entity, 'BlogPost')
+}
+
+export function isBlogListingEntity(entity: JsonLdObject) {
+    return isEntityType(entity, 'BlogPostContainer')
+}
+
+export function isEventListingEntity(entity: JsonLdObject) {
+    return isEntityType(entity, 'EventListing')
+}
+
+export function isMenuLinkEntity(entity: JsonLdObject) {
+    return isEntityType(entity, 'MenuLink')
+}
+
+// BLOCKS
+export function isContentBlock(entity: JsonLdObject) {
+    return isEntityType(entity, 'ContentBlock')
+}
+
+// TAGS
+export function isTagEntity(entity: JsonLdObject) {
+    return isEntityType(entity, 'Tag')
 }

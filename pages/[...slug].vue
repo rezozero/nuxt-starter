@@ -1,10 +1,9 @@
 <script lang="ts" setup>
-import type { RoadizNodesSources } from '@roadiz/types'
 import { getBlockCollection } from '~/utils/roadiz/block'
-import { isPageEntity } from '~/utils/roadiz/entity'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { useRoadizHead } from '~/composables/use-roadiz-head'
 import { useRoadizSeoMeta } from '~/composables/use-roadiz-seo-meta'
+import type { AppPageItem } from '~/types/app'
 
 definePageMeta({
     pageTransition: defaultPageTransition,
@@ -14,7 +13,7 @@ definePageMeta({
 defineI18nRoute(false)
 
 const route = useRoute()
-const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<RoadizNodesSources>(route.path)
+const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<AppPageItem>(route.path)
 
 if (error) {
     showError(error)
@@ -54,7 +53,7 @@ useHead({
 const blocks = computed(() => (webResponse?.blocks && getBlockCollection(webResponse.blocks)) || [])
 
 // Get default page entity
-const pageItem = computed(() => isPageEntity(item) && item)
+const pageItem = computed(() => item && item as AppPageItem)
 </script>
 
 <template>

@@ -9,13 +9,3 @@
  *
  * @see https://docs.roadiz.io/en/latest/developer/nodes-system/intro.html#what-is-a-node-type
  */
-
-import type { RoadizNodesSources } from '@roadiz/types'
-
-export type NSMenu = RoadizNodesSources
-
-export type NSMenuLink = RoadizNodesSources
-
-export type NSPage = RoadizNodesSources
-
-export type AllRoadizNodesSources = NSMenu | NSMenuLink | NSPage
