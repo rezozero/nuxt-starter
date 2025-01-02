@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
-    "@nuxt/eslint": "^0.7.3",
+    "@nuxt/eslint": "^0.7.4",
     "@nuxt/image": "^1.8.1",
     "@nuxtjs/i18n": "^8.5.5",
     "@nuxtjs/robots": "^5.0.1",
