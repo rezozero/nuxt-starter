@@ -54,7 +54,7 @@
     "@sentry/browser": "^8.42.0",
     "@sentry/node": "^8.47.0",
     "@sentry/vue": "^8.47.0",
-    "@types/lodash": "^4.17.13",
+    "@types/lodash": "^4.17.14",
     "@vue-a11y/skip-to": "^2.1.2",
     "@vueuse/core": "^12.0.0",
     "body-scroll-lock": "^3.1.5",
