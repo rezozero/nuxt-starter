@@ -22,7 +22,7 @@
     "@nuxt/eslint": "^0.7.4",
     "@nuxt/image": "^1.8.1",
     "@nuxtjs/i18n": "^8.5.5",
-    "@nuxtjs/robots": "^5.0.1",
+    "@nuxtjs/robots": "^5.1.0",
     "@nuxtjs/sitemap": "^7.0.1",
     "@nuxtjs/svg-sprite": "^1.0.2",
     "@rezo-zero/intervention-request-provider": "^1.1.1",
