@@ -32,7 +32,7 @@ pnpm dev
 Start the development server on `http://localhost:6006` with stories preset (use the `.env.stories` file):
 
 ```bash
-docker-compose up -d // start the Intervention Request service
+docker compose up -d // start the Intervention Request service
 pnpm dev:stories
 ```
 
