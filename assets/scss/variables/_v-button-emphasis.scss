@@ -96,4 +96,4 @@ $v-button-emphasis: (
         (vars: $v-button-low-emphasis-label, prefix: 'label'),
     ),
 );
-$v-button-size-vars-by-variant: map-merge($v-button-size-vars-by-variant, $v-button-emphasis);
+$v-button-size-vars-by-variant: map.merge($v-button-size-vars-by-variant, $v-button-emphasis);

@@ -1,6 +1,7 @@
 @use 'mixins/grid' as *;
 @use 'variables/grid' as *;
 @use 'variables/breakpoints' as *;
+@use "sass:map";
 
 .grid-container {
     @include grid-container;
@@ -15,7 +16,7 @@
         @if $breakpoint == 0 {
             --grid-width: #{$value};
         } @else {
-            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+            @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
                 --grid-width: #{$value};
             }
         }
@@ -25,7 +26,7 @@
         @if $breakpoint == 0 {
             --grid-max-width: #{$value};
         } @else {
-            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+            @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
                 --grid-max-width: #{$value};
             }
         }
@@ -35,7 +36,7 @@
         @if $breakpoint == 0 {
             --grid-columns: #{$value};
         } @else {
-            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+            @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
                 --grid-columns: #{$value};
             }
         }
@@ -46,7 +47,7 @@
         @if $breakpoint == 0 {
             --gutter: #{$value};
         } @else {
-            @media (min-width: #{map-get($breakpoints, $breakpoint)}) {
+            @media (min-width: #{map.get($breakpoints, $breakpoint)}) {
                 --gutter: #{$value};
             }
         }
