@@ -24,6 +24,14 @@ export default {
         'scss/function-no-unknown': null, // we use SCSS global imports for functions
         'color-function-notation': null, // do not change rgba() to rgb()
         'no-duplicate-selectors': null, // The & selector is considering as duplicate. See https://github.com/stylelint/stylelint/issues/7893
+        'at-rule-empty-line-before': [
+            'always',
+            {
+                except: ['blockless-after-same-name-blockless', 'first-nested'],
+                ignore: ['after-comment', 'blockless-after-same-name-blockless'],
+                ignoreAtRules: ['else'],
+            },
+        ],
     },
     defaultSeverity: 'warning',
     ignoreFiles: ['./assets/scss/vendors/_tarteaucitron.scss', './assets/scss/vendors/_orejime.scss', './dist/**/*.css'],
