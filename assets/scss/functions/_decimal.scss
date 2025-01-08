@@ -23,15 +23,18 @@
     // $number must be a number
     @if meta.type-of($number) != number {
         @warn '#{ $number } is not a number.';
+
         @return $number;
     }
 
     // $digits must be a unitless number
     @if meta.type-of($digits) != number {
         @warn '#{ $digits } is not a number.';
+
         @return $number;
     } @else if not  math.is-unitless($digits) {
         @warn '#{ $digits } has a unit.';
+
         @return $number;
     }
 
@@ -47,6 +50,7 @@
         @return math.div(math.floor($number * $n), $n);
     } @else {
         @warn '#{ $mode } is undefined keyword.';
+
         @return $number;
     }
 }
