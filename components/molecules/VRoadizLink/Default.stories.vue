@@ -16,7 +16,7 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
         <NuxtStoryVariant title="Url prop">
             <VRoadizLink
                 label="External link with url"
-                url="https:google.com"
+                url="https://google.com"
             />
             <VRoadizLink
                 label="Internal link with url"
@@ -34,7 +34,7 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
             </ClientOnly>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Link without label">
-            <VRoadizLink url="https:google.com" />
+            <VRoadizLink url="https://google.com" />
             <VRoadizLink url="/page-test" />
             <VRoadizLink :url="siteUrlConfigPath" />
             <ClientOnly>
@@ -42,7 +42,7 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
             </ClientOnly>
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Slot label">
-            <VRoadizLink url="https:google.com">
+            <VRoadizLink url="https://google.com">
                 External Link
             </VRoadizLink>
             <VRoadizLink url="/page-test">
