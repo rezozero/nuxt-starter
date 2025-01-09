@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RoadizNodesSources } from '@roadiz/types'
+import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 
 // init Roadiz page data (i.e. dynamic page)
 await callOnce(async () => {
@@ -43,6 +44,7 @@ await callOnce(async () => {
             />
         </ClientOnly>
         <NuxtPage id="main" />
+        <VFooter />
     </div>
 </template>
 
