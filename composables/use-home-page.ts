@@ -5,9 +5,9 @@ export async function useHomePage() {
 
     const isHomePage = computed(() => {
         const url = homeItem.value?.url
-        const currentPage = useCurrentPage()
+        const currentPageUrl = useCurrentPage().value.webResponse?.item?.url
 
-        if (url) return currentPage.value.webResponse?.item?.url === url
+        if (url) return currentPageUrl === url
 
         // If there is an error then maybe the API could not be reached.
         // Therefore, the common content will be empty.
@@ -16,7 +16,7 @@ export async function useHomePage() {
         const locales: string[] = $i18n?.localeCodes?.value || []
 
         // test `/` or `/{locale}` depending on the current locale and the i18n route strategy from Nuxt i18n or Roadiz
-        return currentPage.value.webResponse?.item?.url === '/' || (currentPage.value.webResponse && locales.map(locale => joinURL('/', locale)).includes(joinURL('/', currentPage.value.webResponse.item.url)))
+        return currentPageUrl === '/' || (currentPageUrl && locales.map(locale => joinURL('/', locale)).includes(joinURL('/', currentPageUrl)))
     })
 
     const homePagePath = computed(() => {
