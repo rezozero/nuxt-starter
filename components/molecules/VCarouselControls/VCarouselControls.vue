@@ -2,7 +2,8 @@
 import type { ThemeProps } from '#imports'
 
 interface VCarouselControlsProps extends ThemeProps {
-    length: number
+    slideLength?: number
+    snapLength: number
     displayNumbers?: boolean
     isEnd?: boolean
 }
@@ -18,7 +19,7 @@ onMounted(() => {
     setIndicatorPosition(index.value)
 })
 
-watch(() => props.length, () => {
+watch(() => props.snapLength, () => {
     setIndicatorWidth()
     setIndicatorPosition(index.value)
 })
@@ -30,7 +31,7 @@ watch(index, (newIndex) => {
 const slidePosition = computed(() => {
     if (!props.displayNumbers) return
 
-    return `${formatValue(index.value)} / ${formatValue(props.length - 1)}`
+    return `${formatValue(index.value)} / ${formatValue(props.snapLength - 1)}`
 })
 
 function formatValue(n: number) {
@@ -40,13 +41,13 @@ function formatValue(n: number) {
 function setIndicatorWidth() {
     if (!scroll.value || !thumb.value) return // can be undefined in SSR
 
-    thumb.value?.style.setProperty('--v-carousel-controls-thumb-width', (scroll.value?.offsetWidth / props.length / scroll.value?.offsetWidth) * 100 + '%')
+    thumb.value?.style.setProperty('--v-carousel-controls-thumb-width', (scroll.value?.offsetWidth / props.snapLength / scroll.value?.offsetWidth) * 100 + '%')
 }
 
 function setIndicatorPosition(index: number) {
     if (!scroll.value || !thumb.value) return
 
-    const percent = index / (props.length - 1)
+    const percent = index / (props.snapLength - 1)
     const translate = percent * (scroll.value?.offsetWidth - thumb.value?.getBoundingClientRect().width)
 
     thumb.value.style.translate = translate + 'px 0 '
@@ -56,10 +57,27 @@ function onClick(event: Event) {
     const direction = (event.currentTarget as HTMLButtonElement).name === 'next' ? 1 : -1
     index.value = index.value + direction
 }
+
+const prevBtnDisabled = computed(() => index.value === 0)
+const nextBtnDisabled = computed(() => {
+    return (index.value === props.snapLength - 1) || props.isEnd
+})
+
+const isCarouselDraggable = computed(() => {
+    if (!props.slideLength) return true
+    return (props.slideLength > props.snapLength) && props.snapLength > 1
+})
+
+const isInert = ref(false)
+onMounted(() => isInert.value = !isCarouselDraggable.value)
+watch(isCarouselDraggable, value => isInert.value = !value)
 </script>
 
 <template>
-    <div :class="$style.root">
+    <div
+        :class="[$style.root, isCarouselDraggable && $style['root--carousel-draggable']]"
+        :inert="isInert || undefined"
+    >
         <div
             ref="scroll"
             :class="$style.scroll"
@@ -73,8 +91,8 @@ function onClick(event: Event) {
             name="previous"
             icon-name="arrow-left"
             :aria-label="$t('carousel.previous_slide_label')"
-            :disabled="index === 0"
-            :theme="theme"
+            :disabled="prevBtnDisabled"
+            :theme="!!theme ? theme : undefined"
             :class="$style.button"
             @click="onClick"
         />
@@ -89,8 +107,8 @@ function onClick(event: Event) {
             name="next"
             icon-name="arrow-right"
             :aria-label="$t('carousel.next_slide_label')"
-            :disabled="index === length - 1 || isEnd"
-            :theme="theme"
+            :disabled="nextBtnDisabled"
+            :theme="!!theme ? theme : undefined"
             :class="$style.button"
             @click="onClick"
         />
@@ -106,6 +124,16 @@ function onClick(event: Event) {
     align-items: center;
     justify-content: var(--v-carousel-controls-justify-content, center);
     gap: rem(8);
+    opacity: 0;
+    transition: opacity 0.3s;
+
+    &--carousel-draggable {
+        opacity: var(--v-carousel-controls-opacity, 1);
+    }
+
+    &[aria-hidden="true"] {
+        pointer-events: none;
+    }
 }
 
 .scroll {

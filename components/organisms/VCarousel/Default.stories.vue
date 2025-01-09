@@ -23,7 +23,7 @@ const snapGridLength = ref(numSlides)
             </VCarousel>
             <VCarouselControls
                 v-model="slideIndex"
-                :length="snapGridLength"
+                :snap-length="snapGridLength"
             />
         </div>
     </NuxtStory>

@@ -1,0 +1,14 @@
+{
+    "@type": "Document",
+    "@id": "/api/documents/2",
+    "mimeType": "image/jpeg",
+    "imageWidth": "2043",
+    "imageHeight": "3040",
+    "mediaDuration": 0,
+    "imageAverageColor": "#533c28",
+    "alt": "img_test.jpg",
+    "relativePath": "02.jpg",
+    "processable": true,
+    "type": "image",
+    "folders": []
+}
