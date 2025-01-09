@@ -27,8 +27,8 @@ importers:
         specifier: ^4.17.14
         version: 4.17.14
       '@vue-a11y/skip-to':
-        specifier: ^2.1.2
-        version: 2.1.2
+        specifier: ^3.0.3
+        version: 3.0.3(vue@3.5.13(typescript@5.7.2))
       '@vueuse/core':
         specifier: ^12.0.0
         version: 12.3.0(typescript@5.7.2)
@@ -1730,8 +1730,10 @@ packages:
     peerDependencies:
       '@eslint/config-array': '>=0.16.0'
 
-  '@vue-a11y/skip-to@2.1.2':
-    resolution: {integrity: sha512-oKx0YE/nfWSBI48RKHoRsUmpY0//rDPBZTGk1LxhkkUsXPwzuMlJBFrWGIswdd+3DiIE5OyiDaM45ZldYjtDIA==}
+  '@vue-a11y/skip-to@3.0.3':
+    resolution: {integrity: sha512-m7Sc4rxbehSLZncVIKT1he54zhVa+q+YOFebDQrEATpFMtsrcgnTR2DkH5OVGY33rT3MtZlpQbwYBevwplWP9w==}
+    peerDependencies:
+      vue: ^3.0.0
 
   '@vue-macros/common@1.15.1':
     resolution: {integrity: sha512-O0ZXaladWXwHplQnSjxLbB/G1KpdWCUNJPNYVHIxHonGex1BGpoB4fBZZLgddHgAiy18VZG/Iu5L0kwG+SV7JQ==}
@@ -7097,7 +7099,9 @@ snapshots:
       '@eslint/config-array': 0.19.1
       '@nodelib/fs.walk': 3.0.1
 
-  '@vue-a11y/skip-to@2.1.2': {}
+  '@vue-a11y/skip-to@3.0.3(vue@3.5.13(typescript@5.7.2))':
+    dependencies:
+      vue: 3.5.13(typescript@5.7.2)
 
   '@vue-macros/common@1.15.1(rollup@4.30.1)(vue@3.5.13(typescript@5.7.2))':
     dependencies:

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { RoadizNodesSources } from '@roadiz/types'
+import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 
 // init Roadiz page data (i.e. dynamic page)
 await callOnce(async () => {
@@ -32,8 +33,23 @@ await callOnce(async () => {
 
 <template>
     <div>
-        <NuxtPage />
+        <ClientOnly>
+            <VueSkipTo
+                :class="$style['skip-to-nav']"
+                :list-label="$t('skip_to.list_label').toString()"
+                :to="[
+                    { anchor: '#main', label: $t('skip_to.main_content') },
+                    { anchor: '#footer', label: $t('skip_to.footer') },
+                ]"
+            />
+        </ClientOnly>
+        <NuxtPage id="main" />
+        <VFooter />
     </div>
 </template>
 
-<!-- <style module lang="scss"></style> -->
+<style module lang="scss">
+.skip-to-nav {
+    z-index: 10000;
+}
+</style>
