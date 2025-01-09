@@ -9,6 +9,7 @@
 @function breakpoint($key, $strip-unit: false) {
     @if meta.type-of($breakpoints) != map {
         @warn "$breakpoints is not defined";
+
         @return null;
     }
 
@@ -23,5 +24,6 @@
     }
 
     @warn "Unkown '#{$key}' in $breakpoints.";
+
     @return null;
 }

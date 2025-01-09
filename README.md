@@ -11,7 +11,7 @@
 
 ##  Environment variables
 
-Duplicate the `.env.example` file and rename it to `.env`.  
+Duplicate the `.env.sample` file and rename it to `.env`.  
 Fill in the environment variables with the correct values.
 
 ## Setup
@@ -32,7 +32,7 @@ pnpm dev
 Start the development server on `http://localhost:6006` with stories preset (use the `.env.stories` file):
 
 ```bash
-docker-compose up -d // start the Intervention Request service
+docker compose up -d // start the Intervention Request service
 pnpm dev:stories
 ```
 
