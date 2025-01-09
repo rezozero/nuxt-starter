@@ -1,15 +1,14 @@
 <script lang="ts" setup>
-import type { RoadizNodesSources, RoadizWalker } from '@roadiz/types'
+import type { PageComponentProps } from '~/types/app'
 
-defineProps<{
-    blocks: RoadizWalker[]
-    entity: RoadizNodesSources
-}>()
+defineProps<PageComponentProps>()
 </script>
 
 <template>
     <div>
-        {{ entity.title || 'VDefaultPage' }}
+        <h1 class="text-h1">
+            {{ item.title || 'VDefaultPage' }}
+        </h1>
     </div>
 </template>
 

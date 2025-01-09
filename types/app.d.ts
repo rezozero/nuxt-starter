@@ -1,8 +1,10 @@
-import type { RoadizNodesSources } from '@roadiz/types'
-import type { UnionToIntersection } from '~/utils/types'
+import type { RoadizNodesSources, RoadizWalker } from '@roadiz/types'
 
-export type MenuNodeType = RoadizNodesSources
-export type MenuNodeKeyMerged = Partial<UnionToIntersection<MenuNodeType>>
+// Update based on project specificities
+export type AppMenuItem = RoadizNodesSources
+export type AppPageItem = RoadizNodesSources
 
-export type ReachableItem = RoadizNodesSources
-export type ReachableItemMerged = Partial<UnionToIntersection<ReachableItem>>
+export type PageComponentProps<T = ReachableItem> = {
+    item: T
+    blocks?: RoadizWalker[]
+}
