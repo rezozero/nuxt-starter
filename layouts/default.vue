@@ -37,12 +37,12 @@ await callOnce(async () => {
                 :class="$style['skip-to-nav']"
                 :list-label="$t('skip_to.list_label').toString()"
                 :to="[
-                    { anchor: '#content', label: $t('skip_to.main_content') },
+                    { anchor: '#main', label: $t('skip_to.main_content') },
                     { anchor: '#footer', label: $t('skip_to.footer') },
                 ]"
             />
         </ClientOnly>
-        <NuxtPage />
+        <NuxtPage id="main" />
     </div>
 </template>
 
