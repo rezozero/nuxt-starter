@@ -32,8 +32,22 @@ await callOnce(async () => {
 
 <template>
     <div>
+        <ClientOnly>
+            <VueSkipTo
+                :class="$style['skip-to-nav']"
+                :list-label="$t('skip_to.list_label').toString()"
+                :to="[
+                    { anchor: '#content', label: $t('skip_to.main_content') },
+                    { anchor: '#footer', label: $t('skip_to.footer') },
+                ]"
+            />
+        </ClientOnly>
         <NuxtPage />
     </div>
 </template>
 
-<!-- <style module lang="scss"></style> -->
+<style module lang="scss">
+.skip-to-nav {
+    z-index: 10000;
+}
+</style>
