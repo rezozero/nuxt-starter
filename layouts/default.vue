@@ -18,28 +18,33 @@ await callOnce(async () => {
 
     // i18n
     const webResponseLocale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
-    const { $i18n } = useNuxtApp()
-    const detectBrowserLanguage = I18N_DETECT_BROWSER_LANGUAGE
-    const isRootPath = alternateLinks.some(link => link.url === '/')
+    // const detectBrowserLanguage = I18N_DETECT_BROWSER_LANGUAGE
+    // const isRootPath = alternateLinks.some(link => link.url === '/')
 
     // trying to redirect to the preferred locale for the root page (home page) only
-    if (webResponseLocale && detectBrowserLanguage && isRootPath) {
-        const cookieLocale = useI18nCookie().value
+    // if (webResponseLocale && detectBrowserLanguage && isRootPath) {
+    //     const cookieLocale = useI18nCookie().value
+    //
+    //     if (!cookieLocale || !detectBrowserLanguage.useCookie || (detectBrowserLanguage.useCookie && cookieLocale && detectBrowserLanguage.alwaysRedirect)) {
+    //         const browserLocale = useBrowserLocale()
+    //         const preferredLocale = detectBrowserLanguage.useCookie ? (cookieLocale || browserLocale) : browserLocale
+    //
+    //         if (preferredLocale && preferredLocale !== webResponseLocale && $i18n.locales.value.find(availableLocale => availableLocale.code === preferredLocale)) {
+    //             const alternateLink = alternateLinks.find(link => link.locale === preferredLocale)
+    //
+    //             if (alternateLink) await navigateTo(alternateLink.url, { replace: true, external: true })
+    //         }
+    //     }
+    // }
 
-        if (!cookieLocale || !detectBrowserLanguage.useCookie || (detectBrowserLanguage.useCookie && cookieLocale && detectBrowserLanguage.alwaysRedirect)) {
-            const browserLocale = useBrowserLocale()
-            const preferredLocale = detectBrowserLanguage.useCookie ? (cookieLocale || browserLocale) : browserLocale
+    if (webResponseLocale) {
+        const { $i18n } = useNuxtApp()
 
-            if (preferredLocale && preferredLocale !== webResponseLocale && $i18n.locales.value.find(availableLocale => availableLocale.code === preferredLocale)) {
-                const alternateLink = alternateLinks.find(link => link.locale === preferredLocale)
+        await useRoadizDetectBrowserLanguage({ locale: webResponseLocale, alternateLinks })
 
-                if (alternateLink) await navigateTo(alternateLink.url, { replace: true, external: true })
-            }
+        if (webResponseLocale !== $i18n.locale.value && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)) {
+            await $i18n.setLocale(webResponseLocale)
         }
-    }
-
-    if (webResponseLocale && webResponseLocale !== $i18n.locale.value && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)) {
-        await $i18n.setLocale(webResponseLocale)
     }
 })
 </script>
