@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
-import { isAvailableI18nLocale } from '~/utils/locale'
 import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 
 // init Roadiz page data (i.e. dynamic page)
 await callOnce(async () => {
     const route = useRoute()
 
+    // if the route is not a dynamic page, return
     if (route.name !== 'slug') return
 
     const { webResponse, alternateLinks } = await useRoadizWebResponse()
@@ -14,11 +14,12 @@ await callOnce(async () => {
     // init page data for components outside page
     useCurrentPage({ webResponse, alternateLinks })
 
-    const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
+    // i18n
+    const webResponseLocale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
+    const { $i18n } = useNuxtApp()
 
-    if (locale && isAvailableI18nLocale(locale)) {
-        const { $i18n } = useNuxtApp()
-        await $i18n.setLocale(locale)
+    if (webResponseLocale && webResponseLocale !== $i18n.locale.value && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)) {
+        await $i18n.setLocale(webResponseLocale)
     }
 
     useAlternateLinks(alternateLinks)
