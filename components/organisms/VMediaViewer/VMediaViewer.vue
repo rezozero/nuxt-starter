@@ -3,15 +3,15 @@ import { useEventListener } from '@vueuse/core'
 import type Plyr from 'plyr'
 import { isVideo } from '~/utils/roadiz/document'
 
-const { t } = useI18n()
-
 const id = useId()
 
-const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
+const theme = 'dark'
 
-const { documents, selectedIndex: slideIndex, close, nextSlide, previousSlide } = useMediaViewer()
+const { themeClass } = useThemeProvider({ preferredTheme: theme })
 
-const snapLength = ref(documents.value?.length)
+const { documents, slideIndex, close, nextSlide, previousSlide } = useMediaViewer()
+
+const snapLength = ref(documents.value?.length || 0)
 
 useEventListener('keyup', onKeyPressed)
 
@@ -61,6 +61,7 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
+    plyrInstances.value = []
     root.value?.close()
 })
 </script>
@@ -69,21 +70,20 @@ onBeforeUnmount(() => {
     <dialog
         :id="id"
         ref="root"
-        :title="t('media_viewer.title')"
         :class="[$style.root, description && $style['root--with-description'], themeClass]"
     >
         <VButton
             :class="$style.close"
-            icon-name="close"
+            icon-name="cross-small"
             emphasis="low"
             @click="close"
         />
         <VCarouselControls
             v-if="documents?.length && documents.length > 1"
             v-model="slideIndex"
-            :snap-length="documents.length"
+            :snap-length="snapLength"
             :class="$style.controls"
-            theme="dark"
+            :theme="theme"
         />
         <VCarousel
             v-if="documents?.length"
@@ -122,8 +122,8 @@ onBeforeUnmount(() => {
                 </div>
             </div>
         </VCarousel>
-        <LazyVCopyright
-            v-show="copyrightContent"
+        <VCopyright
+            v-if="copyrightContent"
             :class="$style.copyright"
             :content="copyrightContent"
             :container="'#' + id"
@@ -148,7 +148,7 @@ onBeforeUnmount(() => {
     flex-direction: column;
     padding: var(--gutter);
     border: none;
-    background-color: var(--theme-color-surface-dark);
+    background-color: var(--theme-color-surfaces-primary);
     color: var(--theme-color-content-primary);
     inset: 0;
 
@@ -157,7 +157,7 @@ onBeforeUnmount(() => {
     &::after {
         position: absolute;
         z-index: -1;
-        background-color: var(--theme-color-surfaces-basics-light);
+        background-color: var(--theme-color-surfaces-primary);
         content: '';
         inset: 0;
     }

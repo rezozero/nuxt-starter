@@ -149,7 +149,7 @@ watch(isCarouselDraggable, value => isInert.value = !value)
 
     &::before {
         position: absolute;
-        background-color: var(--theme-color-controls-selected, color-mix(in srgb, currentColor, transparent 70%));
+        background-color: color-mix(in srgb, currentColor, transparent 70%);
         content: '';
         inset: 0;
         opacity: 0.2;
@@ -160,7 +160,7 @@ watch(isCarouselDraggable, value => isInert.value = !value)
     position: relative;
     width: clamp(#{rem(22)}, var(--v-carousel-controls-thumb-width), 100%);
     height: 100%;
-    background-color: var(--theme-color-controls-selected, currentColor);
+    background-color: currentColor;
     content: '';
     transform-origin: left;
     transition: 0.2s linear, 0.5s;
