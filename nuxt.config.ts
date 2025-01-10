@@ -1,7 +1,7 @@
 import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './constants/i18n'
+import { I18N_DEFAULT_LOCALE, I18N_DETECT_BROWSER_LANGUAGE, I18N_LOCALES } from './constants/i18n'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
@@ -173,10 +173,7 @@ export default defineNuxtConfig({
     // https://i18n.nuxtjs.org/docs/getting-started/usage
     i18n: {
         strategy: 'prefix_except_default',
-        detectBrowserLanguage: {
-            useCookie: true,
-            redirectOn: 'all',
-        },
+        detectBrowserLanguage: I18N_DETECT_BROWSER_LANGUAGE,
         defaultLocale: I18N_DEFAULT_LOCALE,
         locales: I18N_LOCALES.map(locale => ({
             code: locale,
