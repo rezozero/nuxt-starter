@@ -1,11 +1,7 @@
-import type { I18nOptions } from 'vue-i18n'
+import type { DateTimeFormat } from '@intlify/core-base'
+import { I18N_DEFAULT_TIMEZONE, I18N_LOCALES } from '~/constants/i18n'
 
-export const I18N_LOCALES = ['fr', 'en'] as const
-export const I18N_DEFAULT_LOCALE = 'fr'
-export const I18N_DEFAULT_TIMEZONE = 'Europe/Paris'
-
-// defineI18nConfig() does not work, therefore we need to type the config object
-export default {
+export default defineI18nConfig(() => ({
     datetimeFormats: I18N_LOCALES.reduce(
         (acc, cur) => ({
             ...acc,
@@ -71,6 +67,7 @@ export default {
                 },
             },
         }),
-        {},
+        {} as Record<typeof I18N_LOCALES[number], DateTimeFormat>,
     ),
-} satisfies I18nOptions
+}),
+)
