@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
 import VFooter from '~/components/organisms/VFooter/VFooter.vue'
-import { I18N_DETECT_BROWSER_LANGUAGE } from '~/constants/i18n'
 
 // init Roadiz page data (i.e. dynamic page)
 await callOnce(async () => {
@@ -18,24 +17,6 @@ await callOnce(async () => {
 
     // i18n
     const webResponseLocale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
-    // const detectBrowserLanguage = I18N_DETECT_BROWSER_LANGUAGE
-    // const isRootPath = alternateLinks.some(link => link.url === '/')
-
-    // trying to redirect to the preferred locale for the root page (home page) only
-    // if (webResponseLocale && detectBrowserLanguage && isRootPath) {
-    //     const cookieLocale = useI18nCookie().value
-    //
-    //     if (!cookieLocale || !detectBrowserLanguage.useCookie || (detectBrowserLanguage.useCookie && cookieLocale && detectBrowserLanguage.alwaysRedirect)) {
-    //         const browserLocale = useBrowserLocale()
-    //         const preferredLocale = detectBrowserLanguage.useCookie ? (cookieLocale || browserLocale) : browserLocale
-    //
-    //         if (preferredLocale && preferredLocale !== webResponseLocale && $i18n.locales.value.find(availableLocale => availableLocale.code === preferredLocale)) {
-    //             const alternateLink = alternateLinks.find(link => link.locale === preferredLocale)
-    //
-    //             if (alternateLink) await navigateTo(alternateLink.url, { replace: true, external: true })
-    //         }
-    //     }
-    // }
 
     if (webResponseLocale) {
         const { $i18n } = useNuxtApp()
