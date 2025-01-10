@@ -21,6 +21,7 @@ await callOnce(async () => {
     if (webResponseLocale) {
         const { $i18n } = useNuxtApp()
 
+        // trying to redirect to the preferred locale
         await useRoadizDetectBrowserLanguage({ locale: webResponseLocale, alternateLinks })
 
         if (webResponseLocale !== $i18n.locale.value && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)) {
