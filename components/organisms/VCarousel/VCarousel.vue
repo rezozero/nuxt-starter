@@ -17,7 +17,7 @@ const slideIndex = defineModel<number>('index', { default: 0 })
 const snapLength = defineModel<number>('snapLength')
 const carouselEnabled = defineModel<boolean>('enabled', { default: false })
 
-const props = withDefaults(defineProps<VCarouselProps & { index?: number, enabled: boolean } >(), { lazy: true })
+const props = withDefaults(defineProps<VCarouselProps & { index?: number, enabled?: boolean } >(), { lazy: true })
 
 const emit = defineEmits<{
     progress: [number]
