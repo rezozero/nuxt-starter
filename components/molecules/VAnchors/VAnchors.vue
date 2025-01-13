@@ -1,10 +1,12 @@
 <script  lang="ts" setup>
-import type { VAnchorProps } from '~/components/molecules/VAnchor/VAnchorItem.vue'
-
 const { width } = useWindowSize()
 
 interface VAnchorListProps {
-    anchors: VAnchorProps[]
+    anchors: {
+        id: string
+        href?: string
+        label: string
+    }[]
 }
 
 const props = defineProps<VAnchorListProps>()
@@ -22,11 +24,8 @@ const elementList = computed(() => {
     return props.anchors.map(anchorItem => document.getElementById(anchorItem.id))
 })
 
-// INIT OBSERVER LISTENER
-type VisibleObserverEntry = IntersectionObserverEntry | null
-
 const observers: (IntersectionObserver | null)[] = []
-const visibleElements = ref<VisibleObserverEntry[]>(Array(props.anchors.length).fill(null))
+const visibleElements = ref<(IntersectionObserverEntry | null)[]>(Array(props.anchors.length).fill(null))
 
 const linkElement = ref<HTMLElement[]>([])
 
@@ -76,7 +75,7 @@ function resetObserver() {
 
 onMounted(initObservers)
 onBeforeUnmount(disposeObservers)
-watch(width, resetObserver) // Don't use resize event because it's triggered on scroll when mobile footer UI is updated
+watch(width, resetObserver)
 
 // SETUP ACTIVE LINK ON SCROLL
 const activeIndex = computed(() => {
@@ -96,6 +95,7 @@ const activeIndex = computed(() => {
 })
 
 // ACTIONS
+const router = useRouter()
 const route = useRoute()
 function onClick(event: Event) {
     const href = (event.currentTarget as HTMLElement)?.getAttribute('href') || ''
@@ -104,7 +104,7 @@ function onClick(event: Event) {
     // Remove actual hash
     const anchorHrefList = anchorsProps.value.map(({ href }) => href)
     if (anchorHrefList.includes(route.hash)) {
-        history.pushState({}, '', route.path)
+        router.push({ path: route.path, replace: true })
     }
 
     if (target) {
@@ -137,14 +137,15 @@ const rootClasses = computed(() => {
                 :key="anchor.id"
                 :class="$style.item"
             >
-                <VAnchorItem
-                    :id="anchor.id"
+                <a
                     ref="linkElement"
-                    :href="anchor.href"
-                    :label="anchor.label"
+                    :class="$style.root"
+                    :href="anchor.href || `#${anchor.id}`"
                     :aria-current="index === activeIndex"
                     @click.prevent="onClick"
-                />
+                >
+                    {{ anchor.label }}
+                </a>
             </li>
         </ol>
     </nav>
@@ -173,5 +174,13 @@ const rootClasses = computed(() => {
 .item {
     flex-shrink: 0;
     list-style: none;
+}
+
+.anchor {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: color 0.3s ease(out-quad);
+    white-space: nowrap;
 }
 </style>

@@ -12,7 +12,7 @@ const disabledIndex = 2
 <template>
     <NuxtStory :class="$style.root">
         <NuxtStoryVariant>
-            <VAnchorList :anchors="items" />
+            <VAnchors :anchors="items" />
             <main :class="$style.main">
                 <section
                     v-for="(item, i) in items"
