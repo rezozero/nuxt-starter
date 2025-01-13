@@ -43,7 +43,7 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
             <VMarkdown
                 :content="alert.content"
             />
-            <VLinkButton
+            <VRoadizLinkButton
                 :label="alert.linkLabel"
                 :reference="linkReference"
                 :url="alert.linkExternalUrl"
