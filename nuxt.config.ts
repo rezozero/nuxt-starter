@@ -43,8 +43,9 @@ export default defineNuxtConfig({
         public: {
             version,
             site: {
-                url: 'http://localhost:3000',
-                environment: 'development',
+                name: '',
+                url: '',
+                environment: '',
             },
             api: {
                 url: '',
