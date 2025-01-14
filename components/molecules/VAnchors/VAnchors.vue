@@ -1,15 +1,13 @@
 <script  lang="ts" setup>
 const { width } = useWindowSize()
 
-interface VAnchorListProps {
+const props = defineProps<{
     anchors: {
         id: string
         href?: string
         label: string
     }[]
-}
-
-const props = defineProps<VAnchorListProps>()
+}>()
 
 const anchorsProps = computed(() => {
     return props.anchors.map((anchor) => {
@@ -97,18 +95,13 @@ const activeIndex = computed(() => {
 // ACTIONS
 const router = useRouter()
 const route = useRoute()
-function onClick(event: Event) {
+function onAnchorClick(event: Event) {
     const href = (event.currentTarget as HTMLElement)?.getAttribute('href') || ''
     const target = document.querySelector(href)
 
-    // Remove actual hash
-    const anchorHrefList = anchorsProps.value.map(({ href }) => href)
-    if (anchorHrefList.includes(route.hash)) {
-        router.push({ path: route.path, replace: true })
-    }
+    router.push({ path: route.path, hash: route.hash, replace: true })
 
     if (target) {
-        event.preventDefault()
         // the scroll top anchor offset could be manage in VBlock with scroll-margin-top property
         target.scrollIntoView({ behavior: 'smooth' })
     }
@@ -140,9 +133,9 @@ const rootClasses = computed(() => {
                 <a
                     ref="linkElement"
                     :class="$style.root"
-                    :href="anchor.href || `#${anchor.id}`"
+                    :href="anchor.href"
                     :aria-current="index === activeIndex"
-                    @click.prevent="onClick"
+                    @click.prevent="onAnchorClick"
                 >
                     {{ anchor.label }}
                 </a>
@@ -154,6 +147,7 @@ const rootClasses = computed(() => {
 <style lang="scss" module>
 @use "assets/scss/mixins/include-media" as *;
 @use "assets/scss/functions/rem" as *;
+@use "assets/scss/functions/ease" as *;
 
 .root {
     display: flex;
