@@ -8,7 +8,7 @@ const { availableAlternateLinks } = useAlternateLinks()
         v-if="availableAlternateLinks.length > 1"
     >
         <nav>
-            <ul :class="$style.list">
+            <ul>
                 <li
                     v-for="alternateLink in availableAlternateLinks"
                     :key="alternateLink.url"
@@ -17,7 +17,6 @@ const { availableAlternateLinks } = useAlternateLinks()
                     <a
                         :href="alternateLink.url"
                         :hreflang="alternateLink.locale"
-                        :class="$style.link"
                     >
                         {{ alternateLink.locale }}
                     </a>
