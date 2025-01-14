@@ -41,8 +41,8 @@ const rootClasses = computed(() => {
     position: sticky;
     z-index: 10;
     top: 0;
-    height: rem(120);
     display: flex;
+    height: rem(120);
     align-items: center;
     justify-content: space-between;
     padding-inline: rem(32);
