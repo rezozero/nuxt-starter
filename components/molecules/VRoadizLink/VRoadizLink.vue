@@ -4,7 +4,6 @@ import { h, type PropType } from 'vue'
 import type { NuxtLinkProps } from '#app/components/nuxt-link'
 import { NuxtLink } from '#components'
 import type { ReachableItem } from '~/types/app'
-import { isInternalUrl } from '~/utils/url'
 
 export const vRoadizLinkProps = {
     label: [String, Boolean],
@@ -21,47 +20,57 @@ export default defineComponent({
     setup(props, { attrs, slots }) {
         const reference = computed(() => {
             if (!props.reference) return
-            return Array.isArray(props.reference) ? props.reference[0] : props.reference
-        })
 
-        const url = computed(() => {
-            return props.url || reference.value?.url || props.document?.relativePath
+            return Array.isArray(props.reference) ? props.reference[0] : props.reference
         })
 
         const runtimeConfig = useRuntimeConfig()
         const siteUrl = runtimeConfig?.public?.site.url
 
-        const isInternal = computed(() => isInternalUrl(url.value, siteUrl))
-        const isExternal = computed(() => !!url.value && !isInternal.value)
-        const isDownload = computed(() => !!url.value && !isExternal.value && !!props.document?.relativePath)
-
         const attributes = computed(() => {
-            const mergedAttrs = { ...attrs, ...props.nuxtLinkProps }
-            if (!url.value) return mergedAttrs
+            const defaultAttrs = { ...attrs, ...props.nuxtLinkProps }
 
-            if (isDownload.value) {
-                Object.assign(mergedAttrs, {
+            // Download
+            if (props.document?.relativePath) {
+                return {
+                    ...defaultAttrs,
                     href: useRoadizDocumentUrl(props.document?.relativePath),
                     target: attrs?.target || '_blank',
-                    rel: attrs?.rel || 'noopener',
+                    rel: attrs?.rel || 'noopener noreferrer',
                     download: '',
-                })
-            }
-            else if (isExternal.value) {
-                Object.assign(mergedAttrs, {
-                    href: props.url,
-                    target: attrs?.target || '_blank',
-                    rel: attrs?.rel || 'noopener',
-                })
-            }
-            else if (isInternal.value) {
-                // Prevent NuxtLink to add rel attrs if it is absolute internal url
-                Object.assign(mergedAttrs, {
-                    to: url.value?.replace(siteUrl, ''), // Force relative path
-                })
+                }
             }
 
-            return mergedAttrs
+            // External link
+            if (props.url && isExternalUrl(props.url, siteUrl)) {
+                return {
+                    ...defaultAttrs,
+                    href: props.url,
+                    target: attrs?.target || '_blank',
+                    rel: attrs?.rel || 'noopener noreferrer',
+                }
+            }
+
+            // Internal link
+            const internalUrl = props.url && isInternalURL(props.url, siteUrl) ? props.url : reference.value && isInternalURL(reference.value.url, siteUrl) ? reference.value.url : undefined
+
+            if (internalUrl) {
+                // Prevent NuxtLink to add rel attrs if it is absolute internal url
+                return {
+                    ...defaultAttrs,
+                    to: internalUrl?.replace(siteUrl, ''), // Force relative path
+                }
+            }
+
+            // Other kind of links (mailto, tel, javascript, etc.)
+            if (props.url) {
+                return {
+                    ...defaultAttrs,
+                    to: props.url,
+                }
+            }
+
+            return defaultAttrs
         })
 
         return () => {

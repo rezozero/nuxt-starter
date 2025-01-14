@@ -1,39 +1,55 @@
-<script setup lang="ts">
+<script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
+import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 
 // init Roadiz page data (i.e. dynamic page)
 await callOnce(async () => {
     const route = useRoute()
 
-    // check if it's a dynamic page
+    // if the route is not a dynamic page, return
     if (route.name !== 'slug') return
 
     const { webResponse, alternateLinks } = await useRoadizWebResponse()
 
-    // fill page data
+    // init page data for components outside page
     useCurrentPage({ webResponse, alternateLinks })
-
-    // init I18N
-    const nuxtApp = useNuxtApp()
-    const locale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
-
-    if (locale) {
-        // set the current global locale
-        await nuxtApp.$i18n.setLocale(locale)
-    }
-    else {
-        // get the locale from the route (prefix) or cookie ?
-    }
-
-    // init alternate links
     useAlternateLinks(alternateLinks)
+
+    // i18n
+    const webResponseLocale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
+
+    if (webResponseLocale) {
+        const { $i18n } = useNuxtApp()
+
+        // trying to redirect to the preferred locale
+        await useRoadizDetectBrowserLanguage({ locale: webResponseLocale, alternateLinks })
+
+        if (webResponseLocale !== $i18n.locale.value && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)) {
+            await $i18n.setLocale(webResponseLocale)
+        }
+    }
 })
 </script>
 
 <template>
     <div>
-        <NuxtPage />
+        <ClientOnly>
+            <VueSkipTo
+                :class="$style['skip-to-nav']"
+                :list-label="$t('skip_to.list_label').toString()"
+                :to="[
+                    { anchor: '#main', label: $t('skip_to.main_content') },
+                    { anchor: '#footer', label: $t('skip_to.footer') },
+                ]"
+            />
+        </ClientOnly>
+        <NuxtPage id="main" />
+        <VFooter />
     </div>
 </template>
 
-<!-- <style module lang="scss"></style> -->
+<style module lang="scss">
+.skip-to-nav {
+    z-index: 10000;
+}
+</style>
