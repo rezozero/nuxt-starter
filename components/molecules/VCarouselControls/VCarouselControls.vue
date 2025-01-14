@@ -1,116 +1,52 @@
 <script setup lang="ts">
 import type { ThemeProps } from '#imports'
+import { useCarouselControls } from '~/composables/use-carousel-controls'
 
-interface VCarouselControlsProps extends ThemeProps {
-    slideLength?: number
+type VCarouselControlsProps = ThemeProps & {
     snapLength: number
     displayNumbers?: boolean
-    isEnd?: boolean
 }
-
-const props = defineProps<VCarouselControlsProps>()
-const scroll = ref<HTMLInputElement | null>(null)
-const thumb = ref<HTMLInputElement | null>(null)
-
 const index = defineModel<number>({ default: 0 })
 
-onMounted(() => {
-    setIndicatorWidth()
-    setIndicatorPosition(index.value)
+const props = defineProps<VCarouselControlsProps>()
+
+const snapLength = ref(props.snapLength)
+watch(() => props.snapLength, v => snapLength.value = v)
+
+const { numbersOutput, prevButtonAttrs, isCarouselDraggable, nextButtonAttrs } = useCarouselControls({
+    displayNumbers: props.displayNumbers,
+    snapLength,
+    index,
 })
 
-watch(() => props.snapLength, () => {
-    setIndicatorWidth()
-    setIndicatorPosition(index.value)
-})
-
-watch(index, (newIndex) => {
-    setIndicatorPosition(newIndex)
-})
-
-const slidePosition = computed(() => {
-    if (!props.displayNumbers) return
-
-    return `${formatValue(index.value)} / ${formatValue(props.snapLength - 1)}`
-})
-
-function formatValue(n: number) {
-    return (n < 9 ? '0' : '') + (n + 1)
-}
-
-function setIndicatorWidth() {
-    if (!scroll.value || !thumb.value) return // can be undefined in SSR
-
-    thumb.value?.style.setProperty('--v-carousel-controls-thumb-width', (scroll.value?.offsetWidth / props.snapLength / scroll.value?.offsetWidth) * 100 + '%')
-}
-
-function setIndicatorPosition(index: number) {
-    if (!scroll.value || !thumb.value) return
-
-    const percent = index / (props.snapLength - 1)
-    const translate = percent * (scroll.value?.offsetWidth - thumb.value?.getBoundingClientRect().width)
-
-    thumb.value.style.translate = translate + 'px 0 '
-}
-
-function onClick(event: Event) {
-    const direction = (event.currentTarget as HTMLButtonElement).name === 'next' ? 1 : -1
-    index.value = index.value + direction
-}
-
-const prevBtnDisabled = computed(() => index.value === 0)
-const nextBtnDisabled = computed(() => {
-    return (index.value === props.snapLength - 1) || props.isEnd
-})
-
-const isCarouselDraggable = computed(() => {
-    if (!props.slideLength) return true
-    return (props.slideLength > props.snapLength) && props.snapLength > 1
-})
-
-const isInert = ref(false)
-onMounted(() => isInert.value = !isCarouselDraggable.value)
-watch(isCarouselDraggable, value => isInert.value = !value)
+const ariaHidden = ref(false)
+onMounted(() => ariaHidden.value = !isCarouselDraggable.value)
+watch(isCarouselDraggable, value => ariaHidden.value = !value)
 </script>
 
 <template>
     <div
         :class="[$style.root, isCarouselDraggable && $style['root--carousel-draggable']]"
-        :inert="isInert || undefined"
+        :aria-hidden="ariaHidden || undefined"
     >
         <div
-            ref="scroll"
-            :class="$style.scroll"
-        >
-            <div
-                ref="thumb"
-                :class="$style.thumb"
-            />
-        </div>
-        <VButton
-            name="previous"
-            icon-name="arrow-left"
-            :aria-label="$t('carousel.previous_slide_label')"
-            :disabled="prevBtnDisabled"
-            :theme="!!theme ? theme : undefined"
-            :class="$style.button"
-            @click="onClick"
-        />
-        <div
-            v-if="slidePosition"
+            v-if="numbersOutput"
             class="text-body-xs"
-            :class="$style.number"
+            :class="$style.numbers"
         >
-            <span>{{ slidePosition }}</span>
+            <span>{{ numbersOutput }}</span>
         </div>
         <VButton
-            name="next"
-            icon-name="arrow-right"
-            :aria-label="$t('carousel.next_slide_label')"
-            :disabled="nextBtnDisabled"
-            :theme="!!theme ? theme : undefined"
-            :class="$style.button"
-            @click="onClick"
+            v-bind="prevButtonAttrs"
+            :class="$style['button-prev']"
+        />
+        <VCarouselProgress
+            :index="index"
+            :snap-length="snapLength"
+        />
+        <VButton
+            v-bind="nextButtonAttrs"
+            :class="$style['button-next']"
         />
     </div>
 </template>
@@ -126,6 +62,10 @@ watch(isCarouselDraggable, value => isInert.value = !value)
     gap: rem(8);
     opacity: 0;
     transition: opacity 0.3s;
+
+    &[aria-hidden="true"] {
+        display: var(--v-carousel-controls-hidden-display, none);
+    }
 
     &--carousel-draggable {
         opacity: var(--v-carousel-controls-opacity, 1);
@@ -167,12 +107,8 @@ watch(isCarouselDraggable, value => isInert.value = !value)
     transition-property: translate, width;
 }
 
-.number {
+.numbers {
     display: var(--v-carousel-controls-numbers-display, block);
-
-    @include media('>=lg') {
-        display: var(--v-carousel-controls-numbers-display, none);
-    }
 }
 
 .button {
