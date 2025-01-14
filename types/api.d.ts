@@ -6,7 +6,8 @@ import type {
     RoadizWebResponse,
 } from '@roadiz/types'
 import type { MenuNodeType } from '~/types/app'
-import type { RoadizWalkerKnown } from '~/utils/types'
+
+import type { RoadizWalkerKnown } from '~/utils/roadiz/types'
 
 interface HydraError {
     '@context': string
