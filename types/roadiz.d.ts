@@ -1,9 +1,9 @@
 /*
  * This is an automated Roadiz interface declaration file.
  * RoadizNodesSources, RoadizDocument and other mentioned types are part of
- * roadiz/abstract-api-client package which must be installed in your project.
+ * @roadiz/types package which must be installed in your project.
  *
- * @see https://github.com/roadiz/abstract-api-client
+ * @see https://github.com/roadiz/types#readme
  *
  * Roadiz CMS node-types interfaces
  *
