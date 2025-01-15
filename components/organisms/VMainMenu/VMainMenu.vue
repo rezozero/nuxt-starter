@@ -52,5 +52,5 @@ watch(
     </VModal>
 </template>
 
-<style lang="scss" module>
-</style>
+<!-- <style lang="scss" module> -->
+<!-- </style> -->
