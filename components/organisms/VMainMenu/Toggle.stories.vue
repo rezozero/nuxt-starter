@@ -2,22 +2,93 @@
 import { http, HttpResponse } from 'msw'
 import type { CommonContent } from '~/types/api'
 
-const isOpen = ref(false)
+const menuIsOpen = ref(false)
 
-useMockRequest(http.get('/common_content', () => {
+useMockRequest(http.get('*/common_content', () => {
     return HttpResponse.json({
         menus: {
             mainMenuWalker: {
                 '@id': '1',
                 '@type': 'menu',
                 'item': {
-                    '@id': '1',
+                    '@id': 'menu 1',
                     '@type': 'menu',
+                    'title': 'Main menu',
                 },
-                'children': [],
+                'children': [
+                    {
+                        '@id': 'child-1',
+                        '@type': 'NSMenuLink',
+                        'item': {
+                            '@id': '1',
+                            '@type': 'NSMenuLink',
+                            'title': 'Item 1',
+                            'linkExternalUrl': 'https://example.com',
+                        },
+                        'children': [],
+                    },
+                    {
+                        '@id': 'child-2',
+                        '@type': 'NSMenuLink',
+                        'item': {
+                            '@id': '1',
+                            '@type': 'NSMenuLink',
+                            'title': 'Item 2',
+                            'linkInternalReference': [
+                                {
+                                    '@id': '1',
+                                    '@type': 'NSPage',
+                                    'title': 'Page 1',
+                                    'url': '/page-1',
+                                },
+                            ],
+                        },
+                        'children': [],
+                    },
+                    {
+                        '@id': 'child-3',
+                        '@type': 'NSMenuLink',
+                        'item': {
+                            '@id': '1',
+                            '@type': 'NSNeutral',
+                            'title': 'Item 3',
+                        },
+                        'children': [
+                            {
+                                '@id': 'sub-child-1',
+                                '@type': 'NSMenuLink',
+                                'item': {
+                                    '@id': '1',
+                                    '@type': 'NSMenuLink',
+                                    'title': 'Sub item 1',
+                                    'linkExternalUrl': 'https://example.com',
+                                },
+                                'children': [],
+                            },
+                            {
+                                '@id': 'sub-child-2',
+                                '@type': 'NSMenuLink',
+                                'item': {
+                                    '@id': '1',
+                                    '@type': 'NSMenuLink',
+                                    'title': 'Sub item 2',
+                                    'linkInternalReference': [
+                                        {
+                                            '@id': '1',
+                                            '@type': 'NSPage',
+                                            'title': 'Page 2',
+                                            'url': '/page-2',
+                                        },
+                                    ],
+                                },
+                                'children': [],
+                            },
+                        ],
+                    },
+                ],
             },
         },
-    } as CommonContent)
+    } satisfies CommonContent)
 }))
 </script>
 
@@ -25,10 +96,10 @@ useMockRequest(http.get('/common_content', () => {
     <NuxtStory layout="fullscreen">
         <VButton
             filled
-            @click="isOpen = !isOpen"
+            @click="menuIsOpen = !menuIsOpen"
         >
             Open
         </VButton>
-        <VMainMenu :open="isOpen" />
+        <VMainMenu v-model:open="menuIsOpen" />
     </NuxtStory>
 </template>

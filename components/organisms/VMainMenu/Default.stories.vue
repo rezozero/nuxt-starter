@@ -2,6 +2,8 @@
 import { http, HttpResponse } from 'msw'
 import type { CommonContent } from '~/types/api'
 
+const menuIsOpen = ref(true)
+
 useMockRequest(http.get('*/common_content', () => {
     return HttpResponse.json({
         menus: {
@@ -86,14 +88,14 @@ useMockRequest(http.get('*/common_content', () => {
                 ],
             },
         },
-    } as CommonContent)
+    } satisfies CommonContent)
 }))
 </script>
 
 <template>
     <NuxtStory layout="fullscreen">
         <ClientOnly>
-            <VMainMenu open />
+            <VMainMenu v-model:open="menuIsOpen" />
         </ClientOnly>
     </NuxtStory>
 </template>
