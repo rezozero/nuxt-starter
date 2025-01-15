@@ -5,9 +5,9 @@ import type {
     RoadizNodesSourcesHead,
     RoadizWebResponse,
 } from '@roadiz/types'
-import type { MenuNodeType } from '~/types/app'
 
 import type { RoadizWalkerKnown } from '~/utils/roadiz/types'
+import type { NSMenu, NSMenuLink } from '~/types/roadiz'
 
 interface HydraError {
     '@context': string
@@ -39,7 +39,7 @@ type CommonContentMenuKey = 'mainMenuWalker' | string
 interface CommonContent {
     home?: RoadizNodesSources
     head?: RoadizNodesSourcesHead
-    menus?: Record<CommonContentMenuKey, RoadizWalkerKnown<NSMenu, MenuNodeType>>
+    menus?: Record<CommonContentMenuKey, RoadizWalkerKnown<NSMenu, NSMenuLink | NSMenu>>
     errorPage?: RoadizWalkerKnown<NSPage>
 }
 

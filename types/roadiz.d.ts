@@ -1,5 +1,6 @@
 /*
- * This is an automated Roadiz interface declaration file.
+ * This file content should be replaced entirely with new types definitions exported from Roadiz.
+ *
  * RoadizNodesSources, RoadizDocument and other mentioned types are part of
  * @roadiz/types package which must be installed in your project.
  *
@@ -9,3 +10,12 @@
  *
  * @see https://docs.roadiz.io/en/latest/developer/nodes-system/intro.html#what-is-a-node-type
  */
+
+import type { RoadizNodesSources } from '@roadiz/types'
+
+export type NSMenu = RoadizNodesSources
+
+export interface NSMenuLink extends RoadizNodesSources {
+    linkExternalUrl?: string
+    linkInternalReference?: Array<RoadizNodesSources>
+}
