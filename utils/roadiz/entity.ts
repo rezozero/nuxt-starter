@@ -41,6 +41,14 @@ export function isBlogListingEntity(entity: JsonLdObject): boolean {
     return isEntityType(entity, 'BlogPostContainer')
 }
 
+export function isMenuLinkEntity(entity: JsonLdObject): boolean {
+    return isEntityType(entity, 'MenuLink')
+}
+
+export function isMenuEntity(entity: JsonLdObject): boolean {
+    return isEntityType(entity, 'Menu')
+}
+
 // BLOCKS
 export function isContentBlock(entity: JsonLdObject): boolean {
     return isEntityType(entity, 'ContentBlock')
