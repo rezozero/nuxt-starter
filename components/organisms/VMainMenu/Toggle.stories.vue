@@ -1,0 +1,105 @@
+<script lang="ts" setup>
+import { http, HttpResponse } from 'msw'
+import type { CommonContent } from '~/types/api'
+
+const menuIsOpen = ref(false)
+
+useMockRequest(http.get('*/common_content', () => {
+    return HttpResponse.json({
+        menus: {
+            mainMenuWalker: {
+                '@id': '1',
+                '@type': 'menu',
+                'item': {
+                    '@id': 'menu 1',
+                    '@type': 'menu',
+                    'title': 'Main menu',
+                },
+                'children': [
+                    {
+                        '@id': 'child-1',
+                        '@type': 'NSMenuLink',
+                        'item': {
+                            '@id': '1',
+                            '@type': 'NSMenuLink',
+                            'title': 'Item 1',
+                            'linkExternalUrl': 'https://example.com',
+                        },
+                        'children': [],
+                    },
+                    {
+                        '@id': 'child-2',
+                        '@type': 'NSMenuLink',
+                        'item': {
+                            '@id': '1',
+                            '@type': 'NSMenuLink',
+                            'title': 'Item 2',
+                            'linkInternalReference': [
+                                {
+                                    '@id': '1',
+                                    '@type': 'NSPage',
+                                    'title': 'Page 1',
+                                    'url': '/page-1',
+                                },
+                            ],
+                        },
+                        'children': [],
+                    },
+                    {
+                        '@id': 'child-3',
+                        '@type': 'NSMenuLink',
+                        'item': {
+                            '@id': '1',
+                            '@type': 'NSNeutral',
+                            'title': 'Item 3',
+                        },
+                        'children': [
+                            {
+                                '@id': 'sub-child-1',
+                                '@type': 'NSMenuLink',
+                                'item': {
+                                    '@id': '1',
+                                    '@type': 'NSMenuLink',
+                                    'title': 'Sub item 1',
+                                    'linkExternalUrl': 'https://example.com',
+                                },
+                                'children': [],
+                            },
+                            {
+                                '@id': 'sub-child-2',
+                                '@type': 'NSMenuLink',
+                                'item': {
+                                    '@id': '1',
+                                    '@type': 'NSMenuLink',
+                                    'title': 'Sub item 2',
+                                    'linkInternalReference': [
+                                        {
+                                            '@id': '1',
+                                            '@type': 'NSPage',
+                                            'title': 'Page 2',
+                                            'url': '/page-2',
+                                        },
+                                    ],
+                                },
+                                'children': [],
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+    } satisfies CommonContent)
+}))
+</script>
+
+<template>
+    <NuxtStory layout="fullscreen">
+        <VButton
+            filled
+            @click="menuIsOpen = !menuIsOpen"
+        >
+            Open
+        </VButton>
+        <VMainMenu v-model:open="menuIsOpen" />
+    </NuxtStory>
+</template>

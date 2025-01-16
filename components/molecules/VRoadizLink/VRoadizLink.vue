@@ -1,13 +1,12 @@
 <script lang="ts">
-import type { RoadizDocument } from '@roadiz/types'
+import type { RoadizDocument, RoadizNodesSources } from '@roadiz/types'
 import { h, type PropType } from 'vue'
 import type { NuxtLinkProps } from '#app/components/nuxt-link'
 import { NuxtLink } from '#components'
-import type { ReachableItem } from '~/types/app'
 
 export const vRoadizLinkProps = {
     label: [String, Boolean],
-    reference: [Array, Object] as PropType<ReachableItem[] | ReachableItem>,
+    reference: [Array, Object] as PropType<RoadizNodesSources[] | RoadizNodesSources>,
     url: String,
     document: Object as PropType<RoadizDocument>,
     nuxtLinkProps: Object as PropType<NuxtLinkProps>,
@@ -27,7 +26,7 @@ export default defineComponent({
         const runtimeConfig = useRuntimeConfig()
         const siteUrl = runtimeConfig?.public?.site.url
 
-        const attributes = computed(() => {
+        const attributes = computed<Record<string, unknown>>(() => {
             const defaultAttrs = { ...attrs, ...props.nuxtLinkProps }
 
             // Download
@@ -52,7 +51,7 @@ export default defineComponent({
             }
 
             // Internal link
-            const internalUrl = props.url && isInternalURL(props.url, siteUrl) ? props.url : reference.value && isInternalURL(reference.value.url, siteUrl) ? reference.value.url : undefined
+            const internalUrl = props.url && isInternalURL(props.url, siteUrl) ? props.url : reference.value?.url && isInternalURL(reference.value.url, siteUrl) ? reference.value.url : undefined
 
             if (internalUrl) {
                 // Prevent NuxtLink to add rel attrs if it is absolute internal url
