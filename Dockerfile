@@ -1,4 +1,4 @@
-ARG NODE_VERSION=22.13.0
+ARG NODE_VERSION=22.13.1
 ARG NGINX_VERSION=1.27.2
 ARG UID=1000
 
@@ -35,6 +35,9 @@ groupmod --gid ${UID} node
 usermod --uid ${UID} node
 chown --verbose --recursive ${UID}:${UID} /home/node
 echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
+
+# https://github.com/pnpm/pnpm/issues/9029
+npm i -g corepack@latest
 
 # App
 install --verbose --owner node --group node --mode 0755 --directory /app
