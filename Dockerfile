@@ -36,6 +36,9 @@ usermod --uid ${UID} node
 chown --verbose --recursive ${UID}:${UID} /home/node
 echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
 
+# https://github.com/pnpm/pnpm/issues/9029
+npm i -g corepack@latest
+
 # App
 install --verbose --owner node --group node --mode 0755 --directory /app
 
