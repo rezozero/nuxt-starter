@@ -15,10 +15,10 @@ export async function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
         const image
             = head?.shareImage?.relativePath
             // @ts-expect-error not sure the `images` property exists, but generally it does
-            || head?.images?.[0]?.relativePath
+                || head?.images?.[0]?.relativePath
             // @ts-expect-error not sure the `image` property exists, but generally it does
-            || head?.image?.[0]?.relativePath
-            || commonContent.value?.head?.shareImage?.relativePath
+                || head?.image?.[0]?.relativePath
+                || commonContent.value?.head?.shareImage?.relativePath
 
         if (image) {
             return img(
