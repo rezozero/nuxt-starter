@@ -21,9 +21,10 @@ export default {
         'scss/function-no-unknown': [
             true,
             {
-                ignoreFunctions: ['get-fluid-formatted-values', 'fluid', 'rem', 'ease', 'v-bind'], // use custom functions
+                ignoreFunctions: ['get-fluid-formatted-values', 'fluid', 'px-to-rem', 'ease', 'v-bind', 'flex-grid'], // use custom functions
             },
         ],
+        'declaration-property-value-no-unknown': null, // prevent collision with sass functions
         'scss/comment-no-empty': null,
         'color-function-notation': null, // do not change rgba() to rgb()
         'no-duplicate-selectors': null, // The & selector is considering as duplicate. See https://github.com/stylelint/stylelint/issues/7893

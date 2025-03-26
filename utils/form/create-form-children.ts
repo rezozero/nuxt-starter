@@ -55,8 +55,8 @@ export default function createFormChildren(
             const lastItem = propertyIndex === propertiesLength - 1
             const typeWithoutSeparator
                 = schema.type === 'boolean'
-                || schema.widget === 'choice-multiple-expanded'
-                || schema.widget === 'choice-expanded'
+                    || schema.widget === 'choice-multiple-expanded'
+                    || schema.widget === 'choice-expanded'
             /*
              * Make initial field value optional
              */

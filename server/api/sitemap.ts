@@ -1,5 +1,4 @@
 import type { HydraCollection, JsonLdObject, RoadizRequestParams, RoadizTranslation } from '@roadiz/types'
-import { asSitemapUrl, defineSitemapEventHandler } from '#imports'
 import { hydraCollectionFetch } from '~/utils/hydra-collection-fetch'
 import { useApiUrl } from '~/composables/use-api-url'
 

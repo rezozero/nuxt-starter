@@ -153,9 +153,9 @@ export async function useRoadizLoadMore<
 
             pageData.value
                 = data.value
-                || (await roadizFetch<HydraCollection<ItemT>>(options.url, {
-                    params,
-                }))
+                    || (await roadizFetch<HydraCollection<ItemT>>(options.url, {
+                        params,
+                    }))
         }
     }
 
