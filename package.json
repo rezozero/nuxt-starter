@@ -53,7 +53,7 @@
     "@popperjs/core": "^2.11.8",
     "@sentry/browser": "^9.9.0",
     "@sentry/node": "^9.9.0",
-    "@sentry/vue": "^9.9.0",
+    "@sentry/vue": "^9.10.1",
     "@types/lodash": "^4.17.14",
     "@vue-a11y/skip-to": "^3.0.3",
     "@vueuse/core": "^13.0.0",
