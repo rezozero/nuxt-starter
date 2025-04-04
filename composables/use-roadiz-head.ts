@@ -1,14 +1,14 @@
 import { joinURL } from 'ufo'
 import type { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/types'
-import type { Link, Script } from '@unhead/schema'
+import type { UseHeadInput } from 'unhead/types'
 
 export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: RoadizAlternateLink[]) {
     const nuxtApp = useNuxtApp()
     const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
     const { $i18n } = nuxtApp
-    const script: (Script<['script']> | string)[] = []
-    const link: Link[] = [
+    const script: UseHeadInput['script'] = []
+    const link: UseHeadInput['link'] = [
         {
             rel: 'canonical',
             href: joinURL(runtimeConfig.public.site.url, webResponse?.item?.url || route.path),
@@ -16,14 +16,16 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
     ]
 
     // ALTERNATE LINKS
-    const alternateLinksHead = alternateLinks?.map((alternateLink: RoadizAlternateLink) => {
-        return {
-            hid: `alternate-${alternateLink.locale}`,
-            rel: 'alternate',
-            hreflang: alternateLink.locale,
-            href: joinURL(runtimeConfig.public.site.url, alternateLink.url),
-        }
-    })
+    const alternateLinksHead = alternateLinks
+        ?.filter(alternateLink => alternateLink.url)
+        .map((alternateLink: RoadizAlternateLink) => {
+            return {
+                hid: `alternate-${alternateLink.locale}`,
+                rel: 'alternate',
+                hreflang: alternateLink.locale,
+                href: joinURL(runtimeConfig.public.site.url, alternateLink.url!),
+            }
+        })
     if (alternateLinksHead) link.push(...alternateLinksHead)
 
     useHead({

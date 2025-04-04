@@ -15,8 +15,8 @@ export function useAlternateLinks(links?: RoadizAlternateLink[]) {
                 : ($i18n.locales.value as LocaleObject[]).map(locale => locale.code)) || []
 
         return alternateLinks.value.sort((a: RoadizAlternateLink, b: RoadizAlternateLink) => {
-            const indexA = locales.includes(a.locale) ? locales.indexOf(a.locale) : 9999
-            const indexB = locales.includes(b.locale) ? locales.indexOf(b.locale) : 9999
+            const indexA = locales.includes(a.locale!) ? locales.indexOf(a.locale!) : 9999
+            const indexB = locales.includes(b.locale!) ? locales.indexOf(b.locale!) : 9999
 
             return indexA - indexB
         })

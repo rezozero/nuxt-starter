@@ -20,3 +20,5 @@ export interface NSMenuLink extends RoadizNodesSources {
     linkExternalUrl?: string
     linkInternalReference?: Array<RoadizNodesSources>
 }
+
+export type NSPage = RoadizNodesSources

@@ -6,32 +6,43 @@ import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 await useCommonContentFetch()
 
 // init Roadiz page data (i.e. dynamic page)
-await callOnce(async () => {
-    const route = useRoute()
+const route = useRoute()
 
-    // if the route is not a dynamic page, return
-    if (route.name !== 'slug') return
-
+// if the route is a dynamic page (i.e. [...slug].vue page)
+if (route.name === 'slug') {
     const { webResponse, alternateLinks } = await useRoadizWebResponse()
 
     // init page data for components outside page
-    useCurrentPage({ webResponse, alternateLinks })
-    useAlternateLinks(alternateLinks)
+    const currentPage = useCurrentPage()
+
+    currentPage.value = {
+        webResponse: webResponse.value,
+        alternateLinks: alternateLinks.value,
+    }
+
+    useAlternateLinks(alternateLinks.value)
 
     // i18n
-    const webResponseLocale = (webResponse?.item as RoadizNodesSources)?.translation?.locale
+    const webResponseLocale = (webResponse.value?.item as RoadizNodesSources)?.translation?.locale
 
     if (webResponseLocale) {
         const { $i18n } = useNuxtApp()
 
         // trying to redirect to the preferred locale
-        await useRoadizDetectBrowserLanguage({ locale: webResponseLocale, alternateLinks })
+        await useRoadizDetectBrowserLanguage({
+            locale: webResponseLocale,
+            alternateLinks: alternateLinks.value,
+        })
 
-        if (webResponseLocale !== $i18n.locale.value && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)) {
+        if (
+            webResponseLocale !== $i18n.locale.value
+            && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)
+        ) {
+            // @ts-expect-error we except the web response locale is a valid locale
             await $i18n.setLocale(webResponseLocale)
         }
     }
-})
+}
 </script>
 
 <template>

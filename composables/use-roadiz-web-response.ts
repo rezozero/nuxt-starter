@@ -6,40 +6,38 @@ export async function useRoadizWebResponse<T>(path?: string) {
     path = joinURL('/', path || useRoute().path)
 
     // Create a unique key for preventing re-fetching data between server and client.
-    const autoKey = `/web_response_by_path--${path}`
-    const nuxtApp = useNuxtApp()
-    const { data } = await useAsyncData(autoKey, async () => {
-        try {
-            const fetch = useRoadizFetchFactory()
-            const response = await fetch.raw<RoadizWebResponse>('/web_response_by_path', {
-                method: 'GET',
-                query: {
-                    path,
-                },
-            })
-            const headersLink = response.headers.get('link')
-            const alternateLinks = headersLink ? getResponseAlternateLinks(headersLink) : []
+    const dataKey = `web-response-${path}`
+    const { data, error } = await useAsyncData(dataKey, async () => {
+        const fetch = useRoadizFetchFactory()
+        const response = await fetch.raw<RoadizWebResponse>('/web_response_by_path', {
+            method: 'GET',
+            query: {
+                path,
+            },
+        })
+        const headersLink = response.headers.get('link')
+        const alternateLinks = headersLink ? getResponseAlternateLinks(headersLink) : []
 
-            return {
-                webResponse: response._data,
-                alternateLinks,
-                headers: Object.fromEntries(response.headers), // headers to POJO format
-            }
-        }
-        catch (error) {
-            // @ts-expect-error cannot know the error type
-            return { error: createError(error) }
+        return {
+            webResponse: response._data,
+            alternateLinks,
+            headers: Object.fromEntries(response.headers), // headers to POJO format
         }
     }, {
-        getCachedData: key => nuxtApp.static.data[key] ?? nuxtApp.payload.data[key], // no re-fetch data if the key is already in the payload
+        getCachedData: (key, nuxtApp) => nuxtApp.static.data[key] ?? nuxtApp.payload.data[key], // no re-fetch data if the key is already in the payload
+        deep: false, // use shallowRef for optimization
     })
-    const webResponse = data.value?.webResponse
+    const alternateLinks = computed(() => data.value?.alternateLinks)
+    const headers = computed(() => data.value?.headers)
+    const webResponse = computed(() => data.value?.webResponse)
+    const item = computed(() => webResponse.value?.item as T | undefined)
 
     return {
-        alternateLinks: data.value?.alternateLinks || [],
+        alternateLinks,
         webResponse,
-        headers: data.value?.headers,
-        item: webResponse?.item as T | undefined,
-        error: data.value?.error,
+        headers,
+        item,
+        error,
+        dataKey,
     }
 }
