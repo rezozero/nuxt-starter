@@ -24,7 +24,7 @@ export const MENUS_KEYS = ['mainMenuWalker'] as const
 export function useCommonContent() {
     const nuxtApp = useNuxtApp()
     // the useCommonContentFetch() function should be called before this function
-    const data = computed(() => nuxtApp.payload.data[COMMON_CONTENT_KEY])
+    const data = computed<CommonContent | undefined>(() => nuxtApp.payload.data[COMMON_CONTENT_KEY])
 
     return data
 }
