@@ -1,15 +1,17 @@
 import type { RoadizNodesSources, RoadizWebResponse } from '@roadiz/types'
 import { joinURL } from 'ufo'
 
-export async function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
+export function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
     const nuxtApp = useNuxtApp()
-    const { data: commonContent } = await useCommonContent()
+    const commonContent = useCommonContent()
     const runtimeConfig = useRuntimeConfig()
     const head = webResponse?.head
     const description = webResponse?.head?.metaDescription || commonContent.value?.head?.metaDescription
     const title = webResponse?.head?.metaTitle || commonContent.value?.head?.metaTitle
-    const siteName = commonContent.value?.head?.siteName || (nuxtApp.$config.siteName as string) || ''
+    const siteName = commonContent.value?.head?.siteName || nuxtApp.$config.public.site.name || ''
     const { isActive: previewIsActive } = useRoadizPreview()
+
+    // Share image
     const img = useImage()
     const image = () => {
         const image
