@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
-import { getBlockCollection } from '~/utils/roadiz/block'
 import { isPageEntity } from '~/utils/roadiz/entity'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
 import { useRoadizHead } from '~/composables/use-roadiz-head'
@@ -14,35 +13,45 @@ definePageMeta({
 defineI18nRoute(false)
 
 const route = useRoute()
-const { webResponse, item, error, headers, alternateLinks } = await useRoadizWebResponse<RoadizNodesSources>(route.path)
+const {
+    webResponse,
+    item,
+    error,
+    headers,
+    alternateLinks,
+} = await useRoadizWebResponse<RoadizNodesSources>(route.path)
 
-if (error) {
-    showError(error)
+if (error.value) {
+    showError(error.value)
 }
 
+// Meta data
 if (import.meta.server) {
-    await useRoadizSeoMeta(webResponse)
-    useRoadizHead(webResponse, alternateLinks)
+    useRoadizSeoMeta(webResponse.value)
+    useRoadizHead(webResponse.value, alternateLinks.value)
+
+    // Cache tags
+    useCacheTags(headers.value?.[useRuntimeConfig().public.cacheTags?.key])
+
+    // Cache control
+    useCommonCacheControl({
+        maxAge: webResponse?.value?.maxAge,
+        rawHeader: headers.value?.['cache-control'],
+    })
 }
-
-// Cache tags
-useCacheTags(headers?.[useRuntimeConfig().public.cacheTags?.key])
-
-// Cache control
-useWebResponseCacheControl(webResponse)
 
 // Force redirect when web response URL is not matching current route path
-if (item?.url && item.url !== route.path) {
-    await navigateTo({ path: item?.url }, { redirectCode: 301 })
+if (item.value?.url && item.value.url !== route.path) {
+    await navigateTo({ path: item.value?.url }, { redirectCode: 301 })
 }
 
 const nodeTitle = computed(() => {
-    return webResponse?.head.metaTitle || (item as { name?: string })?.name || item?.title
+    return webResponse.value?.head?.metaTitle || (item as { name?: string })?.name || item.value?.title
 })
 
 usePage({
-    webResponse,
-    alternateLinks,
+    webResponse: webResponse.value,
+    alternateLinks: alternateLinks.value,
     title: nodeTitle.value,
 })
 
@@ -50,18 +59,14 @@ useHead({
     title: nodeTitle.value,
 })
 
-// Get blocks from web response
-const blocks = computed(() => (webResponse?.blocks && getBlockCollection(webResponse.blocks)) || [])
-
-// Get default page entity
-const defaultPageEntity = computed(() => item && isPageEntity(item) && item)
+// Current entity
+const pageEntity = computed(() => item.value && isPageEntity(item.value) && item.value)
 </script>
 
 <template>
     <LazyVDefaultPage
-        v-if="defaultPageEntity"
-        :blocks="blocks"
-        :entity="defaultPageEntity"
+        v-if="pageEntity"
+        :web-response="webResponse"
     />
 </template>
 
