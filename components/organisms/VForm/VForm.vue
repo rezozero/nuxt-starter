@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import type { FetchError } from 'ofetch'
-import { captureException } from '@sentry/browser'
+import * as Sentry from '@sentry/nuxt'
 import type { JsonSchemaExtended } from '~/types/json-schema'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
@@ -178,7 +178,8 @@ async function onSubmit(event: FormDataEvent): Promise<void> {
         .catch((submitError: FetchError) => {
             isSuccess.value = false
             error.value = submitError
-            captureException(error)
+
+            Sentry.captureException(submitError)
         })
         .finally(() => {
             isPending.value = false
