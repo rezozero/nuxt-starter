@@ -1,5 +1,4 @@
-// dunno why but I can't extends the CacheControlOptions type from the nuxt-cache-control module
-
+// TODO: extends from useCacheControl() options types
 interface UseCacheControlOptions {
     maxAge?: number
     sMaxAge?: number
@@ -12,7 +11,7 @@ interface UseCommonCacheControlsOptions extends UseCacheControlOptions {
 }
 
 function isValidAge(age: unknown) {
-    return (typeof age === 'number' && age < 0) || typeof age !== 'number'
+    return typeof age === 'number' && age >= 0
 }
 
 function getAgeValue(
