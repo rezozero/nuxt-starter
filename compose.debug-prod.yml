@@ -1,0 +1,17 @@
+# docker compose -f compose.prod.yml up --force-recreate
+services:
+    node:
+        build:
+            context: .
+            target: node-prod
+        mem_limit: 512m
+        ports:
+            -   3000:3000
+        tmpfs:
+            - /tmp
+        environment:
+            NUXT_PUBLIC_API_URL: http://localhost:8088
+            NUXT_PUBLIC_API_ENDPOINT_PREFIX: /api
+            NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8088/assets
+            NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL: http://localhost:8088/assets/n
+            NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH: /files
