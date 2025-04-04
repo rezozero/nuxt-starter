@@ -34,7 +34,7 @@ export async function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
             )
         }
         else {
-            return joinURL(runtimeConfig.public.site.url, '/images/share.jpg')
+            return joinURL(runtimeConfig.app.cdnUrl || runtimeConfig.public.site.url, '/share.jpg')
         }
     }
 
