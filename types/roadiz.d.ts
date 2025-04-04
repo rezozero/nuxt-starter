@@ -1,5 +1,6 @@
 /*
  * This file content should be replaced entirely with new types definitions exported from Roadiz.
+ * The already defined types are only placeholders. They will be replaced with the exported ones.
  *
  * RoadizNodesSources, RoadizDocument and other mentioned types are part of
  * @roadiz/types package which must be installed in your project.

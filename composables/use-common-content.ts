@@ -1,33 +1,30 @@
-import type { CommonContent, CommonContentMenuKey } from '~/types/api'
-import type { ValueOf } from '~/utils/types'
+import type { RoadizNodesSources, RoadizNodesSourcesHead, RoadizWalker } from '@roadiz/types'
+import type { RoadizWalkerKnown } from '~/utils/roadiz/types'
+import type { NSMenu, NSMenuLink } from '~/types/roadiz'
+
+// add here all the available reachable types (NSPage, NSFooter, ...) from the Roadiz exported types
+type MenuItem = NSMenuLink | NSMenu
+
+export interface CommonContent {
+    home?: RoadizNodesSources
+    head?: RoadizNodesSourcesHead
+    menus?: Record<
+        typeof MENUS_KEYS[number],
+        RoadizWalkerKnown<NSMenu, MenuItem>
+    >
+    errorPage?: RoadizWalker
+    // footers?: Record<typeof FOOTER_MENUS_KEYS[number], RoadizWalkerKnown<NSFooter>>
+    accessibility?: RoadizNodesSources
+}
 
 export const COMMON_CONTENT_KEY = 'commonContent'
+export const MENUS_KEYS = ['mainMenuWalker'] as const
+// export const FOOTER_MENUS_KEYS = ['footerWalker'] as const
 
-export async function useCommonContent() {
+export function useCommonContent() {
     const nuxtApp = useNuxtApp()
-    const { data } = await useAsyncData<CommonContent>(COMMON_CONTENT_KEY, () => {
-        const fetch = useRoadizFetchFactory()
+    // the useCommonContentFetch() function should be called before this function
+    const data = computed<CommonContent | undefined>(() => nuxtApp.payload.data[COMMON_CONTENT_KEY])
 
-        return fetch('/common_content')
-    }, {
-        getCachedData: key => nuxtApp.static.data[key] ?? nuxtApp.payload.data[key], // no re-fetch data if the key is already in the payload
-        dedupe: 'defer', // wait for the first request to finish before making another request
-    })
-    const homeItem = computed(() => data.value?.home)
-    const head = computed(() => data.value?.head)
-    const errorWalker = computed(() => data.value?.errorPage)
-
-    function getMenu(key: CommonContentMenuKey): ValueOf<CommonContent['menus']> | undefined {
-        return data.value?.menus?.[key]
-    }
-
-    const mainMenuWalker = computed(() => getMenu('mainMenuWalker'))
-
-    return {
-        data,
-        head,
-        homeItem,
-        mainMenuWalker,
-        errorWalker,
-    }
+    return data
 }

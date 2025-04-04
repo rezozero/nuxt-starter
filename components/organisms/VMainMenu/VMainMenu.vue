@@ -3,7 +3,8 @@ import type { NSMenuLink } from '~/types/roadiz'
 
 const isOpen = defineModel<boolean>('open')
 
-const { mainMenuWalker } = await useCommonContent()
+const commonContent = useCommonContent()
+const mainMenuWalker = computed(() => commonContent.value?.menus?.mainMenuWalker)
 const route = useRoute()
 
 watch(
