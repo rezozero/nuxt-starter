@@ -18,6 +18,7 @@ logs
 .DS_Store
 .fleet
 .idea
+siege.txt
 
 # Local env files
 .env
