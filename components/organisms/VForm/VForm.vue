@@ -179,7 +179,7 @@ async function onSubmit(event: FormDataEvent): Promise<void> {
             isSuccess.value = false
             error.value = submitError
 
-            Sentry.captureException(error)
+            Sentry.captureException(submitError)
         })
         .finally(() => {
             isPending.value = false
