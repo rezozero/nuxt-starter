@@ -1,5 +1,5 @@
 import type { Page } from '~/composables/use-page'
 
 export function useNextPage() {
-    return useState<Page>('nextPage', () => ({}))
+    return useState<Page>('nextPage', () => shallowRef({}))
 }
