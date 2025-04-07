@@ -1,29 +1,76 @@
 <script setup lang="ts">
 import type { NuxtError } from 'nuxt/app'
 
-defineProps<{
+const { error } = defineProps<{
     error: NuxtError
 }>()
+
+// Home page
+const route = useRoute()
+const { homePagePath } = useHomePage()
+const isHomePage = computed(() => homePagePath.value === route.path)
+
+// Error page data from API
+const commonContent = useCommonContent()
+const errorPage = computed(() => commonContent.value?.errorPage)
+
+// No current page
+useCurrentPage().value = {}
+
+const isServerError = computed(() => String(error.statusCode)?.startsWith('5')) // 50x errors
+
+// Content
+const { t } = useI18n()
+const title = computed(() => {
+    if (error.statusCode === 404) {
+        const pageTitle = errorPage.value?.item?.title
+
+        if (pageTitle) return pageTitle
+
+        return t('error_page.not_found_title')
+    }
+
+    if (error.statusCode === 401) return t('error_page.unauthenticated_user_error_title')
+
+    if (error.statusCode === 403) return t('error_page.unauthorized_access_error_title')
+
+    if (isServerError.value) return t('error_page.server_error_title')
+
+    return t('error_page.fallback_title')
+})
+
+const blocks = computed(() => {
+    return errorPage.value?.children || []
+})
+
+// Meta data
+useHead({
+    title: title.value,
+})
 </script>
 
 <template>
-    <div>
-        <div v-if="error.statusCode === 404">
-            {{ $t('error.not_found.title') }}
+    <NuxtLayout>
+        <div>
+            <h1 v-if="title">
+                {{ title }}
+            </h1>
+            <VButton
+                v-if="!isHomePage"
+                :href="homePagePath"
+                :label="t('error_page.back_home')"
+            />
+            <VButton
+                v-else
+                :label="t('error_page.refresh_page')"
+                onclick="window.location.reload()"
+            />
+            <LazyVRoadizBlockFactory
+                v-if="blocks?.length"
+                :blocks="blocks"
+            />
         </div>
-        <div v-else>
-            {{ $t('error.title') }}
-        </div>
-        <div v-if="error.statusCode === 404">
-            {{ $t('error.not_found.body') }}
-        </div>
-        <div v-else>
-            {{ $t('error.body') }}
-        </div>
-        <a href="/">
-            {{ $t('error.back_home') }}
-        </a>
-    </div>
+    </NuxtLayout>
 </template>
 
 <!-- <style lang="scss" module></style> -->

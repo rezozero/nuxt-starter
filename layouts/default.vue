@@ -57,7 +57,12 @@ if (route.name === 'slug') {
                 ]"
             />
         </ClientOnly>
-        <NuxtPage id="main" />
+        <!-- Using this layout in the error page requires to use an extra <div> -->
+        <div id="main">
+            <slot>
+                <NuxtPage />
+            </slot>
+        </div>
         <VFooter />
     </div>
 </template>
