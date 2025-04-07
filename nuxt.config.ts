@@ -87,8 +87,9 @@ export default defineNuxtConfig({
         },
     },
     ignore: [
-        ...(isGenerateMaintenance ? ['server/api/**'] : []),
-        isGenerateMaintenance || isDev ? '!**/maintenance.vue' : undefined, // except maintenance
+        ...(isGenerateMaintenance ? ['layouts/**', 'pages/**', 'components/blocks/**', 'components/organisms/**', 'server/api/**'] : []),
+        (isGenerateMaintenance || isDev) ? '!pages/maintenance.vue' : 'pages/maintenance.vue',
+        !isDev ? '**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
     ],
     features: {
         noScripts: isGenerateMaintenance, // maintenance page does not need JS
