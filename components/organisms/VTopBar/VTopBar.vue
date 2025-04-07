@@ -34,7 +34,6 @@ const rootClasses = computed(() => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/functions/ease' as *;
 
 .root {
@@ -42,10 +41,10 @@ const rootClasses = computed(() => {
     z-index: 10;
     top: 0;
     display: flex;
-    height: rem(120);
+    height: px-to-rem(120);
     align-items: center;
     justify-content: space-between;
-    padding-inline: rem(32);
+    padding-inline: px-to-rem(32);
     transition:
         background-color 0.4s ease(out-quad),
         translate 0.4s ease(out-quad);

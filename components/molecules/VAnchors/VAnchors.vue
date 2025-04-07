@@ -146,7 +146,6 @@ const rootClasses = computed(() => {
 
 <style lang="scss" module>
 @use "assets/scss/mixins/include-media" as *;
-@use "assets/scss/functions/rem" as *;
 @use "assets/scss/functions/ease" as *;
 
 .root {
@@ -154,13 +153,13 @@ const rootClasses = computed(() => {
 }
 
 .list {
-    gap: rem(16);
+    gap: px-to-rem(16);
     margin-block: initial;
-    padding-block: rem(24);
+    padding-block: px-to-rem(24);
 
     @include media('>=lg') {
-        gap: rem(32);
-        padding-block: rem(32);
+        gap: px-to-rem(32);
+        padding-block: px-to-rem(32);
     }
 
 }

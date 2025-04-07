@@ -52,14 +52,13 @@ watch(isCarouselDraggable, value => ariaHidden.value = !value)
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/mixins/include-media' as *;
 
 .root {
     display: var(--v-carousel-controls-display, flex);
     align-items: center;
     justify-content: var(--v-carousel-controls-justify-content, center);
-    gap: rem(8);
+    gap: px-to-rem(8);
     opacity: 0;
     transition: opacity 0.3s;
 
@@ -79,12 +78,12 @@ watch(isCarouselDraggable, value => ariaHidden.value = !value)
 .scroll {
     position: relative;
     overflow: hidden;
-    width: rem(64);
-    height: rem(3);
+    width: px-to-rem(64);
+    height: px-to-rem(3);
     flex-shrink: 0;
 
     @include media('>=md') {
-        margin-right: rem(40);
+        margin-right: px-to-rem(40);
     }
 
     &::before {

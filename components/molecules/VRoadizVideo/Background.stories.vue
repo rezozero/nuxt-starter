@@ -25,9 +25,7 @@ import document from '~/assets/stories/fixtures/documents/vimeo-01.json'
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .video {
-    max-width: rem(600);
+    max-width: px-to-rem(600);
 }
 </style>

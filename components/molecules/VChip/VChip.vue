@@ -23,8 +23,6 @@ defineProps({
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
     transition: background-color 0.3s;
 
@@ -34,6 +32,6 @@ defineProps({
 }
 
 .icon {
-    margin-left: rem(4);
+    margin-left: px-to-rem(4);
 }
 </style>

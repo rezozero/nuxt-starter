@@ -11,13 +11,11 @@ defineProps({
 </template>
 
 <style module lang="scss">
-@use "assets/scss/functions/rem" as *;
-
 .root {
     --v-carousel-slide-width: #{rem(400)};
     --v-carousel-slide-margin-right: #{rem(20)};
 
-    height: rem(200);
+    height: px-to-rem(200);
     border: 1px solid green;
     background-color: lightgray;
 }

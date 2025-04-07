@@ -1,7 +1,7 @@
-@use '../functions/rem' as *;
+@use '../functions/px-to-rem' as *;
 
 $gutters: (
-    0: rem(16)
+    0: px-to-rem(16)
 ) !default;
 $grid-widths: (
     0: calc(100% - 2 * var(--gutter)),

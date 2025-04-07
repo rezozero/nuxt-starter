@@ -141,7 +141,6 @@ const { themeClass } = useTheme()
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/functions/ease' as *;
 @use 'assets/scss/mixins/theme' as *;
 @use 'assets/scss/mixins/include-media' as *;
@@ -151,7 +150,7 @@ const { themeClass } = useTheme()
     flex-wrap: wrap;
     align-items: center;
     justify-content: center;
-    gap: rem(16) rem(24);
+    gap: px-to-rem(16) px-to-rem(24);
 
     @include theme-variants('-pagination-')
 }
@@ -167,8 +166,8 @@ const { themeClass } = useTheme()
 
 .item {
     display: flex;
-    width: rem(40);
-    height: rem(40);
+    width: px-to-rem(40);
+    height: px-to-rem(40);
     align-items: center;
     justify-content: center;
     list-style: none;
@@ -199,10 +198,10 @@ const { themeClass } = useTheme()
 
 .buttons {
     display: flex;
-    gap: rem(24);
+    gap: px-to-rem(24);
 
     @include media('>=md') {
-        margin-left: rem(32);
+        margin-left: px-to-rem(32);
     }
 }
 </style>

@@ -1,5 +1,5 @@
 @use "floating-vue/dist/style.css";
-@use "../functions/rem" as *;
+@use "../functions/px-to-rem" as *;
 @use "../mixins/include-media" as *;
 
 .v-popper__arrow-container {
@@ -8,13 +8,13 @@
 }
 
 .v-popper--theme-tooltip .v-popper__inner {
-    padding: rem(12);
+    padding: px-to-rem(12);
     border-radius: initial;
     background-color: var(--theme-color-surfaces-primary);
     color: var(--theme-color-content-primary);
     word-break: break-word;
 
     @include media('>=md') {
-        padding: rem(24);
+        padding: px-to-rem(24);
     }
 }

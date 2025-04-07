@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-@use "../functions/rem" as *;
+@use "../functions/px-to-rem" as *;
 
 $v-button-size-vars-by-variant: () !default;
 
@@ -14,16 +14,16 @@ $v-button-variant-menu: (
         color: var(--theme-color-buttons-menu-label)
     ),
     sm: (
-        font-size: rem(12),
-        min-width: rem(40),
-        padding-inline: rem(12),
-        height: rem(40),
+        font-size: px-to-rem(12),
+        min-width: px-to-rem(40),
+        padding-inline: px-to-rem(12),
+        height: px-to-rem(40),
     ),
     md: (
-        font-size: rem(14),
-        min-width: rem(56),
-        padding-inline: rem(16),
-        height: rem(56),
+        font-size: px-to-rem(14),
+        min-width: px-to-rem(56),
+        padding-inline: px-to-rem(16),
+        height: px-to-rem(56),
     ),
 );
 $v-button-variant-menu-icon: (
@@ -33,10 +33,10 @@ $v-button-variant-menu-icon: (
 );
 $v-button-variant-menu-label: (
     sm: (
-        margin-inline: rem(6),
+        margin-inline: px-to-rem(6),
     ),
     md: (
-        margin-inline: rem(8),
+        margin-inline: px-to-rem(8),
     ),
 );
 

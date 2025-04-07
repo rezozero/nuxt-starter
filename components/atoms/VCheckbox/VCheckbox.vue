@@ -8,15 +8,13 @@
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 $check-border-width: 2px;
 
 .root {
     position: relative;
     display: flex;
-    width: rem(18);
-    height: rem(18);
+    width: px-to-rem(18);
+    height: px-to-rem(18);
     align-items: center;
     justify-content: center;
     border: $check-border-width solid currentColor;
@@ -40,7 +38,7 @@ $check-border-width: 2px;
 }
 
 .icon {
-    $offset: rem(24 - 18 - $check-border-width * 0.5);
+    $offset: px-to-rem(24 - 18 - $check-border-width * 0.5);
 
     position: absolute;
     top: -$offset;

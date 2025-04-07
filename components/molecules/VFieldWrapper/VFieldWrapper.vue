@@ -66,8 +66,6 @@ const classNames = computed(() => [
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
     position: relative;
 
@@ -76,11 +74,11 @@ const classNames = computed(() => [
     }
 
     & + & {
-        margin-top: rem(16);
+        margin-top: px-to-rem(16);
     }
 
     & + fieldset#{&} {
-        margin-top: rem(32);
+        margin-top: px-to-rem(32);
     }
 }
 
@@ -90,8 +88,8 @@ const classNames = computed(() => [
     width: 100%;
     flex-wrap: wrap;
     align-items: start;
-    padding-top: rem(18);
-    padding-bottom: rem(14);
+    padding-top: px-to-rem(18);
+    padding-bottom: px-to-rem(14);
     border-bottom: 1px solid rgb(1 1 1 / 30%);
     transition: border-color 0.3s;
 
@@ -111,14 +109,14 @@ const classNames = computed(() => [
     z-index: 2;
     display: flex;
     cursor: pointer;
-    font-size: rem(20);
+    font-size: px-to-rem(20);
     grid-column: 1/-1;
     opacity: 0.5;
     pointer-events: none;
     user-select: none;
 
     &:has(input[type='checkbox']) {
-        font-size: rem(16);
+        font-size: px-to-rem(16);
         opacity: 1;
     }
 
@@ -154,10 +152,10 @@ const classNames = computed(() => [
 
 .description,
 .errors {
-    padding-top: rem(8);
+    padding-top: px-to-rem(8);
     margin-top: 0;
-    margin-bottom: rem(-5);
-    font-size: rem(12);
+    margin-bottom: px-to-rem(-5);
+    font-size: px-to-rem(12);
     grid-column: 1/-1;
 }
 

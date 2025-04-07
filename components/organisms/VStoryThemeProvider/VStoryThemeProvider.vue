@@ -18,8 +18,6 @@ const { themes } = useAppConfig()
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
-
 .root {
     display: flex;
     flex-wrap: wrap;
@@ -29,8 +27,8 @@ const { themes } = useAppConfig()
     display: flex;
     width: 50%;
     flex-wrap: wrap;
-    padding: rem(30);
+    padding: px-to-rem(30);
     background-color: var(--theme-color-surfaces-primary);
-    gap: rem(15);
+    gap: px-to-rem(15);
 }
 </style>

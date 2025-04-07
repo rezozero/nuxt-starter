@@ -23,10 +23,8 @@ import vimeoVideo from '~/assets/stories/fixtures/documents/vimeo-01.json'
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .media {
-    width: rem(800);
+    width: px-to-rem(800);
     max-width: 60%;
 }
 </style>

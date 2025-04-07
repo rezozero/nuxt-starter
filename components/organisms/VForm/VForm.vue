@@ -267,8 +267,6 @@ const formattedSchema = computed(() => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
-
 .errors {
     margin: 1em 0;
     color: rgb(244, 67, 54);
@@ -280,11 +278,11 @@ const formattedSchema = computed(() => {
 }
 
 .footer {
-    margin-top: rem(32);
+    margin-top: px-to-rem(32);
 }
 
 .gdpr {
-    margin-top: rem(32);
+    margin-top: px-to-rem(32);
     color: var(--v-form-gdpr-color, rgb(117 117 117));
 }
 </style>

@@ -63,8 +63,6 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .input {
     width: 100%;
     padding-left: initial;
@@ -81,7 +79,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
     }
 
     &[type='file'] {
-        margin-top: rem(12);
+        margin-top: px-to-rem(12);
     }
 
     &[type='file']::file-selector-button {
@@ -89,7 +87,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
         border: none;
         border-radius: 1em;
         background-color: rgb(1 1 1 / 20%);
-        font-size: rem(14);
+        font-size: px-to-rem(14);
 
         .root--theme-dark & {
             background-color: rgb(255 255 255 / 50%);
@@ -115,6 +113,6 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
     --v-checkbox-size: 0.5lh;
 
     flex-shrink: 0;
-    margin-right: rem(14);
+    margin-right: px-to-rem(14);
 }
 </style>

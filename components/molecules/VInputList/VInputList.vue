@@ -90,8 +90,6 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .input-group-validation {
     all: revert;
     position: absolute;
@@ -103,14 +101,14 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
 .root {
     display: flex;
     flex-wrap: wrap;
-    margin-top: rem(30);
+    margin-top: px-to-rem(30);
 
     &--disabled {
         opacity: 0.3;
     }
 
     &--errors {
-        padding-bottom: rem(16);
+        padding-bottom: px-to-rem(16);
     }
 }
 
@@ -126,11 +124,11 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
 .input-wrapper {
     position: relative;
     width: 100%;
-    padding-bottom: rem(15);
-    margin-bottom: rem(15);
+    padding-bottom: px-to-rem(15);
+    margin-bottom: px-to-rem(15);
 
     &:nth-child(1 of &) {
-        margin-top: rem(18);
+        margin-top: px-to-rem(18);
     }
 
     &:last-child {

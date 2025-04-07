@@ -33,8 +33,6 @@ const to = computed(() => {
 </template>
 
 <style module lang="scss">
-@use 'assets/scss/functions/rem' as *;
-
 .root {
     position: relative;
     display: flex;
@@ -42,8 +40,8 @@ const to = computed(() => {
     flex-wrap: wrap;
     align-items: center;
     font-weight: 600;
-    gap: rem(6);
-    padding-block: rem(8);
+    gap: px-to-rem(6);
+    padding-block: px-to-rem(8);
 
     &:not([href]) {
         color: #ccc;

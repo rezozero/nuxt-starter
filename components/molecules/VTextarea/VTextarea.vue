@@ -36,10 +36,8 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .textarea {
-    min-height: rem(150);
+    min-height: px-to-rem(150);
     user-select: auto; // Safari - solving issue when using user-select:none on the <body> text input doesn't working
     white-space: revert; // Revert the 'white-space' property for textarea elements on Safari
 

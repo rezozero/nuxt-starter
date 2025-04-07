@@ -62,14 +62,12 @@ function open() {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
-
 .root {
     min-height: 300vh;
 }
 
 .content {
-    min-height: rem(300);
-    padding: rem(40);
+    min-height: px-to-rem(300);
+    padding: px-to-rem(40);
 }
 </style>

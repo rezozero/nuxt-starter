@@ -116,18 +116,16 @@ const onSelectChange = (event: Event) => {
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .inner {
     display: grid;
     align-items: center;
 
     label + & {
-        margin-top: rem(8);
+        margin-top: px-to-rem(8);
     }
 
     &--multiple {
-        padding: rem(10);
+        padding: px-to-rem(10);
         border: 1px solid rgb(1 1 1 / 30%);
     }
 
