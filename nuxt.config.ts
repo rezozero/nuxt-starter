@@ -15,7 +15,6 @@ if (isNuxtStories) {
 
 export default defineNuxtConfig({
     modules: [
-        '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
@@ -27,6 +26,7 @@ export default defineNuxtConfig({
         '@rezo-zero/nuxt-cache-control',
         '@nuxt/eslint',
         '@nuxtjs/robots',
+        '@sentry/nuxt/module',
     ],
     plugins,
     // Don't use layer for now
