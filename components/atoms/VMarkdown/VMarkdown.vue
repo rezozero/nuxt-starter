@@ -7,7 +7,6 @@ const renderer = new marked.Renderer()
 const linkRenderer = renderer.link
 
 marked.use({
-    useNewRenderer: true,
     renderer: {
         link(linkTokens: Tokens.Link) {
             let html = linkRenderer.call(this.parser.renderer, linkTokens)
@@ -36,7 +35,6 @@ export default defineComponent({
     },
     setup(props, { slots }) {
         const root = ref<HTMLElement>()
-        const router = useRouter()
         const $style = useCssModule()
         const parsedContent = computed(() => {
             const content = getSlotsInnerText(slots) || props.content
@@ -52,43 +50,7 @@ export default defineComponent({
             }
         })
 
-        function onLinkClick(event: MouseEvent) {
-            const link = event.currentTarget as HTMLLinkElement
-
-            if (event.metaKey || event.ctrlKey || event.shiftKey) return
-
-            if (event.defaultPrevented) return
-
-            // target blank
-            if (link.target === '_blank') return
-
-            // download link or external
-            if (link.hasAttribute('download')) return
-
-            const href = link.getAttribute('href')
-            if (!href) return
-
-            // mailto
-            if (href.startsWith('mailto:')) return
-
-            // anchor
-            if (href.startsWith('#')) return
-
-            // not relative or absolute URL without protocol
-            if (!href.startsWith('/') || href.startsWith('//')) return
-
-            event.preventDefault()
-
-            router.push(href)
-        }
-
-        onMounted(() => {
-            root.value?.querySelectorAll('a').forEach(link => link.addEventListener('click', onLinkClick))
-        })
-
-        onBeforeUnmount(() => {
-            root.value?.querySelectorAll('a').forEach(link => link.removeEventListener('click', onLinkClick))
-        })
+        useRelativeLinks(root)
 
         return () =>
             h(props.tag || 'div', {
