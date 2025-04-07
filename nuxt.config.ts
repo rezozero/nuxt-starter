@@ -148,6 +148,7 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
+                    additionalData: '@use "assets/scss/_resources.scss" as *;',
                     quietDeps: true,
                 },
             },

@@ -1,0 +1,12 @@
+// All the resources imported here will be available globally in the Vue components (no need to import them in each file).
+// Be careful to NOT import any CSS file here, as it will be included in the final CSS bundle multiple times.
+// Include only SASS variables / mixins / functions.
+
+// functions
+@forward "./functions/rem";
+@forward "./functions/ease";
+@forward "./functions/flex-grid";
+
+// mixins
+@forward './mixins/include-media' show media;
+@forward './mixins/typography';
