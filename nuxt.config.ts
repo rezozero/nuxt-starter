@@ -156,6 +156,22 @@ export default defineNuxtConfig({
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
             svgLoader({
+                svgoConfig: {
+                    multipass: true,
+                    plugins: [
+                        {
+                            name: 'preset-default',
+                            params: {
+                                overrides: {
+                                    removeTitle: false,
+                                    // viewBox is required to resize SVGs with CSS.
+                                    // @see https://github.com/svg/svgo/issues/1128
+                                    removeViewBox: false,
+                                },
+                            },
+                        },
+                    ],
+                },
                 defaultImport: 'url',
             }),
         ],
