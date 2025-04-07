@@ -73,7 +73,10 @@ export default defineNuxtConfig({
             },
             matomo: {
                 url: '',
+                cloudId: '',
+                siteId: 1,
                 containerID: '',
+                trackerUrl: '',
             },
             googleTagManager: {
                 id: '',
