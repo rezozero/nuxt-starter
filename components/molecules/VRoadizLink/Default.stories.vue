@@ -99,10 +99,8 @@ const currentBaseUrl = computed(() => (window?.origin ? joinURL(window.origin, '
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .link-image {
-    width: rem(300);
+    width: px-to-rem(300);
 }
 
 .img {

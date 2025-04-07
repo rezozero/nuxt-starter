@@ -86,7 +86,6 @@ const hasMoreThanOnePage = computed(() => {
 
 <style lang="scss" module>
 @use 'assets/scss/mixins/include-media' as *;
-@use 'assets/scss/functions/rem' as *;
 
 .root {
     display: flex;
@@ -95,7 +94,7 @@ const hasMoreThanOnePage = computed(() => {
 }
 
 .list {
-    margin-bottom: rem(48);
+    margin-bottom: px-to-rem(48);
 }
 
 .item {
@@ -111,6 +110,6 @@ const hasMoreThanOnePage = computed(() => {
 }
 
 .pagination {
-    margin-bottom: rem(48);
+    margin-bottom: px-to-rem(48);
 }
 </style>

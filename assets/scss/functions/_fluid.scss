@@ -2,7 +2,7 @@
 @use 'sass:list';
 @use 'sass:map';
 @use './breakpoint' as *;
-@use './rem' as *;
+@use './px-to-rem' as *;
 @use './strip-units' as *;
 
 /*
@@ -14,12 +14,12 @@
     $map-values: map.values($values);
 
     // breakpoints
-    $min-breakpoint: rem(breakpoint(list.nth($map-keys, 1)));
-    $max-breakpoint: rem(breakpoint(list.nth($map-keys, 2)));
+    $min-breakpoint: px-to-rem(breakpoint(list.nth($map-keys, 1)));
+    $max-breakpoint: px-to-rem(breakpoint(list.nth($map-keys, 2)));
 
     // values
-    $min-value: rem(list.nth($map-values, 1));
-    $max-value: rem(list.nth($map-values, 2));
+    $min-value: px-to-rem(list.nth($map-values, 1));
+    $max-value: px-to-rem(list.nth($map-values, 2));
 
     @return list.join($result, $min-breakpoint $max-breakpoint $min-value $max-value);
 }

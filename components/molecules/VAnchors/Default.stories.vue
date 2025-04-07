@@ -30,10 +30,8 @@ const disabledIndex = 2
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
-    width: min(100% - #{rem(48)}, #{rem(700)});
+    width: min(100% - #{px-to-rem(48)}, #{px-to-rem(700)});
 
     :global(.nuxt-story__main) {
         width: 100%;

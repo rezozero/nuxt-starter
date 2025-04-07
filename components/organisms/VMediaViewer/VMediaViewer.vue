@@ -132,7 +132,6 @@ onBeforeUnmount(() => {
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
 @use "assets/scss/mixins/theme" as *;
 @use "assets/scss/mixins/include-media" as *;
 
@@ -170,12 +169,12 @@ onBeforeUnmount(() => {
 .close {
     position: absolute;
     z-index: 2;
-    top: rem(16);
+    top: px-to-rem(16);
     right: var(--gutter);
 
     @include media('>=lg') {
-        top: rem(24);
-        right: rem(24);
+        top: px-to-rem(24);
+        right: px-to-rem(24);
     }
 }
 
@@ -201,8 +200,8 @@ onBeforeUnmount(() => {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: rem(24);
-    padding-block: rem(130);
+    gap: px-to-rem(24);
+    padding-block: px-to-rem(130);
 
     // style iframe for audio
     > iframe {
@@ -232,7 +231,7 @@ onBeforeUnmount(() => {
 .description {
     position: absolute;
     z-index: 1;
-    bottom: rem(32);
+    bottom: px-to-rem(32);
     left: 0;
     width: 100%;
     text-align: center;
@@ -253,12 +252,12 @@ onBeforeUnmount(() => {
 
     > div {
         position: absolute;
-        top: rem(28);
+        top: px-to-rem(28);
         left: 50%;
         transform: translateX(-50%);
 
         @include media('>=md') {
-            top: rem(34);
+            top: px-to-rem(34);
         }
     }
 

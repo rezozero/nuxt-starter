@@ -14,12 +14,10 @@
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .container {
     position: relative;
-    width: rem(200);
-    height: rem(100);
+    width: px-to-rem(200);
+    height: px-to-rem(100);
     background-color: lightgrey;
 }
 </style>

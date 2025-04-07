@@ -11,13 +11,11 @@
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
     :global(.nuxt-story__main) {
         display: flex;
         align-items: flex-start;
-        gap: rem(20);
+        gap: px-to-rem(20);
     }
 }
 </style>

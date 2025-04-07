@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-@use "../functions/rem" as *;
+@use "../functions/px-to-rem" as *;
 
 $v-button-size-vars-by-variant: () !default;
 
@@ -18,49 +18,49 @@ $v-button: (
         text-decoration: none,
     ),
     sm: (
-        font-size: rem(14),
+        font-size: px-to-rem(14),
     ),
     md: (
-        font-size: rem(16),
+        font-size: px-to-rem(16),
     ),
     lg: (
-        font-size: rem(20),
+        font-size: px-to-rem(20),
     ),
     xl: (
-        font-size: rem(24),
+        font-size: px-to-rem(24),
     )
 );
 
 // styles
 $v-button-spacing: (
     sm: (
-        min-width: rem(36), // width with icon-only
-        padding-inline: rem(8),
-        height: rem(36),
-        max-width: rem(200),
+        min-width: px-to-rem(36), // width with icon-only
+        padding-inline: px-to-rem(8),
+        height: px-to-rem(36),
+        max-width: px-to-rem(200),
     ),
     md: (
-        min-width: rem(44),
-        padding-inline: rem(12),
-        height: rem(44),
-        max-width: rem(350),
+        min-width: px-to-rem(44),
+        padding-inline: px-to-rem(12),
+        height: px-to-rem(44),
+        max-width: px-to-rem(350),
     ),
     lg: (
-        min-width: rem(60),
-        padding-inline: rem(16),
-        height: rem(60),
-        max-width: rem(350),
+        min-width: px-to-rem(60),
+        padding-inline: px-to-rem(16),
+        height: px-to-rem(60),
+        max-width: px-to-rem(350),
     ),
     xl: (
-        min-width: rem(70),
-        padding-inline: rem(8),
-        height: rem(68),
-        max-width: rem(380),
+        min-width: px-to-rem(70),
+        padding-inline: px-to-rem(8),
+        height: px-to-rem(68),
+        max-width: px-to-rem(380),
     )
 );
 $v-button-rounded: (
     common: (
-        border-radius: rem(2),
+        border-radius: px-to-rem(2),
     ),
 );
 $v-button-filled: (
@@ -105,16 +105,16 @@ $v-button-label: (
         white-space: nowrap,
     ),
     sm: (
-        margin-inline: rem(2),
+        margin-inline: px-to-rem(2),
     ),
     md: (
-        margin-inline: rem(4),
+        margin-inline: px-to-rem(4),
     ),
     lg: (
-        margin-inline: rem(6),
+        margin-inline: px-to-rem(6),
     ),
     xl: (
-        margin-inline: rem(8),
+        margin-inline: px-to-rem(8),
     ),
 );
 

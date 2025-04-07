@@ -14,14 +14,13 @@
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/mixins/include-media' as *;
 
 .root {
     position: relative;
     display: flex;
-    width: var(--v-copyright-button-width, #{rem(16)});
-    height: var(--v-copyright-button-height, #{rem(16)});
+    width: var(--v-copyright-button-width, #{px-to-rem(16)});
+    height: var(--v-copyright-button-height, #{px-to-rem(16)});
     align-items: center;
     justify-content: center;
     padding: 0;
@@ -33,14 +32,14 @@
 
     &::before {
         position: absolute;
-        width: max(100%, rem(52)); // Increase size for clickable zone on mobile
-        height: max(100%, rem(52)); // Increase size for clickable zone on mobile
+        width: max(100%, px-to-rem(52)); // Increase size for clickable zone on mobile
+        height: max(100%, px-to-rem(52)); // Increase size for clickable zone on mobile
         content: '';
     }
 
     @include media('>=md') {
-        width: var(--v-copyright-button-width, #{rem(24)});
-        height: var(--v-copyright-button-height, #{rem(24)});
+        width: var(--v-copyright-button-width, #{px-to-rem(24)});
+        height: var(--v-copyright-button-height, #{px-to-rem(24)});
     }
 }
 </style>

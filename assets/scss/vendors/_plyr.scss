@@ -1,5 +1,5 @@
 @use "plyr/src/sass/plyr";
-@use "../functions/rem" as *;
+@use "../functions/px-to-rem" as *;
 @use "../mixins/include-media" as *;
 
 .plyr {
@@ -8,7 +8,7 @@
     --plyr-video-progress-buffered-background: rgb(255 255 255 / 30%);
     --plyr-range-fill-background: rgb(255 255 255);
     --plyr-control-radius: 100%;
-    --plyr-control-spacing: #{rem(32)};
+    --plyr-control-spacing: #{px-to-rem(32)};
     --plyr-video-control-background-hover: rgb(255 255 255 / 5%);
     --plyr-video-control-color-hover: rgb(255 255 255);
     --plyr-control-icon-size: 24px;
@@ -17,14 +17,14 @@
     max-width: var(--plyr-root-max-width);
 
     @include media('>=vl') {
-        --plyr-video-controls-padding: #{rem(16) rem(24)};
-        --plyr-video-controls-margin: #{rem(16) rem(24)};
+        --plyr-video-controls-padding: #{px-to-rem(16) px-to-rem(24)};
+        --plyr-video-controls-margin: #{px-to-rem(16) px-to-rem(24)};
     }
 
     .plyr__controls {
-        padding: var(--plyr-video-controls-padding, rem(10) rem(16));
-        border-radius: var(--plyr-video-controls-border-radius, rem(2));
-        margin: var(--plyr-video-controls-margin, rem(10) rem(16));
+        padding: var(--plyr-video-controls-padding, px-to-rem(10) px-to-rem(16));
+        border-radius: var(--plyr-video-controls-border-radius, px-to-rem(2));
+        margin: var(--plyr-video-controls-margin, px-to-rem(10) px-to-rem(16));
 
         input[type='range']::-webkit-slider-thumb {
             opacity: 0;
@@ -32,7 +32,7 @@
 
         .plyr__controls__item {
             padding: 0;
-            margin-left: rem(24);
+            margin-left: px-to-rem(24);
 
             .plyr__control {
                 padding: 0;
@@ -40,7 +40,7 @@
 
             &.plyr__time--current,
             &.plyr__progress__container {
-                margin-left: rem(16);
+                margin-left: px-to-rem(16);
             }
 
             &:first-child {

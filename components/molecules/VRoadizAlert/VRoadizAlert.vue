@@ -64,7 +64,7 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 
 <style lang="scss" module>
 @use 'sass:math';
-@use "assets/scss/functions/rem" as *;
+
 @use "assets/scss/mixins/theme" as *;
 @use "assets/scss/mixins/include-media" as *;
 
@@ -74,17 +74,17 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
     & {
         display: flex;
         flex-wrap: wrap;
-        padding: rem(32);
+        padding: px-to-rem(32);
         background-color: #000;
         color: #fff;
-        gap: 0 rem(24);
+        gap: 0 px-to-rem(24);
     }
 }
 
 .title {
     @include media('>=md') {
         width: math.div(450, 1440) * 100%;
-        padding-left: rem(24);
+        padding-left: px-to-rem(24);
     }
 }
 
@@ -92,8 +92,8 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
     & {
         width: 100%;
         order: 2;
-        padding-right: rem(48);
-        margin-top: rem(12);
+        padding-right: px-to-rem(48);
+        margin-top: px-to-rem(12);
     }
 
     @include media('>=md') {
@@ -107,11 +107,11 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 
 .link {
     & {
-        margin-top: rem(16);
+        margin-top: px-to-rem(16);
     }
 
     @include media('>=md') {
-        margin-top: rem(4);
+        margin-top: px-to-rem(4);
     }
 }
 

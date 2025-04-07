@@ -237,8 +237,6 @@ onBeforeUnmount(disposePlayer)
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 @mixin video-properties {
     position: var(--v-player-video-position);
     width: var(--v-player-video-width, 100%);
@@ -277,7 +275,7 @@ onBeforeUnmount(disposePlayer)
     z-index: 10;
     top: calc(50% - #{rem(35)});
     left: calc(50% - #{rem(35)});
-    width: rem(70);
-    height: rem(70);
+    width: px-to-rem(70);
+    height: px-to-rem(70);
 }
 </style>

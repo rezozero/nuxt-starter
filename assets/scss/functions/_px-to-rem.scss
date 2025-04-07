@@ -5,6 +5,7 @@
  * Pixel value to rem
  * $value in px
  */
-@function rem($value) {
+
+@function px-to-rem($value) {
     @return math.div(strip-units($value), 16) * 1rem;
 }

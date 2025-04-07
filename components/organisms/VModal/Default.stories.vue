@@ -31,20 +31,18 @@ function onClick() {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
-
 .root {
     min-height: 200vh;
 }
 
 .button {
     position: sticky;
-    top: rem(30);
+    top: px-to-rem(30);
 }
 
 .content {
-    padding: rem(40);
+    padding: px-to-rem(40);
     border: 1px solid black;
-    margin: rem(50);
+    margin: px-to-rem(50);
 }
 </style>

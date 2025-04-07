@@ -1,6 +1,6 @@
 @use "sass:map";
 @use "sass:math";
-@use "../functions/rem" as *;
+@use "../functions/px-to-rem" as *;
 
 $v-button-size-vars-by-variant: () !default;
 
@@ -11,25 +11,25 @@ $v-button-high-emphasis: (
         color: var(--theme-color-buttons-high-content),
     ),
     sm: (
-        font-size: rem(12),
-        min-width: rem(40),
-        padding-inline: rem(12),
-        height: rem(40),
+        font-size: px-to-rem(12),
+        min-width: px-to-rem(40),
+        padding-inline: px-to-rem(12),
+        height: px-to-rem(40),
     ),
     md: (
-        font-size: rem(14),
-        min-width: rem(56),
-        padding-inline: rem(16),
-        height: rem(56),
+        font-size: px-to-rem(14),
+        min-width: px-to-rem(56),
+        padding-inline: px-to-rem(16),
+        height: px-to-rem(56),
     ),
 );
 $v-button-high-emphasis-icon: ();
 $v-button-high-emphasis-label: (
     sm: (
-        margin-inline: rem(6),
+        margin-inline: px-to-rem(6),
     ),
     md: (
-        margin-inline: rem(8),
+        margin-inline: px-to-rem(8),
     ),
 );
 
@@ -43,25 +43,25 @@ $v-button-medium-emphasis: (
         color: var(--theme-color-buttons-medium-content)
     ),
     sm: (
-        font-size: rem(12),
-        min-width: rem(40),
-        padding-inline: rem(12),
-        height: rem(40),
+        font-size: px-to-rem(12),
+        min-width: px-to-rem(40),
+        padding-inline: px-to-rem(12),
+        height: px-to-rem(40),
     ),
     md: (
-        font-size: rem(14),
-        min-width: rem(56),
-        padding-inline: rem(16),
-        height: rem(56),
+        font-size: px-to-rem(14),
+        min-width: px-to-rem(56),
+        padding-inline: px-to-rem(16),
+        height: px-to-rem(56),
     ),
 );
 $v-button-medium-emphasis-icon: ();
 $v-button-medium-emphasis-label: (
     sm: (
-        margin-inline: rem(6),
+        margin-inline: px-to-rem(6),
     ),
     md: (
-        margin-inline: rem(8),
+        margin-inline: px-to-rem(8),
     ),
 );
 
@@ -74,7 +74,7 @@ $v-button-low-emphasis: (
 $v-button-low-emphasis-icon: ();
 $v-button-low-emphasis-label: (
     common: (
-        margin-right: rem(4),
+        margin-right: px-to-rem(4),
     ),
 );
 

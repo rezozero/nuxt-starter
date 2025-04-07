@@ -17,7 +17,6 @@
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
 @use "assets/scss/functions/color" as *;
 
 .fallback,
@@ -27,7 +26,7 @@
 
 .fallback {
     display: flex;
-    max-width: rem(380);
+    max-width: px-to-rem(380);
     flex-direction: column;
     aspect-ratio: 393 / 286;
     text-align: center;
@@ -39,7 +38,7 @@
     align-items: center;
     justify-content: center;
     margin-top: 10px;
-    font-size: rem(18);
+    font-size: px-to-rem(18);
     font-weight: 600;
 }
 
@@ -48,11 +47,11 @@
     flex-grow: 1;
     align-items: center;
     justify-content: center;
-    margin: rem(16);
+    margin: px-to-rem(16);
     background-color: color(grey-50);
 }
 
 .spinner {
-    width: rem(40);
+    width: px-to-rem(40);
 }
 </style>

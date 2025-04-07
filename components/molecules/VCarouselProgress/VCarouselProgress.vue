@@ -56,15 +56,14 @@ function setIndicatorPosition(index: number) {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/mixins/include-media' as *;
 @use 'assets/scss/mixins/theme' as *;
 
 .root {
     position: relative;
     overflow: hidden;
-    width: rem(48);
-    height: rem(2);
+    width: px-to-rem(48);
+    height: px-to-rem(2);
     flex-shrink: 0;
 
     @include theme-variants('colors-control');
@@ -77,13 +76,13 @@ function setIndicatorPosition(index: number) {
     }
 
     @include media('>=lg') {
-        width: rem(64);
+        width: px-to-rem(64);
     }
 }
 
 .thumb {
     position: relative;
-    width: clamp(#{rem(22)}, var(--v-carousel-controls-thumb-width), 100%);
+    width: clamp(#{px-to-rem(22)}, var(--v-carousel-controls-thumb-width), 100%);
     height: 100%;
     background-color: var(--theme-colors-control-content, currentColor);
     content: '';

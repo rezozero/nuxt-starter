@@ -91,7 +91,6 @@ function onDayClick() {
 
 <style lang="scss" module>
 @use 'sass:math';
-@use "assets/scss/functions/rem" as *;
 
 //
 //  ⚠️ Overrides DatePicker (vendor) style
@@ -99,10 +98,10 @@ function onDayClick() {
 
 .root:global(.vc-container) {
     width: 100%;
-    max-width: rem(380);
+    max-width: px-to-rem(380);
 
     &[columns='2'] {
-        max-width: rem(660);
+        max-width: px-to-rem(660);
     }
 }
 
@@ -133,7 +132,7 @@ function onDayClick() {
 }
 
 .root :global(.vc-weeks) {
-    margin-top: rem(16);
+    margin-top: px-to-rem(16);
 }
 
 .root :global(.vc-weekday) {

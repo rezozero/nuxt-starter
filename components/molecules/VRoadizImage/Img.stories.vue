@@ -35,11 +35,9 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
     img {
-        max-width: rem(600);
+        max-width: px-to-rem(600);
     }
 }
 </style>

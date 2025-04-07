@@ -102,7 +102,6 @@ export default defineComponent({
 
 <style lang="scss" module>
 @use 'sass:math';
-@use 'assets/scss/functions/rem' as *;
 @use 'assets/scss/mixins/typography' as *;
 
 .root {
@@ -182,7 +181,7 @@ export default defineComponent({
 
     li {
         position: relative;
-        padding: rem(8) 0 rem(8) rem(40);
+        padding: px-to-rem(8) 0 px-to-rem(8) px-to-rem(40);
 
         &:last-child {
             border: none;
@@ -190,23 +189,23 @@ export default defineComponent({
 
         &::before {
             position: absolute;
-            top: calc(0.5em + #{rem(math.div(8, 2))});
+            top: calc(0.5em + #{px-to-rem(math.div(8, 2))});
             left: 0;
-            width: rem(8);
-            height: rem(8);
+            width: px-to-rem(8);
+            height: px-to-rem(8);
             border-radius: 50%;
             background-color: currentcolor;
             content: '';
         }
 
         li {
-            padding: rem(2) 0 rem(2) rem(25);
+            padding: px-to-rem(2) 0 px-to-rem(2) px-to-rem(25);
             border: none;
 
             &::before {
-                top: calc(0.5em + #{rem(math.div(6, 2))});
-                width: rem(6);
-                height: rem(6);
+                top: calc(0.5em + #{px-to-rem(math.div(6, 2))});
+                width: px-to-rem(6);
+                height: px-to-rem(6);
                 background-color: currentcolor;
                 content: '';
             }
@@ -217,7 +216,7 @@ export default defineComponent({
         counter-increment: item;
 
         &::before {
-            top: rem(8);
+            top: px-to-rem(8);
             width: auto;
             height: auto;
             background-color: transparent;
@@ -225,10 +224,10 @@ export default defineComponent({
         }
 
         li {
-            padding-left: rem(40);
+            padding-left: px-to-rem(40);
 
             &::before {
-                top: rem(2);
+                top: px-to-rem(2);
             }
         }
     }
@@ -243,12 +242,12 @@ export default defineComponent({
         display: block;
         max-width: 100%;
         height: auto;
-        margin: rem(15) 0;
+        margin: px-to-rem(15) 0;
     }
 
     iframe {
         max-width: 100%;
-        margin: rem(15) 0;
+        margin: px-to-rem(15) 0;
         aspect-ratio: 16/9;
     }
 }

@@ -2,7 +2,7 @@
 @use "../functions/fluid" as *;
 @use "../functions/decimal" as *;
 @use "../functions/breakpoint" as *;
-@use "../functions/rem" as *;
+@use "../functions/px-to-rem" as *;
 @use "./include-media" as *;
 @use 'sass:meta';
 @use 'sass:map';
@@ -22,7 +22,7 @@
 
     $value-xl: if($is-map, map.get($value, xl), $value);
     $value-hd: decimal-round(math.div(breakpoint(hd), breakpoint(xl)) * $value-xl);
-    $default-value: if($is-map, fluid($value), rem($value));
+    $default-value: if($is-map, fluid($value), px-to-rem($value));
 
     @if $breakpoint {
         @include media($breakpoint) {
@@ -37,6 +37,6 @@
     }
 
     @include media('>=hd') {
-        #{$property}: rem($value-hd);
+        #{$property}: px-to-rem($value-hd);
     }
 }

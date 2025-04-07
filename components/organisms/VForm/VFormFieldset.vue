@@ -69,11 +69,9 @@ const internalParents = computed((): string[] => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/functions/rem' as *;
-
 .root {
     &:not(:first-child) {
-        margin-top: rem(16);
+        margin-top: px-to-rem(16);
     }
 
     &:not(:last-child) {
@@ -96,6 +94,6 @@ const internalParents = computed((): string[] => {
 
 .legend,
 .description {
-    margin-bottom: rem(16);
+    margin-bottom: px-to-rem(16);
 }
 </style>

@@ -65,8 +65,6 @@ async function onUserInteract() {
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
     position: absolute;
     right: var(--v-copyright-right, #{rem(16)});
@@ -74,7 +72,7 @@ async function onUserInteract() {
 }
 
 .content {
-    max-width: rem(276);
+    max-width: px-to-rem(276);
 
     p {
         padding: 0;

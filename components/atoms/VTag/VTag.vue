@@ -18,17 +18,15 @@ defineProps({
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/functions/rem" as *;
-
 .root {
     z-index: 1;
     display: var(--v-tag-display, inline-flex);
     align-items: center;
-    padding: rem(4 + 4) rem(8 + 4);
+    padding: px-to-rem(4 + 4) px-to-rem(8 + 4);
     background-color: var(--v-tag-background-color, #f0f0f0);
 
     &--size-md {
-        padding: rem(6 + 4) rem(8 + 4);
+        padding: px-to-rem(6 + 4) px-to-rem(8 + 4);
     }
 }
 </style>
