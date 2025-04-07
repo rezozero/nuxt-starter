@@ -39,6 +39,7 @@
     "msw": "^2.7.0",
     "nuxt": "^3.16.2",
     "postcss-html": "^1.7.0",
+    "postcss-pxtorem": "^6.1.0",
     "sass": "^1.86.3",
     "stylelint": "^16.17.0",
     "stylelint-config-css-modules": "^4.4.0",

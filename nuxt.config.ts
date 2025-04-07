@@ -181,6 +181,15 @@ export default defineNuxtConfig({
             }),
         ],
     },
+    postcss: {
+        plugins: {
+            // https://github.com/cuth/postcss-pxtorem?tab=readme-ov-file#options
+            'postcss-pxtorem': {
+                propList: ['*'],
+                exclude: /(node_modules|scss\/export)/i,
+            },
+        },
+    },
     // https://eslint.nuxt.com/packages/module
     eslint: {
         config: {
