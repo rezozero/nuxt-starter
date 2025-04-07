@@ -241,7 +241,7 @@ export default defineNuxtConfig({
     // https://nuxtseo.com/robots/api/config
     robots: {
         allow: ['/'],
-        disallow: ['/rz-admin', '/maintenance', '/_icons'],
+        disallow: ['/rz-admin', '/maintenance', '/_icons', '/api/docs'],
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
