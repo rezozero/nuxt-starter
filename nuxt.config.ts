@@ -199,6 +199,10 @@ export default defineNuxtConfig({
         compilation: {
             strictMessage: false, // Message can contains HTML tag
         },
+        bundle: {
+            // fix this issue: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
+            optimizeTranslationDirective: false,
+        },
     },
     // https://nuxt.com/modules/icon#usage
     icon: {
