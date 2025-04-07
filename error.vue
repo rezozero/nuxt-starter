@@ -43,10 +43,13 @@ const blocks = computed(() => {
     return errorPage.value?.children || []
 })
 
-// Meta data
 useHead({
     title: title.value,
 })
+
+function reloadPage() {
+    window.location.reload()
+}
 </script>
 
 <template>
@@ -63,7 +66,7 @@ useHead({
             <VButton
                 v-else
                 :label="t('error_page.refresh_page')"
-                onclick="window.location.reload()"
+                @click="reloadPage"
             />
             <LazyVRoadizBlockFactory
                 v-if="blocks?.length"
