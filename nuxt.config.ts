@@ -27,6 +27,7 @@ export default defineNuxtConfig({
         '@nuxt/eslint',
         '@nuxtjs/robots',
         '@nuxt/icon',
+        '@sentry/nuxt/module',
     ],
     plugins,
     // Don't use layer for now
