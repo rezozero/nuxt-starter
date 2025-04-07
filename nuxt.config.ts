@@ -99,7 +99,7 @@ export default defineNuxtConfig({
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
-    compatibilityDate: '2024-07-24',
+    compatibilityDate: '2025-04-07',
     nitro: {
         prerender: {
             autoSubfolderIndex: false,
