@@ -1,16 +1,5 @@
 <template>
     <NuxtStory>
-        <NuxtStoryVariant title="Default size">
-            <VIcon name="check" />
-        </NuxtStoryVariant>
-        <NuxtStoryVariant title="Default size">
-            <VIcon
-                name="check"
-                width="92"
-                height="92"
-            />
-        </NuxtStoryVariant>
+        <VIcon name="check" />
     </NuxtStory>
 </template>
-
-<script setup lang="ts"></script>
