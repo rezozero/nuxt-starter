@@ -99,17 +99,19 @@ export default defineNuxtConfig({
         },
     },
     ignore: [
-        ...(isGenerateMaintenance ? ['server/api/**'] : []),
-        isGenerateMaintenance || isDev ? '!**/maintenance.vue' : undefined, // except maintenance
+        ...(isGenerateMaintenance ? ['layouts/**', 'pages/**', 'components/blocks/**', 'components/organisms/**', 'server/api/**'] : []),
+        (isGenerateMaintenance || isDev) ? '!pages/maintenance.vue' : 'pages/maintenance.vue',
+        !isDev ? '**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
     ],
     features: {
         noScripts: isGenerateMaintenance, // maintenance page does not need JS
+        inlineStyles: id => !!id && id.includes('.vue'), // trying to keep the duplicated styles to a minimum  https://github.com/nuxt/nuxt/issues/21821#issuecomment-2556813895
     },
     experimental: {
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
-    compatibilityDate: '2024-07-24',
+    compatibilityDate: '2025-04-07',
     nitro: {
         prerender: {
             autoSubfolderIndex: false,
@@ -117,7 +119,8 @@ export default defineNuxtConfig({
             failOnError: true,
             ignore: [
                 (route) => {
-                    if (!isGenerateMaintenance) return false
+                    if (!isGenerateMaintenance)
+                        return false
 
                     return !route.includes('maintenance')
                 },
@@ -146,13 +149,6 @@ export default defineNuxtConfig({
                     'X-Robots-Tag': 'noindex',
                 },
             },
-            // Auto generated page by svgSprite module
-            '/_icons': {
-                headers: {
-                    // Do not index the page and remove it from sitemap
-                    'X-Robots-Tag': 'noindex',
-                },
-            },
         },
     },
     vite: {
@@ -164,19 +160,30 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
+                    additionalData: '@use "assets/scss/_resources.scss" as *;',
                     quietDeps: true,
-                    // For now, just silence the deprecation warning.
-                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
-                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
-                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
-                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
-                    silenceDeprecations: ['legacy-js-api'],
                 },
             },
         },
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
             svgLoader({
+                svgoConfig: {
+                    multipass: true,
+                    plugins: [
+                        {
+                            name: 'preset-default',
+                            params: {
+                                overrides: {
+                                    removeTitle: false,
+                                    // viewBox is required to resize SVGs with CSS.
+                                    // @see https://github.com/svg/svgo/issues/1128
+                                    removeViewBox: false,
+                                },
+                            },
+                        },
+                    ],
+                },
                 defaultImport: 'url',
             }),
         ],
@@ -212,6 +219,10 @@ export default defineNuxtConfig({
         lazy: true,
         compilation: {
             strictMessage: false, // Message can contains HTML tag
+        },
+        bundle: {
+            // fix this issue: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
+            optimizeTranslationDirective: false,
         },
     },
     // https://nuxt.com/modules/icon#usage
@@ -251,7 +262,7 @@ export default defineNuxtConfig({
     // https://nuxtseo.com/robots/api/config
     robots: {
         allow: ['/'],
-        disallow: ['/rz-admin', '/maintenance', '/_icons'],
+        disallow: ['/rz-admin', '/maintenance', '/_icons', '/api/docs'],
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
