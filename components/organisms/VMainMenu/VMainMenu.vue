@@ -27,7 +27,10 @@ watch(
                     :key="child.item?.['@id']"
                 >
                     <VRoadizLink
-                        v-if="(child.item as NSMenuLink)?.linkExternalUrl || (child.item as NSMenuLink)?.linkInternalReference"
+                        v-if="
+                            (child.item as NSMenuLink)?.linkExternalUrl
+                                || (child.item as NSMenuLink)?.linkInternalReference
+                        "
                         :url="(child.item as NSMenuLink)?.linkExternalUrl"
                         :reference="(child.item as NSMenuLink)?.linkInternalReference"
                     >

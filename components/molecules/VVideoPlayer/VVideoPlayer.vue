@@ -153,8 +153,7 @@ async function createPlayer() {
     // Fix listeners into Plyr options because the callbacks are never called.
     if (props.plyr?.listeners) {
         Object.keys(props.plyr.listeners).forEach(value =>
-            player!.on(value as keyof Plyr.PlyrEventMap, props.plyr!.listeners![value]),
-        )
+            player!.on(value as keyof Plyr.PlyrEventMap, props.plyr!.listeners![value]))
     }
 
     if (props.fit === 'cover') {
@@ -166,7 +165,8 @@ const videoReady = ref(false)
 const emits = defineEmits(['ready'])
 function onPlayerReady() {
     if (player && (props.autoplay || props.background)) {
-        // the player is initialized with muted property as true but sometimes Plyr kept a wrong muted value into localStorage (i.e. muted = false)
+        // the player is initialized with muted property as true but sometimes
+        // Plyr kept a wrong muted value into localStorage (i.e. muted = false)
         // @see https://github.com/sampotts/plyr/issues/838#issuecomment-962596150
         player.muted = muted.value
         player.play()

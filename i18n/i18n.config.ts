@@ -69,5 +69,4 @@ export default defineI18nConfig(() => ({
         }),
         {} as Record<typeof I18N_LOCALES[number], DateTimeFormat>,
     ),
-}),
-)
+}))
