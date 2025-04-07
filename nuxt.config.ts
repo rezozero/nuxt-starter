@@ -93,6 +93,7 @@ export default defineNuxtConfig({
     ],
     features: {
         noScripts: isGenerateMaintenance, // maintenance page does not need JS
+        inlineStyles: id => !!id && id.includes('.vue'), // trying to keep the duplicated styles to a minimum  https://github.com/nuxt/nuxt/issues/21821#issuecomment-2556813895
     },
     experimental: {
         asyncContext: true,
