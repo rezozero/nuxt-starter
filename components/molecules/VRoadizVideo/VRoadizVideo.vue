@@ -27,7 +27,8 @@ const displayedThumbnail = computed(() => {
     return documents.find(document => isImage(document))
 })
 
-const filteredVideoProps = computed(() => pick(props, Object.keys({ ...commonVideoProps, ...videoAttributes, ...videoSrc })))
+const filteredVideoProps = computed(() =>
+    pick(props, Object.keys({ ...commonVideoProps, ...videoAttributes, ...videoSrc })))
 
 const dimension = computed(() => {
     return {

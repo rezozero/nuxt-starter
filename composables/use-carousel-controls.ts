@@ -56,5 +56,13 @@ export function useCarouselControls(options: VCarouselControlsOptions) {
         }
     })
 
-    return { numbersOutput, onButtonClicked, nextButtonAttrs, prevButtonAttrs, previousDisabled, nextDisabled, isCarouselDraggable }
+    return {
+        numbersOutput,
+        onButtonClicked,
+        nextButtonAttrs,
+        prevButtonAttrs,
+        previousDisabled,
+        nextDisabled,
+        isCarouselDraggable,
+    }
 }

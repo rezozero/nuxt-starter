@@ -3,7 +3,8 @@ const props = withDefaults(
     defineProps<{
         playState?: 'paused' | 'running'
         size?: number | string
-    }>(), { size: 50 })
+    }>(), { size: 50 },
+)
 
 const formattedSize = computed(() => typeof props.size === 'string' ? Number(props.size) : props.size)
 const halfSize = computed(() => formattedSize.value / 2)

@@ -51,7 +51,12 @@ export default defineComponent({
             }
 
             // Internal link
-            const internalUrl = props.url && isInternalURL(props.url, siteUrl) ? props.url : reference.value?.url && isInternalURL(reference.value.url, siteUrl) ? reference.value.url : undefined
+            const internalUrl
+                = props.url && isInternalURL(props.url, siteUrl)
+                    ? props.url
+                    : reference.value?.url && isInternalURL(reference.value.url, siteUrl)
+                        ? reference.value.url
+                        : undefined
 
             if (internalUrl) {
                 // Prevent NuxtLink to add rel attrs if it is absolute internal url
@@ -79,7 +84,10 @@ export default defineComponent({
                 return slots.default?.(attributes.value)
             }
 
-            return h(NuxtLink, attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''))
+            return h(
+                NuxtLink,
+                attributes.value, slots.default || (() => (typeof props.label === 'string' && props.label) || ''),
+            )
         }
     },
 })

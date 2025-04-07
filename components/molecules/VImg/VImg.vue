@@ -75,8 +75,7 @@ export default defineComponent({
                 {
                     ...options.value,
                 },
-            ),
-        )
+            ))
         const responsiveImageData = computed(() => {
             return (
                 (props.sizes || props.densities)
