@@ -26,6 +26,7 @@ export default defineNuxtConfig({
         '@rezo-zero/nuxt-cache-control',
         '@nuxt/eslint',
         '@nuxtjs/robots',
+        '@nuxt/icon',
         '@sentry/nuxt/module',
     ],
     plugins,
@@ -187,6 +188,20 @@ export default defineNuxtConfig({
             strictMessage: false, // Message can contains HTML tag
         },
     },
+    // https://nuxt.com/modules/icon#usage
+    icon: {
+        componentName: 'NuxtIcon',
+        class: '',
+        fallbackToApi: false,
+        localApiEndpoint: '/_nuxt_icon',
+        customCollections: [
+            {
+                normalizeIconName: false,
+                prefix: 'icon',
+                dir: './assets/images/icons',
+            },
+        ],
+    },
     // https://image.nuxt.com/get-started/configuration
     image: {
         quality: 75,
@@ -223,10 +238,5 @@ export default defineNuxtConfig({
             '**/*.stories.vue',
             '!playground', // exclude layer stories
         ],
-    },
-    // https://github.com/nuxt-modules/svg-sprite#options
-    svgSprite: {
-        input: '~/assets/images/icons',
-        output: '~/assets/images/sprites',
     },
 })
