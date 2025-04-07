@@ -107,7 +107,8 @@ export default defineNuxtConfig({
             failOnError: true,
             ignore: [
                 (route) => {
-                    if (!isGenerateMaintenance) return false
+                    if (!isGenerateMaintenance)
+                        return false
 
                     return !route.includes('maintenance')
                 },
@@ -133,13 +134,6 @@ export default defineNuxtConfig({
             '/maintenance': {
                 prerender: isGenerateMaintenance,
                 headers: {
-                    'X-Robots-Tag': 'noindex',
-                },
-            },
-            // Auto generated page by svgSprite module
-            '/_icons': {
-                headers: {
-                    // Do not index the page and remove it from sitemap
                     'X-Robots-Tag': 'noindex',
                 },
             },
