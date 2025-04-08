@@ -30,11 +30,7 @@ function toggle() {
                 name="cta"
                 :is-collapsed="isCollapsed"
             >
-                <VButton
-                    v-if="isCollapsible"
-                    outlined
-                    :class="$style.cta"
-                >
+                <VButton v-if="isCollapsible">
                     {{ isCollapsed ? '+' : '-' }}
                 </VButton>
             </slot>
@@ -60,7 +56,7 @@ function toggle() {
     align-items: center;
     justify-content: space-between;
 
-    &--collapsible {
+    .root--collapsible & {
         cursor: pointer;
     }
 }
