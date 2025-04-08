@@ -194,12 +194,6 @@ onBeforeUnmount(disposeSwiper)
 .root {
     display: flex;
     width: var(--v-carousel-width, 100%);
-
-    // Remove default focus style
-    a:focus-visible,
-    button:focus-visible {
-        outline: none;
-    }
 }
 
 .swiper-wrapper {
