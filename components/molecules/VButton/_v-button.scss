@@ -1,0 +1,26 @@
+@use 'sass:map';
+@use '../../../assets/scss/mixins/css-vars-map';
+@use '../../../assets/scss/functions/list' as *;
+
+$vars: (
+    (vars: (), prefix: ''),
+    (vars: (), prefix: 'icon'),
+    (vars: (), prefix: 'label')
+);
+
+@mixin size($size) {
+    @each $value in $vars {
+        @if map.has-key($value, 'vars') {
+            $vars: map.get($value, 'vars');
+            $prefix: list-implode(('v-button', map.get($value, 'prefix')), '-');
+
+            @if map.has-key($vars, $size) {
+                $size-vars: map.get($vars, $size);
+
+                @include css-vars-map.get($size-vars, $prefix);
+            }
+        }
+    }
+}
+
+

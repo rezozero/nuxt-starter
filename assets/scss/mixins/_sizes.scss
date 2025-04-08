@@ -1,0 +1,52 @@
+@use 'sass:map';
+@use '../functions/list' as *;
+@use './css-vars-map';
+
+// Output CSS variables from a map for all provided sizes
+//
+// $example-sizes-map: (
+//     'sm': (
+//         'vars': (
+//             'padding': 4px,
+//             'margin': 8px,
+//         ),
+//         'prefix': '',
+//     ),
+//     'md': (
+//         'vars': (
+//             'padding': 16px,
+//             'margin': 32px,
+//         ),
+//         'prefix': 'label',
+//     ),
+// );
+//
+// Use the sizes mixin to generate CSS classes
+// .example-component {
+//     @include sizes($example-sizes-map, 'example-component');
+// }
+//
+// This will generate the following CSS:
+// .example-component--size-sm {
+//     --example-component-padding: 4px;
+//     --example-component-label-padding: 16px;
+// }
+//
+// .example-component--size-md {
+//     --example-component-margin: 8px;
+//     --example-component-label-margin: 32px;
+// }
+@mixin sizes($map, $name) {
+    @each $map-value in $map {
+        @if map.has-key($map-value, 'vars') {
+            $vars: map.get($map-value, 'vars');
+            $prefix: list-implode(($name, map.get($map-value, 'prefix')), '-');
+
+            @each $vars-key, $vars-value in $vars {
+                &--size-#{$vars-key} {
+                    @include css-vars-map.get($vars-value, $prefix);
+                }
+            }
+        }
+    }
+}

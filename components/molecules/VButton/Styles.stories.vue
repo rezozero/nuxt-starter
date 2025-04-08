@@ -3,7 +3,7 @@ const styleList = ['', 'outlined', 'rounded', 'filled', 'elevated', 'disabled']
 </script>
 
 <template>
-    <NuxtStory :class="$style.root">
+    <NuxtStory>
         <NuxtStoryVariant
             v-for="propKey in styleList"
             :key="propKey"
@@ -21,10 +21,3 @@ const styleList = ['', 'outlined', 'rounded', 'filled', 'elevated', 'disabled']
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
-
-<style lang="scss" module>
-.root {
-    --theme-color-content-primary: black;
-    --theme-color-content-primary-inverted: white;
-}
-</style>
