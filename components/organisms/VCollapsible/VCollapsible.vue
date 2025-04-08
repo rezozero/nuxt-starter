@@ -47,6 +47,10 @@ function toggle() {
 </template>
 
 <style lang="scss" module>
+.root {
+    overflow: hidden;
+}
+
 .label {
     display: flex;
     align-items: center;
