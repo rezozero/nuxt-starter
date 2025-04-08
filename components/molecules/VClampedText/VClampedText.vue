@@ -38,6 +38,7 @@ useResizeObserver(root, updateDisabled)
             isDisabled && $style['root--disabled'],
         ]"
         :content="content"
+        :style="`--v-clamped-text-line-clamp: ${lines}`"
     />
     <VButton
         :class="$style.toggle"
