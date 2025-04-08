@@ -1,10 +1,11 @@
 <script lang="ts" setup>
-import type { NSMenuLink } from '~/types/roadiz'
+import type { RoadizWalker } from '@roadiz/types'
 
 const isOpen = defineModel<boolean>('open')
 
 const commonContent = useCommonContent()
 const mainMenuWalker = computed(() => commonContent.value?.menus?.mainMenuWalker)
+const menu = computed(() => mainMenuWalker.value && useRoadizMenu(mainMenuWalker as RoadizWalker).value)
 const route = useRoute()
 
 watch(
@@ -18,35 +19,30 @@ watch(
 <template>
     <VModal
         v-model="isOpen"
-        align="right"
+        :class="$style.root"
     >
         <nav>
-            <ul v-if="mainMenuWalker?.children">
+            <ul v-if="menu?.children">
                 <li
-                    v-for="child in mainMenuWalker.children"
-                    :key="child.item?.['@id']"
+                    v-for="(child, index) in menu.children"
+                    :key="index"
                 >
                     <VRoadizLink
-                        v-if="
-                            (child.item as NSMenuLink)?.linkExternalUrl
-                                || (child.item as NSMenuLink)?.linkInternalReference
-                        "
-                        :url="(child.item as NSMenuLink)?.linkExternalUrl"
-                        :reference="(child.item as NSMenuLink)?.linkInternalReference"
+                        :reference="child.reference"
+                        :url="child.url"
                     >
-                        {{ child.item?.title }}
+                        {{ child?.title }}
                     </VRoadizLink>
-                    <span v-else>{{ child.item?.title }}</span>
                     <ul v-if="child.children">
                         <li
-                            v-for="subChild in child.children"
-                            :key="subChild.item?.['@id']"
+                            v-for="(subChild, subIndex) in child.children"
+                            :key="subIndex"
                         >
                             <VRoadizLink
-                                :url="(subChild.item as NSMenuLink)?.linkExternalUrl"
-                                :reference="(subChild.item as NSMenuLink)?.linkInternalReference"
+                                :reference="subChild.reference"
+                                :url="subChild.url"
                             >
-                                {{ subChild.item?.title }}
+                                {{ subChild?.title }}
                             </VRoadizLink>
                         </li>
                     </ul>
@@ -56,5 +52,8 @@ watch(
     </VModal>
 </template>
 
-<!-- <style lang="scss" module> -->
-<!-- </style> -->
+<style lang="scss" module>
+.root {
+    min-height: 300px;
+}
+</style>
