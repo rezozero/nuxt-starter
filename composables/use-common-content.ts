@@ -21,10 +21,7 @@ export const COMMON_CONTENT_KEY = 'commonContent'
 export const MENUS_KEYS = ['mainMenuWalker'] as const
 // export const FOOTER_MENUS_KEYS = ['footerWalker'] as const
 
+// the useCommonContentFetch() function should be called before this function
 export function useCommonContent() {
-    const nuxtApp = useNuxtApp()
-    // the useCommonContentFetch() function should be called before this function
-    const data = computed<CommonContent | undefined>(() => nuxtApp.payload.data[COMMON_CONTENT_KEY])
-
-    return data
+    return useNuxtData<CommonContent>(COMMON_CONTENT_KEY)
 }
