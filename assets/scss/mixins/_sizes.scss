@@ -5,17 +5,25 @@
 // Output CSS variables from a map for all provided sizes
 //
 // $example-sizes-map: (
-//     'sm': (
+//     (
 //         'vars': (
-//             'padding': 4px,
-//             'margin': 8px,
+//             'sm': (
+//                 'padding': 4px,
+//             ),
+//             'md': (
+//                 'padding': 8px,
+//             ),
 //         ),
 //         'prefix': '',
 //     ),
-//     'md': (
+//     (
 //         'vars': (
-//             'padding': 16px,
-//             'margin': 32px,
+//             'sm': (
+//                 'margin': 8px,
+//             ),
+//             'md': (
+//                 'margin': 16px,
+//             ),
 //         ),
 //         'prefix': 'label',
 //     ),
@@ -29,12 +37,12 @@
 // This will generate the following CSS:
 // .example-component--size-sm {
 //     --example-component-padding: 4px;
-//     --example-component-label-padding: 16px;
+//     --example-component-label-margin: 8px;
 // }
 //
 // .example-component--size-md {
-//     --example-component-margin: 8px;
-//     --example-component-label-margin: 32px;
+//     --example-component-padding: 8px;
+//     --example-component-label-margin: 16px;
 // }
 @mixin sizes($map, $name) {
     @each $map-value in $map {
