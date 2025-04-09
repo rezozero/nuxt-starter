@@ -98,7 +98,6 @@ export default defineComponent({
 @use './v-button';
 @use 'assets/scss/mixins/theme' as *;
 @use 'assets/scss/mixins/sizes' as *;
-@use '~/assets/scss/mixins/typography' as *;
 
 .root {
     display: var(--v-button-display, inline-flex);
