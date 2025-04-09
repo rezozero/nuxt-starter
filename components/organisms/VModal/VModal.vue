@@ -317,7 +317,7 @@ $offset: var(--v-modal-offset, 0);
 
 .root {
     width: var(--v-modal-width, 100%);
-    max-width: var(--v-modal-max-width, #{rem(800)}); // override the <dialog> default max-width
+    max-width: var(--v-modal-max-width, #{px-to-rem(800)}); // override the <dialog> default max-width
     background-color: rgb(255 255 255);
     -webkit-overflow-scrolling: touch;
     overflow-y: auto;
