@@ -17,37 +17,31 @@ const firstRoute = router.options.routes[0]
             <VButton
                 label="Home"
                 to="/"
-                outlined
                 icon-name="arrow-right"
             />
             <VButton
                 label="Relative link"
                 to="/path"
-                outlined
                 icon-name="arrow-right"
             />
             <VButton
                 label="absolute link with same siteUrl"
                 :to="joinURL(siteUrl, '/path')"
-                outlined
                 icon-name="arrow-right"
             />
             <VButton
                 label="RouteLocationPathRaw link"
                 :to="{ path: '/static-page-name' }"
-                outlined
                 icon-name="arrow-right"
             />
             <VButton
                 label="external link"
                 to="https://google.com"
                 icon-name="arrow-right"
-                outlined
             />
             <VButton
                 :label="`Route ${firstRoute.name?.toString()}`"
                 :to="firstRoute"
-                outlined
             />
         </NuxtStoryVariant>
     </NuxtStory>

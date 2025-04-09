@@ -1,0 +1,84 @@
+@use 'sass:map';
+@use '../functions/list' as *;
+
+// Get CSS variables from a map
+// Parameters:
+// - $map: The map containing nested variables
+// - $name: The base name to use for the generated CSS variables
+//
+// Define a map with CSS properties and values
+// $example-map: (
+//     'font-size': 16px,
+//     'color': #333,
+//     'padding': 10px,
+// );
+//
+// Use the get mixin to generate CSS variables
+// .example-class {
+//     @include css-vars-map.get($example-map, 'example');
+// }
+//
+// This will generate the following CSS:
+// .example-class {
+//     --example-font-size: 16px;
+//     --example-color: #333;
+//     --example-padding: 10px;
+// }
+@mixin get($map, $name) {
+    @each $key, $value in $map {
+        --#{list-implode(($name, $key), '-')}: #{$value};
+    }
+}
+
+// This mixin iterates through a map to find nested variables and generate CSS variables.
+//
+// Parameters:
+// - $map: The map containing nested variables
+// - $key: The key to look for within the nested variables
+// - $name: The base name to use for the generated CSS variables
+//
+// Example usage:
+// $example-map: (
+//     '(
+//         'vars': (
+//             'sm': (
+//                  'padding': 4px,
+//                  'margin': 8px,
+//             ),
+//         ),
+//         'prefix': '',
+//     ),
+//     '(
+//         'vars': (
+//             'sm': (
+//                  'padding': 40px,
+//             ),
+//         ),
+//         'prefix': 'label',
+//     ),
+// );
+//
+// .example-class {
+//     @include css-vars-map.deep-get($example-map, 'sm', 'example');
+// }
+//
+// This will generate the following CSS:
+// .example-class {
+//     --example-padding: 4px;
+//     --example-margin: 8px;
+//     --example-label-padding: 40px;
+// }
+@mixin deep-get($map, $key, $name) {
+    @each $value in $map {
+        @if map.has-key($value, 'vars') {
+            $map: map.get($value, 'vars');
+            $prefix: list-implode(($name, map.get($value, 'prefix')), '-');
+
+            @if map.has-key($map, $key) {
+                $key-vars: map.get($map, $key);
+
+                @include get($key-vars, $prefix);
+            }
+        }
+    }
+}
