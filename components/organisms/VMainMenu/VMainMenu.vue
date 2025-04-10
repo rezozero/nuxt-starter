@@ -3,8 +3,8 @@ import type { RoadizWalker } from '@roadiz/types'
 
 const isOpen = defineModel<boolean>('open')
 
-const commonContent = useCommonContent()
-const mainMenuWalker = computed(() => commonContent.value?.menus?.mainMenuWalker)
+const { data } = useCommonContent()
+const mainMenuWalker = computed(() => data.value?.menus?.mainMenuWalker)
 const menu = computed(() => mainMenuWalker.value && useRoadizMenu(mainMenuWalker as RoadizWalker).value)
 const route = useRoute()
 

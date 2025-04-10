@@ -3,12 +3,12 @@ import { joinURL } from 'ufo'
 
 export function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
     const nuxtApp = useNuxtApp()
-    const commonContent = useCommonContent()
+    const { data } = useCommonContent()
     const runtimeConfig = useRuntimeConfig()
     const head = webResponse?.head
-    const description = webResponse?.head?.metaDescription || commonContent.value?.head?.metaDescription
-    const title = webResponse?.head?.metaTitle || commonContent.value?.head?.metaTitle
-    const siteName = commonContent.value?.head?.siteName || nuxtApp.$config.public.site.name || ''
+    const description = head?.metaDescription || data.value?.head?.metaDescription
+    const title = head?.metaTitle || data.value?.head?.metaTitle
+    const siteName = data.value?.head?.siteName || nuxtApp.$config.public.site.name || ''
     const { isActive: previewIsActive } = useRoadizPreview()
 
     // Share image
@@ -20,7 +20,7 @@ export function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
                 || head?.images?.[0]?.relativePath
             // @ts-expect-error not sure the `image` property exists, but generally it does
                 || head?.image?.[0]?.relativePath
-                || commonContent.value?.head?.shareImage?.relativePath
+                || data.value?.head?.shareImage?.relativePath
 
         if (image) {
             return img(

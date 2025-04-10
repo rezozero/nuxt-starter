@@ -1,10 +1,10 @@
 import { joinURL } from 'ufo'
 
 export function useHomePage() {
-    const commonContent = useCommonContent()
+    const { data } = useCommonContent()
 
     const isHomePage = computed(() => {
-        const homeUrl = commonContent.value?.home?.url
+        const homeUrl = data.value?.home?.url
         const currentPageUrl = toValue(useCurrentPage().value?.webResponse)?.item?.url
 
         // This is the common use case, ie the common content is loaded and the current page is known.
@@ -27,7 +27,7 @@ export function useHomePage() {
     })
 
     const homePagePath = computed(() => {
-        const url = commonContent.value?.home?.url
+        const url = data.value?.home?.url
 
         if (url) return url
 

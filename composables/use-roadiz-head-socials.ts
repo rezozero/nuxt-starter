@@ -44,7 +44,7 @@ export function getSocialLinks(head: RoadizNodesSourcesHead | undefined) {
 }
 
 export async function useRoadizHeadSocialLinks() {
-    const { head } = await useCommonContent()
+    const { data } = useCommonContent()
 
-    return ref(getSocialLinks(head.value))
+    return ref(getSocialLinks(data.value?.head))
 }
