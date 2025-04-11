@@ -2,9 +2,6 @@
 import type { RoadizNodesSources } from '@roadiz/types'
 import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 
-// Populate Roadiz common content
-await useCommonContentFetch()
-
 // init Roadiz page data (i.e. dynamic page)
 const route = useRoute()
 
@@ -43,6 +40,9 @@ if (route.name === 'slug') {
         }
     }
 }
+
+// Populate Roadiz common content after locale is set
+await useCommonContentFetch()
 </script>
 
 <template>
