@@ -11,8 +11,8 @@ const { homePagePath } = useHomePage()
 const isHomePage = computed(() => homePagePath.value === route.path)
 
 // Error page data from API
-const commonContent = useCommonContent()
-const errorPage = computed(() => commonContent.value?.errorPage)
+const { data } = useCommonContent()
+const errorPage = computed(() => data.value?.errorPage)
 
 // No current page
 useCurrentPage().value = {}
