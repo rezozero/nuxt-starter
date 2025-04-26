@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { FetchError } from 'ofetch'
 import * as Sentry from '@sentry/nuxt'
 import type { JsonSchemaExtended } from '~/types/json-schema'
-import {type ComponentsMap, RECAPTCHA_INPUT} from '~/utils/form/create-form-children'
+import { type ComponentsMap, RECAPTCHA_INPUT } from '~/utils/form/create-form-children'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
 import { useRecaptchaState } from '~/composables/use-recaptcha-state'
 
