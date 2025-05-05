@@ -94,8 +94,8 @@ importers:
         specifier: ^0.2.0
         version: 0.2.0
       '@roadiz/types':
-        specifier: ^0.4.0
-        version: 0.4.0
+        specifier: ^0.4.1
+        version: 0.4.1
       '@types/body-scroll-lock':
         specifier: ^3.1.2
         version: 3.1.2
@@ -1377,8 +1377,8 @@ packages:
     resolution: {integrity: sha512-a0gJamC+eYyME5RfMmosU+akWTgeTekY/goJvufwgx44VUJCB0F9chYZRH9Ul/PKXUGABlCxY7fM36LMRA8Tuw==}
     engines: {node: '>=14'}
 
-  '@roadiz/types@0.4.0':
-    resolution: {integrity: sha512-r+ZvwuliNYbi3seHcvw1kyYupJdfrxCLfZood1+HMLj+l3Od7CBxUZu81oZ97B7UhyZnmYHY29ij0P1gK7ir4Q==}
+  '@roadiz/types@0.4.1':
+    resolution: {integrity: sha512-skzJijFeWS69s5zcZbCuQGxbJEVaj8TbPR6DTVffz7kiqrqoGQXQfdSvFFbOmAGL2JRUNg614s0NicKSguAMAA==}
 
   '@rollup/plugin-alias@5.1.1':
     resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
@@ -6957,7 +6957,7 @@ snapshots:
       fs-extra: 10.1.0
       node-fetch: 3.3.2
 
-  '@roadiz/types@0.4.0': {}
+  '@roadiz/types@0.4.1': {}
 
   '@rollup/plugin-alias@5.1.1(rollup@4.37.0)':
     optionalDependencies:
