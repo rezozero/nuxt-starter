@@ -3,7 +3,7 @@ import type { PropType } from 'vue'
 import type { FetchError } from 'ofetch'
 import * as Sentry from '@sentry/nuxt'
 import type { JsonSchemaExtended } from '~/types/json-schema'
-import type { ComponentsMap } from '~/utils/form/create-form-children'
+import { type ComponentsMap, RECAPTCHA_INPUT } from '~/utils/form/create-form-children'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
 import { useRecaptchaState } from '~/composables/use-recaptcha-state'
 
@@ -141,7 +141,6 @@ const formattedAction = computed(() => {
 })
 
 // INIT RECAPTCHA
-const RECAPTCHA_INPUT = 'g-recaptcha-response'
 const { recaptcha, init: initRecaptcha } = useRecaptchaState()
 onBeforeMount(initRecaptcha)
 
@@ -197,12 +196,6 @@ const formattedSchema = computed(() => {
     }
 
     const schema = { ...rawSchema.value }
-
-    // remove recaptcha
-    delete schema.properties?.recaptcha
-    if (schema.required && Array.isArray(schema.required)) {
-        schema.required = schema.required.filter((value: string) => value !== 'recaptcha')
-    }
 
     return schema
 })
