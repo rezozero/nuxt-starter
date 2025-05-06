@@ -115,8 +115,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       msw:
-        specifier: ^2.7.0
-        version: 2.7.3(@types/node@22.14.1)(typescript@5.8.3)
+        specifier: ^2.7.6
+        version: 2.7.6(@types/node@22.14.1)(typescript@5.8.3)
       nuxt:
         specifier: ^3.16.2
         version: 3.16.2(@parcel/watcher@2.5.1)(@types/node@22.14.1)(db0@0.3.1)(eslint@9.25.1(jiti@2.4.2))(ioredis@5.6.0)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.37.0)(sass@1.87.0)(stylelint@16.18.0(typescript@5.8.3))(terser@5.39.0)(typescript@5.8.3)(vite@6.2.6(@types/node@22.14.1)(jiti@2.4.2)(sass@1.87.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)
@@ -609,8 +609,8 @@ packages:
     peerDependencies:
       vue: '>=3'
 
-  '@inquirer/confirm@5.1.8':
-    resolution: {integrity: sha512-dNLWCYZvXDjO3rnQfk2iuJNL4Ivwz/T2+C3+WnNfJKsNGSuOs3wAo2F6e0p946gtSAk31nZMfW+MRmYaplPKsg==}
+  '@inquirer/confirm@5.1.9':
+    resolution: {integrity: sha512-NgQCnHqFTjF7Ys2fsqK2WtnA8X1kHyInyG+nMIuHowVTIgIuS10T4AznI/PvbqSpJqjCUqNBlKGh1v3bwLFL4w==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -618,8 +618,8 @@ packages:
       '@types/node':
         optional: true
 
-  '@inquirer/core@10.1.9':
-    resolution: {integrity: sha512-sXhVB8n20NYkUBfDYgizGHlpRVaCRjtuzNZA6xpALIUbkgfd2Hjz+DfEN6+h1BRnuxw0/P4jCIMjMsEOAMwAJw==}
+  '@inquirer/core@10.1.10':
+    resolution: {integrity: sha512-roDaKeY1PYY0aCqhRmXihrHjoSW2A00pV3Ke5fTpMCkzcGF64R8e0lw3dK+eLEHwS4vB5RnW1wuQmvzoRul8Mw==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -631,8 +631,8 @@ packages:
     resolution: {integrity: sha512-eOg92lvrn/aRUqbxRyvpEWnrvRuTYRifixHkYVpJiygTgVSBIHDqLh0SrMQXkafvULg3ck11V7xvR+zcgvpHFw==}
     engines: {node: '>=18'}
 
-  '@inquirer/type@3.0.5':
-    resolution: {integrity: sha512-ZJpeIYYueOz/i/ONzrfof8g89kNdO2hjGuvULROo3O8rlB2CRtSseE5KeirnyE4t/thAn/EwvS/vuQeJCn+NZg==}
+  '@inquirer/type@3.0.6':
+    resolution: {integrity: sha512-/mKVCtVpyBu3IDarv0G+59KC4stsD5mDsGpYh+GKs1NZT88Jh52+cuoA1AtLk2Q0r/quNl+1cSUyLRHBFeD0XA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -3121,8 +3121,8 @@ packages:
   graphemer@1.4.0:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
 
-  graphql@16.10.0:
-    resolution: {integrity: sha512-AjqGKbDGUFRKIRCP9tCKiIGHyriz2oHEbPIbEtcSLSs4YjReZOIPQQWek4+6hjw62H9QShXHyaGivGiYVLeYFQ==}
+  graphql@16.11.0:
+    resolution: {integrity: sha512-mS1lbMsxgQj6hge1XZ6p7GPhbrtFwUFYi3wRzXAC/FmYnyXMTvvI3td3rjmQ2u8ewXueaSvRPWaEcgVVOT9Jnw==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
   gzip-size@7.0.0:
@@ -3667,8 +3667,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  msw@2.7.3:
-    resolution: {integrity: sha512-+mycXv8l2fEAjFZ5sjrtjJDmm2ceKGjrNbBr1durRg6VkU9fNUE/gsmQ51hWbHqs+l35W1iM+ZsmOD9Fd6lspw==}
+  msw@2.7.6:
+    resolution: {integrity: sha512-P+rwn43ktxN8ghcl8q+hSAUlEi0PbJpDhGmDkw4zeUnRj3hBCVynWD+dTu38yLYKCE9ZF1OYcvpy7CTBRcqkZA==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -4855,12 +4855,8 @@ packages:
     resolution: {integrity: sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w==}
     engines: {node: '>=10'}
 
-  type-fest@4.38.0:
-    resolution: {integrity: sha512-2dBz5D5ycHIoliLYLi0Q2V7KRaDlH0uWIvmk7TYlAg5slqwiPv1ezJdZm1QEM0xgk29oYWMCbIG7E6gHpvChlg==}
-    engines: {node: '>=16'}
-
-  type-fest@4.39.1:
-    resolution: {integrity: sha512-uW9qzd66uyHYxwyVBYiwS4Oi0qZyUqwjU+Oevr6ZogYiXt99EOYtwvzMSLw1c3lYo2HzJsep/NB23iEVEgjG/w==}
+  type-fest@4.40.1:
+    resolution: {integrity: sha512-9YvLNnORDpI+vghLU/Nf+zSv0kL47KbVJ1o3sKgoTefl6i+zebxbiDQWoe/oWWqPhIgQdRZRT1KA9sCPL810SA==}
     engines: {node: '>=16'}
 
   typescript@5.8.3:
@@ -5851,17 +5847,17 @@ snapshots:
       '@iconify/types': 2.0.0
       vue: 3.5.13(typescript@5.8.3)
 
-  '@inquirer/confirm@5.1.8(@types/node@22.14.1)':
+  '@inquirer/confirm@5.1.9(@types/node@22.14.1)':
     dependencies:
-      '@inquirer/core': 10.1.9(@types/node@22.14.1)
-      '@inquirer/type': 3.0.5(@types/node@22.14.1)
+      '@inquirer/core': 10.1.10(@types/node@22.14.1)
+      '@inquirer/type': 3.0.6(@types/node@22.14.1)
     optionalDependencies:
       '@types/node': 22.14.1
 
-  '@inquirer/core@10.1.9(@types/node@22.14.1)':
+  '@inquirer/core@10.1.10(@types/node@22.14.1)':
     dependencies:
       '@inquirer/figures': 1.0.11
-      '@inquirer/type': 3.0.5(@types/node@22.14.1)
+      '@inquirer/type': 3.0.6(@types/node@22.14.1)
       ansi-escapes: 4.3.2
       cli-width: 4.1.0
       mute-stream: 2.0.0
@@ -5873,7 +5869,7 @@ snapshots:
 
   '@inquirer/figures@1.0.11': {}
 
-  '@inquirer/type@3.0.5(@types/node@22.14.1)':
+  '@inquirer/type@3.0.6(@types/node@22.14.1)':
     optionalDependencies:
       '@types/node': 22.14.1
 
@@ -8331,7 +8327,7 @@ snapshots:
 
   dot-prop@9.0.0:
     dependencies:
-      type-fest: 4.38.0
+      type-fest: 4.40.1
 
   dotenv@16.4.7: {}
 
@@ -8873,7 +8869,7 @@ snapshots:
 
   graphemer@1.4.0: {}
 
-  graphql@16.10.0: {}
+  graphql@16.11.0: {}
 
   gzip-size@7.0.0:
     dependencies:
@@ -9395,25 +9391,25 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw@2.7.3(@types/node@22.14.1)(typescript@5.8.3):
+  msw@2.7.6(@types/node@22.14.1)(typescript@5.8.3):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
       '@bundled-es-modules/statuses': 1.0.1
       '@bundled-es-modules/tough-cookie': 0.1.6
-      '@inquirer/confirm': 5.1.8(@types/node@22.14.1)
+      '@inquirer/confirm': 5.1.9(@types/node@22.14.1)
       '@mswjs/interceptors': 0.37.6
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
       '@types/statuses': 2.0.5
-      graphql: 16.10.0
+      graphql: 16.11.0
       headers-polyfill: 4.0.3
       is-node-process: 1.2.0
       outvariant: 1.4.3
       path-to-regexp: 6.3.0
       picocolors: 1.1.1
       strict-event-emitter: 0.5.1
-      type-fest: 4.38.0
+      type-fest: 4.40.1
       yargs: 17.7.2
     optionalDependencies:
       typescript: 5.8.3
@@ -9866,7 +9862,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.26.2
       index-to-position: 1.1.0
-      type-fest: 4.39.1
+      type-fest: 4.40.1
 
   parse-path@7.0.1:
     dependencies:
@@ -10234,14 +10230,14 @@ snapshots:
     dependencies:
       find-up-simple: 1.0.1
       read-pkg: 9.0.1
-      type-fest: 4.38.0
+      type-fest: 4.40.1
 
   read-pkg@9.0.1:
     dependencies:
       '@types/normalize-package-data': 2.4.4
       normalize-package-data: 6.0.2
       parse-json: 8.3.0
-      type-fest: 4.38.0
+      type-fest: 4.40.1
       unicorn-magic: 0.1.0
 
   readable-stream@2.3.8:
@@ -10903,9 +10899,7 @@ snapshots:
 
   type-fest@0.21.3: {}
 
-  type-fest@4.38.0: {}
-
-  type-fest@4.39.1: {}
+  type-fest@4.40.1: {}
 
   typescript@5.8.3: {}
 
