@@ -6,6 +6,6 @@ const { sentry, site } = runtimeConfig.public
 if (sentry.dsn) {
     Sentry.init({
         dsn: sentry.dsn,
-        environment: site.environment,
+        environment: site.env,
     })
 }

@@ -60,7 +60,7 @@ export default defineNuxtConfig({
             site: {
                 name: '',
                 url: '',
-                environment: '',
+                env: '',
             },
             api: {
                 url: '',
