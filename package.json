@@ -53,7 +53,7 @@
     "@floating-ui/vue": "^1.1.6",
     "@gtm-support/vue-gtm": "^3.1.0",
     "@popperjs/core": "^2.11.8",
-    "@sentry/nuxt": "^9.13.0",
+    "@sentry/nuxt": "^9.19.0",
     "@types/lodash": "^4.17.14",
     "@vue-a11y/skip-to": "^3.0.3",
     "@vueuse/core": "^13.1.0",
