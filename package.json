@@ -44,7 +44,7 @@
     "stylelint": "^16.18.0",
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
-    "stylelint-config-standard-scss": "^15.0.0",
+    "stylelint-config-standard-scss": "^15.0.1",
     "stylelint-config-standard-vue": "^1.0.0",
     "typescript": "~5.8.3",
     "vite-svg-loader": "^5.1.0"
