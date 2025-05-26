@@ -45,8 +45,8 @@ importers:
         specifier: ^3.7.8
         version: 3.7.8
       swiper:
-        specifier: ^11.2.1
-        version: 11.2.6
+        specifier: ^11.2.8
+        version: 11.2.8
       tiny-emitter:
         specifier: ^2.1.0
         version: 2.1.0
@@ -5424,8 +5424,8 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
 
-  swiper@11.2.6:
-    resolution: {integrity: sha512-8aXpYKtjy3DjcbzZfz+/OX/GhcU5h+looA6PbAzHMZT6ESSycSp9nAjPCenczgJyslV+rUGse64LMGpWE3PX9Q==}
+  swiper@11.2.8:
+    resolution: {integrity: sha512-S5FVf6zWynPWooi7pJ7lZhSUe2snTzqLuUzbd5h5PHUOhzgvW0bLKBd2wv0ixn6/5o9vwc/IkQT74CRcLJQzeg==}
     engines: {node: '>= 4.7.0'}
 
   system-architecture@0.1.0:
@@ -12411,7 +12411,7 @@ snapshots:
       csso: 5.0.5
       picocolors: 1.1.1
 
-  swiper@11.2.6: {}
+  swiper@11.2.8: {}
 
   system-architecture@0.1.0: {}
 
