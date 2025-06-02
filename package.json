@@ -41,7 +41,7 @@
     "postcss-html": "^1.7.0",
     "postcss-pxtorem": "^6.1.0",
     "sass": "^1.89.1",
-    "stylelint": "^16.18.0",
+    "stylelint": "^16.20.0",
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
     "stylelint-config-standard-scss": "^15.0.1",
