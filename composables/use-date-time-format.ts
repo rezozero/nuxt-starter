@@ -1,5 +1,4 @@
 import type { GeneratedLocale } from '@intlify/core-base'
-import { end } from '@popperjs/core'
 import { I18N_DEFAULT_TIMEZONE } from '~/constants/i18n'
 
 export type DateTime = Date | string | number
