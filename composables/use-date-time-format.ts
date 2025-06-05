@@ -22,6 +22,9 @@ function getDateFromDateTime(dateTime: Ref<DateTime | undefined>): Date | undefi
     else if (typeof dateTime.value === 'object') {
         return dateTime.value
     }
+    else if (typeof dateTime.value === 'number') {
+        return new Date(dateTime.value)
+    }
 
     return undefined
 }
