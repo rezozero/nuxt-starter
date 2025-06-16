@@ -1,0 +1,7 @@
+@use 'variables/radius' as *;
+
+:root {
+    @each $key, $value in $radius {
+        --#{$key}: #{$value};
+    }
+}
