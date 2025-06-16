@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import schema from './schemas/errors'
+import type { JsonSchemaExtended } from '~/types/json-schema'
 
 const submitCallback = () => {
     return Promise.reject({
@@ -58,7 +59,7 @@ const submitCallback = () => {
 <template>
     <NuxtStory>
         <VForm
-            :schema="schema"
+            :schema="(schema as JsonSchemaExtended)"
             :submit-callback="submitCallback"
             action="test-errors"
             novalidate

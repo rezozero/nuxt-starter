@@ -21,5 +21,3 @@ function onOpenClick() {
         <VMediaViewerTransition :is-open="isOpen" />
     </NuxtStory>
 </template>
-
-<!-- <style lang="scss" module></style> -->

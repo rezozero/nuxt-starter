@@ -32,7 +32,7 @@ const src = computed(() => {
             params = {
                 iv_load_policy: '3',
                 modestbranding: '1',
-                playsinline: '1',
+                playsinline: 'true',
                 showinfo: '0',
                 rel: '0',
                 enablejsapi: '1',
@@ -85,11 +85,11 @@ const videoAttrs = computed(() => {
     return {
         width: props.width,
         height: props.height,
-        playsinline: playsinline.value ? '' : undefined,
-        muted: muted.value ? '' : undefined,
-        loop: loop.value ? '' : undefined,
-        autoplay: autoplay.value ? '' : undefined,
-        controls: controls.value ? '' : undefined,
+        playsinline: playsinline.value,
+        muted: muted.value,
+        loop: loop.value,
+        autoplay: autoplay.value,
+        controls: controls.value,
     }
 })
 

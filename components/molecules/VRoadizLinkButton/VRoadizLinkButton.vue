@@ -3,7 +3,6 @@ import type { PropType } from 'vue'
 import { vRoadizLinkProps } from '~/components/molecules/VRoadizLink/VRoadizLink.vue'
 import { vButtonProps } from '~/components/molecules/VButton/VButton.vue'
 
-type KeyOfButton = keyof typeof vButtonProps
 export type VButtonEmphasis = 'primary' | 'secondary' | 'ternary'
 
 export const vButtonLinkProps = {
@@ -17,7 +16,7 @@ export const vButtonLinkProps = {
 
 const buttonKeyList = Object.keys(vButtonProps)
 
-function isKeyOfButton(key: string): key is KeyOfButton {
+function isKeyOfButton(key: string) {
     return buttonKeyList.includes(key)
 }
 

@@ -7,8 +7,8 @@ import type { Violation } from '~/types/form'
 export interface FactoryPropsTypes {
     schema?: JsonSchemaExtended
     componentsMap?: ComponentsMap
-    id: string
-    modelValue: Record<string, unknown>
+    id?: string
+    modelValue?: Record<string, unknown> | string
     errors?: Violation[]
     disabled?: boolean
     parents?: string[]

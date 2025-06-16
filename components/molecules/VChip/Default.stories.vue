@@ -5,5 +5,3 @@
         <VChip label="tag" />
     </NuxtStory>
 </template>
-
-<!-- <style lang="scss" module></style> -->

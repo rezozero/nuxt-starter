@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RoadizDocument } from '@roadiz/types'
 import document from '~/assets/stories/fixtures/documents/vimeo-01.json'
 </script>
 
@@ -6,7 +7,7 @@ import document from '~/assets/stories/fixtures/documents/vimeo-01.json'
     <NuxtStory>
         <div :class="$style.wrapper">
             <VRoadizVideo
-                :document="document"
+                :document="(document as unknown as RoadizDocument)"
                 fit="cover"
                 :class="$style.video"
                 background

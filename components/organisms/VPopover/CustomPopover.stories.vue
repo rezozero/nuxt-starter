@@ -19,6 +19,3 @@
         </VPopover>
     </NuxtStory>
 </template>
-
-<script setup lang="ts">
-</script>

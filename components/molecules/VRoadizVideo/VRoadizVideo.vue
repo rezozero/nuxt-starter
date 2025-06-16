@@ -88,12 +88,12 @@ const embedVideoAttrs = computed(() => {
             v-if="hadInteraction"
             v-bind="embedVideoAttrs"
             :autoplay="true"
-            :plyr="{ listener: { ended: onVideoEnded } }"
+            :plyr="{ listeners: { ended: onVideoEnded } }"
         />
     </div>
 </template>
 
-<style lang="scss" module="">
+<style lang="scss" module>
 @use 'assets/scss/mixins/v-button' as *;
 @use 'assets/scss/mixins/include-media' as *;
 
