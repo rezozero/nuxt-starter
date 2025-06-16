@@ -40,7 +40,7 @@
     "nuxt": "^3.17.5",
     "postcss-html": "^1.8.0",
     "postcss-pxtorem": "^6.1.0",
-    "sass": "^1.89.1",
+    "sass": "^1.89.2",
     "stylelint": "^16.20.0",
     "stylelint-config-css-modules": "^4.4.0",
     "stylelint-config-idiomatic-order": "^10.0.0",
