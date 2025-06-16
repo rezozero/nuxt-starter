@@ -20,7 +20,7 @@ const defaultComponentMaps: Record<string, Component | undefined> = {
     'checkbox': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
     'select': defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
     'file': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
-    'selectExpanded': defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
+    'selectExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
     'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
 }
 
