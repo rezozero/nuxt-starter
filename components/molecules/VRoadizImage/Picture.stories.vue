@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RoadizDocument } from '@roadiz/types'
 import image from '~/assets/stories/fixtures/documents/image-01.json'
 </script>
 
@@ -6,19 +7,19 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
     <NuxtStory :class="$style.root">
         <NuxtStoryVariant title="Picture tag">
             <VRoadizImage
-                :document="image"
+                :document="(image as unknown as RoadizDocument)"
                 tag="picture"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Loading / eager">
             <VRoadizImage
-                :document="image"
+                :document="(image as unknown as RoadizDocument)"
                 tag="picture"
                 loading="eager"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Source tags">
-            <VRoadizImage :document="image">
+            <VRoadizImage :document="(image as unknown as RoadizDocument)">
                 <VPictureSource
                     sizes="md:100vw"
                     media="(max-width: 1280px)"
@@ -33,7 +34,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
     </NuxtStory>
 </template>
 
-<style lang="scss" module="">
+<style lang="scss" module>
 .root {
     --v-img-max-width: #{rem(600)};
 }

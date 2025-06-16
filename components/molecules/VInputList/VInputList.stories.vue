@@ -10,7 +10,7 @@ const data = {
     }),
 }
 
-const multiValue = ref([])
+const multiValue = ref('')
 </script>
 
 <template>

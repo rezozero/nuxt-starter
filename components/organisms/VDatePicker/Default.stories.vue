@@ -7,6 +7,3 @@
         </div>
     </NuxtStory>
 </template>
-
-<script setup lang="ts">
-</script>

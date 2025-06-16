@@ -75,5 +75,3 @@ function reloadPage() {
         </div>
     </NuxtLayout>
 </template>
-
-<!-- <style lang="scss" module></style> -->

@@ -7,7 +7,7 @@ import { NuxtLink } from '#components'
 export const vButtonSizes = ['xs', 'sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
 
-export const props = {
+export const vButtonProps = {
     tag: [String, Boolean] as PropType<string | false>,
     iconName: String,
     label: [String, Boolean] as PropType<string | false>,
@@ -22,7 +22,7 @@ export const props = {
 }
 
 export default defineComponent({
-    props,
+    props: vButtonProps,
     setup(props, { slots, attrs }) {
         const internalTag = computed(() => {
             if (typeof props.tag === 'string') return props.tag

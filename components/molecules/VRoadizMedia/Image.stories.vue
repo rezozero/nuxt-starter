@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { RoadizDocument } from '@roadiz/types'
 import image from '~/assets/stories/fixtures/documents/image-01.json'
 </script>
 
@@ -6,7 +7,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
     <NuxtStory :class="$style.root">
         <NuxtStoryVariant title="default: Roadiz image">
             <VRoadizMedia
-                :document="image"
+                :document="(image as unknown as RoadizDocument)"
                 :image="{ crop: '300x200' }"
                 :class="$style.media"
             />
@@ -14,7 +15,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 
         <NuxtStoryVariant title="With default slot">
             <VRoadizMedia
-                :document="image"
+                :document="(image as unknown as RoadizDocument)"
                 :class="$style.media"
             >
                 <VPictureSource
@@ -31,7 +32,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 
         <NuxtStoryVariant title="Copyright">
             <VRoadizMedia
-                :document="image"
+                :document="(image as unknown as RoadizDocument)"
                 :image="{ crop: '200x400', copyright: true, tag: 'picture' }"
                 :class="$style.media"
             />

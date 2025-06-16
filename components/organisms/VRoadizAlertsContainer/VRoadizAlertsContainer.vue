@@ -25,7 +25,7 @@ async function fetchAlerts(): Promise<void> {
     const closedAlertList = storedAlertList && JSON.parse(storedAlertList)
 
     alertList.value = closedAlertList
-        ? newAlertList?.filter((alert: RoadizAlert) => !closedAlertList.includes(alert['@id']))
+        ? (newAlertList as RoadizAlert[])?.filter((alert: RoadizAlert) => !closedAlertList.includes(alert['@id']))
         : newAlertList || []
 }
 

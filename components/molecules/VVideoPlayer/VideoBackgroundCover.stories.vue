@@ -14,7 +14,7 @@ import video from '~/assets/stories/fixtures/documents/video-01.json'
     </NuxtStory>
 </template>
 
-<style lang="scss" module="">
+<style lang="scss" module>
 .root {
     position: relative;
 }

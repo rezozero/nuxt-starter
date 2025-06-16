@@ -30,7 +30,7 @@ const htmlHexaCode = `Title &#x0A; new line`
     </NuxtStory>
 </template>
 
-<style lang="scss" module="">
+<style lang="scss" module>
 .html-code {
     white-space: pre-line;
 }

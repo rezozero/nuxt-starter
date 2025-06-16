@@ -18,5 +18,3 @@ const blocks = computed(() => (webResponse?.blocks && getBlockCollection(webResp
         />
     </div>
 </template>
-
-<!-- <style lang="scss" module></style> -->

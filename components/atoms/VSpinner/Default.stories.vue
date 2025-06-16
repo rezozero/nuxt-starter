@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const playState = ref('running')
+const playState: Ref<'running' | 'paused'> = ref('running')
 const size = ref(200)
 
 function toggle() {

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import type { Head } from '@unhead/schema'
+import type { SerializableHead } from 'unhead/types'
 import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
 
 const props = defineProps({
@@ -79,7 +79,7 @@ const sources = computed(() => {
         = props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
     const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
 
-    return formats.map((format) => {
+    return formats.map((format: string) => {
         const { srcset, sizes } = $img.getSizes(src, {
             ...options.value,
             modifiers: {
@@ -106,7 +106,7 @@ const picturePropsValue = pictureProps && toValue<VPictureProps>(pictureProps)
 const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue?.preload)
 
 if (preload) {
-    const link: NonNullable<Head['link']>[number] = {
+    const link: NonNullable<SerializableHead['link']>[number] = {
         rel: 'preload',
         as: 'image',
         imagesrcset: sources.value[0].srcset,

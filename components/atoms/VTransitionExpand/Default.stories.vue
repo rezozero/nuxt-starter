@@ -5,5 +5,3 @@
         <VTransitionExpand />
     </NuxtStory>
 </template>
-
-<!-- <style lang="scss" module></style> -->

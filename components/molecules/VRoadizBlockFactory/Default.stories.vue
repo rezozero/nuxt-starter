@@ -17,5 +17,3 @@ const blocks = [
         <VRoadizBlockFactory :blocks="blocks" />
     </NuxtStory>
 </template>
-
-<!-- <style lang="scss" module></style> -->
