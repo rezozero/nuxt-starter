@@ -133,11 +133,11 @@ useThemeProvider({ preferredTheme: 'light' })
     }
 
     &:not(.root--positioning-disabled) {
-        box-shadow: 0 28px 36px 0 rgba(0, 0, 0, 15%);
+        box-shadow: 0 28px 36px 0 rgb(0, 0, 0, 15%);
     }
 
     &::backdrop {
-        background: rgba(0, 0, 0, 80%);
+        background: rgb(0, 0, 0, 80%);
     }
 
     &:global(.v-enter-active)::backdrop,

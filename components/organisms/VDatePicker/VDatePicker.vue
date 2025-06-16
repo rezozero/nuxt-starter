@@ -121,7 +121,7 @@ function onDayClick() {
     --vc-nav-hover-bg: #f0f0f0;
     --vc-rounded-full: initial;
     --vc-rounded: initial; // arrow
-    --vc-day-content-hover-bg: rgba(1, 1, 1, 10%);
+    --vc-day-content-hover-bg: rgb(1, 1, 1, 10%);
     --vc-focus-ring: none; // default: 0 0 0 2px rgba(150, 150, 150, 0.4);
 }
 
