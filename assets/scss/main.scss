@@ -1,13 +1,16 @@
-// commons
-@use "normalize";
-@use "common";
-@use "grid";
+// Root css vars
 @use "radius";
 @use "spacings";
-@use "fonts";
-@use "typography";
 @use "theme";
-@use "loading-animation";
 
-// transitions
+// Global setup
+@use "fonts";
+@use "grid";
+@use "normalize";
+@use "common";
+@use "font-size";
+
+// Usefull global class
+@use "typography";
+@use "loading-animation";
 @use "transitions/fade";
