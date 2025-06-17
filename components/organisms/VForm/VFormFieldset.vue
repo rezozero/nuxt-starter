@@ -3,8 +3,9 @@ import { computed } from 'vue'
 import type { JsonSchemaExtended } from '~/types/json-schema'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { FormElementProps } from '~/types/form'
+import type { FactoryPropsModelValue } from '~/components/organisms/VForm/VFormElementFactory'
 
-interface Props extends FormElementProps {
+interface Props extends FormElementProps<Omit<FactoryPropsModelValue, string>> {
     schema: JsonSchemaExtended
     componentsMap: ComponentsMap
     schemaKey: string

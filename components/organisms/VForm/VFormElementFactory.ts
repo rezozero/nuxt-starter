@@ -4,11 +4,13 @@ import createFormChildren from '~/utils/form/create-form-children'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { Violation } from '~/types/form'
 
+export type FactoryPropsModelValue = Record<string, unknown> | string
+
 export interface FactoryPropsTypes {
     schema?: JsonSchemaExtended
     componentsMap?: ComponentsMap
     id?: string
-    modelValue?: Record<string, unknown> | string
+    modelValue?: FactoryPropsModelValue
     errors?: Violation[]
     disabled?: boolean
     parents?: string[]
@@ -40,6 +42,7 @@ VFormElementFactory.props = {
     disabled: Boolean,
     parents: Array as PropType<string[]>,
 }
+
 VFormElementFactory.emits = ['update:modelValue']
 
 export default VFormElementFactory
