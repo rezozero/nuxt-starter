@@ -1,7 +1,11 @@
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
 import { defineAsyncComponent } from 'vue'
+
+// @ts-expect-error cant-find-module
 import type { DatePickerModel } from 'v-calendar/src/use/datePicker'
+
+// @ts-expect-error cant-find-module
 import type { SimpleDateRange } from 'v-calendar/dist/types/src/utils/date/range'
 
 const [currentDate, modelModifiers] = defineModel<DatePickerModel>()

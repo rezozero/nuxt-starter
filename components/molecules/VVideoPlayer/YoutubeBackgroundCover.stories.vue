@@ -6,7 +6,7 @@ import video from '~/assets/stories/fixtures/documents/youtube-01.json'
     <NuxtStory :class="$style.root">
         <VVideoPlayer
             :embed-id="video.embedId"
-            :embed-platform="video.embedPlatform"
+            :embed-platform="(video.embedPlatform as 'youtube')"
             fit="cover"
             background
             :class="$style.video"

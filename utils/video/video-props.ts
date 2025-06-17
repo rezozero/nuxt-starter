@@ -1,4 +1,3 @@
-import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
 
 export const commonVideoProps = {
@@ -16,14 +15,19 @@ export const videoAttributes = {
     muted: { type: Boolean, default: undefined },
 }
 
+export interface videoFile {
+    relativePath?: string
+    mimeType?: string
+}
+
 export const videoSrc = {
     src: { type: String },
     mimeType: { type: String },
-    altSources: { type: Array as PropType<RoadizDocument[]> },
+    altSources: { type: Array as PropType<(videoFile)[]> },
 }
 
 export const embedVideoProps = {
-    embedPlatform: { type: String },
+    embedPlatform: { type: String as PropType<'youtube' | 'vimeo'> },
     embedId: { type: String },
     youtube: { type: Object as PropType<Record<string, string>> },
     vimeo: { type: Object as PropType<Record<string, string>> },
