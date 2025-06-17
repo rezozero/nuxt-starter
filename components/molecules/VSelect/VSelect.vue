@@ -104,12 +104,11 @@ const onSelectChange = (event: Event) => {
                     {{ option.label }}
                 </option>
             </select>
-            <SvgIcon
+            <VIcon
                 v-if="!multiple"
                 :class="$style.icon"
-                height="24"
-                name="chevron-down"
-                width="24"
+                size="24px"
+                name="form-chevron-down"
             />
         </div>
     </VFieldWrapper>
