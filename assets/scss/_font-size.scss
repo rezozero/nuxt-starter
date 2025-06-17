@@ -1,0 +1,34 @@
+@use 'mixins/include-media' as *;
+@use 'functions/breakpoint' as *;
+
+:root {
+    @include media('>=xs') {
+        --size: #{breakpoint(xs, $strip-unit: true)};
+    }
+
+    @include media('>=md') {
+        --size: #{breakpoint(md, $strip-unit: true)};
+    }
+
+    @include media('>=lg') {
+        --size: #{breakpoint(lg, $strip-unit: true)};
+    }
+
+    @include media('>=vl') {
+        --size: #{breakpoint(vl, $strip-unit: true)};
+    }
+
+    @include media('>=xl') {
+        --size: #{breakpoint(xl, $strip-unit: true)};
+    }
+
+    @include media('>=hd') {
+        --size: #{breakpoint(hd, $strip-unit: true)};
+    }
+}
+
+html {
+    --vw-ratio: 0.3;
+
+    font-size: calc((100vw / var(--size)) * (16 * var(--vw-ratio)) + 1rem * calc(1 - var(--vw-ratio)));
+}

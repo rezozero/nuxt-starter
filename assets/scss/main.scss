@@ -1,13 +1,12 @@
-// commons
-@use "normalize";
+
 @use "common";
+@use "font-size";
+@use "fonts";
 @use "grid";
+@use "loading-animation";
+@use "normalize";
 @use "radius";
 @use "spacings";
-@use "fonts";
-@use "typography";
 @use "theme";
-@use "loading-animation";
-
-// transitions
 @use "transitions/fade";
+@use "typography";
