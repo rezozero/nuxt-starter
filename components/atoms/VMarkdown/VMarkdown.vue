@@ -72,7 +72,7 @@ export default defineComponent({
     h4,
     h5,
     h6 {
-        text-wrap: balance;
+        text-wrap: var(--v-markdown-heading-text-wrap, balance);
     }
 
     h1 {
@@ -96,7 +96,7 @@ export default defineComponent({
     }
 
     p {
-        text-wrap: pretty;
+        text-wrap: var(--v-markdown-paragraph-text-wrap, pretty);
 
         @include text-body;
     }
@@ -116,18 +116,8 @@ export default defineComponent({
 
     hr {
         border: 0;
-        border-top: 1px solid rgb(0 0 0 / 20%);
+        border-top: 1PX solid var(--colors-line-secondary, rgb(0 0 0 / 20%));
         margin: 1em 0;
-    }
-
-    li {
-        @include text-body;
-
-        margin-block: 3px;
-
-        p {
-            margin-block: initial;
-        }
     }
 
     ul {
@@ -147,16 +137,22 @@ export default defineComponent({
         }
     }
 
+    li {
+        @include text-body;
+
+        margin-block: px-to-em(3);
+    }
+
     img {
         display: block;
         max-width: 100%;
         height: auto;
-        margin: 15px 0;
+        margin: 1em 0;
     }
 
     iframe {
         max-width: 100%;
-        margin: 15px 0;
+        margin: 1em 0;
         aspect-ratio: 16 / 9;
     }
 
@@ -168,7 +164,7 @@ export default defineComponent({
     th,
     td {
         padding: 10px 0;
-        border-bottom: 1px solid var(--colors-line-secondary, rgb(0 0 0 / 20%));
+        border-bottom: 1PX solid var(--colors-line-secondary, rgb(0 0 0 / 20%));
 
         @include text-body;
     }

@@ -9,3 +9,12 @@
 @function px-to-rem($value) {
     @return math.div(strip-units($value), 16) * 1rem;
 }
+
+/*
+ * Pixel value to em
+ * $value in px
+ */
+
+@function px-to-em($value) {
+    @return math.div(strip-units($value), 16) * 1em;
+}

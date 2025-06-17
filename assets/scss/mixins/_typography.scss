@@ -1,5 +1,5 @@
 @use 'sass:math';
-@use '../functions/px-to-rem' as *;
+@use '../functions/px-to-unit' as *;
 @use '../mixins/font-size-fluid' as *;
 
 @mixin text-h1 {

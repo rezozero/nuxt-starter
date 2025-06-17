@@ -2,7 +2,7 @@
 @use 'sass:list';
 @use 'sass:map';
 @use './breakpoint' as *;
-@use './px-to-rem' as *;
+@use './px-to-unit' as *;
 @use './strip-units' as *;
 
 /*

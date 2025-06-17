@@ -1,5 +1,5 @@
 @use "floating-vue/dist/style.css";
-@use "../functions/px-to-rem" as *;
+@use "../functions/px-to-unit" as *;
 @use "../mixins/include-media" as *;
 
 .v-popper__arrow-container {

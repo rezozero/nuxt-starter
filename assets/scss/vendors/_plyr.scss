@@ -1,5 +1,5 @@
 @use "plyr/src/sass/plyr";
-@use "../functions/px-to-rem" as *;
+@use "../functions/px-to-unit" as *;
 @use "../mixins/include-media" as *;
 
 .plyr {
