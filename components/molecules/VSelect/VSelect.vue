@@ -108,7 +108,7 @@ const onSelectChange = (event: Event) => {
                 v-if="!multiple"
                 :class="$style.icon"
                 size="24px"
-                name="form-chevron-down"
+                name="form-arrow-down"
             />
         </div>
     </VFieldWrapper>
