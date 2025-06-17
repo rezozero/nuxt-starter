@@ -22,8 +22,8 @@
         --size: #{breakpoint(xl, $strip-unit: true)};
     }
 
-    @include media('>=hq') {
-        --size: #{breakpoint(hq, $strip-unit: true)};
+    @include media('>=hd') {
+        --size: #{breakpoint(hd, $strip-unit: true)};
     }
 }
 
