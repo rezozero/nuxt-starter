@@ -131,20 +131,20 @@ import IconCheck from '~/assets/images/icons/check.svg?component'
 </template>
 ```
 
-### Icon module
+### Sprite
 
-All the files in `~/assets/images/icons` can be displayed throw NuxtIcon component.
-It uses `@nuxt/icon` module. See the module [documentation](https://nuxt.com/modules/icon) for more information.
+All the files in `~/assets/images/icons` are automatically imported in a SVG sprite.  
+It uses `@nuxtjs/svg-sprite` module. See the module [documentation](https://github.com/nuxt-modules/svg-sprite/tree/master) for more information.
 
 ```vue
 <template>
     <div>
-        <NuxtIcon name="{prefix}:{svg-name}" size="14px" />
+        <SvgIcon name="check" width="14" height="11" />
     </div>
 </template>
 ```
 
-We provide a wrapper component to easily switch between icon module or dependency.
+Nuxt layer introduces a component `VIcon` to easily use the sprite.
 
 ```vue
 <template>
