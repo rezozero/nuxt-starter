@@ -4,13 +4,13 @@ import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElemen
 import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
 import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
 
-export type ComponentsMap = Record<string, Component>
+export type ComponentsMap = Record<string, Component | undefined>
 
 type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
 export const RECAPTCHA_INPUT = 'g-recaptcha-response'
 
-const defaultComponentMaps: Record<string, Component | undefined> = {
+const defaultComponentMaps: ComponentsMap = {
     'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
     'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
     'input': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
@@ -60,7 +60,7 @@ export default function createFormChildren(
             /*
              * Make initial field value optional
              */
-            const parentModelValues = parentProps.modelValue || {}
+            const parentModelValues = typeof parentProps.modelValue === 'string' || !parentProps.modelValue ? {} : parentProps.modelValue
             const currentModelValue = parentModelValues?.[key] || null
 
             const defaultProps: Record<string, unknown> = {
@@ -97,7 +97,7 @@ export default function createFormChildren(
                 return h(LazyVFormFieldset, {
                     ...defaultProps,
                     schema,
-                    mergedComponentsMap,
+                    'componentsMap': mergedComponentsMap,
                     'virtual': schema?.attr?.virtual,
                     'schemaKey': key,
                     'modelValue': parentModelValues,
@@ -112,7 +112,7 @@ export default function createFormChildren(
                 return h(LazyVFormFieldset, {
                     ...defaultProps,
                     schema,
-                    mergedComponentsMap,
+                    componentsMap: mergedComponentsMap,
                     schemaKey: key,
                 })
             }
@@ -133,6 +133,7 @@ export default function createFormChildren(
                     = isMultiple && mergedComponentsMap.selectMultipleExpanded
                         ? mergedComponentsMap.selectMultipleExpanded
                         : mergedComponentsMap.selectExpanded || mergedComponentsMap.select
+
                 const enumList = isMultiple
                     ? ((schema.items as JsonSchemaExtended)?.enum as (string | number)[])
                     : (schema.enum as (string | number)[])
@@ -267,8 +268,8 @@ export default function createFormChildren(
                     ...defaultProps,
                     type,
                     required,
+                    modelValue: String(currentModelValue || ''),
                 }
-                props.modelValue = String(props.modelValue || '')
 
                 if (type === 'boolean' || type === 'checkbox') {
                     props.type = 'checkbox'
@@ -276,19 +277,25 @@ export default function createFormChildren(
                 else if (type === 'number') {
                     props.type = 'string'
                     props['onUpdate:modelValue'] = (value: unknown) =>
-                        emit('update:modelValue', { ...parentModelValues, [key]: Number.parseFloat(value) })
+                        emit('update:modelValue', {
+                            ...parentModelValues,
+                            [key]: typeof value === 'number' ? value : typeof value === 'string' ? Number.parseFloat(value) : '',
+                        })
                 }
                 else if (type === 'integer') {
                     props.type = 'number'
                     props['onUpdate:modelValue'] = (value: unknown) =>
-                        emit('update:modelValue', { ...parentModelValues, [key]: Number.parseInt(value) })
+                        emit('update:modelValue', {
+                            ...parentModelValues,
+                            [key]: typeof value === 'number' ? value : typeof value === 'string' ? Number.parseFloat(value) : '',
+                        })
                     props.step = '1'
                 }
                 else if (type === 'datetime' || type === 'datetime-local') {
                     if (props.modelValue) {
                         // Handle timezones between data and client
                         const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
-                        const localISOTime = new Date(Date.parse(props.modelValue) - tzOffset).toISOString()
+                        const localISOTime = new Date(Date.parse(props.modelValue as string) - tzOffset).toISOString()
                         props.modelValue = localISOTime.split('.')[0]
                     }
                     else {
