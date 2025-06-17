@@ -1,16 +1,12 @@
-// Root css vars
+
+@use "common";
+@use "font-size";
+@use "fonts";
+@use "grid";
+@use "loading-animation";
+@use "normalize";
 @use "radius";
 @use "spacings";
 @use "theme";
-
-// Global setup
-@use "fonts";
-@use "grid";
-@use "normalize";
-@use "common";
-@use "font-size";
-
-// Usefull global class
-@use "typography";
-@use "loading-animation";
 @use "transitions/fade";
+@use "typography";
