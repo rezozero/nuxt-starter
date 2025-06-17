@@ -63,7 +63,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" module>
-@use 'sass:math';
 @use 'assets/scss/mixins/typography' as *;
 
 .root {
@@ -73,13 +72,7 @@ export default defineComponent({
     h4,
     h5,
     h6 {
-        &:not(:first-child) {
-            margin-top: 1.5em;
-        }
-
-        &:not(:last-child) {
-            margin-bottom: 0.5em;
-        }
+        text-wrap: balance;
     }
 
     h1 {
@@ -102,8 +95,10 @@ export default defineComponent({
         @include text-h5;
     }
 
-    strong {
-        font-weight: bold;
+    p {
+        text-wrap: pretty;
+
+        @include text-body;
     }
 
     a {
@@ -125,92 +120,57 @@ export default defineComponent({
         margin: 1em 0;
     }
 
-    & > ul,
-    & > ol {
-        &:not(:first-child),
-        &:not(hr + &) {
-            margin-top: 1.8em;
+    li {
+        @include text-body;
+
+        margin-block: 3px;
+
+        p {
+            margin-block: initial;
         }
     }
 
-    ol, ul, menu, summary {
-        list-style: none;
+    ul {
+        padding-left: 2ch;
+
+        // To customize the ::marker, opt for the UTF-8 code.
+        // https://www.w3schools.com/charsets/ref_utf_geometric.asp
     }
 
     ol {
+        padding-left: 3ch;
         counter-reset: item;
-    }
-
-    li {
-        position: relative;
-        padding: px-to-rem(8) 0 px-to-rem(8) px-to-rem(40);
-
-        &:last-child {
-            border: none;
-        }
-
-        &::before {
-            position: absolute;
-            top: calc(0.5em + #{px-to-rem(math.div(8, 2))});
-            left: 0;
-            width: px-to-rem(8);
-            height: px-to-rem(8);
-            border-radius: 50%;
-            background-color: currentcolor;
-            content: '';
-        }
+        list-style-type: decimal-leading-zero;
 
         li {
-            padding: px-to-rem(2) 0 px-to-rem(2) px-to-rem(25);
-            border: none;
-
-            &::before {
-                top: calc(0.5em + #{px-to-rem(math.div(6, 2))});
-                width: px-to-rem(6);
-                height: px-to-rem(6);
-                background-color: currentcolor;
-                content: '';
-            }
+            counter-increment: item;
         }
-    }
-
-    ol li {
-        counter-increment: item;
-
-        &::before {
-            top: px-to-rem(8);
-            width: auto;
-            height: auto;
-            background-color: transparent;
-            content: counters(item, '.') '.';
-        }
-
-        li {
-            padding-left: px-to-rem(40);
-
-            &::before {
-                top: px-to-rem(2);
-            }
-        }
-    }
-
-    > p + blockquote,
-    > p + p,
-    > ul + p {
-        margin-top: 1.5em;
     }
 
     img {
         display: block;
         max-width: 100%;
         height: auto;
-        margin: px-to-rem(15) 0;
+        margin: 15px 0;
     }
 
     iframe {
         max-width: 100%;
-        margin: px-to-rem(15) 0;
-        aspect-ratio: 16/9;
+        margin: 15px 0;
+        aspect-ratio: 16 / 9;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th,
+    td {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--colors-line-secondary, rgb(0 0 0 / 20%));
+
+        @include text-body;
     }
 }
 </style>
