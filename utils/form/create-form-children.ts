@@ -102,7 +102,7 @@ export default function createFormChildren(
                     'componentsMap': mergedComponentsMap,
                     'virtual': schema?.attr?.virtual,
                     'schemaKey': key,
-                    'modelValue': parentModelValues.value,
+                    'modelValue': parentModelValues,
                     'onUpdate:modelValue': (value: object): void => {
                         const finalValue = { ...parentModelValues, ...value }
                         emit('update:modelValue', finalValue)
