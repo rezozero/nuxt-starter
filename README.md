@@ -133,18 +133,9 @@ import IconCheck from '~/assets/images/icons/check.svg?component'
 
 ### Icon module
 
-All the files in `~/assets/images/icons` can be displayed throw NuxtIcon component.
-It uses `@nuxt/icon` module. See the module [documentation](https://nuxt.com/modules/icon) for more information.
-
-```vue
-<template>
-    <div>
-        <NuxtIcon name="{prefix}:{svg-name}" size="14px" />
-    </div>
-</template>
-```
-
-We provide a wrapper component to easily switch between icon module or dependency.
+All the SVG files in `~/assets/images/icons` can be displayed using the VIcon component.
+Set the file name to display svg as a background-image or mask-image element.
+See the module `@nuxt/icon` [documentation](https://nuxt.com/modules/icon) for more information.
 
 ```vue
 <template>
