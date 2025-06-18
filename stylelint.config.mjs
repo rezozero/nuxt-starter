@@ -21,7 +21,7 @@ export default {
         'scss/function-no-unknown': [
             true,
             {
-                ignoreFunctions: ['get-fluid-formatted-values', 'fluid', 'px-to-rem', 'ease', 'v-bind', 'flex-grid'], // use custom functions
+                ignoreFunctions: ['get-fluid-formatted-values', 'fluid', 'px-to-em', 'px-to-rem', 'ease', 'v-bind', 'flex-grid'], // use custom functions
             },
         ],
         'declaration-property-value-no-unknown': null, // prevent collision with sass functions
