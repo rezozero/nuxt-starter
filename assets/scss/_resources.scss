@@ -3,7 +3,8 @@
 // Include only SASS variables / mixins / functions.
 
 // functions
-@forward "./functions/px-to-unit";
+@forward "./functions/px-to-rem";
+@forward "./functions/px-to-em";
 @forward "./functions/ease";
 @forward "./functions/flex-grid";
 

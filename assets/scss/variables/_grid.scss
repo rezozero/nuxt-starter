@@ -1,4 +1,4 @@
-@use '../functions/px-to-unit' as *;
+@use '../functions/px-to-rem' as *;
 
 $gutters: (
     0: px-to-rem(16)

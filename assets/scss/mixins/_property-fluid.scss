@@ -2,7 +2,7 @@
 @use "../functions/fluid" as *;
 @use "../functions/decimal" as *;
 @use "../functions/breakpoint" as *;
-@use "../functions/px-to-unit" as *;
+@use "../functions/px-to-rem" as *;
 @use "./include-media" as *;
 @use 'sass:meta';
 @use 'sass:map';
