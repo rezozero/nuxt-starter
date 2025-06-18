@@ -1,18 +1,11 @@
-<script lang="ts">
-import type { Component } from 'vue'
-
-export type VCollapsibleProps = {
-    rootElement?: Component | string
+<script lang="ts" setup>
+const props = defineProps<{
     label?: string
     collapsed?: boolean
-    controlClass?: string
+    buttonClass?: string
     iconClass?: string
     contentClass?: string
-}
-</script>
-
-<script lang="ts" setup>
-const props = defineProps<VCollapsibleProps>()
+}>()
 
 const slots = useSlots()
 const hasContent = computed(() => !!slots.default)
@@ -37,7 +30,7 @@ const contentId = `collapsible-${useId()}`
             :aria-expanded="!isCollapsed"
             :aria-controls="contentId"
             :disabled="!hasContent"
-            :class="[$style.control, controlClass]"
+            :class="[$style.button, buttonClass]"
             :icon-name="isCollapsed ? 'PlusMD' : 'MinusMD'"
             :icon-class="iconClass"
             :label="label || (isCollapsed ? $t('open') : $t('close'))"
@@ -57,7 +50,7 @@ const contentId = `collapsible-${useId()}`
 </template>
 
 <style lang="scss" module>
-.control {
+.button {
     cursor: pointer;
 }
 
