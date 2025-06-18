@@ -27,7 +27,7 @@ export const videoSrc = {
 }
 
 export const embedVideoProps = {
-    embedPlatform: { type: String as PropType<'youtube' | 'vimeo'> },
+    embedPlatform: { type: String },
     embedId: { type: String },
     youtube: { type: Object as PropType<Record<string, string>> },
     vimeo: { type: Object as PropType<Record<string, string>> },
