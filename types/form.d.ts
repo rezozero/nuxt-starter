@@ -16,5 +16,5 @@ export interface FormElementProps<T = string> {
     autocomplete?: string
     placeholder?: string
     parents?: string[]
-    modelValue?: T
+    modelValue?: T | unknown
 }

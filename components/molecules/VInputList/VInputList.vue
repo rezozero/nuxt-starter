@@ -70,8 +70,8 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
             {{ description }}
         </p>
         <div
-            v-for="option in options"
-            :key="option.value"
+            v-for="(option, index) in options"
+            :key="index"
             :class="$style['input-wrapper']"
         >
             <VInput

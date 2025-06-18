@@ -6,7 +6,7 @@ import video from '~/assets/stories/fixtures/documents/vimeo-01.json'
     <NuxtStory :class="$style.root">
         <VVideoPlayer
             :embed-id="video.embedId"
-            :embed-platform="video.embedPlatform"
+            :embed-platform="(video.embedPlatform as 'vimeo')"
             fit="cover"
             background
             :class="$style.video"

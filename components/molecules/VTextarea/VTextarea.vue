@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import type { FormElementProps } from '~/types/form'
+import { textInputEmits } from '~/composables/use-text-input'
 
 const props = defineProps<FormElementProps>()
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits([...textInputEmits])
 
 const input = ref<HTMLInputElement | null>(null)
 
@@ -23,7 +24,7 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
             v-bind="props"
             :id="id"
             ref="input"
-            v-model="model"
+            v-model="(model as string)"
             :required="required"
             :placeholder="placeholder"
             :name="name"

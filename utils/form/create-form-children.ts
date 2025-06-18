@@ -4,13 +4,13 @@ import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElemen
 import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
 import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
 
-export type ComponentsMap = Record<string, Component>
+export type ComponentsMap = Record<string, Component | undefined>
 
 type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
 export const RECAPTCHA_INPUT = 'g-recaptcha-response'
 
-const defaultComponentMaps: Record<string, Component | undefined> = {
+const defaultComponentMaps: ComponentsMap = {
     'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
     'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
     'input': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
@@ -60,8 +60,10 @@ export default function createFormChildren(
             /*
              * Make initial field value optional
              */
-            const parentModelValues = parentProps.modelValue || {}
-            const currentModelValue = parentModelValues?.[key] || null
+            const parentModelValues = (typeof parentProps.modelValue === 'object' && parentProps.modelValue !== null)
+                ? parentProps.modelValue as Record<string, unknown>
+                : {}
+            const currentModelValue = parentModelValues[key] ?? null
 
             const defaultProps: Record<string, unknown> = {
                 id,
@@ -97,7 +99,7 @@ export default function createFormChildren(
                 return h(LazyVFormFieldset, {
                     ...defaultProps,
                     schema,
-                    mergedComponentsMap,
+                    'componentsMap': mergedComponentsMap,
                     'virtual': schema?.attr?.virtual,
                     'schemaKey': key,
                     'modelValue': parentModelValues,
@@ -112,7 +114,7 @@ export default function createFormChildren(
                 return h(LazyVFormFieldset, {
                     ...defaultProps,
                     schema,
-                    mergedComponentsMap,
+                    componentsMap: mergedComponentsMap,
                     schemaKey: key,
                 })
             }
@@ -275,17 +277,17 @@ export default function createFormChildren(
                 }
                 else if (type === 'number') {
                     props.type = 'string'
-                    props['onUpdate:modelValue'] = (value: unknown) =>
+                    props['onUpdate:modelValue'] = (value: string) =>
                         emit('update:modelValue', { ...parentModelValues, [key]: Number.parseFloat(value) })
                 }
                 else if (type === 'integer') {
                     props.type = 'number'
-                    props['onUpdate:modelValue'] = (value: unknown) =>
+                    props['onUpdate:modelValue'] = (value: string) =>
                         emit('update:modelValue', { ...parentModelValues, [key]: Number.parseInt(value) })
                     props.step = '1'
                 }
                 else if (type === 'datetime' || type === 'datetime-local') {
-                    if (props.modelValue) {
+                    if (props.modelValue && typeof props.modelValue === 'string') {
                         // Handle timezones between data and client
                         const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
                         const localISOTime = new Date(Date.parse(props.modelValue) - tzOffset).toISOString()
