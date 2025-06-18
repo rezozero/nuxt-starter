@@ -43,10 +43,10 @@ const videoRatio = computed(() => {
 
 const embedVideoAttrs = computed(() => {
     return {
-        embedPlatform: (props.document.embedPlatform as 'youtube' | 'vimeo'),
+        embedPlatform: props.document.embedPlatform,
         embedId: props.document.embedId,
         src: props.document.relativePath,
-        altSources: (props.document.altSources as Partial<RoadizDocument>[]) || [],
+        altSources: props.document.altSources,
         ...dimension.value,
         ...getVideoAttrsValues(props, !!props?.background),
         ...filteredVideoProps.value,
