@@ -1,12 +1,8 @@
 <script lang="ts" setup>
 import type { ComponentPublicInstance } from 'vue'
 import { defineAsyncComponent } from 'vue'
-
-// @ts-expect-error cant-find-module
-import type { DatePickerModel } from 'v-calendar/src/use/datePicker'
-
-// @ts-expect-error cant-find-module
-import type { SimpleDateRange } from 'v-calendar/dist/types/src/utils/date/range'
+import type { DatePickerModel, DatePickerRangeObject } from 'v-calendar/dist/types/src/use/datePicker.js'
+import type { SimpleDateRange } from 'v-calendar/dist/types/src/utils/date/range.js'
 
 const [currentDate, modelModifiers] = defineModel<DatePickerModel>()
 
@@ -54,8 +50,8 @@ const draggingRange = ref<SimpleDateRange | null>(null)
 function onDrag(range: SimpleDateRange) {
     draggingRange.value = range
 
-    if (currentDate.value && 'start' in currentDate.value) {
-        dragDirection.value = range.start < currentDate.value.start ? 'backward' : 'forward'
+    if (currentDate.value && 'start' in (currentDate.value as DatePickerRangeObject)) {
+        dragDirection.value = range.start < (currentDate.value as DatePickerRangeObject).start ? 'backward' : 'forward'
     }
     else {
         dragDirection.value = null
