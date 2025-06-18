@@ -154,7 +154,7 @@ const onSelectChange = (event: Event) => {
 .icon {
     position: absolute;
     right: 0;
-    pointer-events: none;
     font-size: 1.5em;
+    pointer-events: none;
 }
 </style>
