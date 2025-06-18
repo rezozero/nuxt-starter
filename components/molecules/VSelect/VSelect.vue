@@ -107,7 +107,6 @@ const onSelectChange = (event: Event) => {
             <VIcon
                 v-if="!multiple"
                 :class="$style.icon"
-                size="24px"
                 name="form-arrow-down"
             />
         </div>
@@ -156,5 +155,6 @@ const onSelectChange = (event: Event) => {
     position: absolute;
     right: 0;
     pointer-events: none;
+    font-size: 1.5em;
 }
 </style>
