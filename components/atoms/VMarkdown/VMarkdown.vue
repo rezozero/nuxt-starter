@@ -122,9 +122,6 @@ export default defineComponent({
 
     ul {
         padding-left: 2ch;
-
-        // To customize the ::marker, opt for the UTF-8 code.
-        // https://www.w3schools.com/charsets/ref_utf_geometric.asp
     }
 
     ol {
