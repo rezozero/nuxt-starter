@@ -12,7 +12,6 @@
     border-radius: initial;
     background-color: var(--theme-color-surfaces-primary);
     color: var(--theme-color-content-primary);
-    word-break: break-word;
 
     @include media('>=md') {
         padding: px-to-rem(24);
