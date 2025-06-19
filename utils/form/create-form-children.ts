@@ -135,6 +135,7 @@ export default function createFormChildren(
                     = isMultiple && mergedComponentsMap.selectMultipleExpanded
                         ? mergedComponentsMap.selectMultipleExpanded
                         : mergedComponentsMap.selectExpanded || mergedComponentsMap.select
+
                 const enumList = isMultiple
                     ? ((schema.items as JsonSchemaExtended)?.enum as (string | number)[])
                     : (schema.enum as (string | number)[])
@@ -269,8 +270,8 @@ export default function createFormChildren(
                     ...defaultProps,
                     type,
                     required,
+                    modelValue: String(currentModelValue || ''),
                 }
-                props.modelValue = String(props.modelValue || '')
 
                 if (type === 'boolean' || type === 'checkbox') {
                     props.type = 'checkbox'
@@ -290,7 +291,7 @@ export default function createFormChildren(
                     if (props.modelValue && typeof props.modelValue === 'string') {
                         // Handle timezones between data and client
                         const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
-                        const localISOTime = new Date(Date.parse(props.modelValue) - tzOffset).toISOString()
+                        const localISOTime = new Date(Date.parse(props.modelValue as string) - tzOffset).toISOString()
                         props.modelValue = localISOTime.split('.')[0]
                     }
                     else {
