@@ -3,7 +3,7 @@ import video from '~/assets/stories/fixtures/documents/vimeo-01.json'
 
 const defaultProps = {
     embedId: video.embedId,
-    embedPlatform: video.embedPlatform,
+    embedPlatform: (video.embedPlatform as 'vimeo'),
     width: video.imageWidth,
     height: video.imageHeight,
 }

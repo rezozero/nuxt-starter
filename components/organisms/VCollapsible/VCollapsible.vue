@@ -1,63 +1,60 @@
-<script lang="ts" setup="">
-const props = defineProps({
-    label: String,
-    collapsed: Boolean,
-})
+<script lang="ts" setup>
+const props = defineProps<{
+    label?: string
+    collapsed?: boolean
+    buttonClass?: string
+    iconClass?: string
+    contentClass?: string
+}>()
 
 const slots = useSlots()
 const hasContent = computed(() => !!slots.default)
-const isCollapsible = computed(() => hasContent.value)
-const isCollapsed = ref(props.collapsed)
 
+const isCollapsed = ref(props.collapsed)
 function toggle() {
     isCollapsed.value = !isCollapsed.value
 }
+
+const contentId = `collapsible-${useId()}`
 </script>
 
 <template>
-    <div :class="[$style.root, isCollapsed && $style['root--collapsed'], isCollapsible && $style['root--collapsible']]">
-        <div
-            :class="$style.label"
+    <slot
+        name="button"
+        :is-collapsed="isCollapsed"
+        :aria-controls="contentId"
+        :disabled="!hasContent"
+        :toggle="toggle"
+    >
+        <VButton
+            :aria-expanded="!isCollapsed"
+            :aria-controls="contentId"
+            :disabled="!hasContent"
+            :class="[$style.button, buttonClass]"
+            :icon-name="isCollapsed ? 'PlusMD' : 'MinusMD'"
+            :icon-class="iconClass"
+            :label="label || (isCollapsed ? $t('open') : $t('close'))"
             @click="toggle"
+        />
+    </slot>
+
+    <VTransitionExpand>
+        <div
+            v-show="!isCollapsed"
+            :id="contentId"
+            :class="[$style.content, contentClass]"
         >
-            <slot
-                name="label"
-                :is-collapsed="isCollapsed"
-            >
-                {{ label }}
-            </slot>
-            <slot
-                name="cta"
-                :is-collapsed="isCollapsed"
-            >
-                <VButton v-if="isCollapsible">
-                    {{ isCollapsed ? '+' : '-' }}
-                </VButton>
-            </slot>
+            <slot />
         </div>
-        <VTransitionExpand>
-            <div
-                v-show="!isCollapsed"
-                :class="$style.content"
-            >
-                <slot />
-            </div>
-        </VTransitionExpand>
-    </div>
+    </VTransitionExpand>
 </template>
 
 <style lang="scss" module>
-.root {
-    overflow: hidden;
+.button {
+    cursor: pointer;
 }
 
-.label {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    .root--collapsible & {
-        cursor: pointer;
-    }
+.content {
+    max-width: var(--v-collapsible-content-max-width, initial);
 }
 </style>

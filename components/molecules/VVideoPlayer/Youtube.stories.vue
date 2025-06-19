@@ -3,7 +3,7 @@ import video from '~/assets/stories/fixtures/documents/youtube-01.json'
 
 const defaultProps = {
     embedId: video.embedId,
-    embedPlatform: video.embedPlatform,
+    embedPlatform: (video.embedPlatform as 'youtube'),
     width: video.imageWidth,
     height: video.imageHeight,
 }
@@ -23,5 +23,3 @@ const defaultProps = {
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
-
-<!-- <style lang="scss" module></style> -->

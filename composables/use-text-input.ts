@@ -2,7 +2,7 @@ import type { Ref } from 'vue'
 import type { FormElementProps } from '~/types/form'
 
 export interface TextInputProps extends FormElementProps {
-    modelValue?: string
+    modelValue?: string | unknown
 }
 
 type EmitFunction = (event: string, value?: string) => void
@@ -13,7 +13,7 @@ export function useTextInput(props: TextInputProps, emit: EmitFunction, element:
     const isFocused = ref(false)
     const model = ref(props.modelValue)
 
-    const isFilled = computed(() => !!model.value?.length)
+    const isFilled = computed(() => typeof model.value === 'string' && model.value.length > 0)
 
     const onBlur = () => {
         isFocused.value = false
@@ -33,7 +33,7 @@ export function useTextInput(props: TextInputProps, emit: EmitFunction, element:
     )
 
     watch(model, (value) => {
-        emit('update:modelValue', value)
+        emit('update:modelValue', typeof value === 'string' ? value : undefined)
     })
 
     onMounted(() => {

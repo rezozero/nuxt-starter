@@ -10,7 +10,7 @@ export interface FactoryPropsTypes {
     schema?: JsonSchemaExtended
     componentsMap?: ComponentsMap
     id?: string
-    modelValue?: FactoryPropsModelValue
+    modelValue?: Record<string, unknown> | string | unknown
     errors?: Violation[]
     disabled?: boolean
     parents?: string[]

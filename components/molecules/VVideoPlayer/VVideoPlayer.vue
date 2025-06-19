@@ -273,8 +273,8 @@ onBeforeUnmount(disposePlayer)
 .spinner {
     position: absolute;
     z-index: 10;
-    top: calc(50% - #{rem(35)});
-    left: calc(50% - #{rem(35)});
+    top: calc(50% - #{px-to-rem(35)});
+    left: calc(50% - #{px-to-rem(35)});
     width: px-to-rem(70);
     height: px-to-rem(70);
 }
