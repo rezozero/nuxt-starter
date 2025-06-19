@@ -4,13 +4,13 @@ import createFormChildren from '~/utils/form/create-form-children'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { Violation } from '~/types/form'
 
-export type FactoryPropsModelValue = Record<string, unknown> | string
+export type FactoryPropsModelValue = Record<string, unknown> | string | unknown
 
 export interface FactoryPropsTypes {
     schema?: JsonSchemaExtended
     componentsMap?: ComponentsMap
     id?: string
-    modelValue?: Record<string, unknown> | string | unknown
+    modelValue?: FactoryPropsModelValue
     errors?: Violation[]
     disabled?: boolean
     parents?: string[]
