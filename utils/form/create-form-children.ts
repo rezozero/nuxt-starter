@@ -5,13 +5,11 @@ import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
 import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
 
 export type ComponentsMap = Record<string, Component | undefined>
-export type ComponentsMap = Record<string, Component | undefined>
 
 type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
 export const RECAPTCHA_INPUT = 'g-recaptcha-response'
 
-const defaultComponentMaps: ComponentsMap = {
 const defaultComponentMaps: ComponentsMap = {
     'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
     'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
