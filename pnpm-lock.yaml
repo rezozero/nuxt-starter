@@ -21,8 +21,8 @@ importers:
         specifier: ^9.33.0
         version: 9.33.0(magicast@0.3.5)(nuxt@3.17.5(@parcel/watcher@2.5.1)(@types/node@24.0.7)(db0@0.3.2)(eslint@9.29.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.41.1)(sass@1.89.2)(stylelint@16.21.0(typescript@5.8.3))(terser@5.41.0)(typescript@5.8.3)(vite@6.3.5(@types/node@24.0.7)(jiti@2.4.2)(sass@1.89.2)(terser@5.41.0)(yaml@2.8.0))(yaml@2.8.0))(rollup@4.41.1)(vue@3.5.16(typescript@5.8.3))
       '@types/lodash':
-        specifier: ^4.17.17
-        version: 4.17.17
+        specifier: ^4.17.19
+        version: 4.17.19
       '@vue-a11y/skip-to':
         specifier: ^3.0.3
         version: 3.0.3(vue@3.5.16(typescript@5.8.3))
@@ -1992,8 +1992,8 @@ packages:
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
-  '@types/lodash@4.17.17':
-    resolution: {integrity: sha512-RRVJ+J3J+WmyOTqnz3PiBLA501eKwXl2noseKOrNo/6+XEHjTAxO4xHvxQB6QuNm+s4WRbn6rSiap8+EA+ykFQ==}
+  '@types/lodash@4.17.19':
+    resolution: {integrity: sha512-NYqRyg/hIQrYPT9lbOeYc3kIRabJDn/k4qQHIXUpx88CBDww2fD15Sg5kbXlW86zm2XEW4g0QxkTI3/Kfkc7xQ==}
 
   '@types/mysql@2.15.26':
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
@@ -8199,7 +8199,7 @@ snapshots:
 
   '@types/json-schema@7.0.15': {}
 
-  '@types/lodash@4.17.17': {}
+  '@types/lodash@4.17.19': {}
 
   '@types/mysql@2.15.26':
     dependencies:
@@ -12359,7 +12359,7 @@ snapshots:
   v-calendar@3.1.2(@popperjs/core@2.11.8)(vue@3.5.16(typescript@5.8.3)):
     dependencies:
       '@popperjs/core': 2.11.8
-      '@types/lodash': 4.17.17
+      '@types/lodash': 4.17.19
       '@types/resize-observer-browser': 0.1.11
       date-fns: 2.30.0
       date-fns-tz: 2.0.1(date-fns@2.30.0)
