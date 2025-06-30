@@ -54,7 +54,7 @@
     "@gtm-support/vue-gtm": "^3.1.0",
     "@popperjs/core": "^2.11.8",
     "@sentry/nuxt": "^9.30.0",
-    "@types/lodash": "^4.17.17",
+    "@types/lodash": "^4.17.19",
     "@vue-a11y/skip-to": "^3.0.3",
     "@vueuse/core": "^13.4.0",
     "body-scroll-lock": "^3.1.5",
