@@ -126,7 +126,7 @@ export default defineComponent({
                 ref: root,
                 width: width.value,
                 height: height.value,
-                alt: props.alt,
+                alt: props.alt || '', // Always set alt (empty string), empty alt is for decorative images
                 loading: props.loading,
                 crossorigin: props.crossorigin,
                 decoding: props.decoding,

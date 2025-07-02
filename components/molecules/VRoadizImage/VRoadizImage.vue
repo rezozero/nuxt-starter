@@ -52,7 +52,7 @@ export default defineComponent({
                 src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
                 width: width.value,
                 height: height.value,
-                alt: document.value?.alt || document.value?.name,
+                alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
                 placeholder: document.value?.imageAverageColor,
                 format: props.format || 'webp',
                 sizes:
