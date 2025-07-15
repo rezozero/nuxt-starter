@@ -30,6 +30,7 @@ const { itemBaseId } = useList({
 const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
     params: internalParams,
     watch: [page],
+    pick: ['hydra:member', 'hydra:totalItems'],
 })
 
 const items = computed(() => {
