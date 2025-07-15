@@ -18,8 +18,9 @@ export async function useRoadizLoadMore<
     ItemT extends RoadizNodesSources = RoadizNodesSources,
     ParamsT extends RoadizRequestParams = RoadizRequestParams,
 >(options: UseLoadMoreOptions<ParamsT>) {
+    type PageData = HydraCollection<ItemT>
     const itemsPerPage = computed(() => toValue(options.params)?.itemsPerPage || ITEMS_PER_PAGE)
-    const pages = ref<ShallowRef<HydraCollection<ItemT> | null>[]>([])
+    const pages = ref<ShallowRef<PageData | null>[]>([])
     const lastPageIndex = computed(() => Math.max(pages.value.length - 1, 0))
     const lastPage = computed(() => pages.value[lastPageIndex.value]?.value)
 
@@ -119,7 +120,7 @@ export async function useRoadizLoadMore<
             itemsPerPage: itemsPerPage.value,
         }
         const key = hash(options.url + encodeUrlParams(params))
-        const pageData = shallowRef<HydraCollection<ItemT> | null>(null)
+        const pageData = shallowRef<PageData | null>(null)
         const newPages = pages.value?.slice()
 
         newPages[pageIndex - 1] = pageData
@@ -128,10 +129,11 @@ export async function useRoadizLoadMore<
         if (import.meta.server) {
             const nuxtApp = useNuxtApp()
             const cacheTagsKey = useRuntimeConfig().public.cacheTags?.key
-            const { data } = await useRoadizFetch<CacheTagsContainer<HydraCollection<ItemT>>, unknown>(options.url, {
+            const { data } = await useRoadizFetch<CacheTagsContainer<PageData>, unknown>(options.url, {
                 params,
                 key,
                 deep: false,
+                pick: ['hydra:member', 'hydra:totalItems'],
                 onResponse({ response }) {
                     if (cacheTagsKey) {
                         // temp assign cacheTags to response._data for useCacheTags()
@@ -149,11 +151,11 @@ export async function useRoadizLoadMore<
             pageData.value = data.value
         }
         else {
-            const { data } = useNuxtData<HydraCollection<ItemT>>(key)
+            const { data } = useNuxtData<PageData>(key)
 
             pageData.value
                 = data.value
-                    || (await roadizFetch<HydraCollection<ItemT>>(options.url, {
+                    || (await roadizFetch<PageData>(options.url, {
                         params,
                     }))
         }
