@@ -38,5 +38,5 @@ export default {
         ],
     },
     defaultSeverity: 'warning',
-    ignoreFiles: ['./assets/scss/vendors/_tarteaucitron.scss', './assets/scss/vendors/_orejime.scss', './dist/**/*.css'],
+    ignoreFiles: ['./dist/**/*.css'],
 }

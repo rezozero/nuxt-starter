@@ -1,10 +1,13 @@
-// For orejime 1.1.1
-$orejime-box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 5px 5px 10px 0 rgba(0, 0, 0, 0.19) !default;
-$orejime-border-radius: 0 !default;
+/* stylelint-disable selector-class-pattern -- We cannot enforce a specific class naming convention for third-party libraries */
+/* stylelint-disable selector-id-pattern -- We cannot enforce a specific id naming convention for third-party libraries */
+/* stylelint-disable keyframes-name-pattern -- We cannot enforce a specific keyframes naming convention for third-party libraries */
 
+
+// For orejime 1.1.1
+$orejime-box-shadow: 0 4px 6px 0 rgb(0, 0, 0, 20%), 5px 5px 10px 0 rgb(0, 0, 0, 19%) !default;
+$orejime-border-radius: 0 !default;
 $orejime-blue: #057eb6 !default;
 $orejime-white: #fff !default;
-
 $orejime-theme-bg: #292929 !default;
 $orejime-theme-border: 1px solid #555 !default;
 $orejime-theme-color: #eee !default;
@@ -66,10 +69,10 @@ $orejime-theme-color-light: #aaa !default;
 }
 
 .orejime-Button {
-    padding: 8px 15px 6px 15px;
+    padding: 8px 15px 6px;
     border: 1px solid transparent;
-    margin-right: 1em;
     border-radius: $orejime-border-radius;
+    margin-right: 1em;
     color: #fff;
     font-size: 11px;
     letter-spacing: 0.02em;
@@ -100,13 +103,13 @@ $orejime-theme-color-light: #aaa !default;
     font-size: 0.8em;
     line-height: 1.5em;
 
-    @media (min-width: 990px) {
+    @media (width >= 990px) {
         right: 0;
         bottom: 0;
         max-width: 410px;
     }
 
-    @media (max-width: 989px) {
+    @media (width <= 989px) {
         border: none;
         border-radius: 0;
     }
@@ -114,7 +117,7 @@ $orejime-theme-color-light: #aaa !default;
     .orejime-Button {
         margin-right: 0.8em;
 
-        @media (min-width: 990px) {
+        @media (width >= 990px) {
             margin-right: 1em;
         }
     }
@@ -149,10 +152,10 @@ $orejime-theme-color-light: #aaa !default;
 }
 
 .orejime-Notice-body {
-    padding: 2em 1.5em 1.5em 1.5em;
+    padding: 2em 1.5em 1.5em;
 
-    @media (min-width: 990px) {
-        padding: 2.5em 3em 3em 3em;
+    @media (width >= 990px) {
+        padding: 2.5em 3em 3em;
     }
 }
 
@@ -197,11 +200,8 @@ $orejime-theme-color-light: #aaa !default;
 .orejime-ModalOverlay {
     position: fixed;
     z-index: 1000;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgb(0, 0, 0, 50%);
+    inset: 0;
 }
 
 .orejime-ModalWrapper {
@@ -218,15 +218,15 @@ $orejime-theme-color-light: #aaa !default;
 }
 
 .orejime-Modal {
-    background: $orejime-theme-bg;
     border-radius: $orejime-border-radius;
+    background: $orejime-theme-bg;
     color: $orejime-theme-color;
 }
 
 .orejime-Modal-header {
     padding: 1.5em;
 
-    @media (min-width: 990px) {
+    @media (width >= 990px) {
         padding: 2em;
     }
 }
@@ -258,13 +258,13 @@ $orejime-theme-color-light: #aaa !default;
 .orejime-CloseIcon {
     width: 12px;
     pointer-events: none;
-    stroke: currentColor;
+    stroke: currentcolor;
 }
 
 .orejime-Modal-body {
     padding: 0 1.5em 1.5em;
 
-    @media (min-width: 990px) {
+    @media (width >= 990px) {
         padding: 0 2em 2em;
     }
 
@@ -286,7 +286,7 @@ $orejime-theme-color-light: #aaa !default;
 .orejime-Modal-footer {
     padding: 0.75em 1.5em 1.5em;
 
-    @media (min-width: 990px) {
+    @media (width >= 990px) {
         padding: 1em 2em 2em;
     }
 }
@@ -392,17 +392,13 @@ $orejime-theme-color-light: #aaa !default;
 
 .orejime-AppItem-slider {
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
     display: inline-block;
     width: 45px;
     border: 2px solid transparent;
-    background-color: #6b6b6b;
     border-radius: 30px;
+    background-color: #6b6b6b;
     cursor: pointer;
-    -webkit-transition: .4s;
+    inset: 0;
     transition: .4s;
 
     &::before {
@@ -411,10 +407,9 @@ $orejime-theme-color-light: #aaa !default;
         left: 3px;
         width: 14px;
         height: 14px;
-        background-color: white;
         border-radius: 50%;
+        background-color: white;
         content: "";
-        -webkit-transition: .4s;
         transition: .4s;
     }
 }
@@ -456,8 +451,6 @@ $orejime-theme-color-light: #aaa !default;
 }
 
 .orejime-AppItem-input:checked + .orejime-AppItem-label .orejime-AppItem-slider::before {
-    -webkit-transform: translateX(20px);
-    -ms-transform: translateX(20px);
     transform: translateX(20px);
 }
 
@@ -472,7 +465,7 @@ $orejime-theme-color-light: #aaa !default;
         font-size: 0.8em;
         text-align: center;
 
-        @media (min-width: 990px) {
+        @media (width >= 990px) {
             font-size: 1em;
         }
     }

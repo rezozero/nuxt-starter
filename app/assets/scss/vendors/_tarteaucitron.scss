@@ -1,3 +1,6 @@
+/* stylelint-disable selector-class-pattern -- We cannot enforce a specific class naming convention for third-party libraries */
+/* stylelint-disable selector-id-pattern -- We cannot enforce a specific id naming convention for third-party libraries */
+
 // This style will be injected from Google Tag Manager.
 // DO NOT INCLUDE IN SCSS COMPILE WORKFLOW
 //
@@ -93,7 +96,7 @@ button.tarteaucitron-toggle-group {
     padding: 30px 16px;
     background: #fff;
 
-    @media screen and (min-width: 768px) {
+    @media screen and (width >= 768px) {
         max-height: 90vh;
         padding: 30px 25px 30px 56px;
     }
@@ -182,7 +185,7 @@ div#tarteaucitronMainLineOffset {
 
 #tarteaucitronRoot .tarteaucitronH2 {
     display: inline-block;
-    margin: 12px 0 0 0;
+    margin: 12px 0 0;
 }
 
 #tarteaucitronCookiesNumberBis.tarteaucitronH2 {
@@ -310,7 +313,7 @@ div#tarteaucitronMainLineOffset {
 
 #tarteaucitron #tarteaucitronServices .tarteaucitronMainLine {
     position: relative;
-    border-bottom: 1px solid rgba(1,1,1,0.15) !important;
+    border-bottom: 1px solid rgb(1,1,1,15%) !important;
     margin-top: 21px;
     margin-bottom: 0;
 }
@@ -345,6 +348,7 @@ div#tarteaucitronMainLineOffset {
     cursor: pointer;
     text-align: center;
     text-decoration: none;
+
     @include tac-default-contrast;
 }
 
@@ -408,7 +412,7 @@ span#tarteaucitronDisclaimerAlert {
     padding: 25px;
     margin: auto;
     background: #fff;
-    box-shadow: 0 0 300px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 300px rgb(0, 0, 0, 10%);
     text-align: left;
 }
 
@@ -433,7 +437,7 @@ span#tarteaucitronDisclaimerAlert {
     cursor: pointer;
     font-size: var(--v-button-font-size, 1.125rem);
     font-weight: bold;
-    line-height: 1.2222222222;
+    line-height: 1.2222;
     text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
 
@@ -448,7 +452,7 @@ span#tarteaucitronDisclaimerAlert {
     @include tac-default-contrast;
 
     border: 0 none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid rgb(0, 0, 0, 20%);
 }
 
 #tarteaucitron #tarteaucitronPrivacyUrlDialog,
@@ -500,7 +504,7 @@ span#tarteaucitronDisclaimerAlert {
 
 #tarteaucitronIcon #tarteaucitronManager {
     display: inline-block;
-    padding: 8px 10px 8px;
+    padding: 8px 10px;
     border: none;
     color: transparent;
     cursor: pointer;
@@ -529,13 +533,13 @@ span#tarteaucitronDisclaimerAlert {
 
 #tarteaucitronAlertSmall #tarteaucitronManager {
     display: inline-block;
-    padding: 8px 10px 8px;
+    padding: 8px 10px;
     cursor: pointer;
     font-size: 11px !important
 }
 
 #tarteaucitronAlertSmall #tarteaucitronManager:hover {
-    background: rgba(255, 255, 255, .05)
+    background: rgb(255, 255, 255, 5%)
 }
 
 #tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot {
@@ -543,10 +547,10 @@ span#tarteaucitronDisclaimerAlert {
     overflow: hidden;
     width: 100%;
     height: 8px;
+    border-radius: 5px;
     margin-top: 5px;
     margin-bottom: 1px;
-    background-color: gray;
-    border-radius: 5px
+    background-color: gray
 }
 
 #tarteaucitronAlertSmall #tarteaucitronManager #tarteaucitronDot #tarteaucitronDotGreen,
@@ -573,14 +577,14 @@ span#tarteaucitronDisclaimerAlert {
 #tarteaucitronAlertSmall #tarteaucitronCookiesNumber {
     display: inline-block;
     padding: 0 10px;
-    background: rgba(255, 255, 255, .2);
+    background: rgb(255, 255, 255, 20%);
     cursor: pointer;
     font-size: 30px;
     vertical-align: top
 }
 
 #tarteaucitronAlertSmall #tarteaucitronCookiesNumber:hover {
-    background: rgba(255, 255, 255, .3)
+    background: rgb(255, 255, 255, 30%)
 }
 
 #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer {
@@ -601,12 +605,12 @@ span#tarteaucitronDisclaimerAlert {
 
 #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain {
     padding: 7px 5px 10px;
-    background: rgba(51, 51, 51, .1);
+    background: rgb(51, 51, 51, 10%);
     word-wrap: break-word
 }
 
 #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain:hover {
-    background: rgba(51, 51, 51, .2)
+    background: rgb(51, 51, 51, 20%)
 }
 
 #tarteaucitronAlertSmall #tarteaucitronCookiesListContainer #tarteaucitronCookiesList .tarteaucitronCookiesListMain a {
@@ -714,7 +718,7 @@ a.tarteaucitronSelfLink {
 }
 
 
-@media screen and (max-width: 767px) {
+@media screen and (width <= 767px) {
     html body #tarteaucitronRoot #tarteaucitron ul#tarteaucitronServices_mandatory .tarteaucitronDeny {
         display: none !important
     }
@@ -741,6 +745,7 @@ a.tarteaucitronSelfLink {
         padding: 10px 0;
         font-size: 0
     }
+
     html body #tarteaucitronRoot #tarteaucitron .tarteaucitronBorder .tarteaucitronIsExpanded button.tarteaucitron-toggle-group::before {
         content: '\0025B4'
     }
