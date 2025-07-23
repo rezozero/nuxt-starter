@@ -1,11 +1,10 @@
 import type { RoadizAlternateLink } from '@roadiz/types'
-import { nuxtI18nOptions } from '#build/i18n.options.mjs'
 
 export async function useRoadizDetectBrowserLanguage({ locale, alternateLinks }: {
     locale: string
     alternateLinks?: RoadizAlternateLink[]
 }) {
-    const { detectBrowserLanguage } = nuxtI18nOptions
+    const { detectBrowserLanguage } = useRuntimeConfig().public.i18n
 
     if (!detectBrowserLanguage) return
 
