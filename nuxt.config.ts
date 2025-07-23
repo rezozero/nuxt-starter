@@ -1,7 +1,7 @@
 import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
 import { version } from './package.json'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './constants/i18n'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
@@ -10,7 +10,7 @@ const isNuxtStories = process.env.NUXT_STORIES === '1'
 const plugins: (NuxtPlugin | string)[] = []
 
 if (isNuxtStories) {
-    plugins.push('./plugins/stories/msw.ts')
+    plugins.push('~/plugins/stories/msw.ts')
 }
 
 export default defineNuxtConfig({
@@ -101,7 +101,7 @@ export default defineNuxtConfig({
     ignore: [
         ...(isGenerateMaintenance ? ['layouts/**', 'pages/**', 'components/blocks/**', 'components/organisms/**', 'server/api/**'] : []),
         (isGenerateMaintenance || isDev) ? '!pages/maintenance.vue' : 'pages/maintenance.vue',
-        !isDev ? '**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
+        !isDev ? './app/**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
     ],
     features: {
         noScripts: isGenerateMaintenance, // maintenance page does not need JS
@@ -216,13 +216,8 @@ export default defineNuxtConfig({
             code: locale,
             file: `nuxt.${locale}.json`,
         })),
-        lazy: true,
         compilation: {
             strictMessage: false, // Message can contains HTML tag
-        },
-        bundle: {
-            // fix this issue: https://github.com/nuxt-modules/i18n/issues/3238#issuecomment-2672492536
-            optimizeTranslationDirective: false,
         },
     },
     // https://nuxt.com/modules/icon#usage
@@ -235,7 +230,7 @@ export default defineNuxtConfig({
             {
                 normalizeIconName: false,
                 prefix: 'icon',
-                dir: './assets/images/icons',
+                dir: './app/assets/images/icons',
             },
         ],
     },
@@ -271,9 +266,6 @@ export default defineNuxtConfig({
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {
-        pattern: [
-            '**/*.stories.vue',
-            '!playground', // exclude layer stories
-        ],
+        root: './app/**/*.stories.vue',
     },
 })
