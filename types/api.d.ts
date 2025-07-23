@@ -7,7 +7,7 @@ import type {
 } from '@roadiz/types'
 
 import type { RoadizWalkerKnown } from '~/utils/roadiz/types'
-import type { NSMenu, NSMenuLink } from '~/types/roadiz'
+import type { NSMenu, NSMenuLink } from '~~/types/roadiz'
 
 interface HydraError {
     '@context': string
