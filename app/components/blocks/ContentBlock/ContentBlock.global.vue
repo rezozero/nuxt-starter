@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
-import type { UseRoadizBlockProps } from '#imports'
+import type { UseRoadizBlockProps } from '~~/types/app'
 
 const props = defineProps<UseRoadizBlockProps>()
 const { item } = useRoadizBlock<RoadizNodesSources>({ props })
