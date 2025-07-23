@@ -5,10 +5,8 @@ import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-eleme
 import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/embed'
-
 import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
-
-import('~/assets/scss/vendors/_plyr.scss')
+import '~/assets/scss/vendors/_plyr.scss'
 
 const props = defineProps({
     ...videoSrc,
