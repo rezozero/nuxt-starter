@@ -24,20 +24,20 @@ useDraggableScroll({
 </template>
 
 <style module lang="scss">
-@use 'assets/scss/functions/rem' as *;
+@use 'assets/scss/functions/px-to-rem' as *;
 
 .root {
     display: flex;
     width: 100%;
-    max-width: rem(400px);
+    max-width: px-to-rem(400px);
     flex-wrap: nowrap;
-    gap: rem(24);
+    gap: px-to-rem(24);
     overflow-x: auto;
     white-space: nowrap;
 }
 
 .item {
-    width: rem(200);
+    width: px-to-rem(200);
     flex-shrink: 0;
     aspect-ratio: 300/200;
     background-color: #ccc;
