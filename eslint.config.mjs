@@ -11,7 +11,7 @@ export default withNuxt(
         ],
     },
 ).append({
-    files: ['**/*.stories.vue'],
+    files: ['./app/**/*.stories.vue'],
     rules: {
         'vue/multi-word-component-names': 'off',
     },
