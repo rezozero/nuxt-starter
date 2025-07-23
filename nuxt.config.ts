@@ -99,9 +99,9 @@ export default defineNuxtConfig({
         },
     },
     ignore: [
-        ...(isGenerateMaintenance ? ['layouts/**', 'pages/**', 'components/blocks/**', 'components/organisms/**', 'server/api/**'] : []),
-        (isGenerateMaintenance || isDev) ? '!pages/maintenance.vue' : 'pages/maintenance.vue',
-        !isDev ? './app/**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
+        ...(isGenerateMaintenance ? ['app/layouts/**', 'app/pages/**', 'app/components/blocks/**', 'app/components/organisms/**', 'server/api/**'] : []),
+        (isGenerateMaintenance || isDev) ? '!app/pages/maintenance.vue' : 'app/pages/maintenance.vue',
+        !isDev ? 'app/**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
     ],
     features: {
         noScripts: isGenerateMaintenance, // maintenance page does not need JS
@@ -230,7 +230,7 @@ export default defineNuxtConfig({
             {
                 normalizeIconName: false,
                 prefix: 'icon',
-                dir: './app/assets/images/icons',
+                dir: 'app/assets/images/icons',
             },
         ],
     },
@@ -266,6 +266,6 @@ export default defineNuxtConfig({
     },
     // https://github.com/rezozero/nuxt-stories
     stories: {
-        root: './app/**/*.stories.vue',
+        root: 'app/**/*.stories.vue',
     },
 })
