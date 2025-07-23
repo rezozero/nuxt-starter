@@ -85,8 +85,8 @@ importers:
         specifier: ^1.1.1
         version: 1.1.1(magicast@0.3.5)
       '@rezo-zero/nuxt-cache-control':
-        specifier: ^0.1.6
-        version: 0.1.6(magicast@0.3.5)
+        specifier: ^0.1.7
+        version: 0.1.7(magicast@0.3.5)
       '@rezo-zero/nuxt-stories':
         specifier: ^0.1.18
         version: 0.1.18
@@ -1791,8 +1791,8 @@ packages:
     resolution: {integrity: sha512-O3kCXm+r0mMCi2DC61yU81dCB3jUgRkJd5NkG3d9S87pbMuYrN+hj/2JvLSPHBKAHwg7hO5QIPA1Esb9IWIBrg==}
     engines: {node: ^20}
 
-  '@rezo-zero/nuxt-cache-control@0.1.6':
-    resolution: {integrity: sha512-Q4aM/AI27gtyOw86wB0ACpSLepbRRWbywHyKslYNIq3Q+QFByZz37HKrwwgSqhLlWDkQ9/O/G7NwDGvRSnMomA==}
+  '@rezo-zero/nuxt-cache-control@0.1.7':
+    resolution: {integrity: sha512-BcoG9mXsfrSsJ935PbU/iErhBX5u6T/nPIICPl2YsZlwSMSLLIv9tjx4j4g6/GhLIYK4PJIXoOMHumWhD7DMvQ==}
     engines: {node: ^20}
 
   '@rezo-zero/nuxt-stories@0.1.18':
@@ -8088,9 +8088,9 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@rezo-zero/nuxt-cache-control@0.1.6(magicast@0.3.5)':
+  '@rezo-zero/nuxt-cache-control@0.1.7(magicast@0.3.5)':
     dependencies:
-      '@nuxt/kit': 3.17.7(magicast@0.3.5)
+      '@nuxt/kit': 4.0.1(magicast@0.3.5)
       defu: 6.1.4
     transitivePeerDependencies:
       - magicast
