@@ -6,7 +6,6 @@ import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/embed'
 import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
-import '~/assets/scss/vendors/_plyr.scss'
 
 const props = defineProps({
     ...videoSrc,
@@ -126,7 +125,10 @@ async function createPlayer() {
         muted: muted.value,
         loop: { active: loop.value },
     }
-    const PlyrClass = await import('plyr').then(module => module.default)
+    const [PlyrClass] = await Promise.all([
+        import('plyr').then(module => module.default),
+        import('~/assets/scss/vendors/_plyr.scss'),
+    ])
 
     // I don't know why but listeners property is not used by Plyr.
     // As a workaround I will define the listeners later with on().

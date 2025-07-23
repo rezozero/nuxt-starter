@@ -68,7 +68,10 @@ async function createPlayer() {
         iconPrefix: 'plyr-icon',
         ...props.plyr,
     }
-    const PlyrClass = await import('plyr').then(module => module.default)
+    const [PlyrClass] = await Promise.all([
+        import('plyr').then(module => module.default),
+        import('~/assets/scss/vendors/_plyr.scss'),
+    ])
 
     player = new PlyrClass(playerElement.value, options)
     player.elements.container?.classList.add($style['plyr-native-container'])
