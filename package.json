@@ -65,7 +65,7 @@
     "swiper": "^11.2.10",
     "tiny-emitter": "^2.1.0",
     "v-calendar": "^3.1.2",
-    "vue-multiselect": "^3.2.0",
+    "vue-multiselect": "^3.3.1",
     "vue-recaptcha-v3": "^2.0.1"
   },
   "engines": {
