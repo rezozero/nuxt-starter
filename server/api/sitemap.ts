@@ -4,6 +4,8 @@ import { useApiUrl } from '~/composables/use-api-url'
 
 type ReachableEntity = JsonLdObject & {
     url?: string
+    // The `updatedAt` field can be on the root or inside a `node` object
+    updatedAt?: string
     node?: {
         updatedAt?: string
     }
@@ -37,22 +39,29 @@ function fetchResourcesByLocale(locale: string) {
         'reachable': true,
         'node.visible': true,
         'noIndex': false,
-        'properties[0]': 'title',
-        'properties[1]': 'url',
+        'properties[0]': 'url',
         'properties[node][]': 'updatedAt',
+        'itemsPerPage': 50,
     })
 
     // const today = new Date()
-    // today.setFullYear(today.getFullYear() - 2)
+    // today.setFullYear(today.getFullYear() - 3)
     // const events = fetchAllByLocale('/events', locale, {
+    //     'properties[0]': 'url',
+    //     'properties[1]': 'updatedAt',
     //     'sortingDateTime[after]': today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate(),
+    //     'itemsPerPage': 50,
     // })
     //
     // const peoples = fetchAllByLocale('/people', locale, {
+    //     'properties[0]': 'url',
+    //     'properties[1]': 'updatedAt',
     //     'exists[description]': true,
     //     'order[familyName]': 'asc',
+    //     'itemsPerPage': 50,
     // })
-
+    //
+    // return [nodes, events, peoples]
     return [nodes]
 }
 
@@ -66,6 +75,8 @@ export default defineSitemapEventHandler(async () => {
 
     return resources.filter(r => r?.url).map(resource => asSitemapUrl({
         loc: resource.url as string,
-        lastmod: resource?.node?.updatedAt ? new Date(resource?.node?.updatedAt).toISOString() : undefined,
+        lastmod: (resource?.updatedAt)
+            ? (new Date(resource?.updatedAt).toISOString())
+            : (resource?.node?.updatedAt ? new Date(resource?.node?.updatedAt).toISOString() : undefined),
     }))
 })
