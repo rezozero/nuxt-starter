@@ -3,10 +3,10 @@ import { hydraCollectionFetch } from '~/utils/hydra-collection-fetch'
 import { useApiUrl } from '~/composables/use-api-url'
 
 type ReachableEntity = JsonLdObject & {
-    url?: string,
+    url?: string
     node?: {
-        updatedAt?: string,
-    },
+        updatedAt?: string
+    }
 }
 
 const apiFetch = $fetch.create({
