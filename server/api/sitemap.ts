@@ -61,7 +61,7 @@ export default defineSitemapEventHandler(async () => {
         params: { available: true },
     }).then(response => response['hydra:member']!.map(({ locale }) => locale))
 
-    const resourcesLocalized = locales.map(locale => fetchResourcesByLocale(locale)).flat()
+    const resourcesLocalized = locales.map(locale => fetchResourcesByLocale(locale as string)).flat()
     const resources = (await Promise.all(resourcesLocalized)).flat()
 
     return resources.filter(r => r?.url).map(resource => asSitemapUrl({
