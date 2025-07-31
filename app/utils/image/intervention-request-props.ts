@@ -15,4 +15,5 @@ export default {
     sharpen: [Number, String],
     contrast: [Number, String],
     noProcess: [Number, Boolean],
+    hotspot: String,
 }
