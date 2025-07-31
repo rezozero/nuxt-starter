@@ -1,5 +1,3 @@
-import type { PropType } from 'vue'
-
 // https://github.com/ambroisemaupate/intervention-request#available-operations
 export default {
     fit: String,
@@ -17,15 +15,5 @@ export default {
     sharpen: [Number, String],
     contrast: [Number, String],
     noProcess: [Number, Boolean],
-    hotspot: [
-        String,
-        Object,
-    ] as PropType<string | {
-        x: [number, string]
-        y: [number, string]
-        areaStartX?: [number, string]
-        areaStartY?: [number, string]
-        areaEndX?: [number, string]
-        areaEndY?: [number, string]
-    }>,
+    hotspot: String,
 }
