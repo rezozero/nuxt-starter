@@ -39,8 +39,8 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
       marked:
-        specifier: ^16.1.1
-        version: 16.1.1
+        specifier: ^16.1.2
+        version: 16.1.2
       plyr:
         specifier: ^3.7.8
         version: 3.7.8
@@ -4238,8 +4238,8 @@ packages:
   magicast@0.3.5:
     resolution: {integrity: sha512-L0WhttDl+2BOsybvEOLK7fW3UA0OQ0IQ2d6Zl2x/a6vVRs3bAY0ECOSHHeL5jD+SbOpOCUEi0y1DgHEn9Qn1AQ==}
 
-  marked@16.1.1:
-    resolution: {integrity: sha512-ij/2lXfCRT71L6u0M29tJPhP0bM5shLL3u5BePhFwPELj2blMJ6GDtD7PfJhRLhJ/c2UwrK17ySVcDzy2YHjHQ==}
+  marked@16.1.2:
+    resolution: {integrity: sha512-rNQt5EvRinalby7zJZu/mB+BvaAY2oz3wCuCjt1RDrWNpS1Pdf9xqMOeC9Hm5adBdcV/3XZPJpG58eT+WBc0XQ==}
     engines: {node: '>= 20'}
     hasBin: true
 
@@ -10721,7 +10721,7 @@ snapshots:
       '@babel/types': 7.28.1
       source-map-js: 1.2.1
 
-  marked@16.1.1: {}
+  marked@16.1.2: {}
 
   math-intrinsics@1.1.0: {}
 
