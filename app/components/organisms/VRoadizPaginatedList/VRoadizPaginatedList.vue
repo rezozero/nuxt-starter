@@ -1,6 +1,7 @@
 <script  lang="ts" setup>
 import type { ComponentPublicInstance, PropType } from 'vue'
 import type { HydraCollection, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
+import { hash } from 'ohash'
 import { usePaginatedList } from '~/composables/use-paginated-list'
 
 const props = defineProps({
@@ -10,6 +11,7 @@ const props = defineProps({
     },
     params: Object as PropType<RoadizRequestNSParams>,
     itemElements: Array as PropType<(ComponentPublicInstance | HTMLElement)[]>,
+    fetchKey: String,
 })
 
 const root = ref<HTMLElement | null>(null)
@@ -27,8 +29,11 @@ const { itemBaseId } = useList({
     params: internalParams,
 })
 
+const key = props?.fetchKey || hash(props.url + encodeUrlParams(internalParams))
+
 const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
     params: internalParams,
+    key,
     watch: [page],
     pick: ['hydra:member', 'hydra:totalItems'],
 })
@@ -47,7 +52,7 @@ const totalPages = computed(() => {
 })
 
 const hasMoreThanOnePage = computed(() => {
-    return (totalPages.value > itemsPerPage.value) || (page.value > 1)
+    return (totalPages.value > 1) || (page.value > 1)
 })
 </script>
 
@@ -95,7 +100,7 @@ const hasMoreThanOnePage = computed(() => {
 }
 
 .list {
-    margin-bottom: px-to-rem(48);
+    margin-bottom: 48px;
 }
 
 .item {
@@ -111,6 +116,6 @@ const hasMoreThanOnePage = computed(() => {
 }
 
 .pagination {
-    margin-bottom: px-to-rem(48);
+    margin-bottom: 48px;
 }
 </style>
