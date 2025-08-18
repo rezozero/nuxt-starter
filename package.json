@@ -50,7 +50,7 @@
     "vite-svg-loader": "^5.1.0"
   },
   "dependencies": {
-    "@floating-ui/vue": "^1.1.7",
+    "@floating-ui/vue": "^1.1.8",
     "@gtm-support/vue-gtm": "^3.1.0",
     "@popperjs/core": "^2.11.8",
     "@sentry/nuxt": "^10.3.0",
