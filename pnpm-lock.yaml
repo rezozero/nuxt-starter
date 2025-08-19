@@ -115,8 +115,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       msw:
-        specifier: ^2.10.4
-        version: 2.10.4(@types/node@24.2.1)(typescript@5.8.3)
+        specifier: ^2.10.5
+        version: 2.10.5(@types/node@24.2.1)(typescript@5.8.3)
       nuxt:
         specifier: ^4.0.1
         version: 4.0.1(@netlify/blobs@9.1.2)(@parcel/watcher@2.5.1)(@types/node@24.2.1)(@vue/compiler-sfc@3.5.18)(db0@0.3.2)(eslint@9.33.0(jiti@2.4.2))(ioredis@5.6.1)(magicast@0.3.5)(meow@13.2.0)(optionator@0.9.4)(rollup@4.45.1)(sass@1.89.2)(stylelint@16.23.1(typescript@5.8.3))(terser@5.43.1)(typescript@5.8.3)(vite@7.0.5(@types/node@24.2.1)(jiti@2.4.2)(sass@1.89.2)(terser@5.43.1)(yaml@2.8.0))(yaml@2.8.0)
@@ -794,8 +794,8 @@ packages:
     peerDependencies:
       vue: '>=3'
 
-  '@inquirer/confirm@5.1.14':
-    resolution: {integrity: sha512-5yR4IBfe0kXe59r1YCTG8WXkUbl7Z35HK87Sw+WUyGD8wNUx7JvY7laahzeytyE1oLn74bQnL7hstctQxisQ8Q==}
+  '@inquirer/confirm@5.1.15':
+    resolution: {integrity: sha512-SwHMGa8Z47LawQN0rog0sT+6JpiL0B7eW9p1Bb7iCeKDGTI5Ez25TSc2l8kw52VV7hA4sX/C78CGkMrKXfuspA==}
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
@@ -946,8 +946,8 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
 
-  '@mswjs/interceptors@0.39.3':
-    resolution: {integrity: sha512-9bw/wBL7pblsnOCIqvn1788S9o4h+cC5HWXg0Xhh0dOzsZ53IyfmBM+FYqpDDPbm0xjCqEqvCITloF3Dm4TXRQ==}
+  '@mswjs/interceptors@0.39.6':
+    resolution: {integrity: sha512-bndDP83naYYkfayr/qhBHMhk0YGwS1iv6vaEGcr0SQbO0IZtbOPqjKjds/WcG+bJA+1T5vCx6kprKOzn5Bg+Vw==}
     engines: {node: '>=18'}
 
   '@napi-rs/wasm-runtime@0.2.12':
@@ -4440,8 +4440,8 @@ packages:
   ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
 
-  msw@2.10.4:
-    resolution: {integrity: sha512-6R1or/qyele7q3RyPwNuvc0IxO8L8/Aim6Sz5ncXEgcWUNxSKE+udriTOWHtpMwmfkLYlacA2y7TIx4cL5lgHA==}
+  msw@2.10.5:
+    resolution: {integrity: sha512-0EsQCrCI1HbhpBWd89DvmxY6plmvrM96b0sCIztnvcNHQbXn5vqwm1KlXslo6u4wN9LFGLC1WFjjgljcQhe40A==}
     engines: {node: '>=18'}
     hasBin: true
     peerDependencies:
@@ -6864,7 +6864,7 @@ snapshots:
       '@iconify/types': 2.0.0
       vue: 3.5.18(typescript@5.8.3)
 
-  '@inquirer/confirm@5.1.14(@types/node@24.2.1)':
+  '@inquirer/confirm@5.1.15(@types/node@24.2.1)':
     dependencies:
       '@inquirer/core': 10.1.15(@types/node@24.2.1)
       '@inquirer/type': 3.0.8(@types/node@24.2.1)
@@ -7033,7 +7033,7 @@ snapshots:
       json5: 2.2.3
       rollup: 4.45.1
 
-  '@mswjs/interceptors@0.39.3':
+  '@mswjs/interceptors@0.39.6':
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/logger': 0.3.0
@@ -11038,13 +11038,13 @@ snapshots:
 
   ms@2.1.3: {}
 
-  msw@2.10.4(@types/node@24.2.1)(typescript@5.8.3):
+  msw@2.10.5(@types/node@24.2.1)(typescript@5.8.3):
     dependencies:
       '@bundled-es-modules/cookie': 2.0.1
       '@bundled-es-modules/statuses': 1.0.1
       '@bundled-es-modules/tough-cookie': 0.1.6
-      '@inquirer/confirm': 5.1.14(@types/node@24.2.1)
-      '@mswjs/interceptors': 0.39.3
+      '@inquirer/confirm': 5.1.15(@types/node@24.2.1)
+      '@mswjs/interceptors': 0.39.6
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
