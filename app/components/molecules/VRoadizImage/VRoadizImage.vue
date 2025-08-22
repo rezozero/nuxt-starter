@@ -30,8 +30,30 @@ export default defineComponent({
                 Object.keys(interventionRequestProps) as Array<InterventionRequestPropsKeys>,
             )
 
-            if (document.value?.imageCropAlignment && !result.align) {
-                result.align = document.value!.imageCropAlignment
+            // Hotspot
+            const hotspot = props.hotspot || document.value?.hotspot
+
+            if (hotspot) {
+                if (typeof hotspot === 'string') {
+                    result.hotspot = hotspot
+                }
+                else if ('x' in hotspot && 'y' in hotspot) {
+                    result.hotspot = `${hotspot.x}:${hotspot.y}`
+
+                    if (
+                        'areaStartX' in hotspot
+                        && 'areaStartY' in hotspot
+                        && 'areaEndX' in hotspot
+                        && 'areaEndY' in hotspot
+                    ) {
+                        result.hotspot += `:${hotspot.areaStartX}:${hotspot.areaStartY}:${hotspot.areaEndX}:${hotspot.areaEndY}`
+                    }
+                }
+            }
+            else if (!props.align && document.value?.imageCropAlignment) {
+                // imageCropAlignment is a legacy feature
+                // Now we use the hotspot property instead
+                result.align = document.value.imageCropAlignment
             }
 
             return result
