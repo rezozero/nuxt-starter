@@ -128,7 +128,7 @@ export default defineComponent({
                 height: height.value,
                 alt: props.alt || '', // Always set alt (empty string), empty alt is for decorative images
                 loading: props.loading,
-                crossorigin: props.crossorigin,
+                crossorigin: typeof props.crossorigin === 'string' ? props.crossorigin : undefined,
                 decoding: props.decoding,
                 longdesc: props.longdesc,
                 style: style.value,
