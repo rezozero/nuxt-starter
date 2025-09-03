@@ -57,13 +57,9 @@ if (import.meta.server && props.items.length > 1) {
 
 <style lang="scss" module>
 .root {
-    display: var(--v-breadcrumbs-display, flex);
+    display: var(--v-breadcrumb-display, flex);
     align-items: center;
     column-gap: var(--spacing-4xs);
-
-    @include media('>=md') {
-        column-gap: var(--spacing-lg);
-    }
 }
 
 .item {
