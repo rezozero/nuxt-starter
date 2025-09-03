@@ -1,0 +1,306 @@
+{
+  "@context": "/api/contexts/WebResponse",
+  "@id": "/api/web_response_by_path",
+  "@type": "WebResponse",
+  "item": {
+    "@type": "NSBlogPost",
+    "@id": "/api/blog_posts/174",
+    "subTitle": "Pétition",
+    "content": "Partout en France, les équipes artistiques et lieux, invitent le public à la fin de chaque représentation à se mettre debout pour défendre et soutenir le service public de l’Art et de la Culture !",
+    "media": [
+      {
+        "@id": "/api/documents/121",
+        "@type": "Document",
+        "mimeType": "image/jpeg",
+        "imageWidth": 1600,
+        "imageHeight": 763,
+        "mediaDuration": 0,
+        "imageAverageColor": "#655f68",
+        "alt": "Debout pour la culture - La Comédie",
+        "relativePath": "70d024b6/deboutculture.jpg",
+        "processable": true,
+        "type": "image",
+        "name": "Debout pour la culture - La Comédie",
+        "description": "Photo prise à La Comédie à l’issue de la représentation du spectacle \"D’autres familles que la mienne\" le 31 janvier 2025",
+        "copyright": null,
+        "externalUrl": null
+      }
+    ],
+    "title": "Debout pour la culture",
+    "publishedAt": "2025-05-12T11:47:00+02:00",
+    "metaTitle": "",
+    "metaDescription": "",
+    "noIndex": false,
+    "node": {
+      "@id": "/api/nodes/172",
+      "@type": "Node",
+      "nodeName": "debout-pour-la-culture",
+      "visible": true,
+      "childrenOrder": "position",
+      "childrenOrderDirection": "ASC",
+      "tags": [
+        {
+          "@id": "/api/tags/3",
+          "@type": "Tag",
+          "parent": {
+            "@id": "/api/tags/1",
+            "@type": "Tag",
+            "visible": false,
+            "slug": "type-d-actualites",
+            "name": "Type d'actualités",
+            "description": null
+          },
+          "visible": false,
+          "slug": "ecole",
+          "name": "École",
+          "description": null
+        },
+        {
+          "@id": "/api/tags/2",
+          "@type": "Tag",
+          "parent": {
+            "@id": "/api/tags/1",
+            "@type": "Tag",
+            "visible": false,
+            "slug": "type-d-actualites",
+            "name": "Type d'actualités",
+            "description": null
+          },
+          "visible": false,
+          "slug": "theatre",
+          "name": "Théâtre",
+          "description": null
+        },
+        {
+          "@id": "/api/tags/37",
+          "@type": "Tag",
+          "parent": {
+            "@id": "/api/tags/34",
+            "@type": "Tag",
+            "visible": true,
+            "slug": "blogpost-type",
+            "name": "Tags actualités",
+            "description": null
+          },
+          "visible": true,
+          "slug": "actualite",
+          "name": "Actualité",
+          "description": null
+        }
+      ]
+    },
+    "translation": {
+      "@id": "/api/translations/1",
+      "@type": "Translation",
+      "name": "Fr",
+      "defaultTranslation": true,
+      "available": true,
+      "locale": "fr"
+    },
+    "slug": "debout-pour-la-culture",
+    "listingSortOptions": {
+      "publishedAt": "DESC"
+    },
+    "url": "/debout-pour-la-culture"
+  },
+  "breadcrumbs": {
+    "@type": "Breadcrumbs",
+    "items": [
+      {
+        "@type": "NSPage",
+        "@id": "/api/pages/8",
+        "title": "L'école",
+        "publishedAt": "2025-04-10T16:29:55+02:00",
+        "node": {
+          "@id": "/api/nodes/6",
+          "@type": "Node",
+          "nodeName": "accueil-ecole",
+          "visible": true,
+          "tags": []
+        },
+        "slug": "ecole",
+        "url": "/l-ecole/ecole"
+      },
+      {
+        "@type": "NSMenu",
+        "@id": "/api/menus/4",
+        "title": "Menu école",
+        "publishedAt": "2025-04-10T16:28:41+02:00",
+        "node": {
+          "@id": "/api/nodes/4",
+          "@type": "Node",
+          "nodeName": "main-menu-ecole",
+          "visible": true,
+          "tags": []
+        },
+        "slug": "l-ecole"
+      },
+      {
+        "@type": "NSBlogPostListing",
+        "@id": "/api/blog_post_listings/138",
+        "title": "Actualités",
+        "publishedAt": "2025-04-18T15:52:15+02:00",
+        "node": {
+          "@id": "/api/nodes/136",
+          "@type": "Node",
+          "nodeName": "actualites-ecole",
+          "visible": true,
+          "tags": [
+            "/api/tags/3"
+          ]
+        },
+        "slug": "actualites-ecole",
+        "url": "/l-ecole/actualites-ecole"
+      },
+      {
+        "@type": "NSBlogPost",
+        "@id": "/api/blog_posts/174",
+        "title": "Debout pour la culture",
+        "publishedAt": "2025-05-12T11:47:00+02:00",
+        "node": {
+          "@id": "/api/nodes/172",
+          "@type": "Node",
+          "nodeName": "debout-pour-la-culture",
+          "visible": true,
+          "tags": [
+            "/api/tags/3",
+            "/api/tags/2",
+            "/api/tags/37"
+          ]
+        },
+        "slug": "debout-pour-la-culture",
+        "url": "/debout-pour-la-culture"
+      }
+    ]
+  },
+  "head": {
+    "@type": "WebResponseHead",
+    "siteName": "La Comédie de Saint-Étienne",
+    "metaTitle": "Debout pour la culture – La Comédie de Saint-Étienne",
+    "metaDescription": "Debout pour la culture, La Comédie de Saint-Étienne",
+    "noIndex": false,
+    "mainColor": "#f0baf5",
+    "homePageUrl": "/"
+  },
+  "blocks": [
+    {
+      "@type": "AutoChildrenNodeSourceWalker",
+      "children": [],
+      "item": {
+        "@type": "NSContentBlock",
+        "@id": "/api/content_blocks/175",
+        "hideTitle": true,
+        "collapsible": false,
+        "content": "### Les coupes budgétaires de l’Etat et des collectivités plongent le service public de l’art et de la culture dans une situation alarmante.    \r\n   \r\nChaque fois qu’une coupe budgétaire de 20.000 euros est annoncée, c’est l’équivalent d’un emploi permanent dans une structure culturelle ou d’un emploi artistique, technique ou administratif intermittent, qui est menacé de disparition. A chaque perte d’emploi, c’est l’accès à l’art et à la culture qui recule pour toute la population française, dans les villes, dans les villages ruraux, dans les banlieues. C’est moins de créations, moins de représentations, moins d’éducation artistique dans les établissements scolaires, moins d’interventions culturelles dans les hôpitaux ou ailleurs.\r\n\r\nA chaque perte d’emploi, les risques augmentent de cessation d’activité des équipes artistiques et des lieux qui nous permettent de nous réunir et de faire débat. Le contexte d’austérité budgétaire ne peut pas occulter les menaces qui planent sur notre démocratie. C’est pourquoi nous disons que sacrifier les services publics, dont celui de l’art et de la culture, est un calcul dangereux au regard des grands bénéfices sociétaux qui en\r\ndécoulent. Que l’État consacre 0,8 % de son budget à cette politique publique est déjà largement insuffisant pour répondre aux besoins exprimés par la population et par les professionnels.\r\n\r\nAussi, nous toutes et tous, bénéficiaires du service public de l’art et de la culture, publics, artistes, technicien.ne.s, salarié.es, directeur.ices de lieux, nous nous tenons debout, ensemble, pour affirmer notre besoin d’une culture vivante qui stimule les imaginaires, partage les savoirs, reflète notre diversité et favorise le bien vivre ensemble.\r\n\r\nEnsemble, nous nous tenons debout pour défendre notre service public, ses emplois et les revendications portées unitairement par les syndicats d’employeurs et de salarié.es.",
+        "media": [],
+        "enableAnchorsNav": false,
+        "title": "Contexte",
+        "publishedAt": "2025-04-22T11:51:48+02:00",
+        "metaTitle": "",
+        "metaDescription": "",
+        "noIndex": false,
+        "node": {
+          "@id": "/api/nodes/173",
+          "@type": "Node",
+          "nodeName": "contexte-contentblock",
+          "visible": true,
+          "childrenOrder": "position",
+          "childrenOrderDirection": "ASC",
+          "tags": []
+        },
+        "translation": {
+          "@id": "/api/translations/1",
+          "@type": "Translation",
+          "name": "Fr",
+          "defaultTranslation": true,
+          "available": true,
+          "locale": "fr"
+        },
+        "slug": "contexte-contentblock",
+        "listingSortOptions": {
+          "node.position": "ASC"
+        }
+      }
+    },
+    {
+      "@type": "AutoChildrenNodeSourceWalker",
+      "children": [
+        {
+          "@type": "AutoChildrenNodeSourceWalker",
+          "children": [],
+          "item": {
+            "@type": "NSMenuLink",
+            "@id": "/api/menu_links/177",
+            "linkExternalUrl": "https://www.change.org/p/debout-pour-la-culture-debout-pour-le-service-public?utm_medium=custom_url&utm_source=share_petition&recruited_by_id=f5c9b9c0-e21a-11ef-b622-2dc43e29a333",
+            "linkInternalReference": [],
+            "title": "Je signe",
+            "publishedAt": "2025-04-22T11:53:49+02:00",
+            "metaTitle": "",
+            "metaDescription": "",
+            "noIndex": false,
+            "node": {
+              "@id": "/api/nodes/175",
+              "@type": "Node",
+              "nodeName": "je-signe-menulink",
+              "visible": true,
+              "childrenOrder": "position",
+              "childrenOrderDirection": "ASC",
+              "tags": []
+            },
+            "translation": {
+              "@id": "/api/translations/1",
+              "@type": "Translation",
+              "name": "Fr",
+              "defaultTranslation": true,
+              "available": true,
+              "locale": "fr"
+            },
+            "slug": "je-signe-menulink",
+            "listingSortOptions": {
+              "node.position": "ASC"
+            },
+            "url": "https://www.change.org/p/debout-pour-la-culture-debout-pour-le-service-public?utm_medium=custom_url&utm_source=share_petition&recruited_by_id=f5c9b9c0-e21a-11ef-b622-2dc43e29a333"
+          }
+        }
+      ],
+      "item": {
+        "@type": "NSContentBlock",
+        "@id": "/api/content_blocks/176",
+        "hideTitle": true,
+        "collapsible": false,
+        "content": "### Si vous désirez soutenir le mouvement, n’hésitez pas à signer la pétition    \r\nPétition : Debout pour la culture ! Debout pour le service public !",
+        "media": [],
+        "enableAnchorsNav": false,
+        "title": "Pétition",
+        "publishedAt": "2025-04-22T11:52:50+02:00",
+        "metaTitle": "",
+        "metaDescription": "",
+        "noIndex": false,
+        "node": {
+          "@id": "/api/nodes/174",
+          "@type": "Node",
+          "nodeName": "petition-contentblock",
+          "visible": true,
+          "childrenOrder": "position",
+          "childrenOrderDirection": "ASC",
+          "tags": []
+        },
+        "translation": {
+          "@id": "/api/translations/1",
+          "@type": "Translation",
+          "name": "Fr",
+          "defaultTranslation": true,
+          "available": true,
+          "locale": "fr"
+        },
+        "slug": "petition-contentblock",
+        "listingSortOptions": {
+          "node.position": "ASC"
+        }
+      }
+    }
+  ],
+  "realms": [],
+  "hidingBlocks": false,
+  "maxAge": 3600
+}
