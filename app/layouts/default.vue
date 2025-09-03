@@ -43,6 +43,8 @@ if (route.name === 'slug') {
 
 // Populate Roadiz common content after locale is set
 await useCommonContentFetch()
+
+const { isActive: previewIsActive } = useRoadizPreview()
 </script>
 
 <template>
@@ -56,6 +58,9 @@ await useCommonContentFetch()
                     { anchor: '#footer', label: $t('skip_to.footer') },
                 ]"
             />
+            <NuxtRouteAnnouncer />
+            <VLoadingIndicator />
+            <VRoadizAlertsContainer />
         </ClientOnly>
         <!-- Using this layout in the error page requires to use an extra <div> -->
         <div id="main">
@@ -63,7 +68,12 @@ await useCommonContentFetch()
                 <NuxtPage />
             </slot>
         </div>
-        <VFooter />
+        <VFooter id="footer" />
+
+        <ClientOnly>
+            <VMediaViewerTransition />
+            <LazyVRoadizPreview v-if="previewIsActive" />
+        </ClientOnly>
     </div>
 </template>
 
