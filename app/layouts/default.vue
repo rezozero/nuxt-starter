@@ -56,6 +56,7 @@ await useCommonContentFetch()
                     { anchor: '#footer', label: $t('skip_to.footer') },
                 ]"
             />
+            <VLoadingIndicator />
         </ClientOnly>
         <!-- Using this layout in the error page requires to use an extra <div> -->
         <div id="main">
