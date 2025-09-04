@@ -57,6 +57,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
 
     const items = computed(() => {
         return [homeItem.value, ...breadcrumbItems.value, currentPageItem.value]
+            .filter(item => item.label || item.url)
     })
 
     return { items }
