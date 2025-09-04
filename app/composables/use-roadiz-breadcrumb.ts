@@ -27,7 +27,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
     const homeItem = computed(() => {
         const home = data.value?.home
         return {
-            label: te('v_breadcrumb.home_label') ? t('v_breadcrumb.home_label') : home?.title,
+            label: te('breadcrumb.home_label') ? t('breadcrumb.home_label') : home?.title,
             url: home?.url,
         }
     })

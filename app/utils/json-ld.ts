@@ -1,14 +1,14 @@
 import type { MaybeRef } from 'vue'
 import { toDisplayString } from 'vue'
 
-type structuredDataContent = Record<string, unknown>
+type StructuredDataContent = Record<string, unknown>
 
 const isNullishValue = (v: unknown) => {
     if (typeof v === 'number') return false
     return v === null || v === undefined || !Object.keys(v).length || (Array.isArray(v) && !v.length)
 }
 
-function removeNullishNestedKeys(obj: structuredDataContent) {
+function removeNullishNestedKeys(obj: StructuredDataContent) {
     Object.keys(obj).forEach((key) => {
         const value = obj[key]
 
@@ -16,13 +16,13 @@ function removeNullishNestedKeys(obj: structuredDataContent) {
         if (isNullishValue(value)) delete obj[key]
         // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
         else if (Array.isArray(value) && value.every(v => isNullishValue(v))) delete obj[key]
-        else if (value && typeof value === 'object') removeNullishNestedKeys(value as structuredDataContent)
+        else if (value && typeof value === 'object') removeNullishNestedKeys(value as StructuredDataContent)
     })
 
     return obj
 }
 
-export function getJsonLdScriptContent(content: MaybeRef<structuredDataContent | unknown[]>) {
+export function getJsonLdScriptContent(content: MaybeRef<StructuredDataContent | unknown[]>) {
     const value = toValue(content)
 
     const filteredContent = Array.isArray(value)

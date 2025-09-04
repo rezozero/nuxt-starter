@@ -32,7 +32,7 @@ if (import.meta.server && props.items.length > 1) {
     <nav
         v-if="items.length"
         :class="$style.root"
-        :aria-label="$t('v_breadcrumb.aria_label')"
+        :aria-label="$t('breadcrumb.aria_label')"
         role="navigation"
     >
         <template
