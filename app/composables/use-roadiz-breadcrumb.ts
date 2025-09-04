@@ -48,6 +48,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
 
     const currentPageItem = computed(() => {
         const pageItem = toValue(webResponse)?.item
+        if (!pageItem || pageItem?.url === homeItem.value?.url) return
 
         return {
             label: getItemTitle(pageItem as AnyObject),
@@ -57,7 +58,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
 
     const items = computed(() => {
         return [homeItem.value, ...breadcrumbItems.value, currentPageItem.value]
-            .filter(item => item.label || item.url)
+            .filter(item => item?.label || item?.url)
     })
 
     return { items }
