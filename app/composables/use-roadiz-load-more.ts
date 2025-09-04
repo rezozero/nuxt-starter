@@ -131,6 +131,7 @@ export async function useRoadizLoadMore<
             const cacheTagsKey = useRuntimeConfig().public.cacheTags?.key
             const { data } = await useRoadizFetch<CacheTagsContainer<PageData>, unknown>(options.url, {
                 params,
+                key,
                 deep: false,
                 pick: ['hydra:member', 'hydra:totalItems'],
                 onResponse({ response }) {
