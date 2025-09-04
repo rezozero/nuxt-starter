@@ -7,11 +7,7 @@ const props = defineProps<{
     items: BreadcrumbItem[]
 }>()
 
-// Prevent injecting multiple scripts if this component is used multiple times
-callOnce(() => {
-    // Inject script if items has more than home and current page item
-    if (props.items.length <= 2 || import.meta.client) return
-
+if (props.items.length > 1 && import.meta.server) {
     const siteUrl = useRuntimeConfig().public.site.url
     const structuredData = {
         '@context': 'https://schema.org',
@@ -29,7 +25,7 @@ callOnce(() => {
             }),
     }
     useHead({ script: [getJsonLdScriptContent(structuredData)] })
-})
+}
 </script>
 
 <template>
