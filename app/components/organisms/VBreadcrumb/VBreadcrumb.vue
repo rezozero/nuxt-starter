@@ -7,9 +7,12 @@ const props = defineProps<{
     items: BreadcrumbItem[]
 }>()
 
-if (import.meta.server && props.items.length > 1) {
-    const siteUrl = useRuntimeConfig().public.site.url
+// Prevent injecting multiple scripts if this component is used multiple times
+callOnce(() => {
+    // Inject script if items has more than home and current page item
+    if (props.items.length <= 2 || import.meta.client) return
 
+    const siteUrl = useRuntimeConfig().public.site.url
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
@@ -26,7 +29,7 @@ if (import.meta.server && props.items.length > 1) {
             }),
     }
     useHead({ script: [getJsonLdScriptContent(structuredData)] })
-}
+})
 </script>
 
 <template>
