@@ -38,7 +38,7 @@ if (import.meta.server && props.items.length > 1) {
     >
         <template
             v-for="(item, itemIndex) in items"
-            :key="item.url"
+            :key="item.url || item.label"
         >
             <component
                 :is="item.url ? NuxtLink : 'span'"
