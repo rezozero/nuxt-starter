@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+import { NuxtLink } from '#components'
 import { joinURL } from 'ufo'
 import { getJsonLdScriptContent } from '~/utils/json-ld'
 
@@ -39,17 +40,18 @@ if (import.meta.server && props.items.length > 1) {
             v-for="(item, itemIndex) in items"
             :key="item.url"
         >
-            <NuxtLink
+            <component
+                :is="item.url ? NuxtLink : 'span'"
                 :class="$style.item"
                 :to="item.url"
             >
                 {{ item.label }}
-            </NuxtLink>
+            </component>
             <slot :is-last="itemIndex !== items.length - 1">
                 <span
                     v-if="itemIndex !== items.length - 1"
                     :class="$style.separator"
-                >/</span>
+                > / </span>
             </slot>
         </template>
     </nav>
@@ -59,23 +61,15 @@ if (import.meta.server && props.items.length > 1) {
 .root {
     display: var(--v-breadcrumb-display, flex);
     align-items: center;
-    column-gap: var(--spacing-4xs);
 }
 
 .item {
-    color: var(--colors-breadcrumb-item-content, #000);
-
-    &:not(:where(a)) {
-        color: var(--colors-breadcrumb-item-content-disabled, #eee);
-    }
-
     &:global(.router-link-exact-active) {
         text-decoration: none;
     }
 }
 
 .separator {
-    display: block;
-    margin-inline: var(--spacing-6xs, 0.375rem);
+    white-space: pre;
 }
 </style>
