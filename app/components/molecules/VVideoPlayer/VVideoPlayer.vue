@@ -165,6 +165,12 @@ const videoReady = ref(false)
 const emits = defineEmits(['ready'])
 function onPlayerReady() {
     if (player && (props.autoplay || props.background)) {
+        if (isEmbed.value && props.embedPlatform === 'vimeo' && props.background) {
+            // fix autopause to false for Vimeo background videos
+            // @see https://github.com/sampotts/plyr/issues/708
+            player!.embed?.setAutopause(false)
+        }
+
         // the player is initialized with muted property as true but sometimes
         // Plyr kept a wrong muted value into localStorage (i.e. muted = false)
         // @see https://github.com/sampotts/plyr/issues/838#issuecomment-962596150
