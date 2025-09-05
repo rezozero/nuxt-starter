@@ -1,8 +1,8 @@
 <script lang="ts">
+import { NuxtLink } from '#components'
+import type { Theme } from '#imports'
 import type { PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
-import type { Theme } from '#imports'
-import { NuxtLink } from '#components'
 
 export const vButtonSizes = ['xs', 'sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
@@ -102,7 +102,7 @@ export default defineComponent({
 .root {
     display: var(--v-button-display, inline-flex);
     align-items: var(--v-button-align-items, center);
-    justify-content: var(--v-button-justify-content, center);
+    justify-content: var(--v-button-justify-content);
     padding: var(--v-button-padding, initial);
     border: var(--v-button-border, initial);
     background-color: var(--v-button-background-color, initial);
@@ -114,9 +114,6 @@ export default defineComponent({
     @include sizes(v-button.$vars, 'v-button');
 
     // PROPS STYLE
-    &--icon-last {
-        flex-direction: row-reverse;
-    }
 
     &:not(:where([inert], #{&}--disabled)) {
         cursor: var(--v-button-cursor, pointer);
@@ -148,6 +145,10 @@ export default defineComponent({
 .icon {
     flex-shrink: var(--v-button-icon-flex-shrink, 0);
     color: var(--v-button-icon-color, currentColor);
+
+    .root--icon-last & {
+        order: 2;
+    }
 }
 
 .label {
