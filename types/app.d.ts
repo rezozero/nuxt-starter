@@ -1,4 +1,4 @@
-import type { RoadizWebResponse, RoadizWalker } from '@roadiz/types'
+import type { RoadizWalker, RoadizWebResponse } from '@roadiz/types'
 
 export type PageEntityProps = {
     webResponse?: RoadizWebResponse
