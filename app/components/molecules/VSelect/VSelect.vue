@@ -50,7 +50,7 @@ const getSelectValue = (selectElement: HTMLSelectElement): SelectValue => {
         const value = [] as string[]
         for (let i = 0; i < selectElement.options.length; i++) {
             const option = selectElement.options[i]
-            if (option.selected) {
+            if (option?.selected) {
                 value.push(option.value)
             }
         }

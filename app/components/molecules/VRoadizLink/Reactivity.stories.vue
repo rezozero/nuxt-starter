@@ -35,7 +35,7 @@ const selectedOption = computed(() => {
 
 function onSelect(event: Event) {
     const el = event.target as HTMLSelectElement
-    selectedId.value = Number(el.options[el.selectedIndex].value) || 0
+    selectedId.value = Number(el.options[el.selectedIndex]?.value) || 0
 }
 </script>
 
@@ -57,22 +57,22 @@ function onSelect(event: Event) {
                     {{ option.label }}
                 </option>
             </select>
-            <div>Current href: {{ selectedOption.value || 'undefined' }}</div>
+            <div>Current href: {{ selectedOption?.value || 'undefined' }}</div>
         </template>
         <NuxtStoryVariant title="Component label">
             <VRoadizLink
-                :label="selectedOption.label"
-                :url="selectedOption.value"
+                :label="selectedOption?.label"
+                :url="selectedOption?.value"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Scoped slot">
             <VRoadizLink
                 v-slot="{ to, href }"
-                :url="selectedOption.value"
+                :url="selectedOption?.value"
                 custom
             >
                 <NuxtLink :to="href || to">
-                    {{ selectedOption.label }}
+                    {{ selectedOption?.label }}
                 </NuxtLink>
             </VRoadizLink>
         </NuxtStoryVariant>
