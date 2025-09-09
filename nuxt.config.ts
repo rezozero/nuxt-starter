@@ -1,7 +1,7 @@
-import svgLoader from 'vite-svg-loader'
 import type { NuxtPlugin } from '@nuxt/schema'
-import { version } from './package.json'
+import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
+import { version } from './package.json'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
@@ -81,9 +81,17 @@ export default defineNuxtConfig({
             googleTagManager: {
                 id: '',
             },
-            recaptcha: {
+            frcCaptcha: {
                 siteKey: '',
-                version: 3,
+            },
+            gRecaptcha: {
+                siteKey: '',
+            },
+            hCaptcha: {
+                siteKey: '',
+            },
+            cfTurnstile: {
+                siteKey: '',
             },
             sentry: {
                 dsn: '',
@@ -135,7 +143,7 @@ export default defineNuxtConfig({
                     // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
                     'Content-Security-Policy': [
                         // Only allows these iframe origins
-                        'frame-src \'self\' *.youtube.com *.youtube-nocookie.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com *.podcasts.apple.com *.linkedin.com',
+                        'frame-src \'self\' *.gstatic.com *.frcapi.com *.youtube.com *.youtube-nocookie.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com *.podcasts.apple.com *.linkedin.com',
                         // Only allows these script origins
                         // "script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
                         // Only allows these images origins
