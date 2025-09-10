@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import type Plyr from 'plyr'
 import type { PropType } from 'vue'
 import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
 import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
@@ -152,8 +151,12 @@ async function createPlayer() {
 
     // Fix listeners into Plyr options because the callbacks are never called.
     if (props.plyr?.listeners) {
-        Object.keys(props.plyr.listeners).forEach(value =>
-            player!.on(value as keyof Plyr.PlyrEventMap, props.plyr!.listeners![value]))
+        Object.keys(props.plyr.listeners).forEach((value) => {
+            const callback = props.plyr!.listeners![value]
+            if (typeof callback === 'function') {
+                player!.on(value as keyof Plyr.PlyrEventMap, callback)
+            }
+        })
     }
 
     if (props.fit === 'cover') {
