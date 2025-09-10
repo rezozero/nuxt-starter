@@ -46,7 +46,11 @@ function initObservers() {
         }
 
         const observer = new IntersectionObserver(
-            entries => onObserverUpdated(entries[0], index),
+            (entries) => {
+                if (entries[0]) {
+                    onObserverUpdated(entries[0], index)
+                }
+            },
             {
                 rootMargin: `0px 0px 0px 0px`,
                 threshold: [0, 0.5, 1],
