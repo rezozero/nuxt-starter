@@ -3,7 +3,7 @@ import { FRIENDLY_CAPTCHA_INPUT } from '~/utils/captcha/providers/frcCaptcha'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const config = useRuntimeConfig()
-config.public.frcCaptcha.siteKey = 'FCMTFP5GAQI2L2E1'
+config.public.frcCaptcha.siteKey = 'FCMV995O03V7RIMQ'
 
 const schema = {
     title: 'test_tous_les_types_de_champs',
