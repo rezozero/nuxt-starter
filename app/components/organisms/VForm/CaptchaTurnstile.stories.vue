@@ -1,24 +1,25 @@
 <script setup lang="ts">
+import { CF_TURNSTILE_INPUT } from '~/utils/captcha/providers/cfTurnstile'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const config = useRuntimeConfig()
-config.public.frcCaptcha.siteKey = 'FCMTFP5GAQI2L2E1'
+config.public.cfTurnstile.siteKey = '1x00000000000000000000AA'
 
 const schema = {
     title: 'test_tous_les_types_de_champs',
     type: 'object',
     properties: {
-        'text': {
+        text: {
             type: 'string',
             title: 'Text',
         },
-        'frc-captcha-response': {
+        [CF_TURNSTILE_INPUT]: {
             type: 'string',
-            title: 'friendly_captcha',
+            title: 'turnstile captcha',
             propertyOrder: 15,
         },
     },
-    required: ['frc-captcha-response'],
+    required: [CF_TURNSTILE_INPUT],
 }
 </script>
 

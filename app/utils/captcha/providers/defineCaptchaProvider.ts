@@ -19,7 +19,7 @@ export type CaptchaProvider = {
     widgetInstanceIndex: number
     siteKey: string
     getCurrentWidgetId: () => string
-    getDomAttributes: (options: CaptchaWidgetAttributes) => Record<string, string | boolean | undefined>
+    getDomAttributes: (options: CaptchaWidgetAttributes) => Record<string, string | boolean | undefined | (() => void)>
     loadScript: (siteKey: string) => Promise<void>
     recreateWidget: undefined | (() => void) | undefined
     execute: ((token?: string) => ExecuteResponse) | undefined
@@ -45,7 +45,6 @@ const defaultOptions = {
     getCurrentWidgetId: function () {
         return this.name + '-' + this.widgetInstanceIndex
     },
-
     /* */
     getDomAttributes: function (options: CaptchaWidgetAttributes) {
         this.widgetInstanceIndex++

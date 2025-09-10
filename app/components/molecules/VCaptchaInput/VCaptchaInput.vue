@@ -13,7 +13,6 @@ watch(captchaApi, init, { flush: 'post' })
 async function init() {
     if (!allowLoadScript.value || !captchaApi.value || !siteKey.value) return
 
-    console.log(providerName.value, captchaApi.value)
     await captchaApi.value?.loadScript(siteKey.value)
 }
 

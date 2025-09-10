@@ -45,8 +45,7 @@ export default defineCaptchaProvider({
     destroyWidget: function () {
         window.turnstile?.remove()
     },
-    execute: async function (_token) {
-        const id = this.getCurrentWidgetId?.() || ''
-        window.turnstile?.execute(`#${id}`)
+    execute: async function (token) {
+        return token
     },
 })

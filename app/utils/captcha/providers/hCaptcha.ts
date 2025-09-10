@@ -40,23 +40,13 @@ export default defineCaptchaProvider({
     recreateWidget: function () {
         const id = this.getCurrentWidgetId?.() || ''
 
-        if (!id || !this.siteKey) {
-            console.log('Missing id or siteKey during recreateWidget')
-            return
-        }
-
-        window.hcaptcha?.render(id, { sitekey: this.siteKey })
+        window.hcaptcha?.render(id, { sitekey: this.siteKey! })
     },
     destroyWidget: function () {
         window.hcaptcha?.remove()
     },
     execute: async (token) => {
-        try {
-            await window.hcaptcha?.execute()
-            return token
-        }
-        catch (e) {
-            console.log('failed on hCaptcha execute', e)
-        }
+        await window.hcaptcha?.execute()
+        return token
     },
 })
