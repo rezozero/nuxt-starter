@@ -11,19 +11,19 @@ watch(allowLoadScript, init, { flush: 'post' })
 watch(captchaApi, init, { flush: 'post' })
 
 async function init() {
-    if (!allowLoadScript.value || !captchaApi.value) return
+    if (!allowLoadScript.value || !captchaApi.value || !siteKey.value) return
 
+    console.log(providerName.value, captchaApi.value)
     await captchaApi.value?.loadScript(siteKey.value)
 }
 
 onBeforeUnmount(async () => {
-    captchaApi.value?.destroyWidget()
+    captchaApi.value?.destroyWidget?.()
 })
 </script>
 
 <template>
-    <component
-        :is="domAttributes.element || 'div'"
+    <div
         v-if="domAttributes"
         v-bind="domAttributes"
     />

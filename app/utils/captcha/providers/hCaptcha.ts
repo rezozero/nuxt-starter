@@ -1,0 +1,62 @@
+import { defineCaptchaProvider } from './defineCaptchaProvider'
+
+type HCaptchaResponse = {
+    response: string
+    key: string
+}
+
+type ConfigRender = {
+    sitekey: string
+    theme?: 'light' | 'dark' | 'contrast' | object
+    size?: 'normal' | 'compact' | 'invisible'
+}
+
+declare global {
+    interface Window {
+        hcaptcha?: {
+            render(container: HTMLElement | string, config: ConfigRender): string
+            execute(id?: string, config?: { async?: boolean, rqdata?: string }): Promise<HCaptchaResponse>
+            reset(id?: string): void
+            remove(id?: string): void
+        }
+    }
+}
+
+export const H_CAPTCHA_INPUT = 'h-captcha-response'
+
+export default defineCaptchaProvider({
+    name: 'hCaptcha',
+    inputName: H_CAPTCHA_INPUT,
+    elementClass: 'h-captcha',
+    scripts: [
+        {
+            src: 'https://js.hcaptcha.com/1/api.js?recaptchacompat=off',
+            id: 'script-h-captcha',
+            defer: true,
+            async: true,
+        },
+    ],
+    needUserConsent: false,
+    recreateWidget: function () {
+        const id = this.getCurrentWidgetId?.() || ''
+
+        if (!id || !this.siteKey) {
+            console.log('Missing id or siteKey during recreateWidget')
+            return
+        }
+
+        window.hcaptcha?.render(id, { sitekey: this.siteKey })
+    },
+    destroyWidget: function () {
+        window.hcaptcha?.remove()
+    },
+    execute: async (token) => {
+        try {
+            await window.hcaptcha?.execute()
+            return token
+        }
+        catch (e) {
+            console.log('failed on hCaptcha execute', e)
+        }
+    },
+})

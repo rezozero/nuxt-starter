@@ -153,10 +153,7 @@ async function onSubmit(event: Event): Promise<void> {
     if (captchaEnabled.value && captchaInputKey.value && formData.has(captchaInputKey.value)) {
         const currentValue = formData.get(captchaInputKey.value)
 
-        const token = await captchaApi.value?.execute({
-            token: typeof currentValue === 'string' ? currentValue : undefined,
-            siteKey: captchaSiteKey.value,
-        })
+        const token = await captchaApi.value?.execute?.(typeof currentValue === 'string' ? currentValue : undefined)
 
         if (token) formData.set(captchaInputKey.value, token)
     }

@@ -1,10 +1,10 @@
-type ScriptAttributes = {
+export type ScriptAttributes = {
     [key: string]: string | boolean
     id: string
     src: string
 }
 
-export default async function injectScript(scriptAttributes: ScriptAttributes) {
+export async function injectScript(scriptAttributes: ScriptAttributes) {
     const currentScript = document.getElementById(scriptAttributes.id)
     if (currentScript) {
         return currentScript

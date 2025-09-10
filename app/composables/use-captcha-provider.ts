@@ -21,7 +21,7 @@ export async function useCaptchaProvider(options: UseCaptchaProviderOptions) {
         const siteKey = toValue(options.siteKey)
         if (!captchaApi.value || !siteKey) return undefined
 
-        return captchaApi.value.getDomAttributes(siteKey)
+        return captchaApi.value.getDomAttributes({ siteKey })
     })
 
     // Dialog consent
