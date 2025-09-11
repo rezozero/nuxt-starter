@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import type { RoadizWebResponse } from '@roadiz/types'
+import eventWebResponse from '~/assets/stories/fixtures/web-responses/event.json'
 import webResponse from '~/assets/stories/fixtures/web-responses/sub-page.json'
 
 const route = useRoute()
@@ -22,6 +23,7 @@ currentPage.value = {
 
 // In wrapper component usage
 const { breadcrumbItems, allItems } = useRoadizBreadcrumb(currentPage.value.webResponse || null)
+const { allItems: eventBreadcrumbsItems } = useRoadizBreadcrumb(eventWebResponse)
 </script>
 
 <template>
@@ -36,6 +38,12 @@ const { breadcrumbItems, allItems } = useRoadizBreadcrumb(currentPage.value.webR
             <LazyVBreadcrumb
                 v-if="allItems.length"
                 :items="allItems"
+            />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Event breadcrumb">
+            <LazyVBreadcrumb
+                v-if="eventBreadcrumbsItems.length"
+                :items="eventBreadcrumbsItems"
             />
         </NuxtStoryVariant>
     </NuxtStory>
