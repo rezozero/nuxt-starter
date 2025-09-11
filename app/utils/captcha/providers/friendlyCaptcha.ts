@@ -44,8 +44,6 @@ export default defineCaptchaProvider({
         },
     ],
     render: function () {
-        const el = document.querySelectorAll('.frc-captcha')
-        console.log('[friednlyCaptcha]: render', el)
         window?.frcaptcha?.attach?.()
     },
     remove: function () {
