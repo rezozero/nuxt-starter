@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { NuxtLink } from '#components'
 import { joinURL } from 'ufo'
+import type { BreadcrumbItem } from '~/composables/use-roadiz-breadcrumb'
 import { getJsonLdScriptContent } from '~/utils/json-ld'
 
 const props = defineProps<{
