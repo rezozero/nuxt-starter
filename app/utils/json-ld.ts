@@ -1,5 +1,5 @@
 import type { MaybeRef } from 'vue'
-import { toDisplayString } from 'vue'
+import { toDisplayString, toValue } from 'vue'
 
 type StructuredDataContent = Record<string, unknown>
 
