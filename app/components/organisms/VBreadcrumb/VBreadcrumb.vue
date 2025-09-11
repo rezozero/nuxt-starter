@@ -8,6 +8,21 @@ const props = defineProps<{
     items: BreadcrumbItem[]
 }>()
 
+const route = useRoute()
+const enrichedItems = computed(() => {
+    return props.items.map((item) => {
+        const isCurrent = item.url && item.url === route.path
+        const node = isCurrent || !item.url ? 'span' : NuxtLink
+
+        return {
+            ...item,
+            node,
+            to: node === 'span' ? undefined : item.url,
+            isCurrent,
+        }
+    })
+})
+
 if (props.items.length > 1 && import.meta.server) {
     const siteUrl = useRuntimeConfig().public.site.url
     const structuredData = {
@@ -37,22 +52,24 @@ if (props.items.length > 1 && import.meta.server) {
         role="navigation"
     >
         <template
-            v-for="(item, itemIndex) in items"
+            v-for="(item, itemIndex) in enrichedItems"
             :key="item.url || item.label"
         >
+            <slot>
+                <span
+                    v-if="itemIndex !== 0"
+                    :class="$style.separator"
+                    aria-hidden="true"
+                > / </span>
+            </slot>
             <component
-                :is="item.url ? NuxtLink : 'span'"
+                :is="item.node"
                 :class="$style.item"
-                :to="item.url"
+                :to="item.to"
+                :aria-current="item.isCurrent ? 'page' : undefined"
             >
                 {{ item.label }}
             </component>
-            <slot :is-last="itemIndex !== items.length - 1">
-                <span
-                    v-if="itemIndex !== items.length - 1"
-                    :class="$style.separator"
-                > / </span>
-            </slot>
         </template>
     </nav>
 </template>
