@@ -26,8 +26,10 @@ export const H_CAPTCHA_INPUT = 'h-captcha-response'
 
 export default defineCaptchaProvider({
     name: 'hCaptcha',
-    inputName: H_CAPTCHA_INPUT,
-    elementClass: 'h-captcha',
+    inputAttributes: {
+        key: H_CAPTCHA_INPUT,
+        class: 'h-captcha',
+    },
     scripts: [
         {
             src: 'https://js.hcaptcha.com/1/api.js?recaptchacompat=off',
@@ -38,7 +40,7 @@ export default defineCaptchaProvider({
     ],
     needUserConsent: false,
     render: function () {
-        const id = this.getCurrentWidgetId?.() || ''
+        const id = this.inputAttributes.id || ''
 
         window.hcaptcha?.render(id, { sitekey: this.siteKey! })
     },

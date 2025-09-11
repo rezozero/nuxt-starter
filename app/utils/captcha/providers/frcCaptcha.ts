@@ -21,8 +21,10 @@ const SENTINEL_RESPONSES = ['.UNINITIALIZED', '.UNCONNECTED', '.UNSTARTED', '.RE
 
 export default defineCaptchaProvider({
     name: 'frcCaptcha',
-    elementClass: 'frc-captcha',
-    inputName: FRIENDLY_CAPTCHA_INPUT,
+    inputAttributes: {
+        key: FRIENDLY_CAPTCHA_INPUT,
+        class: 'frc-captcha',
+    },
     needUserConsent: false,
     scripts: [
         {

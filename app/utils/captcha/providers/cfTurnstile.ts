@@ -27,8 +27,10 @@ export const CF_TURNSTILE_INPUT = 'cf-turnstile-response'
 
 export default defineCaptchaProvider({
     name: 'cfTurnstile',
-    inputName: CF_TURNSTILE_INPUT,
-    elementClass: 'cf-turnstile',
+    inputAttributes: {
+        key: CF_TURNSTILE_INPUT,
+        class: 'cf-turnstile',
+    },
     needUserConsent: true,
     scripts: [
         {
@@ -39,7 +41,8 @@ export default defineCaptchaProvider({
         },
     ],
     render: function () {
-        const id = this.getCurrentWidgetId?.() || ''
+        const id = this.inputAttributes.id || ''
+
         window?.turnstile?.render(`#${id}`)
     },
     remove: function () {

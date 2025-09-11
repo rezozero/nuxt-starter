@@ -1,59 +1,55 @@
 import { injectScript, type ScriptAttributes } from '../utils/inject-script'
 
-type CaptchaWidgetAttributes = {
+type CaptchaInputAttributes = {
+    [key: string]: string | undefined
     siteKey: string
     size?: 'normal' | 'compact' | 'invisible'
-    id?: string
-    class?: string
 }
 
 type ExecuteResponse = string | undefined | Promise<string | undefined>
 
 export type CaptchaProvider = {
     name: string
-    inputName: string
-    elementClass: string
+    inputAttributes: {
+        [key: string]: string
+        key: string
+        class: string
+    }
     scripts: ScriptAttributes[]
     scriptsLoaded: boolean
     needUserConsent: boolean
-    widgetInstanceIndex: number
     siteKey: string
-    getCurrentWidgetId: () => string
-    getDomAttributes: (options: CaptchaWidgetAttributes) => Record<string, string | boolean | undefined | (() => void)>
-    loadScript: (siteKey: string) => Promise<void>
+    getDomAttributes: (options: CaptchaInputAttributes) => Record<string, string | boolean | undefined | (() => void)>
+    loadScript: () => Promise<void>
     render: undefined | (() => void) | undefined
     execute: ((token?: string) => ExecuteResponse) | undefined
     remove: (() => void) | undefined
 }
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-type OptionalOptionKeys = 'siteKey' | 'remove' | 'render' | 'loadScript' | 'getDomAttributes' | 'getCurrentWidgetId' | 'scriptsLoaded' | 'needUserConsent' | 'widgetInstanceIndex'
+type OptionalOptionKeys = 'siteKey' | 'remove' | 'render' | 'loadScript' | 'getDomAttributes' | 'scriptsLoaded' | 'needUserConsent'
 type RequiredProviderOptions = WithOptional<CaptchaProvider, OptionalOptionKeys>
 
 const defaultOptions = {
     name: '',
-    elementClass: '',
+    inputAttributes: {
+        key: '',
+        class: '',
+    },
     siteKey: '',
-    inputName: '',
     scripts: [],
     scriptsLoaded: false,
     needUserConsent: true,
-    widgetInstanceIndex: 0,
-    getCurrentWidgetId: function () {
-        return this.name + '-' + this.widgetInstanceIndex
-    },
-    getDomAttributes: function (options: CaptchaWidgetAttributes) {
-        this.widgetInstanceIndex++
+    getDomAttributes: function (options: CaptchaInputAttributes) {
         return {
-            'class': options.class || this.elementClass,
+            ...this.inputAttributes,
+            'class': options.class || this.inputAttributes.class,
             'data-sitekey': options.siteKey || this.siteKey,
             'data-size': options.size || 'normal',
-            'id': options.id || this.getCurrentWidgetId(),
         }
     },
     render: undefined,
-    loadScript: async function (siteKey: string) {
-        this.siteKey = siteKey
+    loadScript: async function () {
         if (this.scriptsLoaded && this.render) {
             this.render?.()
         }

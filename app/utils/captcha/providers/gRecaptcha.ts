@@ -26,8 +26,10 @@ export const RE_CAPTCHA_INPUT = 'g-recaptcha-response'
 
 export default defineCaptchaProvider({
     name: 'gRecaptcha',
-    elementClass: 'g-recaptcha',
-    inputName: RE_CAPTCHA_INPUT,
+    inputAttributes: {
+        key: RE_CAPTCHA_INPUT,
+        class: 'g-recaptcha',
+    },
     needUserConsent: true,
     scripts: [
         {
@@ -46,7 +48,7 @@ export default defineCaptchaProvider({
         return token
     },
     render: function () {
-        const id = this.getCurrentWidgetId?.() || ''
+        const id = this.inputAttributes.id || ''
         window.grecaptcha?.render?.(id, { sitekey: this.siteKey! })
     },
     remove: function () {

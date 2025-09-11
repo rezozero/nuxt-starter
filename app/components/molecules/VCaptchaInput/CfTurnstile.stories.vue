@@ -5,7 +5,8 @@ const siteKeyTest = '1x00000000000000000000AA'
 const config = useRuntimeConfig()
 config.public.cfTurnstile.siteKey = siteKeyTest
 
-const { setUserConsent } = await useCaptchaProvider({ name: 'cfTurnstile', siteKey: siteKeyTest })
+const id = useId()
+const { setUserConsent } = await useCaptchaProvider({ name: 'cfTurnstile', siteKey: siteKeyTest, id })
 </script>
 
 <template>
@@ -14,7 +15,6 @@ const { setUserConsent } = await useCaptchaProvider({ name: 'cfTurnstile', siteK
             valid user consent
         </button>
         <VCaptchaInput
-            id="turnstile"
             label="Captcha label"
             name="cf-turnstile-response"
         />

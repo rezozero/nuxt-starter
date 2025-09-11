@@ -1,23 +1,32 @@
 <script lang="ts" setup>
+import type { CaptchaProvider } from '~/utils/captcha/providers/defineCaptchaProvider'
 import type { FormElementProps } from '~~/types/form'
 
 const props = defineProps<FormElementProps>()
 
+const id = useId()
 const { providerName, siteKey } = useFormCaptcha({ input: props.name })
-const { domAttributes, captchaApi, allowLoadScript } = await useCaptchaProvider({ name: providerName, siteKey })
 
-onMounted(init)
-watch(allowLoadScript, init, { flush: 'post' })
-watch(captchaApi, init, { flush: 'post' })
+async function onProviderLoaded(provider: CaptchaProvider) {
+    if (!allowLoadScript.value) return
 
-async function init() {
-    if (!allowLoadScript.value || !captchaApi.value || !siteKey.value) return
-
-    await captchaApi.value?.loadScript(siteKey.value)
+    await provider.loadScript()
 }
 
+const {
+    domAttributes,
+    provider,
+    allowLoadScript,
+} = await useCaptchaProvider({ name: providerName, siteKey, id, onProviderLoaded })
+
+watch(allowLoadScript, () => {
+    if (!provider.value) return
+
+    onProviderLoaded(provider.value)
+}, { flush: 'post' })
+
 onBeforeUnmount(async () => {
-    captchaApi.value?.remove?.()
+    provider.value?.remove?.()
 })
 </script>
 
