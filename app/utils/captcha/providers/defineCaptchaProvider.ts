@@ -27,63 +27,44 @@ export type CaptchaProvider = {
 }
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-type OptionalOptionKeys = 'siteKey' | 'remove' | 'render' | 'loadScript' | 'getDomAttributes' | 'scriptsLoaded' | 'needUserConsent'
+type OptionalOptionKeys = 'siteKey' | 'loadScript' | 'getDomAttributes' | 'scriptsLoaded' | 'needUserConsent' | 'render' | 'remove'
 type RequiredProviderOptions = WithOptional<CaptchaProvider, OptionalOptionKeys>
 
-const defaultOptions = {
-    name: '',
-    inputAttributes: {
-        key: '',
-        class: '',
-    },
-    siteKey: '',
-    scripts: [],
-    scriptsLoaded: false,
-    needUserConsent: true,
-    getDomAttributes: function (options: CaptchaInputAttributes) {
-        return {
-            ...this.inputAttributes,
-            'class': options.class || this.inputAttributes.class,
-            'data-sitekey': options.siteKey || this.siteKey,
-            'data-size': options.size || 'normal',
-        }
-    },
-    render: undefined,
-    loadScript: async function () {
-        if (this.scriptsLoaded && this.render) {
-            this.render?.()
-            return
-        }
-
-        // Promise won't be resolved on browser with module script support
-        const scriptsPromises = this.scripts.filter((script) => {
-            const supportsModule = 'noModule' in document.createElement('script')
-            return supportsModule ? !script.noModule : script.noModule
-        }).map(data => injectScript(data))
-
-        try {
-            await Promise.all(scriptsPromises)
-            this.scriptsLoaded = true
-        }
-        catch (error) {
-            console.error(`Error during ${this.name} scripts loading`, error)
-        }
-    },
-    execute: undefined,
-    remove: undefined,
-} satisfies CaptchaProvider
-
 export function defineCaptchaProvider(options: RequiredProviderOptions) {
-    const keys = Object.keys(defaultOptions) as (keyof CaptchaProvider)[]
+    return {
+        siteKey: '',
+        scriptsLoaded: false,
+        needUserConsent: true,
+        getDomAttributes: function (options: CaptchaInputAttributes) {
+            return {
+                ...this.inputAttributes,
+                'class': options.class || this.inputAttributes.class,
+                'data-sitekey': options.siteKey || this.siteKey,
+                'data-size': options.size || 'normal',
+            }
+        },
+        loadScript: async function () {
+            if (this.scriptsLoaded && this.render) {
+                this.render?.()
+                return
+            }
 
-    return keys.reduce((acc, key) => {
-        if (key in options && options[key] !== undefined) {
-            Object.assign(acc, { [key]: options[key] })
-        }
-        else if (key in defaultOptions && defaultOptions[key] !== undefined) {
-            Object.assign(acc, { [key]: defaultOptions[key] })
-        }
+            // Promise won't be resolved on browser with module script support
+            const scriptsPromises = this.scripts.filter((script) => {
+                const supportsModule = 'noModule' in document.createElement('script')
+                return supportsModule ? !script.noModule : script.noModule
+            }).map(data => injectScript(data))
 
-        return acc
-    }, {} as CaptchaProvider)
+            try {
+                await Promise.all(scriptsPromises)
+                this.scriptsLoaded = true
+            }
+            catch (error) {
+                console.error(`Error during ${this.name} scripts loading`, error)
+            }
+        },
+        render: () => {},
+        remove: () => {},
+        ...options,
+    } as CaptchaProvider
 }
