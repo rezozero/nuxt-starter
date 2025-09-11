@@ -2,10 +2,10 @@
 const siteKeyTest = '6LfguS4rAAAAAK3j1r6YtqJtn1nXaMQm4G1eYoSy'
 
 const config = useRuntimeConfig()
-config.public.gRecaptcha.siteKey = siteKeyTest
+config.public.reCaptcha.siteKey = siteKeyTest
 
 const id = useId()
-const { userConsent } = await useCaptchaProvider({ name: 'gRecaptcha', siteKey: siteKeyTest, id })
+const { userConsent } = await useCaptchaProvider({ name: 'reCaptcha', siteKey: siteKeyTest, id })
 </script>
 
 <template>

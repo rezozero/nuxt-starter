@@ -1,3 +1,4 @@
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import { defineCaptchaProvider } from './defineCaptchaProvider'
 
 // TYPES
@@ -23,12 +24,10 @@ declare global {
     }
 }
 
-export const CF_TURNSTILE_INPUT = 'cf-turnstile-response'
-
 export default defineCaptchaProvider({
-    name: 'cfTurnstile',
+    name: 'turnstile',
     inputAttributes: {
-        key: CF_TURNSTILE_INPUT,
+        key: captchaFieldKey.TURNSTILE,
         class: 'cf-turnstile',
     },
     needUserConsent: true,

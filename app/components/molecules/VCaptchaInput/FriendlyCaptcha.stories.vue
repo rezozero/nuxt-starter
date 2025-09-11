@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const config = useRuntimeConfig()
-config.public.frcCaptcha.siteKey = 'FCMV995O03V7RIMQ'
+config.public.friendlyCaptcha.siteKey = 'FCMV995O03V7RIMQ'
 </script>
 
 <template>

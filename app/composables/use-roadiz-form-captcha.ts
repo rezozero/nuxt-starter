@@ -1,22 +1,22 @@
-import { CF_TURNSTILE_INPUT } from '~/utils/captcha/providers/cfTurnstile'
-import { FRIENDLY_CAPTCHA_INPUT } from '~/utils/captcha/providers/frcCaptcha'
-import { RE_CAPTCHA_INPUT } from '~/utils/captcha/providers/gRecaptcha'
-import { H_CAPTCHA_INPUT } from '~/utils/captcha/providers/hCaptcha'
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 
 // Dedicated input field name
 // https://docs.roadiz.io/developer/first-steps/manual_config.html#configure-a-captcha-service-for-custom-forms-and-post-api-endpoints
-// { [form_input_key]: provider file name }
+// { [form_input_key]: providerFileName }
 
 const captchaProviderKeyMap = {
-    [CF_TURNSTILE_INPUT]: 'cfTurnstile',
-    [FRIENDLY_CAPTCHA_INPUT]: 'frcCaptcha',
-    [H_CAPTCHA_INPUT]: 'hCaptcha',
-    [RE_CAPTCHA_INPUT]: 'gRecaptcha',
+    [captchaFieldKey.TURNSTILE]: 'turnstile',
+    [captchaFieldKey.FRIENDLY_CAPTCHA]: 'friendlyCaptcha',
+    [captchaFieldKey.H_CAPTCHA]: 'hCaptcha',
+    [captchaFieldKey.RE_CAPTCHA]: 'reCaptcha',
 } as const
+
+export type CaptchaProviderKey = keyof typeof captchaProviderKeyMap
+export type CaptchaProviderNames = typeof captchaProviderKeyMap[CaptchaProviderKey]
 
 export function getValidCaptchaKey(name: string) {
     return Object.keys(captchaProviderKeyMap)
-        .find(key => key === name) as keyof typeof captchaProviderKeyMap | undefined
+        .find(key => key === name) as CaptchaProviderKey | undefined
 }
 
 export function getProviderNameByInputKey(inputName: string) {

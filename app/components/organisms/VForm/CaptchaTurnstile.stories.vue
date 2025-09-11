@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { CF_TURNSTILE_INPUT } from '~/utils/captcha/providers/cfTurnstile'
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const config = useRuntimeConfig()
-config.public.cfTurnstile.siteKey = '1x00000000000000000000AA'
+config.public.turnstile.siteKey = '1x00000000000000000000AA'
 
 const schema = {
     title: 'test_tous_les_types_de_champs',
@@ -13,13 +13,13 @@ const schema = {
             type: 'string',
             title: 'Text',
         },
-        [CF_TURNSTILE_INPUT]: {
+        [captchaFieldKey.TURNSTILE]: {
             type: 'string',
             title: 'turnstile captcha',
             propertyOrder: 15,
         },
     },
-    required: [CF_TURNSTILE_INPUT],
+    required: [captchaFieldKey.TURNSTILE],
 }
 </script>
 

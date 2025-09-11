@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { H_CAPTCHA_INPUT } from '~/utils/captcha/providers/hCaptcha'
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const config = useRuntimeConfig()
@@ -13,13 +13,13 @@ const schema = {
             type: 'string',
             title: 'Text',
         },
-        [H_CAPTCHA_INPUT]: {
+        [captchaFieldKey.H_CAPTCHA]: {
             type: 'string',
             title: 'h Captcha',
             propertyOrder: 15,
         },
     },
-    required: [H_CAPTCHA_INPUT],
+    required: [captchaFieldKey.H_CAPTCHA],
 }
 </script>
 

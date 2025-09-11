@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { RE_CAPTCHA_INPUT } from '~/utils/captcha/providers/gRecaptcha'
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const config = useRuntimeConfig()
-config.public.gRecaptcha.siteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
+config.public.reCaptcha.siteKey = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'
 
 const schema = {
     title: 'test_tous_les_types_de_champs',
@@ -13,13 +13,13 @@ const schema = {
             type: 'string',
             title: 'Text',
         },
-        [RE_CAPTCHA_INPUT]: {
+        [captchaFieldKey.RE_CAPTCHA]: {
             type: 'string',
             title: 'recaptcha',
             propertyOrder: 15,
         },
     },
-    required: [RE_CAPTCHA_INPUT],
+    required: [captchaFieldKey.RE_CAPTCHA],
 }
 </script>
 

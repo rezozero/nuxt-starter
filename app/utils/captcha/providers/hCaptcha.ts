@@ -1,3 +1,4 @@
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import { defineCaptchaProvider } from './defineCaptchaProvider'
 
 type HCaptchaResponse = {
@@ -22,12 +23,10 @@ declare global {
     }
 }
 
-export const H_CAPTCHA_INPUT = 'h-captcha-response'
-
 export default defineCaptchaProvider({
     name: 'hCaptcha',
     inputAttributes: {
-        key: H_CAPTCHA_INPUT,
+        key: captchaFieldKey.H_CAPTCHA,
         class: 'h-captcha',
     },
     scripts: [

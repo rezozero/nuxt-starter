@@ -3,10 +3,10 @@
 // https://developers.cloudflare.com/turnstile/troubleshooting/testing/
 const siteKeyTest = '1x00000000000000000000AA'
 const config = useRuntimeConfig()
-config.public.cfTurnstile.siteKey = siteKeyTest
+config.public.turnstile.siteKey = siteKeyTest
 
 const id = useId()
-const { userConsent } = await useCaptchaProvider({ name: 'cfTurnstile', siteKey: siteKeyTest, id })
+const { userConsent } = await useCaptchaProvider({ name: 'turnstile', siteKey: siteKeyTest, id })
 </script>
 
 <template>

@@ -1,3 +1,4 @@
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import { defineCaptchaProvider } from './defineCaptchaProvider'
 
 export declare interface IRenderParameters {
@@ -22,12 +23,10 @@ declare global {
     }
 }
 
-export const RE_CAPTCHA_INPUT = 'g-recaptcha-response'
-
 export default defineCaptchaProvider({
-    name: 'gRecaptcha',
+    name: 'reCaptcha',
     inputAttributes: {
-        key: RE_CAPTCHA_INPUT,
+        key: captchaFieldKey.RE_CAPTCHA,
         class: 'g-recaptcha',
     },
     needUserConsent: true,

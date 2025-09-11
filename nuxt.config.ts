@@ -81,16 +81,16 @@ export default defineNuxtConfig({
             googleTagManager: {
                 id: '',
             },
-            frcCaptcha: {
+            friendlyCaptcha: {
                 siteKey: '',
             },
-            gRecaptcha: {
+            reCaptcha: {
                 siteKey: '',
             },
             hCaptcha: {
                 siteKey: '',
             },
-            cfTurnstile: {
+            turnstile: {
                 siteKey: '',
             },
             sentry: {

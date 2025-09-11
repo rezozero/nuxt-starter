@@ -1,4 +1,5 @@
-import { captchaProviders, type CaptchaProviderNames } from '~/utils/captcha/providers'
+import type { CaptchaProviderNames } from '~/composables/use-roadiz-form-captcha'
+import { captchaProviders } from '~/utils/captcha/providers'
 import type { CaptchaProvider } from '~/utils/captcha/providers/defineCaptchaProvider'
 
 type UseCaptchaProviderOptions = {

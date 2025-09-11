@@ -1,3 +1,4 @@
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import { defineCaptchaProvider } from './defineCaptchaProvider'
 
 declare global {
@@ -20,9 +21,9 @@ export const FRIENDLY_CAPTCHA_INPUT = 'frc-captcha-response'
 const SENTINEL_RESPONSES = ['.UNINITIALIZED', '.UNCONNECTED', '.UNSTARTED', '.REQUESTING', '.SOLVING', '.VERIFYING', '.EXPIRED', '.DESTROYED', '.ERROR', '.RESET']
 
 export default defineCaptchaProvider({
-    name: 'frcCaptcha',
+    name: 'friendlyCaptcha',
     inputAttributes: {
-        key: FRIENDLY_CAPTCHA_INPUT,
+        key: captchaFieldKey.FRIENDLY_CAPTCHA,
         class: 'frc-captcha',
     },
     needUserConsent: false,
@@ -43,6 +44,8 @@ export default defineCaptchaProvider({
         },
     ],
     render: function () {
+        const el = document.querySelectorAll('.frc-captcha')
+        console.log('[friednlyCaptcha]: render', el)
         window?.frcaptcha?.attach?.()
     },
     remove: function () {

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { FRIENDLY_CAPTCHA_INPUT } from '~/utils/captcha/providers/frcCaptcha'
+import captchaFieldKey from '~/utils/captcha/providers.constants'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const config = useRuntimeConfig()
-config.public.frcCaptcha.siteKey = 'FCMV995O03V7RIMQ'
+config.public.friendlyCaptcha.siteKey = 'FCMV995O03V7RIMQ'
 
 const schema = {
     title: 'test_tous_les_types_de_champs',
@@ -13,13 +13,13 @@ const schema = {
             type: 'string',
             title: 'Text',
         },
-        [FRIENDLY_CAPTCHA_INPUT]: {
+        [captchaFieldKey.FRIENDLY_CAPTCHA]: {
             type: 'string',
             title: 'friendly_captcha',
             propertyOrder: 15,
         },
     },
-    required: [FRIENDLY_CAPTCHA_INPUT],
+    required: [captchaFieldKey.FRIENDLY_CAPTCHA],
 }
 </script>
 
