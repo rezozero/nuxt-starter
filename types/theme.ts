@@ -1,11 +1,11 @@
 import type { MaybeRefOrGetter } from 'vue'
 
-export type AppTheme = 'light' | 'dark'
-export type ThemeValue = AppTheme | false | null
+export type Theme = 'light' | 'dark'
+
 export interface ThemeProps {
-    theme?: ThemeValue
+    theme?: Theme | false | null
 }
 export interface ThemeOptions {
     props?: ThemeProps
-    preferredTheme?: MaybeRefOrGetter<ThemeValue>
+    preferredTheme?: MaybeRefOrGetter<ThemeProps['theme']>
 }
