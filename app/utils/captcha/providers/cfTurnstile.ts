@@ -38,11 +38,11 @@ export default defineCaptchaProvider({
             defer: true,
         },
     ],
-    recreateWidget: function () {
+    render: function () {
         const id = this.getCurrentWidgetId?.() || ''
         window?.turnstile?.render(`#${id}`)
     },
-    destroyWidget: function () {
+    remove: function () {
         window.turnstile?.remove()
     },
     execute: async function (token) {

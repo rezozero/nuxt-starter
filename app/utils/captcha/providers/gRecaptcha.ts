@@ -45,11 +45,11 @@ export default defineCaptchaProvider({
         const token = await window.grecaptcha.execute(this.siteKey, { action: 'submit' })
         return token
     },
-    recreateWidget: function () {
+    render: function () {
         const id = this.getCurrentWidgetId?.() || ''
         window.grecaptcha?.render?.(id, { sitekey: this.siteKey! })
     },
-    destroyWidget: function () {
+    remove: function () {
         window.grecaptcha?.reset?.()
     },
 })

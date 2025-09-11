@@ -14,20 +14,20 @@ export type CaptchaProvider = {
     inputName: string
     elementClass: string
     scripts: ScriptAttributes[]
-    isScriptsLoaded: boolean
+    scriptsLoaded: boolean
     needUserConsent: boolean
     widgetInstanceIndex: number
     siteKey: string
     getCurrentWidgetId: () => string
     getDomAttributes: (options: CaptchaWidgetAttributes) => Record<string, string | boolean | undefined | (() => void)>
     loadScript: (siteKey: string) => Promise<void>
-    recreateWidget: undefined | (() => void) | undefined
+    render: undefined | (() => void) | undefined
     execute: ((token?: string) => ExecuteResponse) | undefined
-    destroyWidget: (() => void) | undefined
+    remove: (() => void) | undefined
 }
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-type OptionalOptionKeys = 'siteKey' | 'destroyWidget' | 'recreateWidget' | 'loadScript' | 'getDomAttributes' | 'getCurrentWidgetId' | 'isScriptsLoaded' | 'needUserConsent' | 'widgetInstanceIndex'
+type OptionalOptionKeys = 'siteKey' | 'remove' | 'render' | 'loadScript' | 'getDomAttributes' | 'getCurrentWidgetId' | 'scriptsLoaded' | 'needUserConsent' | 'widgetInstanceIndex'
 type RequiredProviderOptions = WithOptional<CaptchaProvider, OptionalOptionKeys>
 
 const defaultOptions = {
@@ -36,7 +36,7 @@ const defaultOptions = {
     siteKey: '',
     inputName: '',
     scripts: [],
-    isScriptsLoaded: false,
+    scriptsLoaded: false,
     needUserConsent: true,
     widgetInstanceIndex: 0,
     getCurrentWidgetId: function () {
@@ -51,18 +51,18 @@ const defaultOptions = {
             'id': options.id || this.getCurrentWidgetId(),
         }
     },
-    recreateWidget: undefined,
+    render: undefined,
     loadScript: async function (siteKey: string) {
         this.siteKey = siteKey
-        if (this.isScriptsLoaded && this.recreateWidget) {
-            this.recreateWidget?.()
+        if (this.scriptsLoaded && this.render) {
+            this.render?.()
         }
         else {
             const scriptsPromises = this.scripts.map(data => injectScript(data))
 
             try {
                 await Promise.all(scriptsPromises)
-                this.isScriptsLoaded = true
+                this.scriptsLoaded = true
             }
             catch (error) {
                 console.error(`Error during ${this.name} scripts loading`, error)
@@ -70,7 +70,7 @@ const defaultOptions = {
         }
     },
     execute: undefined,
-    destroyWidget: undefined,
+    remove: undefined,
 } satisfies CaptchaProvider
 
 export function defineCaptchaProvider(options: RequiredProviderOptions) {

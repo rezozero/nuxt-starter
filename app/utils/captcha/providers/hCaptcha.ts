@@ -37,12 +37,12 @@ export default defineCaptchaProvider({
         },
     ],
     needUserConsent: false,
-    recreateWidget: function () {
+    render: function () {
         const id = this.getCurrentWidgetId?.() || ''
 
         window.hcaptcha?.render(id, { sitekey: this.siteKey! })
     },
-    destroyWidget: function () {
+    remove: function () {
         window.hcaptcha?.remove()
     },
     execute: async (token) => {

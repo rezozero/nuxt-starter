@@ -40,10 +40,10 @@ export default defineCaptchaProvider({
             type: 'module',
         },
     ],
-    recreateWidget: function () {
+    render: function () {
         window?.frcaptcha?.attach?.()
     },
-    destroyWidget: function () {
+    remove: function () {
         window.frcaptcha?.clear?.()
     },
     execute: (token) => {

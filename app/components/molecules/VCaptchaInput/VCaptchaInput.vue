@@ -17,7 +17,7 @@ async function init() {
 }
 
 onBeforeUnmount(async () => {
-    captchaApi.value?.destroyWidget?.()
+    captchaApi.value?.remove?.()
 })
 </script>
 
