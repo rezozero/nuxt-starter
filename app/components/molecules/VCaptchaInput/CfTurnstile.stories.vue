@@ -6,12 +6,12 @@ const config = useRuntimeConfig()
 config.public.cfTurnstile.siteKey = siteKeyTest
 
 const id = useId()
-const { setUserConsent } = await useCaptchaProvider({ name: 'cfTurnstile', siteKey: siteKeyTest, id })
+const { userConsent } = await useCaptchaProvider({ name: 'cfTurnstile', siteKey: siteKeyTest, id })
 </script>
 
 <template>
     <NuxtStory>
-        <button @click="setUserConsent(true)">
+        <button @click="() => userConsent = true">
             valid user consent
         </button>
         <VCaptchaInput

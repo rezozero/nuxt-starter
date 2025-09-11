@@ -40,30 +40,25 @@ export async function useCaptchaProvider(options: UseCaptchaProviderOptions) {
     })
 
     // Dialog consent
-    const defaultProvidersState = Object.keys(captchaProviders).reduce((acc, key) => {
-        acc[key] = false
-        return acc
-    }, {} as Record<string, boolean>)
-
-    const userConsent = useState('cookie_user_consent', () => defaultProvidersState)
-    const setUserConsent = (newValue: boolean) => userConsent.value[name.value] = newValue
+    // TODO: Set and update userConsent depending on CMP stored data
+    const userConsent = useState(`user_consents_${name.value}_cookies`, () => false)
 
     const needUseConsentAction = computed(() => {
         return !!name.value && !!toValue(options.siteKey) && !!provider.value?.needUserConsent
     })
 
     const displayUserConsentDialog = computed(() => {
-        return needUseConsentAction.value && !userConsent.value[name.value]
+        return needUseConsentAction.value && !userConsent.value
     })
 
     const allowLoadScript = computed(() => {
-        return !needUseConsentAction.value || (needUseConsentAction.value && userConsent.value[name.value])
+        return !needUseConsentAction.value || (needUseConsentAction.value && userConsent.value)
     })
 
     return {
         domAttributes,
         provider,
-        setUserConsent,
+        userConsent,
         displayUserConsentDialog,
         allowLoadScript,
     }

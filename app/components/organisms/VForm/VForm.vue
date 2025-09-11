@@ -209,7 +209,7 @@ const {
 const {
     provider,
     displayUserConsentDialog,
-    setUserConsent,
+    userConsent,
 } = await useCaptchaProvider({ name: providerName, siteKey: captchaSiteKey })
 
 // STATE
@@ -233,7 +233,7 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
             :class="$style['consent-dialog']"
         >
             <p>{{ $t('form.user_cookie_consent.message') }}</p>
-            <button @click="setUserConsent(true)">
+            <button @click="() => userConsent = true">
                 {{ $t('form.user_cookie_consent.button_label') }}
             </button>
         </dialog>

@@ -5,12 +5,12 @@ const config = useRuntimeConfig()
 config.public.gRecaptcha.siteKey = siteKeyTest
 
 const id = useId()
-const { setUserConsent } = await useCaptchaProvider({ name: 'gRecaptcha', siteKey: siteKeyTest, id })
+const { userConsent } = await useCaptchaProvider({ name: 'gRecaptcha', siteKey: siteKeyTest, id })
 </script>
 
 <template>
     <NuxtStory>
-        <button @click="setUserConsent(true)">
+        <button @click="() => userConsent = true">
             valid user consent
         </button>
         <VCaptchaInput
