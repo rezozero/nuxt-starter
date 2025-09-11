@@ -46,6 +46,17 @@ export default defineComponent({
                         && 'areaEndY' in hotspot
                     ) {
                         result.hotspot += `:${hotspot.areaStartX}:${hotspot.areaStartY}:${hotspot.areaEndX}:${hotspot.areaEndY}`
+
+                        if (
+                            !props.crop
+                            && document.value?.imageWidth
+                            && document.value?.imageHeight
+                            && hotspot.areaStartX
+                            && hotspot.areaEndX
+                            && hotspot.areaStartY
+                            && hotspot.areaEndY
+                        )
+                            result.crop = `${Math.floor(document.value?.imageWidth * (hotspot.areaEndX - hotspot.areaStartX))}x${Math.floor(document.value?.imageHeight * (hotspot.areaEndY - hotspot.areaStartY))}`
                     }
                 }
             }
