@@ -44,8 +44,6 @@ export default defineCaptchaProvider({
         window?.frcaptcha?.attach?.()
     },
     destroyWidget: function () {
-        if (!window?.frcaptcha) return
-
         window.frcaptcha?.clear?.()
     },
     execute: (token) => {
