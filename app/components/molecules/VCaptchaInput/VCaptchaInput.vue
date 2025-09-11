@@ -5,7 +5,7 @@ import type { FormElementProps } from '~~/types/form'
 const props = defineProps<FormElementProps>()
 
 const id = useId()
-const { providerName, siteKey } = useFormCaptcha({ input: props.name })
+const { providerName, siteKey } = useRoadizFormCaptcha(props.name)
 
 async function onProviderLoaded(provider: CaptchaProvider) {
     if (!allowLoadScript.value) return

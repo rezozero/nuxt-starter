@@ -119,7 +119,7 @@ export default function createFormChildren(
             }
 
             // Captcha
-            const { enabled } = useFormCaptcha({ input: key })
+            const { enabled } = useRoadizFormCaptcha(key)
             if (enabled.value) {
                 if (!mergedComponentsMap.captchaInput) return h('')
 

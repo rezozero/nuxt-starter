@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/nuxt'
 import type { FetchError } from 'ofetch'
 import type { PropType } from 'vue'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
-import { captchaProviderInputs } from '~/utils/captcha/providers'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
@@ -196,15 +195,14 @@ const formattedSchema = computed(() => {
 const captchaInputKey = computed(() => {
     const fieldKeys = Object.keys(toValue(formattedSchema.value?.properties) || {})
 
-    const allowed = Object.keys(captchaProviderInputs)
-    return fieldKeys.find(key => allowed.includes(key))
+    return fieldKeys.find(key => !!getValidCaptchaKey(key))
 })
 
 const {
     providerName,
     siteKey: captchaSiteKey,
     enabled: captchaEnabled,
-} = useFormCaptcha({ input: captchaInputKey })
+} = useRoadizFormCaptcha(captchaInputKey)
 
 const {
     provider,
