@@ -109,7 +109,7 @@ onBeforeUnmount(() => {
                         muted: slideIndex !== documentIndex,
                         playsinline: true,
                     }"
-                    @ready="(plyr) => onPlyrReady(plyr, documentIndex)"
+                    @ready="(plyr: Plyr) => onPlyrReady(plyr, documentIndex)"
                 />
                 <div
                     v-if="document.description"
