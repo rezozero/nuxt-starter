@@ -49,7 +49,7 @@ export function defineCaptchaProvider(options: RequiredProviderOptions) {
                 return
             }
 
-            // Promise won't be resolved on browser with module script support
+            // When a script has noModule, the next promise won't be resolved on browser with module support
             const scriptsPromises = this.scripts.filter((script) => {
                 const supportsModule = 'noModule' in document.createElement('script')
                 return supportsModule ? !script.noModule : script.noModule
