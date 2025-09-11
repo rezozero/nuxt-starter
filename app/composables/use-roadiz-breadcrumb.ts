@@ -6,7 +6,7 @@ export interface BreadcrumbItem {
     url?: string
 }
 
-type AnyObject = { [key: string]: unknown }
+type AnyObject = Record<string, unknown>
 
 const POSSIBLE_TITLE_KEY = ['altTitle', 'name', 'title']
 
