@@ -21,7 +21,7 @@ if (props.items.length > 1 && import.meta.server) {
                     '@type': 'ListItem',
                     'position': index + 1,
                     'name': item.label,
-                    'item': (item.url && siteUrl && joinURL(siteUrl, item.url)) || undefined,
+                    'item': joinURL(siteUrl, item.url!),
                 }
             }),
     }
