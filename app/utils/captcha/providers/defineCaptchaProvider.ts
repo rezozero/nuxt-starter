@@ -65,7 +65,7 @@ const defaultOptions = {
                 this.isScriptsLoaded = true
             }
             catch (error) {
-                console.error(`error during ${this.name} loading scripts`, error)
+                console.error(`Error during ${this.name} scripts loading`, error)
             }
         }
     },
