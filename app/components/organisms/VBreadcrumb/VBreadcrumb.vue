@@ -13,7 +13,7 @@ if (props.items.length > 1 && import.meta.server) {
     const structuredData = {
         '@context': 'https://schema.org',
         '@type': 'BreadcrumbList',
-        'itemListOrder': 'Descending',
+        'itemListOrder': 'Ascending',
         'itemListElement': props.items
             .filter(i => i.url)
             .map((item, index) => {
