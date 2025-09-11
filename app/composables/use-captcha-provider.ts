@@ -44,16 +44,16 @@ export async function useCaptchaProvider(options: UseCaptchaProviderOptions) {
     // TODO: Set and update userConsent depending on CMP stored data
     const userConsent = useState(`user_consents_${name.value}_cookies`, () => false)
 
-    const needUseConsentAction = computed(() => {
+    const needUserConsent = computed(() => {
         return !!name.value && !!toValue(options.siteKey) && !!provider.value?.needUserConsent
     })
 
     const displayUserConsentDialog = computed(() => {
-        return needUseConsentAction.value && !userConsent.value
+        return needUserConsent.value && !userConsent.value
     })
 
     const allowLoadScript = computed(() => {
-        return !needUseConsentAction.value || (needUseConsentAction.value && userConsent.value)
+        return !needUserConsent.value || (needUserConsent.value && userConsent.value)
     })
 
     return {
