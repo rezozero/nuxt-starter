@@ -52,17 +52,21 @@ const defaultOptions = {
     loadScript: async function () {
         if (this.scriptsLoaded && this.render) {
             this.render?.()
+            return
         }
-        else {
-            const scriptsPromises = this.scripts.map(data => injectScript(data))
 
-            try {
-                await Promise.all(scriptsPromises)
-                this.scriptsLoaded = true
-            }
-            catch (error) {
-                console.error(`Error during ${this.name} scripts loading`, error)
-            }
+        // Promise won't be resolved on browser with module script support
+        const scriptsPromises = this.scripts.filter((script) => {
+            const supportsModule = 'noModule' in document.createElement('script')
+            return supportsModule ? !script.noModule : script.noModule
+        }).map(data => injectScript(data))
+
+        try {
+            await Promise.all(scriptsPromises)
+            this.scriptsLoaded = true
+        }
+        catch (error) {
+            console.error(`Error during ${this.name} scripts loading`, error)
         }
     },
     execute: undefined,
