@@ -35,17 +35,13 @@ const defaultOptions = {
     elementClass: '',
     siteKey: '',
     inputName: '',
-
     scripts: [],
     isScriptsLoaded: false,
-
     needUserConsent: true,
-
     widgetInstanceIndex: 0,
     getCurrentWidgetId: function () {
         return this.name + '-' + this.widgetInstanceIndex
     },
-    /* */
     getDomAttributes: function (options: CaptchaWidgetAttributes) {
         this.widgetInstanceIndex++
         return {
@@ -55,8 +51,6 @@ const defaultOptions = {
             'id': options.id || this.getCurrentWidgetId(),
         }
     },
-
-    /* */
     recreateWidget: undefined,
     loadScript: async function (siteKey: string) {
         this.siteKey = siteKey
