@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { ThemeProps } from '#imports'
 import { useCarouselControls } from '~/composables/use-carousel-controls'
+import type { ThemeProps } from '~~/types/theme'
 
 type VCarouselControlsProps = ThemeProps & {
     snapLength: number

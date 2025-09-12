@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import type { ThemeProps } from '~/composables/use-theme'
+import type { ThemeProps } from '~~/types/theme'
 
 const props = defineProps<{
     index: number
