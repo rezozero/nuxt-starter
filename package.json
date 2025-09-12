@@ -57,7 +57,6 @@
     "@types/lodash": "^4.17.20",
     "@vue-a11y/skip-to": "^3.0.3",
     "@vueuse/core": "^13.9.0",
-    "body-scroll-lock": "^3.1.5",
     "floating-vue": "^5.2.2",
     "lodash": "^4.17.21",
     "marked": "^16.2.1",
