@@ -1,81 +1,115 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
-import type { Placement, Tooltip } from 'floating-vue'
+import type { ThemeProps } from '~~/types/theme'
 
-import { hash } from 'ohash'
+const props = defineProps<{
+    content?: string
+} & ThemeProps>()
 
-const props = defineProps({
-    placement: {
-        type: String as PropType<Placement>,
-        default: 'top-end',
-    },
-    content: String,
-    container: {
-        type: String,
-        default: 'body',
-    },
+const { themeClass } = useTheme({ props })
+
+const id = useId()
+
+const isExpanded = ref(false)
+const toggle = () => isExpanded.value = !isExpanded.value
+
+// Hover
+const isMouseEnter = ref(false)
+const onMouseenter = () => isMouseEnter.value = true
+const onMouseLeave = () => isMouseEnter.value = false
+watch(isMouseEnter, (value) => {
+    isExpanded.value = value
 })
 
-// Workaround for https://github.com/Akryum/floating-vue/issues/1006
-const id = computed(() => hash(props.content))
+// Click & Touch
+const isMouseDevice = useMediaQuery('(hover: hover)')
 
-const tooltipProps = computed(() => {
-    return {
-        distance: '0',
-        skidding: '-8',
-        placement: props.placement,
-        triggers: ['hover', 'focus', 'click'],
-        container: props.container,
-        delay: { show: 0, hide: 100 },
-        ariaId: id.value,
-        handleResize: true,
-        eagerMount: true,
-    }
-})
+function onTouchEnd() {
+    if (isMouseDevice.value) return
 
-const displayedComponent = shallowRef<string | typeof Tooltip>('div')
-const isTooltipComponentDisplayed = computed(() => displayedComponent.value !== 'div')
-
-async function onUserInteract() {
-    if (isTooltipComponentDisplayed.value) return
-
-    import('assets/scss/vendors/_floating-vue.scss')
-    displayedComponent.value = (await import('floating-vue')).Tooltip
+    toggle()
 }
 </script>
 
 <template>
-    <component
-        :is="displayedComponent"
-        :class="$style.root"
-        v-bind="isTooltipComponentDisplayed ? tooltipProps : undefined"
-        @mouseover="onUserInteract"
-        @click="onUserInteract"
+    <div
+        :class="[$style.root, themeClass]"
+        @mouseleave="onMouseLeave"
     >
-        <VCopyrightButton @focus="onUserInteract" />
-        <template #popper>
-            <slot>
-                <VMarkdown
-                    :class="$style.content"
-                    :content="content"
-                />
-            </slot>
-        </template>
-    </component>
+        <VCopyrightButton
+            ref="button"
+            :class="$style.button"
+            :aria-controls="id"
+            :aria-expanded="isExpanded"
+            @touchend="onTouchEnd"
+            @mouseenter="onMouseenter"
+            @keyup.enter="toggle"
+        />
+        <slot
+            :id="id"
+            :item-class="$style.content"
+            :aria-hidden="!isExpanded"
+        >
+            <VMarkdown
+                v-if="content"
+                :id="id"
+                :aria-hidden="!isExpanded"
+                :class="$style.content"
+                :content="content"
+            />
+        </slot>
+    </div>
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/mixins/theme' as *;
+
+$leave-delay: 0.1s;
+
 .root {
     position: absolute;
-    right: var(--v-copyright-right, #{px-to-rem(16)});
-    bottom: var(--v-copyright-bottom, #{px-to-rem(16)});
+    right: var(--v-copyright-right, 16px);
+    bottom: var(--v-copyright-bottom, 16px);
+    display: flex;
+    max-width: 276px;
+    flex-direction: column-reverse;
+    border: 1px solid var(--v-copyright-border-color, transparent);
+    border-radius: 4px;
+    transition-delay: $leave-delay;
+    transition-duration: 0.2s;
+    transition-property: border-color, background-color;
+
+    @include theme-variants('copyright');
+
+    &:has(.button[aria-expanded="false"]) {
+        pointer-events: none;
+    }
+
+    &:has(.button[aria-expanded="true"]) {
+        --v-copyright-border-color: var(--colors-copyright-border-dialog, rgba(1, 1, 1, 15%));
+
+        background-color: var(--colors-surface-primary, #FFF);
+        transition-delay: initial;
+    }
+}
+
+.button {
+    align-self: flex-end;
+    pointer-events: all;
+
+    &:focus {
+        outline-offset: 0;
+    }
 }
 
 .content {
-    max-width: px-to-rem(276);
+    opacity: 0;
+    transition-delay: $leave-delay;
+    transition-duration: 0.2s;
+    transition-property: opacity;
 
-    p {
-        padding: 0;
+    .button[aria-expanded="true"] + & {
+        opacity: 1;
+        transition-delay: initial;
     }
 }
 </style>
