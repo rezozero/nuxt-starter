@@ -68,7 +68,7 @@ onBeforeUnmount(() => {
     <dialog
         :id="id"
         ref="root"
-        :class="[$style.root, description && $style['root--with-description'], themeClass]"
+        :class="[$style.root, themeClass]"
         :aria-label="$t('media_viewer.aria_label')"
     >
         <VButton
