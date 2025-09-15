@@ -1,8 +1,8 @@
 <script lang="ts">
+import type { VRoadizImage, VRoadizVideo } from '#components'
+import { LazyVRoadizAudio, LazyVRoadizImage, LazyVRoadizVideo } from '#components'
 import type { RoadizDocument } from '@roadiz/types'
 import { type Component, h, type PropType } from 'vue'
-import type { VRoadizVideo, VRoadizImage } from '#components'
-import { LazyVRoadizImage, LazyVRoadizVideo, LazyVRoadizAudio } from '#components'
 import { isAudio, isImage, isPDF, isVideo } from '~/utils/roadiz/document'
 
 type VVideoProps = InstanceType<typeof VRoadizVideo>['$props']

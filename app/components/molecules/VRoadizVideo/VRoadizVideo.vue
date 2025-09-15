@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { RoadizDocument } from '@roadiz/types'
-import type { PropType } from 'vue'
 import pick from 'lodash/pick'
+import type { PropType } from 'vue'
 import { isImage } from '~/utils/roadiz/document'
-import { commonVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
+import { commonVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 
 const props = defineProps({
     ...commonVideoProps,
@@ -55,7 +55,7 @@ const embedVideoAttrs = computed(() => {
 </script>
 
 <template>
-    <VVideoPlayer
+    <LazyVVideoPlayer
         v-if="hideThumbnail || props.background"
         v-bind="embedVideoAttrs"
     />
@@ -84,7 +84,7 @@ const embedVideoAttrs = computed(() => {
                 :style="{ aspectRatio: videoRatio || 16 / 9 }"
             />
         </slot>
-        <VVideoPlayer
+        <LazyVVideoPlayer
             v-if="hadInteraction"
             v-bind="embedVideoAttrs"
             :autoplay="true"
@@ -94,9 +94,6 @@ const embedVideoAttrs = computed(() => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/mixins/v-button' as *;
-@use 'assets/scss/mixins/include-media' as *;
-
 .root {
     --v-player-position: absolute;
     --v-player-height: 100%;
@@ -115,12 +112,6 @@ const embedVideoAttrs = computed(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-
-    @include v-button-size('m');
-
-    @include media('>=lg') {
-        @include v-button-size('l');
-    }
 
     .root--had-interaction & {
         pointer-events: none;
