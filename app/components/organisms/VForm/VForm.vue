@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import type { FetchError } from 'ofetch'
 import * as Sentry from '@sentry/nuxt'
-import type { JsonSchemaExtended } from '~~/types/json-schema'
-import { type ComponentsMap, RECAPTCHA_INPUT } from '~/utils/form/create-form-children'
+import type { FetchError } from 'ofetch'
+import type { PropType } from 'vue'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
-import { useRecaptchaState } from '~/composables/use-recaptcha-state'
+import type { ComponentsMap } from '~/utils/form/create-form-children'
+import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 interface FormSubmitParams {
     action?: string
@@ -75,11 +74,6 @@ const props = defineProps({
 // COMMONS
 const { t } = useI18n()
 
-// STATE
-const isPending = ref(false)
-const isSuccess = ref(false)
-const isDisabled = computed(() => props.disabled || isPending.value)
-
 // ERRORS
 const error = ref<FetchError | null>(null)
 const errorsPerProperty = computed(() => {
@@ -140,10 +134,6 @@ const formattedAction = computed(() => {
     return useJoinApiUrl(props.action)
 })
 
-// INIT RECAPTCHA
-const { recaptcha, init: initRecaptcha } = useRecaptchaState()
-onBeforeMount(initRecaptcha)
-
 // SUBMIT
 async function onSubmit(event: Event): Promise<void> {
     emit('submit', event)
@@ -159,11 +149,12 @@ async function onSubmit(event: Event): Promise<void> {
     isPending.value = true
     error.value = null
 
-    if (formData.has(RECAPTCHA_INPUT)) {
-        await recaptcha.value?.recaptchaLoaded()
-        const token = await recaptcha.value?.executeRecaptcha('form')
+    if (captchaEnabled.value && captchaInputKey.value && formData.has(captchaInputKey.value)) {
+        const currentValue = formData.get(captchaInputKey.value)
 
-        if (token) formData.set(RECAPTCHA_INPUT, token)
+        const token = await provider.value?.execute?.(typeof currentValue === 'string' ? currentValue : undefined)
+
+        if (token) formData.set(captchaInputKey.value, token)
     }
 
     const submitCallback = props.submitCallback || defaultSubmitCallback
@@ -199,6 +190,30 @@ const formattedSchema = computed(() => {
 
     return schema
 })
+
+// CAPTCHA
+const captchaInputKey = computed(() => {
+    const fieldKeys = Object.keys(toValue(formattedSchema.value?.properties) || {})
+
+    return fieldKeys.find(key => !!getValidCaptchaKey(key))
+})
+
+const {
+    providerName,
+    siteKey: captchaSiteKey,
+    enabled: captchaEnabled,
+} = useRoadizFormCaptcha(captchaInputKey)
+
+const {
+    provider,
+    displayUserConsentDialog,
+    userConsent,
+} = await useCaptchaProvider({ name: providerName, siteKey: captchaSiteKey })
+
+// STATE
+const isPending = ref(false)
+const isSuccess = ref(false)
+const isDisabled = computed(() => props.disabled || isPending.value || displayUserConsentDialog.value)
 </script>
 
 <template>
@@ -210,6 +225,16 @@ const formattedSchema = computed(() => {
         :method="method"
         @submit="(e) => onSubmit(e)"
     >
+        <dialog
+            v-if="displayUserConsentDialog"
+            open
+            :class="$style['consent-dialog']"
+        >
+            <p>{{ $t('form.user_cookie_consent.message') }}</p>
+            <button @click="() => userConsent = true">
+                {{ $t('form.user_cookie_consent.button_label') }}
+            </button>
+        </dialog>
         <slot name="beforeFields" />
         <VFormElementFactory
             :id="id"
@@ -260,6 +285,10 @@ const formattedSchema = computed(() => {
 </template>
 
 <style lang="scss" module>
+.consent-dialog {
+    z-index: 1;
+}
+
 .errors {
     margin: 1em 0;
     color: rgb(244, 67, 54);

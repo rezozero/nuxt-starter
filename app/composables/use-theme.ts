@@ -1,19 +1,6 @@
 import { inject } from 'vue'
-import type { MaybeRefOrGetter } from 'vue'
 import { THEME_PROVIDER_KEY } from '~/composables/use-theme-provider'
-import type appConfig from '~/app/app.config'
-
-// TODO: type isn't infer
-export type Theme = (typeof appConfig)['themes'][number]
-
-export interface ThemeProps {
-    theme?: Theme | false | null
-}
-
-export interface ThemeOptions {
-    props?: ThemeProps
-    preferredTheme?: MaybeRefOrGetter<Theme | false | null>
-}
+import type { ThemeOptions } from '~~/types/theme'
 
 export function useTheme(options?: ThemeOptions) {
     const injectedTheme = inject(THEME_PROVIDER_KEY, null)

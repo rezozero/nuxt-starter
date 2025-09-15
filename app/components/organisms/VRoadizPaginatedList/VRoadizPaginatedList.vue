@@ -47,7 +47,7 @@ const totalPages = computed(() => {
 })
 
 const hasMoreThanOnePage = computed(() => {
-    return (totalPages.value > itemsPerPage.value) || (page.value > 1)
+    return (totalPages.value > 1)
 })
 </script>
 
@@ -95,7 +95,7 @@ const hasMoreThanOnePage = computed(() => {
 }
 
 .list {
-    margin-bottom: px-to-rem(48);
+    margin-bottom: 48px;
 }
 
 .item {
@@ -111,6 +111,6 @@ const hasMoreThanOnePage = computed(() => {
 }
 
 .pagination {
-    margin-bottom: px-to-rem(48);
+    margin-bottom: 48px;
 }
 </style>
