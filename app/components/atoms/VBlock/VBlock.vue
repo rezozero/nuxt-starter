@@ -5,6 +5,7 @@ export type VBlockProps = {
     item?: RoadizNodesSources
     tag?: string
 }
+
 defineProps<VBlockProps>()
 </script>
 

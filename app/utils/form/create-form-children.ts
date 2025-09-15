@@ -1,18 +1,17 @@
 import type { Component, VNodeChild } from 'vue'
-import type { JsonSchemaExtended } from '~~/types/json-schema'
-import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElementFactory'
 import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
+import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElementFactory'
 import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
+import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 export type ComponentsMap = Record<string, Component | undefined>
 
 type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
-export const RECAPTCHA_INPUT = 'g-recaptcha-response'
-
 const defaultComponentMaps: ComponentsMap = {
     'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
     'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
+    'captchaInput': defineAsyncComponent(() => import('~/components/molecules/VCaptchaInput/VCaptchaInput.vue')),
     'input': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
     'new-password': undefined,
     'textarea': defineAsyncComponent(() => import('~/components/molecules/VTextarea/VTextarea.vue')),
@@ -30,7 +29,7 @@ export default function createFormChildren(
     componentsMap?: ComponentsMap,
 ): VNodeChild | undefined {
     const rootSchema = parentProps.schema
-    const propertiesLength = Object.keys(rootSchema?.properties || {}).filter(key => key !== RECAPTCHA_INPUT).length
+    const propertiesLength = Object.keys(rootSchema?.properties || {}).length
     const requiredProperties = rootSchema?.required || []
     const parents = parentProps.parents
     const mergedComponentsMap = { ...defaultComponentMaps, ...componentsMap }
@@ -119,11 +118,12 @@ export default function createFormChildren(
                 })
             }
 
-            // recaptcha
-            if (key === RECAPTCHA_INPUT) {
-                if (!mergedComponentsMap.hiddenInput) return h('')
+            // Captcha
+            const { enabled } = useRoadizFormCaptcha(key)
+            if (enabled.value) {
+                if (!mergedComponentsMap.captchaInput) return h('')
 
-                return h(mergedComponentsMap.hiddenInput, {
+                return h(mergedComponentsMap.captchaInput, {
                     ...defaultProps,
                 })
             }
