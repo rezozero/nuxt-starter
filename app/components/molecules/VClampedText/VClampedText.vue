@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance } from 'vue'
+import type { ComponentPublicInstance, PropType } from 'vue'
 
 const props = defineProps({
     content: {
@@ -10,47 +10,55 @@ const props = defineProps({
         type: Number,
         default: 3,
     },
+    ui: {
+        type: Object as PropType<{ content?: string, toggle?: string }>,
+    },
 })
+
+const id = useId()
 
 const isExpanded = ref(false)
 const isDisabled = ref(props.lines === 0)
-const root = ref<ComponentPublicInstance | null>(null)
+const contentEl = useTemplateRef('contentEl')
 
 function updateDisabled() {
-    const element = (root.value as ComponentPublicInstance)?.$el as HTMLElement
+    const element = (contentEl.value as ComponentPublicInstance)?.$el as HTMLElement
 
-    if (!element) return
+    if (!contentEl) return
 
     isDisabled.value = !isExpanded.value && element.scrollHeight <= element.clientHeight
 }
 
 onMounted(updateDisabled)
-useResizeObserver(root, updateDisabled)
+useResizeObserver(contentEl, updateDisabled)
 </script>
 
 <template>
     <VMarkdown
-        ref="root"
+        :id="id"
+        ref="contentEl"
         :class="[
-            $style.root,
-            isExpanded && $style['root--expanded'],
-            lines === 0 && !isExpanded && $style['root--hidden'],
-            isDisabled && $style['root--disabled'],
+            $style.content,
+            isExpanded && $style['content--expanded'],
+            lines === 0 && !isExpanded && $style['content--hidden'],
+            ui?.content,
         ]"
         :content="content"
     />
     <VButton
-        :class="$style.toggle"
+        :aria-controls="id"
+        :disabled="isDisabled"
+        :class="[$style.toggle, ui?.toggle]"
+        :aria-label="isExpanded ? $t('collapse_text') : $t('expand_text')"
         :label="isExpanded ? $t('see_less') : $t('see_more')"
         @click="isExpanded = !isExpanded"
     />
 </template>
 
 <style lang="scss" module>
-.root {
+.content {
     display: -webkit-box;
     overflow: hidden;
-    width: 100%;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--v-clamped-text-line-clamp, v-bind(lines));
 
@@ -79,7 +87,7 @@ useResizeObserver(root, updateDisabled)
 }
 
 .toggle {
-    .root--disabled + & {
+    &[disabled] {
         visibility: hidden;
     }
 }
