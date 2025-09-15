@@ -3,7 +3,6 @@
 <template>
     <button
         :class="$style.root"
-        :aria-label="$t('copyright_button.aria_label')"
     >
         <VIcon
             name="copyright"

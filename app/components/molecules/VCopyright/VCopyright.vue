@@ -36,7 +36,7 @@ function onTouchEnd() {
         @mouseleave="onMouseLeave"
     >
         <VCopyrightButton
-            ref="button"
+            :aria-label="$t('copyright_button.aria_label')"
             :class="$style.button"
             :aria-controls="id"
             :aria-expanded="isExpanded"
