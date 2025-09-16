@@ -11,7 +11,6 @@
   "alt": "01.jpg",
   "name": "Image name",
   "description": "Image description",
-  "thumbnail": false,
   "relativePath": "01.jpg",
   "processable": true,
   "type": "image",
