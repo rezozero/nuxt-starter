@@ -23,12 +23,13 @@ const props = defineProps<Props>()
 
 const { t } = useI18n()
 
+const linkExtendedEnabled = computed(() => !!props.url && !!props.linkExtended)
 const ctaProps = computed(() => {
     if (!props.url) return
 
     return {
-        tag: props.linkExtended ? 'div' : undefined,
-        to: props.linkExtended ? undefined : props.url,
+        tag: linkExtendedEnabled.value ? 'div' : undefined,
+        to: linkExtendedEnabled.value ? undefined : props.url,
         iconName: 'arrow-right',
         label: props.linkLabel || t('card.link_label'),
     }
@@ -42,16 +43,16 @@ function getClasses(key: SlotName) {
 
 <template>
     <div
-        :class="[$style.root, linkExtended && $style['root--link-extended']]"
+        :class="[$style.root, linkExtendedEnabled && $style['root--link-extended']]"
     >
         <slot
             name="title"
             :item-class="getClasses('title')"
         >
             <component
-                :is="linkExtended ? VRoadizLink : 'div'"
+                :is="linkExtendedEnabled ? VRoadizLink : 'div'"
                 v-if="title"
-                :url="linkExtended ? url : undefined"
+                :url="linkExtendedEnabled ? url : undefined"
                 :class="getClasses('title')"
             >
                 {{ title }}
