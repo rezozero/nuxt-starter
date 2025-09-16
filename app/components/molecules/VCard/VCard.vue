@@ -127,13 +127,13 @@ function getClasses(key: SlotName) {
 }
 
 .overtitle {
-    grid-area: overtitle;
     margin-top: 10px;
+    grid-area: overtitle;
 }
 
 .title {
-    grid-area: title;
     margin-top: 10px;
+    grid-area: title;
 }
 
 .link {
@@ -148,7 +148,7 @@ function getClasses(key: SlotName) {
         outline: none;
 
         &::before {
-            outline: 2px solid currentColor;
+            outline: 2px solid currentcolor;
             outline-offset: 6px;
         }
     }
@@ -160,12 +160,12 @@ function getClasses(key: SlotName) {
 }
 
 .image {
-    grid-area: image;
     width: 100%;
+    grid-area: image;
 }
 
 .cta {
-    grid-area: cta;
     margin-top: 10px;
+    grid-area: cta;
 }
 </style>

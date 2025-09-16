@@ -27,8 +27,8 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
         'image cta'
         'image .';
 
+    min-width: 600px;
     column-gap: 30px;
     grid-template-columns: 1fr 1fr;
-    min-width: 600px;
 }
 </style>

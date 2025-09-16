@@ -55,24 +55,24 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 }
 
 .title {
-    margin-block: 14px 0;
     font-size: 24px;
     font-weight: bold;
+    margin-block: 14px 0;
 }
 
 .link {
-    color: currentColor;
+    color: currentcolor;
     text-decoration: none;
 }
 
 .content {
-    margin-top: 22px;
-    font-size: 16px;
-    line-height: 1.4;
     display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
     overflow: hidden;
+    margin-top: 22px;
+    -webkit-box-orient: vertical;
+    font-size: 16px;
+    -webkit-line-clamp: 3;
+    line-height: 1.4;
 }
 
 .image-wrapper {
@@ -82,10 +82,10 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 
 .tags {
     position: absolute;
-    display: flex;
-    gap: 8px;
     top: 12px;
     left: 12px;
+    display: flex;
+    gap: 8px;
 }
 
 .image {
