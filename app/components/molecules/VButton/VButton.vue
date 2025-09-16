@@ -1,8 +1,8 @@
 <script lang="ts">
-import { NuxtLink } from '#components'
-import type { Theme } from '#imports'
 import type { PropType } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
+import type { Theme } from '#imports'
+import { NuxtLink } from '#components'
 
 export const vButtonSizes = ['xs', 'sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
