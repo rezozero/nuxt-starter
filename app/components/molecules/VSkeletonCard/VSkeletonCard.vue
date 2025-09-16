@@ -3,10 +3,11 @@ import type { SlotClass, SlotName, Props as VCardSlot } from '~/components/molec
 
 const {
     elements = ['overtitle', 'title', 'content', 'image', 'cta'],
-    ui,
-} = defineProps<VCardSlot & {
+    ...props
+} = defineProps<{
     elements?: SlotName[]
     enabled: boolean
+    cardProps?: VCardSlot
 }>()
 
 const $style = useCssModule()
@@ -14,15 +15,17 @@ const $style = useCssModule()
 const getFlatArray = (list: SlotClass) => Array.isArray(list) ? list : [list]
 const uiProps = computed(() => {
     return elements.reduce((acc, name) => {
-        acc[name] = [$style[name], ...getFlatArray(ui?.[name])]
+        acc[name] = [$style[name], ...getFlatArray(props.cardProps?.ui?.[name])]
         return acc
     }, {} as Record<SlotName, SlotClass>)
 })
+
+// Set aria-live="polite" and aria-busy="true" on parent section during loading
 </script>
 
 <template>
     <VCard
-        v-bind="$props"
+        v-bind="cardProps"
         :ui="uiProps"
         :class="[$style.card, enabled && $style['root--skeleton-enabled']]"
     >
@@ -55,7 +58,7 @@ const uiProps = computed(() => {
 
 .overtitle {
     .root--skeleton-enabled & {
-        min-height: 20px;
+        min-height: 1lh;
 
         @include loading-animation-text-placeholder;
     }
@@ -63,7 +66,7 @@ const uiProps = computed(() => {
 
 .title {
     .root--skeleton-enabled & {
-        min-height: 20px;
+        min-height: 1lh;
 
         @include loading-animation-text-placeholder;
     }
@@ -71,7 +74,7 @@ const uiProps = computed(() => {
 
 .content {
     .root--skeleton-enabled & {
-        min-height: 60px;
+        min-height: 3lh;
 
         @include loading-animation;
     }
@@ -88,7 +91,7 @@ const uiProps = computed(() => {
 
 .cta {
     .root--skeleton-enabled & {
-        min-height: 20px;
+        min-height: 1lh;
 
         @include loading-animation;
     }
