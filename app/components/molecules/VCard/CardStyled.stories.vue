@@ -96,5 +96,6 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 .cta {
     margin-top: 32px;
     gap: 4px;
+    width: fit-content;
 }
 </style>

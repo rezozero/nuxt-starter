@@ -102,7 +102,7 @@ export default defineComponent({
 .root {
     display: var(--v-button-display, inline-flex);
     align-items: var(--v-button-align-items, center);
-    justify-content: var(--v-button-justify-content);
+    justify-content: var(--v-button-justify-content, center);
     padding: var(--v-button-padding, initial);
     border: var(--v-button-border, initial);
     background-color: var(--v-button-background-color, initial);
@@ -114,6 +114,9 @@ export default defineComponent({
     @include sizes(v-button.$vars, 'v-button');
 
     // PROPS STYLE
+    &--icon-last {
+        flex-direction: row-reverse;
+    }
 
     &:not(:where([inert], #{&}--disabled)) {
         cursor: var(--v-button-cursor, pointer);
@@ -145,10 +148,6 @@ export default defineComponent({
 .icon {
     flex-shrink: var(--v-button-icon-flex-shrink, 0);
     color: var(--v-button-icon-color, currentColor);
-
-    .root--icon-last & {
-        order: 2;
-    }
 }
 
 .label {
