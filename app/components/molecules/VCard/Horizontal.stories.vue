@@ -20,7 +20,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 
 <style lang="scss" module>
 .card {
-    --v-card-grid-template-area:
+    --v-card-grid-template-areas:
         'image .'
         'image title'
         'image content'

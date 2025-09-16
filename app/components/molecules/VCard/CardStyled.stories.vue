@@ -11,22 +11,35 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
             link-label="Link label"
             url="/page-path"
             overtitle="My overtitle"
-            :link-extended="false"
+            link-extended
             :class="$style.card"
             :ui="{
                 overtitle: $style.overtitle,
                 title: $style.title,
                 content: $style.content,
-                image: $style.image,
+                image: $style['image-wrapper'],
                 cta: $style.cta,
+                link: $style.link,
             }"
         >
             <template #image="{ itemClass }">
-                <VRoadizImage
-                    :class="itemClass"
-                    :document="image"
-                    crop="500x500"
-                />
+                <div :class="itemClass">
+                    <div :class="$style.tags">
+                        <VTag
+                            label="Mon tag 1"
+                            :class="$style.tag"
+                        />
+                        <VTag
+                            label="Mon tag 2"
+                            :class="$style.tag"
+                        />
+                    </div>
+                    <VRoadizImage
+                        :class="$style.image"
+                        :document="image"
+                        crop="500x250"
+                    />
+                </div>
             </template>
         </VCard>
     </NuxtStory>
@@ -42,9 +55,14 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 }
 
 .title {
-    margin-top: 14px;
+    margin-block: 14px 0;
     font-size: 24px;
     font-weight: bold;
+}
+
+.link {
+    color: currentColor;
+    text-decoration: none;
 }
 
 .content {
@@ -57,7 +75,22 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
     overflow: hidden;
 }
 
+.image-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.tags {
+    position: absolute;
+    display: flex;
+    gap: 8px;
+    top: 12px;
+    left: 12px;
+}
+
 .image {
+    display: block;
+    width: 100%;
 }
 
 .cta {

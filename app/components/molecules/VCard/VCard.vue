@@ -8,17 +8,20 @@ export type SlotName = 'overtitle' | 'title' | 'content' | 'image' | 'cta'
 
 export interface Props {
     title?: string | undefined
+    titleHeading?: string
     overtitle?: string | null
     content?: string | null
     image?: RoadizDocument | null
     url?: string | undefined
     linkLabel?: string
     linkExtended?: boolean
-    ui?: Partial<Record<SlotName, SlotClass>>
+    ui?: Partial<Record<SlotName | 'link', SlotClass>>
 }
 </script>
 
 <script lang="ts" setup>
+// Based on DSFR Card component
+// https://www.systeme-de-design.gouv.fr/version-courante/fr/composants/carte
 const props = defineProps<Props>()
 
 const { t } = useI18n()
@@ -50,12 +53,17 @@ function getClasses(key: SlotName) {
             :item-class="getClasses('title')"
         >
             <component
-                :is="linkExtendedEnabled ? VRoadizLink : 'div'"
-                v-if="title"
-                :url="linkExtendedEnabled ? url : undefined"
+                :is="titleHeading || 'h3'"
                 :class="getClasses('title')"
             >
-                {{ title }}
+                <VWrapper
+                    v-if="title"
+                    :wrapper="linkExtendedEnabled ? VRoadizLink : undefined"
+                    :url="linkExtendedEnabled ? url : undefined"
+                    :class="[$style.link, props.ui?.link]"
+                >
+                    {{ title }}
+                </VWrapper>
             </component>
         </slot>
         <slot
@@ -99,7 +107,7 @@ function getClasses(key: SlotName) {
                 v-if="ctaProps"
                 :class="getClasses('cta')"
                 v-bind="ctaProps"
-                :aria-label="title"
+                :aria-label="linkExtendedEnabled ? undefined : title"
             />
         </slot>
     </div>
@@ -109,7 +117,7 @@ function getClasses(key: SlotName) {
 .root {
     position: relative;
     display: grid;
-    grid-template-areas: var(--v-card-grid-template-area,
+    grid-template-areas: var(--v-card-grid-template-areas,
         "image"
         "overtitle"
         "title"
@@ -126,12 +134,23 @@ function getClasses(key: SlotName) {
 .title {
     grid-area: title;
     margin-top: 10px;
+}
 
+.link {
     .root--link-extended &::before {
         position: absolute;
-        z-index: 4;
+        z-index: 1;
         content: '';
         inset: 0;
+    }
+
+    &:focus-visible {
+        outline: none;
+
+        &::before {
+            outline: 2px solid currentColor;
+            outline-offset: 6px;
+        }
     }
 }
 
