@@ -13,6 +13,7 @@ const hasLink = ref(false)
             <VWrapper
                 :wrapper="hasLink ? 'a' : undefined"
                 :href="hasLink ? '/url' : undefined"
+                :class="$style['link']"
             >
                 <span>
                     {{ hasLink ? 'I\'m the same span in a link' : 'I\'m a simple span' }}
@@ -21,3 +22,9 @@ const hasLink = ref(false)
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
+
+<style lang="scss" module>
+.link {
+    color: red;
+}
+</style>
