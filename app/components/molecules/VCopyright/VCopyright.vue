@@ -33,13 +33,15 @@ function onTouchEnd() {
 <template>
     <div
         :class="[$style.root, themeClass]"
+        :aria-label="$t('copyright.aria_label')"
+        aria-live="polite"
         @mouseleave="onMouseLeave"
     >
         <VCopyrightButton
-            :aria-label="$t('copyright_button.aria_label')"
             :class="$style.button"
             :aria-controls="id"
             :aria-expanded="isExpanded"
+            :aria-label="isExpanded ? $t('copyright_controls.close_content') : $t('copyright_controls.open_content')"
             @touchend="onTouchEnd"
             @mouseenter="onMouseenter"
             @keyup.enter="toggle"
