@@ -8,7 +8,7 @@
             <VCopyrightButton />
         </NuxtStoryVariant>
         <NuxtStoryVariant>
-            <VCopyrightButton label="Test" />
+            <VCopyrightButton label="Custom label" />
         </NuxtStoryVariant>
         <NuxtStoryVariant>
             <VCopyrightButton>
