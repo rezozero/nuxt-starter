@@ -33,12 +33,16 @@ export function useRoadizFetchFactory<DefaultR extends NitroFetchRequest = Nitro
                 }
             }
         },
-        onResponseError(context) {
-            throw createError({
-                statusCode: context.response.status,
-                message: context.response.statusText,
-            })
-        },
+        // To get more response context and data:
+        // Manually mock data response in createError (error.data)
+        // Or prefer default ofetch response (error.response._data)
+        // onResponseError(context) {
+        //     throw createError({
+        //         statusCode: context.response.status,
+        //         message: context.response.statusText,
+        //         data: context.response._data,
+        //     })
+        // },
         timeout: 10000,
         headers: {
             'accept-encoding': 'gzip, deflate',

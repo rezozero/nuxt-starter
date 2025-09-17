@@ -5,7 +5,7 @@ import type { JsonSchemaExtended } from '~~/types/json-schema'
 const submitCallback = () => {
     return Promise.reject({
         response: {
-            data: {
+            _data: {
                 errorsPerForm: {
                     date: {
                         date: 'date error',

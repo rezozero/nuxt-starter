@@ -38,16 +38,12 @@ export default function createFormChildren(
         return h('')
     }
 
-    const { $i18n } = useNuxtApp()
-
     return Object.entries(rootSchema.properties)
         .sort((a, b) => a[1]?.propertyOrder - b[1]?.propertyOrder)
         .map((property, propertyIndex) => {
             const key = property[0]
             const schema = property[1] as JsonSchemaExtended
-            const error = parentProps.errors?.find(item => item.propertyPath === key)
-            const errorMessage = error?.message ? $i18n.t(error?.message).toString() : undefined
-            const isInvalid = error && error.message
+            const errors = parentProps.errors?.filter(item => item.propertyPath === key)
             const id = parentProps.id ? `${parentProps.id}-${key}` : key
             const required = requiredProperties === true ? requiredProperties : requiredProperties.includes(key)
             const name = parents?.length ? parents.slice().concat([key]).join('[') + ']'.repeat(parents.length) : key
@@ -59,16 +55,13 @@ export default function createFormChildren(
             /*
              * Make initial field value optional
              */
-            const parentModelValues = (typeof parentProps.modelValue === 'object' && parentProps.modelValue !== null)
-                ? parentProps.modelValue as Record<string, unknown>
-                : {}
+            const parentModelValues = parentProps.modelValue || {}
             const currentModelValue = parentModelValues[key] ?? null
 
             const defaultProps: Record<string, unknown> = {
                 id,
                 'label': schema.title,
-                errorMessage,
-                isInvalid,
+                errors,
                 name,
                 parents,
                 'hideSeparator': lastItem && typeWithoutSeparator,

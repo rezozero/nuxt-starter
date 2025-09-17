@@ -5,6 +5,7 @@ import type { PropType } from 'vue'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
+import type { Violation } from '~~/types/form'
 
 interface FormSubmitParams {
     action?: string
@@ -77,8 +78,30 @@ const { t } = useI18n()
 // ERRORS
 const error = ref<FetchError | null>(null)
 const errorsPerProperty = computed(() => {
-    return error.value?.response?._data?.violations || error.value?.response?._data?.errorsPerForm || []
+    const hasViolationsData = Array.isArray(error.value?.response?._data?.violations)
+        && error.value.response._data.violations.length
+
+    if (hasViolationsData) {
+        return error.value!.response!._data.violations
+    }
+
+    const errorsPerForm = error.value?.response?._data?.errorsPerForm as { [key: string]: { [key: string]: string } }
+
+    if (errorsPerForm && typeof errorsPerForm === 'object') {
+        return Object.entries(errorsPerForm).reduce((acc, [key, value]) => {
+            acc.push({
+                propertyPath: key,
+                message: value?.[key] || '',
+                code: value?.code || error.value?.response?._data?.code,
+            })
+
+            return acc
+        }, [] as Violation[])
+    }
+
+    return []
 })
+
 const errorMessage = computed(() => {
     if (!error.value) return
 
@@ -86,10 +109,6 @@ const errorMessage = computed(() => {
 
     if (error.value?.response?._data?.['hydra:description'] && errorsPerProperty.value.length === 0) {
         return error.value?.response?._data['hydra:description'] || null
-    }
-
-    if (errorsPerProperty.value.length > 0) {
-        return 'form.contains_errors'
     }
 
     if (error.value?.response?._data?.detail) {
@@ -100,7 +119,7 @@ const errorMessage = computed(() => {
         return t('form.error_too_many_requests')
     }
 
-    return 'form.error' // null
+    return errorsPerProperty.value.length > 1 ? 'form.contains_errors' : 'form.error' // null
 })
 
 // SUBMIT

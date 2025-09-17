@@ -1,10 +1,11 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
+import type { Violation } from '~~/types/form'
 
 const style = useCssModule()
 const props = defineProps({
     id: String,
-    errors: Object as PropType<Record<string, string>>,
+    errors: Object as PropType<Violation[]>,
     label: [String, Boolean],
     required: Boolean,
     inline: Boolean,
@@ -52,15 +53,19 @@ const classNames = computed(() => [
             {{ description }}
         </p>
         <div
-            v-if="errors"
+            v-if="errors?.length"
             :class="$style.errors"
+            aria-live="assertive"
+            role="log"
+            aria-atomic="true"
+            aria-relevant="additions removals"
         >
-            <div
-                v-for="(value, name, index) in errors"
-                :key="index"
-            >
-                {{ value }}
-            </div>
+            <LazyVStatusBanner
+                v-for="(violation, index) in errors"
+                :key="(id || label || '')?.toString() + index + violation.message"
+                status="error"
+                :message="violation.message "
+            />
         </div>
     </component>
 </template>
@@ -155,15 +160,11 @@ const classNames = computed(() => [
     padding-top: px-to-rem(8);
     margin-top: 0;
     margin-bottom: px-to-rem(-5);
-    font-size: px-to-rem(12);
     grid-column: 1/-1;
+    font-size: px-to-rem(12);
 }
 
 .description {
     opacity: 0.5;
-}
-
-.errors {
-    color: rgb(244, 67, 54);
 }
 </style>
