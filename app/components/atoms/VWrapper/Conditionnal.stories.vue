@@ -1,17 +1,32 @@
 <script lang="ts" setup>
-const condition = ref(false)
+const options = ['h1', 'h2', 'button', null]
+const selectedOption = ref(options[0])
 </script>
 
 <template>
     <NuxtStory>
         <template #aside>
-            <button @click="() => condition =!condition">
-                Toggle
-            </button>
+            <select
+                id="wrapper-select"
+                name="wrapperElement"
+                @change="(e) => selectedOption = e?.target?.value || ''"
+            >
+                <option value="">
+                    --Element to render--
+                </option>
+                <option
+                    v-for="option in options"
+                    :key="option || 'falsy'"
+                    :value="option"
+                    :selected="option === selectedOption"
+                >
+                    {{ option }}
+                </option>
+            </select>
         </template>
         <NuxtStoryVariant>
-            <VWrapper :wrapper="condition ? 'h1' : 'h2'">
-                Dynamic {{ condition ? 'h1' : 'h2' }} tag
+            <VWrapper :wrapper="selectedOption">
+                Dynamic {{ selectedOption ? `${selectedOption} tag` : 'text node' }}
             </VWrapper>
         </NuxtStoryVariant>
     </NuxtStory>
