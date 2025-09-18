@@ -80,7 +80,7 @@ $leave-delay: 0.1s;
     transition-duration: 0.2s;
     transition-property: border-color, background-color;
 
-    @include theme-variants('copyright');
+    @include theme-variants('copyright' 'colors-surface-primary');
 
     &:has(.button[aria-expanded="false"]) {
         pointer-events: none;
