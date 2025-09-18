@@ -18,9 +18,11 @@ const props = defineProps({
 const id = useId()
 
 const isExpanded = ref(false)
-const isDisabled = ref(props.lines === 0)
-const contentEl = useTemplateRef('contentEl')
+const toggle = () => (isExpanded.value = !isExpanded.value)
 
+const isDisabled = ref(props.lines === 0)
+
+const contentEl = useTemplateRef('contentEl')
 function updateDisabled() {
     const element = (contentEl.value as ComponentPublicInstance)?.$el as HTMLElement
 
@@ -31,6 +33,11 @@ function updateDisabled() {
 
 onMounted(updateDisabled)
 useResizeObserver(contentEl, updateDisabled)
+
+const { t } = useI18n()
+const ariaLabel = computed(() => {
+    return isExpanded.value ? t('collapse_text') : t('expand_text')
+})
 </script>
 
 <template>
@@ -45,14 +52,21 @@ useResizeObserver(contentEl, updateDisabled)
         ]"
         :content="content"
     />
-    <VButton
-        :aria-controls="id"
-        :disabled="isDisabled"
-        :class="[$style.toggle, ui?.toggle]"
-        :aria-label="isExpanded ? $t('collapse_text') : $t('expand_text')"
-        :label="isExpanded ? $t('see_less') : $t('see_more')"
-        @click="isExpanded = !isExpanded"
-    />
+    <slot
+        :id="id"
+        :toggle="toggle"
+        :aria-label="ariaLabel"
+        :is-expanded="isExpanded"
+    >
+        <VButton
+            :aria-controls="id"
+            :disabled="isDisabled"
+            :class="[$style.toggle, ui?.toggle]"
+            :aria-label="ariaLabel"
+            :label="isExpanded ? $t('see_less') : $t('see_more')"
+            @click="toggle"
+        />
+    </slot>
 </template>
 
 <style lang="scss" module>
