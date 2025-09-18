@@ -1,4 +1,4 @@
-@use "plyr/dist/plyr.css";
+@use "plyr/plyr.scss" as *;
 @use "../functions/px-to-rem" as *;
 @use "../mixins/include-media" as *;
 
