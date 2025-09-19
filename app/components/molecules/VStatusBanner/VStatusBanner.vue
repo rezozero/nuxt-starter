@@ -54,31 +54,31 @@ const rootClasses = computed(() => {
 
     &--layout-default {
         flex-direction: column;
-        padding: var(--spacing-4xs, 8px);
+        padding: 8px;
     }
 
     &--layout-condensed {
         flex-direction: row;
         align-items: center;
-        padding: var(--spacing-6xs, 4px) var(--spacing-4xs, 8px);
-        gap: var(--spacing-6xs, 4px);
+        padding: 4px 8px;
+        gap: 4px;
     }
 
     &--status-success {
-        color: var(--colors-form-state-success, #31b29b);
+        color: #31b29b;
     }
 
     &--status-warning {
-        color: var(--colors-form-state-warning, #f6603f);
+        color:#f6603f;
     }
 
     &--status-error {
-        background-color: var(--colors-form-state-alert-bg, rgba(225, 64, 64, 0.10));
-        color: var(--colors-form-state-alert, #E14040);
+        background-color: rgba(225, 64, 64, 0.10);
+        color: #E14040;
     }
 
     &--status-neutral {
-        background-color: var(--colors-surface-tertiary, #F5F5F5);
+        background-color: #F5F5F5;
     }
 }
 
@@ -87,7 +87,7 @@ const rootClasses = computed(() => {
 }
 
 .title {
-    margin-top: var(--spacing-6xs, 4px);
+    margin-top: 4px;
 }
 
 .message {
@@ -96,7 +96,7 @@ const rootClasses = computed(() => {
     }
 
     .root--layout-default & {
-        margin-top: var(--spacing-2xs, 12px);
+        margin-top: 12px;
     }
 }
 </style>
