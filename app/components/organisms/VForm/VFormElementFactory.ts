@@ -36,7 +36,7 @@ VFormElementFactory.props = {
     modelValue: {
         type: Object as PropType<FormModelValue>,
         required: false,
-        default: () => {},
+        default: () => ({} as FormModelValue),
     },
     errors: Object as PropType<Violation[]>,
     disabled: Boolean,

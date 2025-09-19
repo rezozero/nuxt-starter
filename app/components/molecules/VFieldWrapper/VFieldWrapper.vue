@@ -5,7 +5,7 @@ import type { Violation } from '~~/types/form'
 const style = useCssModule()
 const props = defineProps({
     id: String,
-    errors: Object as PropType<Violation[]>,
+    errors: Array as PropType<Violation[]>,
     label: [String, Boolean],
     required: Boolean,
     inline: Boolean,
