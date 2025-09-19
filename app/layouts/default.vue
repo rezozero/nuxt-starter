@@ -57,6 +57,7 @@ await useCommonContentFetch()
                 ]"
             />
             <VLoadingIndicator />
+            <NuxtRouteAnnouncer />
         </ClientOnly>
         <!-- Using this layout in the error page requires to use an extra <div> -->
         <div id="main">
