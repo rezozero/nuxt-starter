@@ -5,9 +5,19 @@ const schema = {
     title: 'test',
     type: 'object',
     properties: {
-        'simple_texte': {
+        'texte': {
             type: 'string',
-            title: 'Texte simple',
+            title: 'Texte',
+        },
+        'mail': {
+            type: 'string',
+            title: 'Votre mail',
+            attr: {
+                'data-group': null,
+            },
+            description: 'mais votre vrai mail',
+            widget: 'email',
+            propertyOrder: 2,
         },
         'frc-captcha-response': {
             type: 'string',

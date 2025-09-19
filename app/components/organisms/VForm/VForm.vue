@@ -78,28 +78,24 @@ const { t } = useI18n()
 // ERRORS
 const error = ref<FetchError | null>(null)
 const errorsPerProperty = computed(() => {
-    const hasViolationsData = Array.isArray(error.value?.response?._data?.violations)
-        && error.value.response._data.violations.length
-
-    if (hasViolationsData) {
-        return error.value!.response!._data.violations
+    const violations = error.value?.response?._data?.violations
+    if (Array.isArray(violations) && violations.length > 0) {
+        return violations
     }
 
-    const errorsPerForm = error.value?.response?._data?.errorsPerForm as { [key: string]: { [key: string]: string } }
+    const errorsPerForm = error.value?.response?._data?.errorsPerForm as
+        Record<string, string | (Record<string, string> & { code?: string })>
 
-    if (errorsPerForm && typeof errorsPerForm === 'object') {
-        return Object.entries(errorsPerForm).reduce((acc, [key, value]) => {
-            acc.push({
-                propertyPath: key,
-                message: value?.[key] || '',
-                code: value?.code || error.value?.response?._data?.code,
-            })
+    if (!errorsPerForm) return []
 
-            return acc
-        }, [] as Violation[])
-    }
-
-    return []
+    const apiCode = error.value?.response?._data?.code
+    return Object.entries(errorsPerForm).map(([propertyPath, content]) => {
+        return {
+            propertyPath,
+            message: (typeof content === 'string' ? content : content?.[propertyPath]) || '',
+            code: (typeof content === 'object' ? content?.code : apiCode) || '',
+        } as Violation
+    })
 })
 
 const errorMessage = computed(() => {
