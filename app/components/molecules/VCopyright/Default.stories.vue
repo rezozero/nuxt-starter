@@ -11,7 +11,7 @@
                     <span
                         :id="id"
                         :class="itemClass"
-                        :ariaHidden="ariaHidden"
+                        :aria-hidden="ariaHidden"
                     >
                         Lorem ipsum
                     </span>
