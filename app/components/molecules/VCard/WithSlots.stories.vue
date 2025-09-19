@@ -13,17 +13,9 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
             overtitle="My overtitle"
             extend-link
             :class="$style.card"
-            :element-class="{
-                overtitle: $style.overtitle,
-                title: $style.title,
-                content: $style.content,
-                image: $style['image-wrapper'],
-                cta: $style.cta,
-                link: $style.link,
-            }"
         >
-            <template #image="{ itemClass }">
-                <div :class="itemClass">
+            <template #image>
+                <div :class="$style['image-wrapper']">
                     <div :class="$style.tags">
                         <VTag
                             label="Mon tag 1"
@@ -50,31 +42,6 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
     width: clamp(200px, 100%, 700px);
 }
 
-.overtitle {
-    margin-top: 14px;
-}
-
-.title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-block: 14px 0;
-}
-
-.link {
-    color: currentcolor;
-    text-decoration: none;
-}
-
-.content {
-    display: -webkit-box;
-    overflow: hidden;
-    margin-top: 22px;
-    -webkit-box-orient: vertical;
-    font-size: 16px;
-    -webkit-line-clamp: 3;
-    line-height: 1.4;
-}
-
 .image-wrapper {
     position: relative;
     width: 100%;
@@ -91,11 +58,5 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
 .image {
     display: block;
     width: 100%;
-}
-
-.cta {
-    margin-top: 32px;
-    gap: 4px;
-    width: fit-content;
 }
 </style>

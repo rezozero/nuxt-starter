@@ -2,11 +2,6 @@
 import { VRoadizLink } from '#components'
 import type { RoadizDocument } from '@roadiz/types'
 
-type PossibleClass = string | undefined | false
-export type SlotClass = PossibleClass | PossibleClass[]
-export type SlotName = 'overtitle' | 'title' | 'content' | 'image' | 'cta'
-export type ElementClass = Partial<Record<SlotName | 'link', SlotClass>>
-
 export interface Props {
     title?: string
     titleTagName?: string
@@ -16,7 +11,6 @@ export interface Props {
     url?: string
     linkLabel?: string
     extendLink?: boolean
-    elementClass?: ElementClass
 }
 </script>
 
@@ -36,11 +30,6 @@ const ctaProps = computed(() => {
         label: props.linkLabel || t('card.link_label'),
     }
 })
-
-const $style = useCssModule()
-function getElementClasses(key: keyof ElementClass) {
-    return [$style[key], props.elementClass?.[key]]
-}
 </script>
 
 <template>
@@ -49,17 +38,16 @@ function getElementClasses(key: keyof ElementClass) {
     >
         <slot
             name="title"
-            :item-class="getElementClasses('title')"
         >
             <component
                 :is="titleTagName || 'h3'"
-                :class="getElementClasses('title')"
+                :class="$style.title"
             >
                 <VWrapper
                     v-if="title"
                     :wrapper="extendLinkEnabled ? VRoadizLink : undefined"
                     :url="extendLinkEnabled ? url : undefined"
-                    :class="getElementClasses('link')"
+                    :class="$style.link"
                 >
                     {{ title }}
                 </VWrapper>
@@ -67,22 +55,20 @@ function getElementClasses(key: keyof ElementClass) {
         </slot>
         <slot
             name="overtitle"
-            :item-class="getElementClasses('overtitle')"
         >
             <div
                 v-if="overtitle"
-                :class="getElementClasses('overtitle')"
+                :class="$style.overtitle"
             >
                 {{ overtitle }}
             </div>
         </slot>
         <slot
             name="content"
-            :item-class="getElementClasses('content')"
         >
             <VMarkdown
                 v-if="content"
-                :class="getElementClasses('content')"
+                :class="$style.content"
                 :content="content"
                 inline
                 tag="p"
@@ -90,21 +76,20 @@ function getElementClasses(key: keyof ElementClass) {
         </slot>
         <slot
             name="image"
-            :item-class="getElementClasses('image')"
         >
             <VRoadizImage
                 v-if="image"
                 :document="image"
-                :class="getElementClasses('image')"
+                :class="$style.image"
             />
         </slot>
         <slot
             name="cta"
-            v-bind="{ ctaProps, itemClass: getElementClasses('cta') }"
+            v-bind="ctaProps"
         >
             <VButton
                 v-if="ctaProps"
-                :class="getElementClasses('cta')"
+                :class="$style.cta"
                 v-bind="ctaProps"
                 :aria-label="extendLinkEnabled ? undefined : title"
             />
@@ -136,6 +121,9 @@ function getElementClasses(key: keyof ElementClass) {
 }
 
 .link {
+    text-decoration: none;
+    color: inherit;
+
     .root--link-extended &::before {
         position: absolute;
         z-index: 1;
@@ -156,6 +144,10 @@ function getElementClasses(key: keyof ElementClass) {
 .content {
     grid-area: content;
     margin-block: 10px 0;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--v-card-content-line-clamp, 3);
 }
 
 .image {
@@ -166,5 +158,6 @@ function getElementClasses(key: keyof ElementClass) {
 .cta {
     margin-top: 10px;
     grid-area: cta;
+    width: fit-content;
 }
 </style>
