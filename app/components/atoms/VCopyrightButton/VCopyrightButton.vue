@@ -16,8 +16,8 @@ defineProps<{
 .root {
     position: relative;
     display: flex;
-    min-width: var(--v-copyright-button-width, 24px);
-    min-height: var(--v-copyright-button-height, 24px);
+    min-width: var(--v-copyright-button-min-width, 24px);
+    min-height: var(--v-copyright-button-min-height, 24px);
     align-items: center;
     justify-content: center;
     border: none;

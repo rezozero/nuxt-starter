@@ -10,11 +10,13 @@ const { themeClass } = useTheme({ props })
 const id = useId()
 
 const isExpanded = ref(false)
-const toggle = () => isExpanded.value = !isExpanded.value
+function toggle() {
+    isExpanded.value = !isExpanded.value
+}
 
 // Hover
 const isMouseHovered = ref(false)
-const onMouseenter = () => isMouseHovered.value = true
+const onMouseEnter = () => isMouseHovered.value = true
 const onMouseLeave = () => isMouseHovered.value = false
 watch(isMouseHovered, (value) => {
     isExpanded.value = value
@@ -43,7 +45,7 @@ function onTouchEnd() {
             :aria-expanded="isExpanded"
             :aria-label="isExpanded ? $t('copyright.close') : $t('copyright.open')"
             @touchend="onTouchEnd"
-            @mouseenter="onMouseenter"
+            @mouseenter="onMouseEnter"
             @keyup.enter="toggle"
         />
         <slot
