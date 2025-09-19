@@ -5,7 +5,7 @@ import type { RoadizDocument } from '@roadiz/types'
 type PossibleClass = string | undefined | false
 export type SlotClass = PossibleClass | PossibleClass[]
 export type SlotName = 'overtitle' | 'title' | 'content' | 'image' | 'cta'
-export type Ui = Partial<Record<SlotName | 'link', SlotClass>>
+export type ElementClass = Partial<Record<SlotName | 'link', SlotClass>>
 
 export interface Props {
     title?: string
@@ -16,7 +16,7 @@ export interface Props {
     url?: string
     linkLabel?: string
     extendLink?: boolean
-    ui?: Ui
+    elementClass?: ElementClass
 }
 </script>
 
@@ -40,8 +40,8 @@ const ctaProps = computed(() => {
 })
 
 const $style = useCssModule()
-function getClasses(key: keyof Ui) {
-    return [$style[key], props.ui?.[key]]
+function getElementClasses(key: keyof ElementClass) {
+    return [$style[key], props.elementClass?.[key]]
 }
 </script>
 
@@ -51,17 +51,17 @@ function getClasses(key: keyof Ui) {
     >
         <slot
             name="title"
-            :item-class="getClasses('title')"
+            :item-class="getElementClasses('title')"
         >
             <component
                 :is="titleTagName || 'h3'"
-                :class="getClasses('title')"
+                :class="getElementClasses('title')"
             >
                 <VWrapper
                     v-if="title"
                     :wrapper="extendLinkEnabled ? VRoadizLink : undefined"
                     :url="extendLinkEnabled ? url : undefined"
-                    :class="getClasses('link')"
+                    :class="getElementClasses('link')"
                 >
                     {{ title }}
                 </VWrapper>
@@ -69,22 +69,22 @@ function getClasses(key: keyof Ui) {
         </slot>
         <slot
             name="overtitle"
-            :item-class="getClasses('overtitle')"
+            :item-class="getElementClasses('overtitle')"
         >
             <div
                 v-if="overtitle"
-                :class="getClasses('overtitle')"
+                :class="getElementClasses('overtitle')"
             >
                 {{ overtitle }}
             </div>
         </slot>
         <slot
             name="content"
-            :item-class="getClasses('content')"
+            :item-class="getElementClasses('content')"
         >
             <VMarkdown
                 v-if="content"
-                :class="getClasses('content')"
+                :class="getElementClasses('content')"
                 :content="content"
                 inline
                 tag="p"
@@ -92,21 +92,21 @@ function getClasses(key: keyof Ui) {
         </slot>
         <slot
             name="image"
-            :item-class="getClasses('image')"
+            :item-class="getElementClasses('image')"
         >
             <VRoadizImage
                 v-if="image"
                 :document="image"
-                :class="getClasses('image')"
+                :class="getElementClasses('image')"
             />
         </slot>
         <slot
             name="cta"
-            v-bind="{ ctaProps, itemClass: getClasses('cta') }"
+            v-bind="{ ctaProps, itemClass: getElementClasses('cta') }"
         >
             <VButton
                 v-if="ctaProps"
-                :class="getClasses('cta')"
+                :class="getElementClasses('cta')"
                 v-bind="ctaProps"
                 :aria-label="extendLinkEnabled ? undefined : title"
             />

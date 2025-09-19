@@ -13,7 +13,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
             overtitle="My overtitle"
             extend-link
             :class="$style.card"
-            :ui="{
+            :element-class="{
                 overtitle: $style.overtitle,
                 title: $style.title,
                 content: $style.content,
