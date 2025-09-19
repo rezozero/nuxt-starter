@@ -7,12 +7,12 @@ export type SlotClass = PossibleClass | PossibleClass[]
 export type SlotName = 'overtitle' | 'title' | 'content' | 'image' | 'cta'
 
 export interface Props {
-    title?: string | undefined
-    titleHeading?: string
+    title?: string
+    titleTagName?: string
     overtitle?: string | null
     content?: string | null
     image?: RoadizDocument | null
-    url?: string | undefined
+    url?: string
     linkLabel?: string
     linkExtended?: boolean
     ui?: Partial<Record<SlotName | 'link', SlotClass>>
@@ -53,7 +53,7 @@ function getClasses(key: SlotName) {
             :item-class="getClasses('title')"
         >
             <component
-                :is="titleHeading || 'h3'"
+                :is="titleTagName || 'h3'"
                 :class="getClasses('title')"
             >
                 <VWrapper
