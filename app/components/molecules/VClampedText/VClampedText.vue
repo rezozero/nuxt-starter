@@ -22,17 +22,16 @@ const toggle = () => (isExpanded.value = !isExpanded.value)
 
 const isDisabled = ref(props.lines === 0)
 
-const contentEl = useTemplateRef('contentEl')
+const contentElement = useTemplateRef('contentElement')
 function updateDisabled() {
-    const element = (contentEl.value as ComponentPublicInstance)?.$el as HTMLElement
-
-    if (!contentEl) return
+    const element = (contentElement.value as ComponentPublicInstance)?.$el as HTMLElement
+    if (!element) return
 
     isDisabled.value = !isExpanded.value && element.scrollHeight <= element.clientHeight
 }
 
 onMounted(updateDisabled)
-useResizeObserver(contentEl, updateDisabled)
+useResizeObserver(contentElement, updateDisabled)
 
 const { t } = useI18n()
 const ariaLabel = computed(() => {
@@ -43,7 +42,7 @@ const ariaLabel = computed(() => {
 <template>
     <VMarkdown
         :id="id"
-        ref="contentEl"
+        ref="contentElement"
         :class="[
             $style.content,
             isExpanded && $style['content--expanded'],
