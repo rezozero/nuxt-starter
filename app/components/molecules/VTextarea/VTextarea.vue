@@ -19,6 +19,7 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
         :filled="isFilled"
         :required="required"
         :disabled="disabled"
+        :errors="errors"
     >
         <textarea
             v-bind="props"

@@ -49,6 +49,7 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
         :required="required"
         :hide-separator="hideSeparator"
         tag="fieldset"
+        :errors="errors"
     >
         <legend
             v-if="label"

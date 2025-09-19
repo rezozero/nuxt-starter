@@ -5,6 +5,7 @@ import type { PropType } from 'vue'
 import { useJoinApiUrl } from '~/composables/use-join-api-url'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
+import type { Violation } from '~~/types/form'
 
 interface FormSubmitParams {
     action?: string
@@ -77,8 +78,26 @@ const { t } = useI18n()
 // ERRORS
 const error = ref<FetchError | null>(null)
 const errorsPerProperty = computed(() => {
-    return error.value?.response?._data?.violations || error.value?.response?._data?.errorsPerForm || []
+    const violations = error.value?.response?._data?.violations
+    if (Array.isArray(violations) && violations.length > 0) {
+        return violations
+    }
+
+    const errorsPerForm = error.value?.response?._data?.errorsPerForm as
+        Record<string, string | (Record<string, string> & { code?: string })>
+
+    if (!errorsPerForm) return []
+
+    const apiCode = error.value?.response?._data?.code
+    return Object.entries(errorsPerForm).map(([propertyPath, content]) => {
+        return {
+            propertyPath,
+            message: (typeof content === 'string' ? content : content?.[propertyPath]) || '',
+            code: (typeof content === 'object' ? content?.code : apiCode) || '',
+        } as Violation
+    })
 })
+
 const errorMessage = computed(() => {
     if (!error.value) return
 
@@ -86,10 +105,6 @@ const errorMessage = computed(() => {
 
     if (error.value?.response?._data?.['hydra:description'] && errorsPerProperty.value.length === 0) {
         return error.value?.response?._data['hydra:description'] || null
-    }
-
-    if (errorsPerProperty.value.length > 0) {
-        return 'form.contains_errors'
     }
 
     if (error.value?.response?._data?.detail) {
@@ -100,7 +115,7 @@ const errorMessage = computed(() => {
         return t('form.error_too_many_requests')
     }
 
-    return 'form.error' // null
+    return errorsPerProperty.value.length > 1 ? 'form.contains_errors' : 'form.error' // null
 })
 
 // SUBMIT
