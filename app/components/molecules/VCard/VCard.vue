@@ -21,8 +21,6 @@ export interface Props {
 </script>
 
 <script lang="ts" setup>
-// Based on DSFR Card component
-// https://www.systeme-de-design.gouv.fr/version-courante/fr/composants/carte
 const props = defineProps<Props>()
 
 const { t } = useI18n()
