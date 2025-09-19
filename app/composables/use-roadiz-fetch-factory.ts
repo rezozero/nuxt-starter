@@ -33,9 +33,10 @@ export function useRoadizFetchFactory<DefaultR extends NitroFetchRequest = Nitro
                 }
             }
         },
-        // To get more response context and data:
-        // Manually mock data response in createError, get error.data)
-        // Or prefer default ofetch response, get error.response._data
+        // Error handling:
+        // - Option 1: use createError and attach error.data manually
+        // - Option 2: keep default ofetch error
+        // Example:
         // onResponseError(context) {
         //     throw createError({
         //         statusCode: context.response.status,
