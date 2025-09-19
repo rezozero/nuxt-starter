@@ -5,6 +5,7 @@ import type { RoadizDocument } from '@roadiz/types'
 type PossibleClass = string | undefined | false
 export type SlotClass = PossibleClass | PossibleClass[]
 export type SlotName = 'overtitle' | 'title' | 'content' | 'image' | 'cta'
+export type Ui = Partial<Record<SlotName | 'link', SlotClass>>
 
 export interface Props {
     title?: string
@@ -15,7 +16,7 @@ export interface Props {
     url?: string
     linkLabel?: string
     extendLink?: boolean
-    ui?: Partial<Record<SlotName | 'link', SlotClass>>
+    ui?: Ui
 }
 </script>
 
@@ -39,7 +40,7 @@ const ctaProps = computed(() => {
 })
 
 const $style = useCssModule()
-function getClasses(key: SlotName) {
+function getClasses(key: keyof Ui) {
     return [$style[key], props.ui?.[key]]
 }
 </script>
@@ -60,7 +61,7 @@ function getClasses(key: SlotName) {
                     v-if="title"
                     :wrapper="extendLinkEnabled ? VRoadizLink : undefined"
                     :url="extendLinkEnabled ? url : undefined"
-                    :class="[$style.link, props.ui?.link]"
+                    :class="getClasses('link')"
                 >
                     {{ title }}
                 </VWrapper>
