@@ -13,10 +13,10 @@ const isExpanded = ref(false)
 const toggle = () => isExpanded.value = !isExpanded.value
 
 // Hover
-const isMouseEnter = ref(false)
-const onMouseenter = () => isMouseEnter.value = true
-const onMouseLeave = () => isMouseEnter.value = false
-watch(isMouseEnter, (value) => {
+const isMouseHovered = ref(false)
+const onMouseenter = () => isMouseHovered.value = true
+const onMouseLeave = () => isMouseHovered.value = false
+watch(isMouseHovered, (value) => {
     isExpanded.value = value
 })
 
@@ -41,7 +41,7 @@ function onTouchEnd() {
             :class="$style.button"
             :aria-controls="id"
             :aria-expanded="isExpanded"
-            :aria-label="isExpanded ? $t('copyright_controls.close_content') : $t('copyright_controls.open_content')"
+            :aria-label="isExpanded ? $t('copyright.close') : $t('copyright.open')"
             @touchend="onTouchEnd"
             @mouseenter="onMouseenter"
             @keyup.enter="toggle"
