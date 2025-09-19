@@ -51,7 +51,7 @@ function onTouchEnd() {
         <slot
             :id="id"
             :item-class="$style.content"
-            :aria-hidden="!isExpanded"
+            :is-expanded="isExpanded"
         >
             <VMarkdown
                 v-if="content"

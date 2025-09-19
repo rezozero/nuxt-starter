@@ -7,11 +7,11 @@
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Content - default slot">
             <div :class="$style.container">
-                <VCopyright v-slot="{ id, itemClass, ariaHidden }">
+                <VCopyright v-slot="{ id, itemClass, isExpanded }">
                     <span
                         :id="id"
                         :class="itemClass"
-                        :aria-hidden="ariaHidden"
+                        :aria-hidden="!isExpanded"
                     >
                         Lorem ipsum
                     </span>
