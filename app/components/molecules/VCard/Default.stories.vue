@@ -8,7 +8,7 @@ const cardProps = {
     image,
     linkLabel: 'Link label',
     url: '/page-path',
-    linkExtended: 'false',
+    extendLink: false,
 }
 </script>
 
@@ -17,14 +17,14 @@ const cardProps = {
         <NuxtStoryVariant title="Default (elements wrapped by link)">
             <VCard
                 v-bind="cardProps"
-                :link-extended="false"
+                :extend-link="false"
                 :class="$style.card"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Link extended (link wrapper above card)">
             <VCard
                 v-bind="cardProps"
-                link-extended
+                extend-link
                 :class="$style.card"
             />
         </NuxtStoryVariant>

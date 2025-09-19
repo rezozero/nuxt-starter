@@ -14,7 +14,7 @@ export interface Props {
     image?: RoadizDocument | null
     url?: string
     linkLabel?: string
-    linkExtended?: boolean
+    extendLink?: boolean
     ui?: Partial<Record<SlotName | 'link', SlotClass>>
 }
 </script>
@@ -26,13 +26,13 @@ const props = defineProps<Props>()
 
 const { t } = useI18n()
 
-const linkExtendedEnabled = computed(() => !!props.url && !!props.linkExtended)
+const extendLinkEnabled = computed(() => !!props.url && !!props.extendLink)
 const ctaProps = computed(() => {
     if (!props.url) return
 
     return {
-        tag: linkExtendedEnabled.value ? 'div' : undefined,
-        to: linkExtendedEnabled.value ? undefined : props.url,
+        tag: extendLinkEnabled.value ? 'div' : undefined,
+        to: extendLinkEnabled.value ? undefined : props.url,
         iconName: 'arrow-right',
         label: props.linkLabel || t('card.link_label'),
     }
@@ -46,7 +46,7 @@ function getClasses(key: SlotName) {
 
 <template>
     <div
-        :class="[$style.root, linkExtendedEnabled && $style['root--link-extended']]"
+        :class="[$style.root, extendLinkEnabled && $style['root--link-extended']]"
     >
         <slot
             name="title"
@@ -58,8 +58,8 @@ function getClasses(key: SlotName) {
             >
                 <VWrapper
                     v-if="title"
-                    :wrapper="linkExtendedEnabled ? VRoadizLink : undefined"
-                    :url="linkExtendedEnabled ? url : undefined"
+                    :wrapper="extendLinkEnabled ? VRoadizLink : undefined"
+                    :url="extendLinkEnabled ? url : undefined"
                     :class="[$style.link, props.ui?.link]"
                 >
                     {{ title }}
@@ -107,7 +107,7 @@ function getClasses(key: SlotName) {
                 v-if="ctaProps"
                 :class="getClasses('cta')"
                 v-bind="ctaProps"
-                :aria-label="linkExtendedEnabled ? undefined : title"
+                :aria-label="extendLinkEnabled ? undefined : title"
             />
         </slot>
     </div>

@@ -11,7 +11,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
                 :image="image"
                 link-label="Link label"
                 url="/page-path"
-                link-extended
+                extend-link
                 :class="$style.card"
             />
         </NuxtStoryVariant>

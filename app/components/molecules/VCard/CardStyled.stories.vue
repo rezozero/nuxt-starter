@@ -11,7 +11,7 @@ import image from '~/assets/stories/fixtures/documents/image-01.json'
             link-label="Link label"
             url="/page-path"
             overtitle="My overtitle"
-            link-extended
+            extend-link
             :class="$style.card"
             :ui="{
                 overtitle: $style.overtitle,
