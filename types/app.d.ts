@@ -10,3 +10,9 @@ export interface UseRoadizBlockProps {
     blocks?: RoadizWalker[]
     numBlocks?: number | string
 }
+
+export type ComponentOrTagName
+    = | string
+        | Component
+        | ConcreteComponent
+        | Raw<DefineComponent>
