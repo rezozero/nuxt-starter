@@ -7,7 +7,15 @@
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Content - default slot">
             <div :class="$style.container">
-                <VCopyright>Lorem ipsum</VCopyright>
+                <VCopyright v-slot="{ id, itemClass, isExpanded }">
+                    <span
+                        :id="id"
+                        :class="itemClass"
+                        :aria-hidden="!isExpanded"
+                    >
+                        Lorem ipsum
+                    </span>
+                </VCopyright>
             </div>
         </NuxtStoryVariant>
     </NuxtStory>
@@ -16,8 +24,8 @@
 <style lang="scss" module>
 .container {
     position: relative;
-    width: px-to-rem(200);
-    height: px-to-rem(100);
+    width: 200px;
+    height: 100px;
     background-color: lightgrey;
 }
 </style>
