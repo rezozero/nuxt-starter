@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { ComponentPublicInstance, PropType } from 'vue'
+import type { ComponentPublicInstance } from 'vue'
 
 const props = defineProps({
     content: {
@@ -10,9 +10,8 @@ const props = defineProps({
         type: Number,
         default: 3,
     },
-    ui: {
-        type: Object as PropType<{ content?: string, toggle?: string }>,
-    },
+    contentClass: String,
+    toggleClass: String,
 })
 
 const id = useId()
@@ -47,7 +46,7 @@ const ariaLabel = computed(() => {
             $style.content,
             isExpanded && $style['content--expanded'],
             lines === 0 && !isExpanded && $style['content--hidden'],
-            ui?.content,
+            contentClass,
         ]"
         :content="content"
     />
@@ -60,7 +59,7 @@ const ariaLabel = computed(() => {
         <VButton
             :aria-controls="id"
             :disabled="isDisabled"
-            :class="[$style.toggle, ui?.toggle]"
+            :class="[$style.toggle, toggleClass]"
             :aria-label="ariaLabel"
             :label="isExpanded ? $t('see_less') : $t('see_more')"
             @click="toggle"

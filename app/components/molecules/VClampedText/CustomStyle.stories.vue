@@ -8,9 +8,7 @@ const content = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecen
     >
         <VClampedText
             :content="content"
-            :ui="{
-                content: $style.content,
-            }"
+            :content-class="$style.content"
         >
             <template #default="{ toggle, id, ariaLabel, isExpanded }">
                 <button
