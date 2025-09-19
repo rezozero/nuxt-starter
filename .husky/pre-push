@@ -2,4 +2,8 @@
 . "$(dirname -- "$0")/common.sh"
 
 # Echo a message when yarn lint command fails
-docker compose run -T --rm node pnpm lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
+if ! docker ps >/dev/null 2>&1; then
+	pnpm lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
+else
+	docker compose run -T --rm node pnpm lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
+fi
