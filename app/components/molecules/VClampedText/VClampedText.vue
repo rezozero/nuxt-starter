@@ -10,47 +10,67 @@ const props = defineProps({
         type: Number,
         default: 3,
     },
+    contentClass: String,
+    toggleClass: String,
 })
 
+const id = useId()
+
 const isExpanded = ref(false)
+const toggle = () => (isExpanded.value = !isExpanded.value)
+
 const isDisabled = ref(props.lines === 0)
-const root = ref<ComponentPublicInstance | null>(null)
 
+const contentElement = useTemplateRef('contentElement')
 function updateDisabled() {
-    const element = (root.value as ComponentPublicInstance)?.$el as HTMLElement
-
+    const element = (contentElement.value as ComponentPublicInstance)?.$el as HTMLElement
     if (!element) return
 
     isDisabled.value = !isExpanded.value && element.scrollHeight <= element.clientHeight
 }
 
 onMounted(updateDisabled)
-useResizeObserver(root, updateDisabled)
+useResizeObserver(contentElement, updateDisabled)
+
+const { t } = useI18n()
+const ariaLabel = computed(() => {
+    return isExpanded.value ? t('collapse_text') : t('expand_text')
+})
 </script>
 
 <template>
     <VMarkdown
-        ref="root"
+        :id="id"
+        ref="contentElement"
         :class="[
-            $style.root,
-            isExpanded && $style['root--expanded'],
-            lines === 0 && !isExpanded && $style['root--hidden'],
-            isDisabled && $style['root--disabled'],
+            $style.content,
+            isExpanded && $style['content--expanded'],
+            lines === 0 && !isExpanded && $style['content--hidden'],
+            contentClass,
         ]"
         :content="content"
     />
-    <VButton
-        :class="$style.toggle"
-        :label="isExpanded ? $t('see_less') : $t('see_more')"
-        @click="isExpanded = !isExpanded"
-    />
+    <slot
+        :id="id"
+        :toggle="toggle"
+        :aria-label="ariaLabel"
+        :is-expanded="isExpanded"
+    >
+        <VButton
+            :aria-controls="id"
+            :disabled="isDisabled"
+            :class="[$style.toggle, toggleClass]"
+            :aria-label="ariaLabel"
+            :label="isExpanded ? $t('see_less') : $t('see_more')"
+            @click="toggle"
+        />
+    </slot>
 </template>
 
 <style lang="scss" module>
-.root {
+.content {
     display: -webkit-box;
     overflow: hidden;
-    width: 100%;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--v-clamped-text-line-clamp, v-bind(lines));
 
@@ -79,7 +99,7 @@ useResizeObserver(root, updateDisabled)
 }
 
 .toggle {
-    .root--disabled + & {
+    &[disabled] {
         visibility: hidden;
     }
 }
