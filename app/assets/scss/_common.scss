@@ -2,6 +2,12 @@ body {
     font-family: sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+
+
+    &.scroll--disabled {
+        overflow: hidden;
+        padding-right: var(--body-padding-right, initial);
+    }
 }
 
 *:focus-visible {
