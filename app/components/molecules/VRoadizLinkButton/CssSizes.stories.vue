@@ -26,21 +26,19 @@
 </template>
 
 <style lang="scss" module>
-@use "assets/scss/mixins/include-media" as *;
-@use "assets/scss/mixins/v-button" as *;
-@use "assets/scss/variables/v-button" as *;
+@use '~/components/molecules/VButton/v-button';
 
 .button-emphasis-updated {
-    @include v-button-css-vars-by-size($v-button, 'lg');
+    @include v-button.size('lg');
 
     @include media('>=vl') {
-        @include v-button-css-vars-by-size($v-button, 'sm');
+        @include v-button.size('sm');
     }
 }
 
 .button-size-updated {
     @include media('>=vl') {
-        @include v-button-css-vars-by-size($v-button, 'lg');
+        @include v-button.size('lg');
     }
 }
 </style>

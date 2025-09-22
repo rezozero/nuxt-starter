@@ -1,26 +1,46 @@
-@use 'sass:map';
 @use '../../../assets/scss/mixins/css-vars-map';
-@use '../../../assets/scss/functions/list' as *;
 
+// $example-sizes-map: (
+//     (
+//         'vars': (
+//             'sm': (
+//                 'padding': 4px,
+//             ),
+//             'md': (
+//                 'padding': 8px,
+//             ),
+//         ),
+//         'prefix': '',
+//     ),
+//     (
+//         'vars': (
+//             'sm': (
+//                 'margin': 8px,
+//             ),
+//             'md': (
+//                 'margin': 16px,
+//             ),
+//         ),
+//         'prefix': 'label',
+//     ),
+// );
 $vars: (
-    (vars: (), prefix: ''),
-    (vars: (), prefix: 'icon'),
-    (vars: (), prefix: 'label')
+    (
+        vars: (
+            sm: (
+                font-size: 14px,
+            ),
+            md: (
+                font-size: 16px,
+            ),
+            lg: (
+                font-size: 18px,
+            ),
+        ),
+        prefix: 'label'
+    ),
 );
 
 @mixin size($size) {
-    @each $value in $vars {
-        @if map.has-key($value, 'vars') {
-            $vars: map.get($value, 'vars');
-            $prefix: list-implode(('v-button', map.get($value, 'prefix')), '-');
-
-            @if map.has-key($vars, $size) {
-                $size-vars: map.get($vars, $size);
-
-                @include css-vars-map.get($size-vars, $prefix);
-            }
-        }
-    }
+    @include css-vars-map.deep-get($vars, $size, 'v-button');
 }
-
-
