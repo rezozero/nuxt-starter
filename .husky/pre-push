@@ -11,7 +11,7 @@ run_lint() {
 }
 
 # Check if Docker is running and execute the appropriate lint command
-if ! docker ps >/dev/null 2>&1; then
+if ! docker info >/dev/null 2>&1; then
 	# Docker is not running, use local pnpm lint
 	run_lint "pnpm lint"
 else
