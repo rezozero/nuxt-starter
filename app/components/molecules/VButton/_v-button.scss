@@ -1,15 +1,30 @@
 @use '../../../assets/scss/mixins/css-vars-map';
 
+// $example-sizes-map: (
+//     (
+//         'vars': (
+//             'sm': (
+//                 'padding': 4px,
+//             ),
+//             'md': (
+//                 'padding': 8px,
+//             ),
+//         ),
+//         'prefix': '',
+//     ),
+//     (
+//         'vars': (
+//             'sm': (
+//                 'margin': 8px,
+//             ),
+//             'md': (
+//                 'margin': 16px,
+//             ),
+//         ),
+//         'prefix': 'label',
+//     ),
+// );
 $vars: (
-    (
-        vars: (
-            sm: (),
-        ),
-        prefix: ''),
-    (
-        vars: (),
-        prefix: 'icon'
-    ),
     (
         vars: (
             sm: (
@@ -22,7 +37,8 @@ $vars: (
                 font-size: 18px,
             ),
         ),
-        prefix: 'label')
+        prefix: 'label'
+    ),
 );
 
 @mixin size($size) {
