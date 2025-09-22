@@ -94,8 +94,7 @@ const embedVideoAttrs = computed(() => {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/mixins/v-button' as *;
-@use 'assets/scss/mixins/include-media' as *;
+@use '~/components/molecules/VButton/v-button.scss';
 
 .root {
     --v-player-position: absolute;
@@ -116,10 +115,10 @@ const embedVideoAttrs = computed(() => {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    @include v-button-size('m');
+    @include v-button.size('md');
 
-    @include media('>=lg') {
-        @include v-button-size('l');
+        @include media('>=lg') {
+        @include v-button.size('lg');
     }
 
     .root--had-interaction & {
