@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { clearAllBodyScrollLocks, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
 import { getHtmlElement, type TemplateElement } from '~/utils/ref/get-html-element'
 
 const mediaViewerInstance = ref<TemplateElement>(null)
 const mediaViewer = ref<HTMLElement | null>(null)
 const { isOpen } = useMediaViewer()
+const { disableBodyScroll, enableBodyScroll } = useBodyScrollLock()
 
 const unwatch = watch(mediaViewerInstance, (componentInstance) => {
     if (!componentInstance || mediaViewer.value) return
@@ -12,33 +12,24 @@ const unwatch = watch(mediaViewerInstance, (componentInstance) => {
     mediaViewer.value = getHtmlElement(componentInstance) as HTMLElement
 
     // During first time apparition, element is set after isOpen watch method callback
-    if (isOpen.value) disableScroll()
+    if (isOpen.value) disableBodyScroll()
     unwatch()
 })
 
 watch(
     isOpen,
     (isOpen) => {
-        if (isOpen) disableScroll()
-        else enabledScroll()
+        if (isOpen) disableBodyScroll()
+        else enableBodyScroll()
     },
     { flush: 'post' },
 )
-
-function disableScroll() {
-    if (mediaViewer.value) disableBodyScroll(mediaViewer.value, { reserveScrollBarGap: true })
-}
-
-function enabledScroll() {
-    if (mediaViewer.value) enableBodyScroll(mediaViewer.value)
-    else clearAllBodyScrollLocks()
-}
 </script>
 
 <template>
     <Transition
         :name="$style['root']"
-        @after-leave="enabledScroll"
+        @after-leave="enableBodyScroll"
     >
         <LazyVMediaViewer
             v-if="isOpen"
