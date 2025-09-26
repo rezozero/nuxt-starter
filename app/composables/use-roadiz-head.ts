@@ -4,14 +4,14 @@ import type { UseHeadInput } from 'unhead/types'
 
 export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: RoadizAlternateLink[]) {
     const nuxtApp = useNuxtApp()
-    const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
     const { $i18n } = nuxtApp
+
     const script: UseHeadInput['script'] = []
     const link: UseHeadInput['link'] = [
         {
             rel: 'canonical',
-            href: joinURL(runtimeConfig.public.site.url, webResponse?.item?.url || route.path),
+            href: useCanonicalUrl(webResponse?.item?.url),
         },
     ]
 
