@@ -26,15 +26,13 @@ apt-get --quiet --yes --purge --autoremove upgrade
 # Packages - System
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     curl \
-    less \
-    sudo
+    less
 rm -rf /var/lib/apt/lists/*
 
 # User
 groupmod --gid ${UID} node
 usermod --uid ${UID} node
 chown --verbose --recursive ${UID}:${UID} /home/node
-echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
 
 # https://github.com/pnpm/pnpm/issues/9029
 npm i -g corepack@latest
@@ -143,14 +141,12 @@ RUN <<EOF
 apt-get --quiet update
 apt-get --quiet --yes --purge --autoremove upgrade
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
-    less \
-    sudo
+    less
 rm -rf /var/lib/apt/lists/*
 
 # User
 groupmod --gid ${UID} nginx
 usermod --uid ${UID} nginx
-echo "nginx ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nginx
 
 # App
 install --verbose --owner nginx --group nginx --mode 0755 --directory /app
