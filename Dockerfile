@@ -1,12 +1,12 @@
-ARG NODE_VERSION=22.20.0
-ARG NGINX_VERSION=1.27.5
+ARG NODE_VERSION=24.12.0
+ARG NGINX_VERSION=1.29.4
 ARG UID=1000
 
 #############
 # Node      #
 #############
 
-FROM node:${NODE_VERSION}-bookworm-slim AS node
+FROM node:${NODE_VERSION}-trixie-slim AS node
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
@@ -130,7 +130,7 @@ CMD ["node", "server/index.mjs"]
 # Nginx #
 #########
 
-FROM nginx:${NGINX_VERSION}-bookworm AS nginx
+FROM nginx:${NGINX_VERSION}-trixie AS nginx
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
