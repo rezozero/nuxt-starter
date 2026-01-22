@@ -59,7 +59,7 @@
     "@vueuse/core": "^14.1.0",
     "body-scroll-lock": "^3.1.5",
     "floating-vue": "^5.2.2",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "marked": "^17.0.1",
     "ohash": "^2.0.11",
     "plyr": "^3.8.4",
