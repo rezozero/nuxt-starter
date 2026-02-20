@@ -31,7 +31,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
         }
     })
 
-    const breadcrumbItems = computed(() => {
+    const items = computed(() => {
         const items = toValue(webResponse)?.breadcrumbs?.items
         const list = items && getArrayFromCollection<RoadizNodesSources>(items)
 
@@ -56,9 +56,9 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
     })
 
     const allItems = computed(() => {
-        return [homeItem.value, ...breadcrumbItems.value, currentPageItem.value]
+        return [homeItem.value, ...items.value, currentPageItem.value]
             .filter(item => item?.label || item?.url)
     })
 
-    return { allItems, breadcrumbItems }
+    return { allItems, items }
 }

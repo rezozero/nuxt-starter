@@ -8,21 +8,6 @@ const props = defineProps<{
     items: BreadcrumbItem[]
 }>()
 
-const route = useRoute()
-const enrichedItems = computed(() => {
-    return props.items.map((item) => {
-        const isCurrent = item.url && item.url === route.path
-        const node = isCurrent || !item.url ? 'span' : NuxtLink
-
-        return {
-            ...item,
-            node,
-            to: node === 'span' ? undefined : item.url,
-            isCurrent,
-        }
-    })
-})
-
 if (props.items.length > 1 && import.meta.server) {
     const siteUrl = useRuntimeConfig().public.site.url
     const structuredData = {
@@ -47,46 +32,50 @@ if (props.items.length > 1 && import.meta.server) {
 <template>
     <nav
         v-if="items.length"
-        :class="$style.root"
         :aria-label="$t('breadcrumb.aria_label')"
         role="navigation"
     >
-        <template
-            v-for="(item, itemIndex) in enrichedItems"
-            :key="item.url || item.label"
-        >
-            <slot>
-                <span
-                    v-if="itemIndex !== 0"
-                    :class="$style.separator"
-                    aria-hidden="true"
-                > / </span>
-            </slot>
-            <component
-                :is="item.node"
+        <ol :class="$style.list">
+            <li
+                v-for="item in items"
+                :key="(item.url || '') + '-' + (item.label || '')"
                 :class="$style.item"
-                :to="item.to"
-                :aria-current="item.isCurrent ? 'page' : undefined"
             >
-                {{ item.label }}
-            </component>
-        </template>
+                <NuxtLink
+                    :to="item.url"
+                    :class="$style.link"
+                >
+                    {{ item.label }}
+                </NuxtLink>
+            </li>
+        </ol>
     </nav>
 </template>
 
 <style lang="scss" module>
-.root {
-    display: var(--v-breadcrumb-display, flex);
+.list {
+    display: var(--v-breadcrumb-list-display, inline-flex);
     align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .item {
-    &:global(.router-link-exact-active) {
-        text-decoration: none;
+    & + &::before {
+        display: inline-block;
+        height: 12px;
+        border-right: 1px solid currentcolor;
+        content: "";
+        margin-inline: 7px;
+        transform: rotate(15deg);
     }
 }
 
-.separator {
-    white-space: pre;
+.link {
+    &[href=""],
+    &:global(.router-link-exact-active) {
+        text-decoration: none;
+    }
 }
 </style>

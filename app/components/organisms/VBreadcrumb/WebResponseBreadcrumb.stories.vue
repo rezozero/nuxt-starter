@@ -21,15 +21,15 @@ currentPage.value = {
 }
 
 // In wrapper component usage
-const { breadcrumbItems, allItems } = useRoadizBreadcrumb(currentPage.value.webResponse || null)
+const { items, allItems } = useRoadizBreadcrumb(currentPage.value.webResponse || null)
 </script>
 
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Roadiz breadcrumb items">
             <LazyVBreadcrumb
-                v-if="breadcrumbItems.length"
-                :items="breadcrumbItems"
+                v-if="items.length"
+                :items="items"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Breadcrumb + home and current page">
