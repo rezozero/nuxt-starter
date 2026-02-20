@@ -6,24 +6,23 @@ export interface BreadcrumbItem {
     url?: string
 }
 
-type AnyObject = Record<string, unknown>
+// Extends to EventsApi entity
+type ExtendedNodesSources = RoadizNodesSources & {
+    altTitle?: string
+    name?: string
+}
 
-const POSSIBLE_TITLE_KEY = ['altTitle', 'name', 'title']
+function getItemTitle(item: ExtendedNodesSources) {
+    if (!item) return undefined
 
-function getItemTitle(item: AnyObject | undefined) {
-    if (!item || typeof item !== 'object') return undefined
-
-    const objKey = POSSIBLE_TITLE_KEY.find((key) => {
-        return key in item && typeof item[key] === 'string' && !!item[key]
-    })
-
-    return objKey && typeof item[objKey] === 'string' ? item[objKey] : undefined
+    return item.altTitle || item.title || item.name
 }
 
 export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebResponse | null>) {
     const { t, te } = useI18n()
 
     const { data } = useCommonContent()
+
     const homeItem = computed(() => {
         const home = data.value?.home
         return {
@@ -34,7 +33,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
 
     const breadcrumbItems = computed(() => {
         const items = toValue(webResponse)?.breadcrumbs?.items
-        const list = items && getArrayFromCollection<RoadizNodesSources>(items) as (RoadizNodesSources & AnyObject)[]
+        const list = items && getArrayFromCollection<RoadizNodesSources>(items)
 
         if (!list?.length) return []
 
@@ -51,7 +50,7 @@ export function useRoadizBreadcrumb(webResponse: MaybeRefOrGetter<RoadizWebRespo
         if (!pageItem || pageItem?.url === homeItem.value?.url) return {}
 
         return {
-            label: getItemTitle(pageItem as AnyObject),
+            label: getItemTitle(pageItem),
             url: pageItem?.url,
         }
     })
