@@ -3,9 +3,10 @@ import schema from './schemas/errors'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 const submitCallback = () => {
+    // Mock oFetch error response data structure
     return Promise.reject({
         response: {
-            data: {
+            _data: {
                 errorsPerForm: {
                     date: {
                         date: 'date error',

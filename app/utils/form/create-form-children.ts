@@ -1,18 +1,17 @@
 import type { Component, VNodeChild } from 'vue'
-import type { JsonSchemaExtended } from '~~/types/json-schema'
-import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElementFactory'
 import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
+import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElementFactory'
 import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
+import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 export type ComponentsMap = Record<string, Component | undefined>
 
 type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
-export const RECAPTCHA_INPUT = 'g-recaptcha-response'
-
 const defaultComponentMaps: ComponentsMap = {
     'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
     'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
+    'captchaInput': defineAsyncComponent(() => import('~/components/molecules/VCaptchaInput/VCaptchaInput.vue')),
     'input': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
     'new-password': undefined,
     'textarea': defineAsyncComponent(() => import('~/components/molecules/VTextarea/VTextarea.vue')),
@@ -30,7 +29,7 @@ export default function createFormChildren(
     componentsMap?: ComponentsMap,
 ): VNodeChild | undefined {
     const rootSchema = parentProps.schema
-    const propertiesLength = Object.keys(rootSchema?.properties || {}).filter(key => key !== RECAPTCHA_INPUT).length
+    const propertiesLength = Object.keys(rootSchema?.properties || {}).length
     const requiredProperties = rootSchema?.required || []
     const parents = parentProps.parents
     const mergedComponentsMap = { ...defaultComponentMaps, ...componentsMap }
@@ -39,16 +38,12 @@ export default function createFormChildren(
         return h('')
     }
 
-    const { $i18n } = useNuxtApp()
-
     return Object.entries(rootSchema.properties)
         .sort((a, b) => a[1]?.propertyOrder - b[1]?.propertyOrder)
         .map((property, propertyIndex) => {
             const key = property[0]
             const schema = property[1] as JsonSchemaExtended
-            const error = parentProps.errors?.find(item => item.propertyPath === key)
-            const errorMessage = error?.message ? $i18n.t(error?.message).toString() : undefined
-            const isInvalid = error && error.message
+            const errors = parentProps.errors?.filter(item => item.propertyPath === key)
             const id = parentProps.id ? `${parentProps.id}-${key}` : key
             const required = requiredProperties === true ? requiredProperties : requiredProperties.includes(key)
             const name = parents?.length ? parents.slice().concat([key]).join('[') + ']'.repeat(parents.length) : key
@@ -60,16 +55,13 @@ export default function createFormChildren(
             /*
              * Make initial field value optional
              */
-            const parentModelValues = (typeof parentProps.modelValue === 'object' && parentProps.modelValue !== null)
-                ? parentProps.modelValue as Record<string, unknown>
-                : {}
+            const parentModelValues = parentProps.modelValue || {}
             const currentModelValue = parentModelValues[key] ?? null
 
             const defaultProps: Record<string, unknown> = {
                 id,
                 'label': schema.title,
-                errorMessage,
-                isInvalid,
+                errors,
                 name,
                 parents,
                 'hideSeparator': lastItem && typeWithoutSeparator,
@@ -119,11 +111,12 @@ export default function createFormChildren(
                 })
             }
 
-            // recaptcha
-            if (key === RECAPTCHA_INPUT) {
-                if (!mergedComponentsMap.hiddenInput) return h('')
+            // Captcha
+            const { enabled } = useRoadizFormCaptcha(key)
+            if (enabled.value) {
+                if (!mergedComponentsMap.captchaInput) return h('')
 
-                return h(mergedComponentsMap.hiddenInput, {
+                return h(mergedComponentsMap.captchaInput, {
                     ...defaultProps,
                 })
             }

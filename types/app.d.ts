@@ -1,4 +1,4 @@
-import type { RoadizWebResponse, RoadizWalker } from '@roadiz/types'
+import type { RoadizWalker, RoadizWebResponse } from '@roadiz/types'
 
 export type PageEntityProps = {
     webResponse?: RoadizWebResponse
@@ -10,3 +10,9 @@ export interface UseRoadizBlockProps {
     blocks?: RoadizWalker[]
     numBlocks?: number | string
 }
+
+export type ComponentOrTagName
+    = | string
+        | Component
+        | ConcreteComponent
+        | Raw<DefineComponent>

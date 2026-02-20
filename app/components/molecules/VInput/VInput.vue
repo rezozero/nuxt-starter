@@ -36,6 +36,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
         :inline="isCheckbox || isRadio"
         :label="label"
         :required="required"
+        :errors="errors"
     >
         <template #[slotName]>
             <input

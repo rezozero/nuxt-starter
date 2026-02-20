@@ -4,7 +4,20 @@
 
 <template>
     <NuxtStory :class="$style.root">
-        <VCopyrightButton />
+        <NuxtStoryVariant>
+            <VCopyrightButton />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant>
+            <VCopyrightButton label="Custom label" />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant>
+            <VCopyrightButton>
+                <VIcon
+                    name="copyright"
+                    size="1rem"
+                />
+            </VCopyrightButton>
+        </NuxtStoryVariant>
     </NuxtStory>
 </template>
 

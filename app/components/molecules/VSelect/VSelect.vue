@@ -76,6 +76,7 @@ const onSelectChange = (event: Event) => {
         :hide-separator="multiple"
         :inline="inline"
         :label="label"
+        :errors="errors"
     >
         <div :class="[$style.inner, multiple && $style['inner--multiple']]">
             <select

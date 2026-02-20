@@ -5,6 +5,10 @@ definePageMeta({
     layout: false,
 })
 
+useSeoMeta({
+    robots: 'noindex, nofollow',
+})
+
 defineI18nRoute(false)
 </script>
 

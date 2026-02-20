@@ -1,12 +1,12 @@
-ARG NODE_VERSION=22.14.0
-ARG NGINX_VERSION=1.27.5
+ARG NODE_VERSION=24.12.0
+ARG NGINX_VERSION=1.29.4
 ARG UID=1000
 
 #############
 # Node      #
 #############
 
-FROM node:${NODE_VERSION}-bookworm-slim AS node
+FROM node:${NODE_VERSION}-trixie-slim AS node
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
@@ -26,15 +26,13 @@ apt-get --quiet --yes --purge --autoremove upgrade
 # Packages - System
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
     curl \
-    less \
-    sudo
+    less
 rm -rf /var/lib/apt/lists/*
 
 # User
 groupmod --gid ${UID} node
 usermod --uid ${UID} node
 chown --verbose --recursive ${UID}:${UID} /home/node
-echo "node ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/node
 
 # https://github.com/pnpm/pnpm/issues/9029
 npm i -g corepack@latest
@@ -130,7 +128,7 @@ CMD ["node", "server/index.mjs"]
 # Nginx #
 #########
 
-FROM nginx:${NGINX_VERSION}-bookworm AS nginx
+FROM nginx:${NGINX_VERSION}-trixie AS nginx
 
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
@@ -143,14 +141,12 @@ RUN <<EOF
 apt-get --quiet update
 apt-get --quiet --yes --purge --autoremove upgrade
 apt-get --quiet --yes --no-install-recommends --verbose-versions install \
-    less \
-    sudo
+    less
 rm -rf /var/lib/apt/lists/*
 
 # User
 groupmod --gid ${UID} nginx
 usermod --uid ${UID} nginx
-echo "nginx ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/nginx
 
 # App
 install --verbose --owner nginx --group nginx --mode 0755 --directory /app
