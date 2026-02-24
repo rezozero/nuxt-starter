@@ -24,7 +24,7 @@ export function useCurrentPageSearchParams() {
         return false
     }
 
-    const filteredQueryParams = computed(() => {
+    const filteredSearchParams = computed(() => {
         return Object.entries(route.query).reduce((acc, entry) => {
             if (isAllowedSearchParam(...entry)) {
                 Object.assign(acc, { [entry[0]]: entry[1] })
@@ -36,7 +36,7 @@ export function useCurrentPageSearchParams() {
     const searchParamsLabel = computed(() => {
         const result: string[] = []
 
-        Object.entries(filteredQueryParams.value).forEach(([key, value]) => {
+        Object.entries(filteredSearchParams.value).forEach(([key, value]) => {
             if (key === SearchParam.PAGE) {
                 result.push(t('page', { page: value }))
             }
@@ -51,8 +51,8 @@ export function useCurrentPageSearchParams() {
     const canonicalUrl = computed(() => {
         const url = page.value?.webResponse?.item?.url || route.path
         const baseUrl = joinURL(useRuntimeConfig().public.site.url, url)
-        return withQuery(baseUrl, filteredQueryParams.value)
+        return withQuery(baseUrl, filteredSearchParams.value)
     })
 
-    return { filteredQueryParams, searchParamsLabel, canonicalUrl }
+    return { filteredSearchParams, searchParamsLabel, canonicalUrl }
 }
