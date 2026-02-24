@@ -26,13 +26,13 @@ const { items, allItems } = useRoadizBreadcrumb(currentPage.value.webResponse ||
 
 <template>
     <NuxtStory>
-        <NuxtStoryVariant title="Roadiz breadcrumb items">
+        <NuxtStoryVariant title="Items: Roadiz breadcrumb items">
             <LazyVBreadcrumb
                 v-if="items.length"
                 :items="items"
             />
         </NuxtStoryVariant>
-        <NuxtStoryVariant title="Breadcrumb + home and current page">
+        <NuxtStoryVariant title="AllItems: Home + Roadiz breadcrumb items + current page">
             <LazyVBreadcrumb
                 v-if="allItems.length"
                 :items="allItems"
