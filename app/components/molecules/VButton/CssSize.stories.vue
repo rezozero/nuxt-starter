@@ -35,7 +35,6 @@
 
 <style lang="scss" module>
 @use './v-button';
-@use 'assets/scss/mixins/include-media' as *;
 
 .button {
     &--sm {

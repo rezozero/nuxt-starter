@@ -8,21 +8,17 @@
 //  {string} $glue: the "glue" between elements in the result string
 //  @return {string} the result string
 @function list-implode($pieces, $glue: "") {
-    $result: null;
-
-    @for $i from 1 through list.length($pieces) {
-        $piece: list.nth($pieces, $i);
-
-        @if meta.type-of($piece) == list {
-            $result: string.unquote("#{$result}#{$glue}#{list-implode($piece, $glue)}");
-        } @else if $piece != '' {
-            $result: if($i == 1, $piece, string.unquote("#{$result}#{$glue}#{$piece}"));
-        }
-    }
-
-    @if $result {
-        $result: string.slice($result, string.length($glue) + 1, -1);
-    }
-
-    @return $result;
+	$result: null;
+	@for $i from 1 through list.length($pieces) {
+		$piece: list.nth($pieces, $i);
+		@if meta.type-of($piece) == list {
+			$result: string.unquote("#{$result}#{$glue}#{implode($piece, $glue)}");
+		} @else {
+			$result: string.unquote("#{$result}#{$glue}#{$piece}");
+		}
+	}
+	@if $result != null {
+		$result: string.slice($result, string.length($glue) + 1, -1);
+	}
+	@return $result;
 }
