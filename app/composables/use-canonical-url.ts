@@ -1,17 +1,17 @@
 import { joinURL, withQuery } from 'ufo'
 import type { LocationQuery } from '#vue-router'
-import SearchParams from '~/constants/search-params'
+import SearchParam from '~/constants/search-param'
 
 type QueryValue = LocationQuery[keyof LocationQuery]
 
-const ALLOWED_SEARCH_PARAMS = [SearchParams.PAGE]
+const ALLOWED_SEARCH_PARAMS = [SearchParam.PAGE]
 
 export function useCanonicalUrl(url: string, validKeys: string[] = []) {
     const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
 
     function isAllowedSearchParam(key: string, value: QueryValue) {
-        if (key === SearchParams.PAGE && Number(value) < 2) return false
+        if (key === SearchParam.PAGE && Number(value) < 2) return false
 
         return [...ALLOWED_SEARCH_PARAMS, ...validKeys].includes(key) && value
     }

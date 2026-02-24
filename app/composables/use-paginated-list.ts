@@ -1,6 +1,6 @@
 import { debounce } from '@antfu/utils'
 import type { Ref } from 'vue'
-import ListingQuery from '~/constants/search-params'
+import SearchParam from '~/constants/search-param'
 
 interface Options {
     element?: Ref<HTMLElement | null>
@@ -11,7 +11,7 @@ export function usePaginatedList(options: Options) {
     const route = useRoute()
 
     const page = computed(() => {
-        return parseInt(route.query[ListingQuery.PAGE] as string) || 1
+        return parseInt(route.query[SearchParam.PAGE] as string) || 1
     })
 
     onUnmounted(() => {
