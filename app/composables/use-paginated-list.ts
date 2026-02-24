@@ -1,6 +1,6 @@
 import { debounce } from '@antfu/utils'
 import type { Ref } from 'vue'
-import ListingQuery from '~/constants/listing-query'
+import ListingQuery from '~/constants/search-params'
 
 interface Options {
     element?: Ref<HTMLElement | null>
