@@ -8,15 +8,7 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
     const { $i18n } = nuxtApp
 
     const script: UseHeadInput['script'] = []
-
     const link: UseHeadInput['link'] = []
-
-    if (webResponse?.item?.url) {
-        link.push({
-            rel: 'canonical',
-            href: useCanonicalUrl(webResponse.item.url),
-        })
-    }
 
     // ALTERNATE LINKS
     const alternateLinksHead = alternateLinks
