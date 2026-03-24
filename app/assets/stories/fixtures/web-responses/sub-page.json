@@ -1,0 +1,82 @@
+{
+  "@context": "/api/contexts/WebResponse",
+  "@id": "/api/web_response_by_path",
+  "@type": "WebResponse",
+  "item": {
+    "@id": "/api/pages/1",
+    "@type": "Page",
+    "node": {
+      "@id": "/api/nodes/285",
+      "@type": "Node",
+      "nodeName": "internal-page",
+      "visible": true,
+      "tags": []
+    },
+    "publishedAt": "2022-10-13T16:10:16+02:00",
+    "title": "Internal page",
+    "slug": "internal-page",
+    "url": "/internal-page"
+  },
+  "breadcrumbs": {
+    "@type": "Breadcrumbs",
+    "items": [
+      {
+        "@id": "/api/pages/2",
+        "@type": "Page",
+        "node": {
+          "@id": "/api/nodes/285",
+          "@type": "Node",
+          "nodeName": "parent-page",
+          "visible": true,
+          "tags": []
+        },
+        "publishedAt": "2022-10-13T16:10:16+02:00",
+        "title": "Parent page",
+        "slug": "parent-page",
+        "url": "/parent-page"
+      },
+      {
+        "@id": "/api/pages/2",
+        "@type": "Page",
+        "node": {
+          "@id": "/api/nodes/285",
+          "@type": "Node",
+          "nodeName": "sub-page",
+          "visible": true,
+          "tags": []
+        },
+        "publishedAt": "2022-10≠-13T16:10:16+02:00",
+        "title": "Sub page without url",
+        "slug": "sub-page"
+      },
+      {
+        "@id": "/api/pages/2",
+        "@type": "Page",
+        "node": {
+          "@id": "/api/nodes/285",
+          "@type": "Node",
+          "nodeName": "sub-sub-page",
+          "visible": true,
+          "tags": []
+        },
+        "publishedAt": "2022-10≠-13T16:10:16+02:00",
+        "title": "Sub sub page",
+        "slug": "sub-sub-page",
+        "url": "/parent-page/sub-page/sub-sub-page"
+      }
+    ]
+  },
+  "head": {
+    "@type": "WebResponseHead",
+    "siteName": "siteName",
+    "metaTitle": "metaTitle",
+    "metaDescription": "metaDescription",
+    "noIndex": false,
+    "mainColor": "#f0baf5",
+    "homePageUrl": "/"
+  },
+  "blocks": [],
+  "realms": [],
+  "hidingBlocks": false,
+  "maxAge": 3600
+}
