@@ -11,8 +11,6 @@
 :where([contenteditable]:not([contenteditable="false"])) {
     -webkit-line-break: after-white-space;
     overflow-wrap: break-word;
-    -moz-user-modify: read-write;
-    -webkit-user-modify: read-write;
     user-select: auto;
 }
 

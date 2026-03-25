@@ -160,8 +160,8 @@ const classNames = computed(() => [
     padding-top: px-to-rem(8);
     margin-top: 0;
     margin-bottom: px-to-rem(-5);
-    grid-column: 1/-1;
     font-size: px-to-rem(12);
+    grid-column: 1/-1;
 }
 
 .description {
