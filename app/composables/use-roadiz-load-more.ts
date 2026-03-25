@@ -3,6 +3,7 @@ import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import type { Ref, ShallowRef } from 'vue'
 import { hash } from 'ohash'
 import { encodeUrlParams } from '~/utils/url'
+import SearchParam from '~/constants/search-param'
 
 export type UseLoadMoreOptions<ParamsT> = {
     url: string
@@ -71,13 +72,17 @@ export async function useRoadizLoadMore<
     const route = useRoute()
     const page = computed({
         get(): number {
-            return parseFloat((route.query.page as string | null) || '') || toValue(options.params)?.page || 1
+            const pageQuery = route.query[SearchParam.PAGE] as string || ''
+            return parseInt(pageQuery) || toValue(options.params)?.page || 1
         },
         set(value: number) {
             router
                 .replace({
                     path: route.path,
-                    query: { ...route.query, page: value > 1 ? value.toString() : undefined },
+                    query: {
+                        ...route.query,
+                        [SearchParam.PAGE]: value > 1 ? value.toString() : undefined,
+                    },
                 })
                 .catch((error) => {
                     if (
