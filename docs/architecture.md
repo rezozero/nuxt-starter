@@ -14,7 +14,7 @@ HTTP request
   -> Nuxt route ([...slug].vue)
     -> useRoadizWebResponse(route.path)
       -> Roadiz web response (data + meta + headers)
-        -> render through global blocks
+        -> render components
 ```
 
 ## Pages and routing
