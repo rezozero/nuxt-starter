@@ -152,8 +152,8 @@ export default defineComponent({
 
 .label {
     overflow: var(--v-button-label-overflow, hidden);
+    font-size: var(--v-button-label-font-size);
     text-overflow: var(--v-button-label-text-overflow, ellipsis);
     white-space: var(--v-button-label-white-space, nowrap);
-    font-size: var(--v-button-label-font-size);
 }
 </style>

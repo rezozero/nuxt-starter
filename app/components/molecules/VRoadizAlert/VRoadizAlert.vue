@@ -71,14 +71,12 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 .root {
     @include theme-variants;
 
-    & {
-        display: flex;
-        flex-wrap: wrap;
-        padding: px-to-rem(32);
-        background-color: #000;
-        color: #fff;
-        gap: 0 px-to-rem(24);
-    }
+    display: flex;
+    flex-wrap: wrap;
+    padding: px-to-rem(32);
+    background-color: #000;
+    color: #fff;
+    gap: 0 px-to-rem(24);
 }
 
 .title {
@@ -89,12 +87,10 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 }
 
 .body {
-    & {
-        width: 100%;
-        order: 2;
-        padding-right: px-to-rem(48);
-        margin-top: px-to-rem(12);
-    }
+    width: 100%;
+    order: 2;
+    padding-right: px-to-rem(48);
+    margin-top: px-to-rem(12);
 
     @include media('>=md') {
         width: math.div(560, 1440) * 100%;
@@ -106,9 +102,7 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'dark' })
 }
 
 .link {
-    & {
-        margin-top: px-to-rem(16);
-    }
+    margin-top: px-to-rem(16);
 
     @include media('>=md') {
         margin-top: px-to-rem(4);

@@ -121,8 +121,8 @@ const ctaProps = computed(() => {
 }
 
 .link {
-    text-decoration: none;
     color: inherit;
+    text-decoration: none;
 
     .root--link-extended &::before {
         position: absolute;
@@ -142,12 +142,12 @@ const ctaProps = computed(() => {
 }
 
 .content {
-    grid-area: content;
-    margin-block: 10px 0;
     display: -webkit-box;
     overflow: hidden;
     -webkit-box-orient: vertical;
+    grid-area: content;
     -webkit-line-clamp: var(--v-card-content-line-clamp, 3);
+    margin-block: 10px 0;
 }
 
 .image {
@@ -156,8 +156,8 @@ const ctaProps = computed(() => {
 }
 
 .cta {
+    width: fit-content;
     margin-top: 10px;
     grid-area: cta;
-    width: fit-content;
 }
 </style>
