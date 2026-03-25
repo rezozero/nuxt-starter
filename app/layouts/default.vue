@@ -43,6 +43,12 @@ if (route.name === 'slug') {
 
 // Populate Roadiz common content after locale is set
 await useCommonContentFetch()
+
+const { getPageTitle } = useRoadizPageTitle()
+
+useHead({
+    titleTemplate: getPageTitle,
+})
 </script>
 
 <template>

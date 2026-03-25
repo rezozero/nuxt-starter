@@ -58,26 +58,8 @@ usePage({
     title: nodeTitle.value,
 })
 
-const { searchParamsLabel } = useWebResponseSearchParams(webResponse.value)
-
-const siteName = computed(() => webResponse.value?.head?.siteName || useRuntimeConfig().public?.site?.name)
-
-const pageTitle = computed(() => {
-    if (!nodeTitle.value) {
-        return webResponse.value?.head?.metaTitle || siteName.value
-    }
-
-    const additionalTitle = searchParamsLabel.value ? `, ${searchParamsLabel.value}` : ''
-    if (!siteName.value || nodeTitle.value.trim() === siteName.value.trim()) {
-        return `${nodeTitle.value}${additionalTitle}`
-    }
-    else {
-        return `${nodeTitle.value}${additionalTitle} — ${siteName.value}`
-    }
-})
-
 useHead({
-    title: pageTitle,
+    title: nodeTitle,
 })
 
 // Current entity

@@ -10,7 +10,7 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
     const script: UseHeadInput['script'] = []
     const link: UseHeadInput['link'] = []
 
-    const canonicalUrl = webResponse && useWebResponseSearchParams(webResponse).canonicalUrl.value
+    const canonicalUrl = useCurrentPageSearchParams().canonicalUrl.value
     if (canonicalUrl) {
         link.push({
             rel: 'canonical',
