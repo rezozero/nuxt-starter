@@ -72,8 +72,9 @@ export async function useRoadizLoadMore<
     const route = useRoute()
     const page = computed({
         get(): number {
-            const pageQuery = route.query[SearchParam.PAGE] as string || ''
-            return parseInt(pageQuery) || toValue(options.params)?.page || 1
+            const pageQuery = route.query[SearchParam.PAGE]
+            const value = Array.isArray(pageQuery) ? pageQuery[0] : pageQuery
+            return parseInt(value || '') || toValue(options.params)?.page || 1
         },
         set(value: number) {
             router
