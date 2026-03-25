@@ -2,26 +2,37 @@
 import type { LocationQuery } from '#vue-router'
 import SearchParam from '~/constants/search-param'
 import { joinURL, withQuery } from 'ufo'
+import { isListingEntity } from '~/utils/roadiz/entity'
 
 type QueryValue = LocationQuery[keyof LocationQuery]
 
+// Define common search params that should be included in the canonical URL for all pages
+const COMMON_SEARCH_PARAMS: string[] = []
+
 export function useCurrentPageSearchParams() {
     const route = useRoute()
-    const page = useCurrentPage()
     const { t } = useI18n()
+    const baseUrl = useRuntimeConfig().public.site.url
+
+    const page = useCurrentPage()
+    const pageItem = computed(() => page.value?.webResponse?.item)
+
+    const isListingPage = computed(() => {
+        return pageItem.value && isListingEntity(pageItem.value)
+    })
 
     function isAllowedSearchParam(key: string, values: QueryValue) {
         const value = Array.isArray(values) ? values[0] : values
 
-        if (value !== null && value !== undefined) {
+        if (value === null || typeof value === 'undefined') {
             return false
         }
-        else if (page.value.webResponse?.item?.['@type'] === 'listing') {
-            // Replace with a more generic way to determine if the current page is a listing page
+
+        if (isListingPage.value) {
             return key === SearchParam.PAGE && Number(value) >= 2
         }
 
-        return false
+        return COMMON_SEARCH_PARAMS.includes(key)
     }
 
     const filteredSearchParams = computed(() => {
@@ -31,6 +42,11 @@ export function useCurrentPageSearchParams() {
             }
             return acc
         }, {} as Record<string, QueryValue>)
+    })
+
+    const canonicalUrl = computed(() => {
+        const url = joinURL(baseUrl, pageItem.value?.url || route.path)
+        return withQuery(url, filteredSearchParams.value)
     })
 
     const searchParamsLabel = computed(() => {
@@ -46,12 +62,6 @@ export function useCurrentPageSearchParams() {
         })
 
         return result.join(', ')
-    })
-
-    const canonicalUrl = computed(() => {
-        const url = page.value?.webResponse?.item?.url || route.path
-        const baseUrl = joinURL(useRuntimeConfig().public.site.url, url)
-        return withQuery(baseUrl, filteredSearchParams.value)
     })
 
     return { filteredSearchParams, searchParamsLabel, canonicalUrl }

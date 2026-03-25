@@ -9,7 +9,7 @@ import type { JsonLdObject } from '@roadiz/types'
 export function isEntityType(entity: JsonLdObject, type: string): boolean {
     const regex = new RegExp('^(?:NS)?' + type + '$', 'gi')
     const matches = entity['@type']?.match(regex)
-    return matches !== null && matches.length > 0
+    return !!matches && matches.length > 0
 }
 
 /*
@@ -21,7 +21,7 @@ export function isEntityType(entity: JsonLdObject, type: string): boolean {
 export function isSchemaOrgType(entity: JsonLdObject, type: string): boolean {
     const regex = new RegExp('^(?:https?:\\/\\/schema\\.org\\/)?' + type + '$', 'gi')
     const matches = entity['@type']?.match(regex)
-    return matches !== null && matches.length > 0
+    return !!matches && matches.length > 0
 }
 
 export function isNodeType(entity: unknown): entity is JsonLdObject {
@@ -38,7 +38,15 @@ export function isBlogPostEntity(entity: JsonLdObject): boolean {
 }
 
 export function isBlogListingEntity(entity: JsonLdObject): boolean {
-    return isEntityType(entity, 'BlogPostContainer')
+    return isEntityType(entity, 'BlogPostListing')
+}
+
+export function isEventListingEntity(entity: JsonLdObject): boolean {
+    return isEntityType(entity, 'EventListing')
+}
+
+export function isListingEntity(entity: JsonLdObject): boolean {
+    return isEventListingEntity(entity) || isBlogListingEntity(entity)
 }
 
 export function isMenuLinkEntity(entity: JsonLdObject): boolean {

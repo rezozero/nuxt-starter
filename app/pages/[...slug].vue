@@ -60,27 +60,28 @@ usePage({
 
 const { searchParamsLabel, canonicalUrl } = useCurrentPageSearchParams()
 
-const siteName = webResponse.value?.head?.siteName || useRuntimeConfig().public?.site?.name
+const siteName = computed(() => webResponse.value?.head?.siteName || useRuntimeConfig().public?.site?.name)
+
 const pageTitle = computed(() => {
     if (!nodeTitle.value) {
-        return webResponse.value?.head?.metaTitle || siteName
+        return webResponse.value?.head?.metaTitle || siteName.value
     }
 
     const additionalTitle = searchParamsLabel.value ? `, ${searchParamsLabel.value}` : ''
-    if (nodeTitle.value === siteName) {
+    if (!siteName.value || nodeTitle.value.trim() === siteName.value.trim()) {
         return `${nodeTitle.value}${additionalTitle}`
     }
     else {
-        return `${nodeTitle.value}${additionalTitle} — ${siteName}`
+        return `${nodeTitle.value}${additionalTitle} — ${siteName.value}`
     }
 })
 
 useHead({
-    title: pageTitle.value,
+    title: pageTitle,
     link: [
         {
             rel: 'canonical',
-            href: canonicalUrl.value,
+            href: canonicalUrl,
         },
     ],
 })
