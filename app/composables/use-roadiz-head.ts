@@ -10,6 +10,14 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
     const script: UseHeadInput['script'] = []
     const link: UseHeadInput['link'] = []
 
+    const canonicalUrl = webResponse && useWebResponseSearchParams(webResponse).canonicalUrl.value
+    if (canonicalUrl) {
+        link.push({
+            rel: 'canonical',
+            href: canonicalUrl,
+        })
+    }
+
     // ALTERNATE LINKS
     const alternateLinksHead = alternateLinks
         ?.filter(alternateLink => alternateLink.url)
@@ -31,7 +39,10 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
         link,
         meta: [
             // app version
-            { name: 'version', content: runtimeConfig.public.version },
+            {
+                name: 'version',
+                content: runtimeConfig.public.version,
+            },
         ],
     })
 }

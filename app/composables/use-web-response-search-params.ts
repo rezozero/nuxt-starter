@@ -1,21 +1,21 @@
 // import { joinURL, withQuery } from 'ufo'
 import type { LocationQuery } from '#vue-router'
 import SearchParam from '~/constants/search-param'
+import type { RoadizWebResponse } from '@roadiz/types'
 import { joinURL, withQuery } from 'ufo'
 import { isListingEntity } from '~/utils/roadiz/entity'
 
 type QueryValue = LocationQuery[keyof LocationQuery]
 
 // Define common search params that should be included in the canonical URL for all pages
-const COMMON_SEARCH_PARAMS: string[] = []
+const COMMON_SEARCH_PARAMS: string[] = ['test']
 
-export function useCurrentPageSearchParams() {
+export function useWebResponseSearchParams(webResponse: MaybeRefOrGetter<RoadizWebResponse> | undefined) {
     const route = useRoute()
     const { t } = useI18n()
     const baseUrl = useRuntimeConfig().public.site.url
 
-    const page = useCurrentPage()
-    const pageItem = computed(() => page.value?.webResponse?.item)
+    const pageItem = computed(() => toValue(webResponse)?.item)
 
     const isListingPage = computed(() => {
         return pageItem.value && isListingEntity(pageItem.value)

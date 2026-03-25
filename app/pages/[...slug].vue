@@ -58,7 +58,7 @@ usePage({
     title: nodeTitle.value,
 })
 
-const { searchParamsLabel, canonicalUrl } = useCurrentPageSearchParams()
+const { searchParamsLabel } = useWebResponseSearchParams(webResponse.value)
 
 const siteName = computed(() => webResponse.value?.head?.siteName || useRuntimeConfig().public?.site?.name)
 
@@ -78,12 +78,6 @@ const pageTitle = computed(() => {
 
 useHead({
     title: pageTitle,
-    link: [
-        {
-            rel: 'canonical',
-            href: canonicalUrl,
-        },
-    ],
 })
 
 // Current entity
