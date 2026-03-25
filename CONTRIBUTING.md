@@ -2,6 +2,11 @@
 
 The `main` branch is protected, and all changes must be made through pull requests.
 
+## Prerequisites
+
+- Node `24.12.0`
+- PNPM `9.12.0`
+
 ## Send a Pull Request
 
 ### Commit Conventions
@@ -22,6 +27,12 @@ It's ok to have multiple commits in a single PR; you don't need to rebase or for
 In general, please also make sure that there are no unrelated changes in a PR. For example, if your editor has made any changes to whitespace or formatting elsewhere in a file that you edited, please revert these so it is more obvious what your PR changes.   
 And please avoid including multiple unrelated features or fixes in a single PR. 
 If it is possible to separate them, it is better to have multiple PRs to review and merge separately. In general, a PR should do one thing only.
+
+## Checks expected in PRs
+
+- `pnpm lint`
+- `pnpm lint:js` (if you touched JS/TS/Vue)
+- `pnpm lint:css` (if you touched styles)
 
 ## Use ESLint
 
