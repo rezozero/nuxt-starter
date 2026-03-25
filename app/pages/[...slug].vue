@@ -45,8 +45,11 @@ if (item.value?.url && item.value.url !== route.path) {
     await navigateTo({ path: item.value?.url }, { redirectCode: 301 })
 }
 
+// WebResponse head meta title is constructed through the API (node title + siteName || node metaTitle)
+// Let the front-end handle the title construction to be able to include additional information
+// (e.g. search params label) and ensure the siteName is always included in the title for a11y purpose.
 const nodeTitle = computed(() => {
-    return webResponse.value?.head?.metaTitle || (item as { name?: string })?.name || item.value?.title
+    return item.value?.metaTitle || item.value?.title || (item as { name?: string })?.name || ''
 })
 
 usePage({
@@ -56,7 +59,7 @@ usePage({
 })
 
 useHead({
-    title: nodeTitle.value,
+    title: nodeTitle,
 })
 
 // Current entity
