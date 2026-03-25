@@ -8,7 +8,7 @@ import { isListingEntity } from '~/utils/roadiz/entity'
 type QueryValue = LocationQuery[keyof LocationQuery]
 
 // Define common search params that should be included in the canonical URL for all pages
-const COMMON_SEARCH_PARAMS: string[] = ['test']
+const COMMON_SEARCH_PARAMS: string[] = []
 
 export function useWebResponseSearchParams(webResponse: MaybeRefOrGetter<RoadizWebResponse> | undefined) {
     const route = useRoute()
