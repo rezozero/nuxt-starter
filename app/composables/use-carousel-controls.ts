@@ -1,13 +1,13 @@
-import type { Ref } from 'vue'
+import type { ModelRef } from 'vue'
 
 export interface VCarouselControlsOptions {
     displayNumbers?: boolean
-    snapLength: Ref<number>
-    index: Ref<number>
+    snapLength: MaybeRefOrGetter<number>
+    index: ModelRef<number>
 }
 
 function formatValue(n: number) {
-    return (n < 9 ? '0' : '') + (n + 1)
+    return String(n + 1).padStart(2, '0')
 }
 
 export function useCarouselControls(options: VCarouselControlsOptions) {
@@ -16,14 +16,21 @@ export function useCarouselControls(options: VCarouselControlsOptions) {
     const numbersOutput = computed(() => {
         if (!options.displayNumbers) return
 
-        return `${formatValue(toValue(options.index))} / ${formatValue(toValue(options.snapLength) - 1)}`
+        const index = toValue(options.index)
+        const length = toValue(options.snapLength)
+
+        return `${formatValue(index)} / ${formatValue(length - 1)}`
     })
 
     function onButtonClicked(event: Event) {
         const el = event.currentTarget as HTMLButtonElement
-
-        if (el.name === 'next') options.index.value = toValue(options.index) + 1
-        else if (el.name === 'previous') options.index.value = toValue(options.index) - 1
+        const index = toValue(options.index)
+        if (el.name === 'next') {
+            options.index.value = Math.min(index + 1, toValue(options.snapLength) - 1)
+        }
+        else if (el.name === 'previous') {
+            options.index.value = Math.max(index - 1, 0)
+        }
     }
 
     const isCarouselDraggable = computed(() => {
@@ -32,27 +39,30 @@ export function useCarouselControls(options: VCarouselControlsOptions) {
     })
 
     const nextDisabled = computed(() => {
-        return (toValue(options.index) === toValue(options.snapLength) - 1) || !toValue(options.snapLength)
+        const index = toValue(options.index)
+        const length = toValue(options.snapLength)
+
+        return index === length - 1 || !length
     })
 
     const nextButtonAttrs = computed(() => {
         return {
-            disabled: nextDisabled.value,
-            name: 'next',
-            iconName: 'arrow-right',
-            ariaLabel: t('carousel.next_slide_aria'),
-            onClick: onButtonClicked,
+            'disabled': nextDisabled.value,
+            'name': 'next',
+            'iconName': 'arrow-right',
+            'aria-label': t('carousel.next_slide_aria'),
+            'onClick': onButtonClicked,
         }
     })
 
     const previousDisabled = computed(() => toValue(options.index) === 0)
     const prevButtonAttrs = computed(() => {
         return {
-            disabled: previousDisabled.value,
-            name: 'previous',
-            iconName: 'arrow-left',
-            ariaLabel: t('carousel.previous_slide_aria'),
-            onClick: onButtonClicked,
+            'disabled': previousDisabled.value,
+            'name': 'previous',
+            'iconName': 'arrow-left',
+            'aria-label': t('carousel.previous_slide_aria'),
+            'onClick': onButtonClicked,
         }
     })
 

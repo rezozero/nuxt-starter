@@ -47,6 +47,7 @@ function setIndicatorPosition(index: number) {
     <div
         ref="root"
         :class="[$style.root, themeClass]"
+        aria-hidden="true"
     >
         <div
             ref="thumb"
