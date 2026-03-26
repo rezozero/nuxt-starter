@@ -82,6 +82,8 @@ pnpm lint-fix
 
 Translations come from Xilofone and can be fetched with:
 
+At the beginning of a project, import the translation files into Xilofone before running `pnpm xilo`.
+
 ```bash
 pnpm xilo
 ```
