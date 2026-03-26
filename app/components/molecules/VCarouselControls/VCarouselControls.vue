@@ -6,16 +6,13 @@ type VCarouselControlsProps = ThemeProps & {
     snapLength: number
     displayNumbers?: boolean
 }
-const index = defineModel<number>({ default: 0 })
 
 const props = defineProps<VCarouselControlsProps>()
-
-const snapLength = ref(props.snapLength)
-watch(() => props.snapLength, v => snapLength.value = v)
+const index = defineModel<number>({ default: 0 })
 
 const { numbersOutput, prevButtonAttrs, isCarouselDraggable, nextButtonAttrs } = useCarouselControls({
     displayNumbers: props.displayNumbers,
-    snapLength,
+    snapLength: () => props.snapLength || 1,
     index,
 })
 

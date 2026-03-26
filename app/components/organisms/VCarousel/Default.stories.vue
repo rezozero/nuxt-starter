@@ -7,34 +7,42 @@ const snapGridLength = ref(numSlides)
 <template>
     <NuxtStory>
         <div
-            style="overflow: hidden;width: 500px; max-width: 100vw; border: 1px solid #ccc"
+            :class="$style.root"
         >
             <VCarousel
                 v-slot="{ slideClass }"
                 v-model:index="slideIndex"
+                v-model:snap-length="snapGridLength"
             >
-                <div
+                <li
                     v-for="i in numSlides"
                     :key="i"
                     :class="[...slideClass, $style.slide]"
                 >
                     Slide {{ i }}
-                </div>
+                </li>
             </VCarousel>
             <VCarouselControls
                 v-model="slideIndex"
                 :snap-length="snapGridLength"
+                display-numbers
             />
         </div>
     </NuxtStory>
 </template>
 
 <style lang="scss" module>
-.slide {
-    --v-carousel-slide-width: #{px-to-rem(400)};
-    --v-carousel-slide-margin-right: #{px-to-rem(20)};
+.root {
+    overflow: hidden;
+    width: 100%;
+    border: 1px solid #ccc;
+}
 
-    height: px-to-rem(200);
+.slide {
+    --v-carousel-slide-width: 400px;
+    --v-carousel-slide-margin-right: 20px;
+    --v-carousel-slide-height: 200px;
+
     background-color: lightgray;
 }
 </style>

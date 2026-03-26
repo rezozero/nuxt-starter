@@ -5,7 +5,6 @@ import { getHtmlElement } from '~/utils/ref/get-html-element'
 
 export interface VCarouselProps {
     tag?: string
-    role?: string
     swiperWrapperTag?: string
     swiperWrapperClass?: string
     lazy?: boolean
@@ -14,7 +13,8 @@ export interface VCarouselProps {
 }
 
 const slideIndex = defineModel<number>('index', { default: 0 })
-const snapLength = defineModel<number>('snapLength')
+const snapLength = defineModel<number>('snapLength', { default: 1 })
+
 const carouselEnabled = defineModel<boolean>('enabled', { default: false })
 
 const props = withDefaults(defineProps<VCarouselProps & { index?: number, enabled?: boolean }>(), { lazy: true })
@@ -180,8 +180,16 @@ onBeforeUnmount(disposeSwiper)
         ref="root"
         :class="rootClasses"
     >
+        <div
+            aria-live="polite"
+            aria-atomic="false"
+            class="visually-hidden"
+        >
+            {{ $t('carousel.progress', { index: slideIndex + 1, length: snapLength }) }}
+        </div>
+
         <component
-            :is="swiperWrapperTag || 'div'"
+            :is="swiperWrapperTag || 'ul'"
             ref="swiperWrapper"
             :class="[$style['swiper-wrapper'], swiperWrapperClass]"
         >
@@ -204,7 +212,10 @@ onBeforeUnmount(disposeSwiper)
     flex-shrink: 0;
     align-items: var(--v-carousel-swiper-wrapper-align-item);
     justify-content: var(--v-carousel-swiper-wrapper-justify-content);
+    padding: var(--v-carousel-swiper-wrapper-padding, 0);
+    margin: var(--v-carousel-swiper-wrapper-margin, 0);
     gap: var(--v-carousel-swiper-wrapper-gap);
+    list-style: none;
     touch-action: pan-y;
 }
 

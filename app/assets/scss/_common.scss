@@ -8,3 +8,12 @@ body {
     outline: 2px solid var(--theme-color-content-primary, currentColor);
     outline-offset: 6px;
 }
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
