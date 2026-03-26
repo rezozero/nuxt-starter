@@ -13,8 +13,8 @@ const mainMenu = computed(() => mainMenuWalker.value && useRoadizMenu(mainMenuWa
     <footer
         role="contentinfo"
     >
-        <h1>{{ footerData?.item.title }}</h1>
-        <nav role="navigation">
+        <h2>{{ footerData?.item.title }}</h2>
+        <nav>
             <ul v-if="mainMenu?.children">
                 <li
                     v-for="(child, index) in mainMenu.children"
