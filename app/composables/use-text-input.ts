@@ -33,7 +33,11 @@ export function useTextInput(props: TextInputProps, emit: EmitFunction, element:
     )
 
     watch(model, (value) => {
-        emit('update:modelValue', typeof value === 'string' ? value : undefined)
+        const nextValue = typeof value === 'string' ? value : undefined
+
+        if (nextValue === props.modelValue) return
+
+        emit('update:modelValue', nextValue)
     })
 
     onMounted(() => {

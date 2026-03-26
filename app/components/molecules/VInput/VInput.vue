@@ -51,6 +51,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
                 :step="step"
                 :type="type"
                 :value="model"
+                :max="props.type === 'datetime-local' ? '9999-12-31T23:59' : undefined"
                 @blur="onBlur"
                 @focus="onFocus"
                 @input="onInput"
