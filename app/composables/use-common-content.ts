@@ -5,21 +5,22 @@ import type { NSMenu, NSMenuLink } from '~~/types/roadiz'
 // add here all the available reachable types (NSPage, NSFooter, ...) from the Roadiz exported types
 type MenuItem = NSMenuLink | NSMenu
 
+type CommonContentMenus = Record<typeof MENU_SLUGS[number], RoadizWalkerKnown<NSMenu, MenuItem>>
+// TODO: replace RoadizNodesSources with NSFooter when the type will be exported from Roadiz
+type CommonContentFooters = Record<typeof FOOTER_SLUGS[number], RoadizWalkerKnown<RoadizNodesSources>>
+
 export interface CommonContent {
     home?: RoadizNodesSources
     head?: RoadizNodesSourcesHead
-    menus?: Record<
-        typeof MENUS_KEYS[number],
-        RoadizWalkerKnown<NSMenu, MenuItem>
-    >
+    menus?: Partial<CommonContentMenus>
+    footers?: Partial<CommonContentFooters>
     errorPage?: RoadizWalker
-    // footers?: Record<typeof FOOTER_MENUS_KEYS[number], RoadizWalkerKnown<NSFooter>>
     accessibility?: RoadizNodesSources
 }
 
 export const COMMON_CONTENT_KEY = 'commonContent'
-export const MENUS_KEYS = ['mainMenuWalker'] as const
-// export const FOOTER_MENUS_KEYS = ['footerWalker'] as const
+export const MENU_SLUGS = ['mainMenuWalker', 'footerMenuWalker'] as const
+export const FOOTER_SLUGS = ['footerWalker'] as const
 
 // the useCommonContentFetch() function should be called before this function
 export function useCommonContent() {
