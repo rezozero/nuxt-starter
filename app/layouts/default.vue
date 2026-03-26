@@ -71,7 +71,7 @@ useHead({
                 <NuxtPage />
             </slot>
         </div>
-        <VFooter />
+        <VFooter id="footer" />
     </div>
 </template>
 
