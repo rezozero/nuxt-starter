@@ -1,123 +1,101 @@
 # Nuxt starter
 
-## Application overview
+Nuxt starter for Roadiz-driven sites and platforms, with UI stories, i18n, optimized images, and a production-ready Docker setup.
 
-- Nuxt as framework
-- Vite for development and build
-- SCSS for styles
-- Typescript for scripts
-- PNPM as package manager
-- EsLint / StyleLint for linting and code formatting
+## Quick start
 
-##  Environment variables
-
-Duplicate the `.env.sample` file and rename it to `.env`.  
-Fill in the environment variables with the correct values.
-
-## Setup
-
-Make sure to install the dependencies:
+1) Duplicate `.env.sample` into `.env` and fill the required values.
+2) Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+3) Start the dev server:
 
 ```bash
 pnpm dev
 ```
-Start the development server on `http://localhost:6006` with stories preset (use the `.env.stories` file):
+
+4) Open `http://localhost:3000`.
+5) (Optional) Start stories:
 
 ```bash
-docker compose up -d // start the Intervention Request service
+docker compose up -d
 pnpm dev:stories
 ```
 
-## Production
+## Architecture in 2 minutes
 
-Build the application for production:
+- Dynamic routing via Roadiz in `app/pages/[...slug].vue`.
+- Pages come from a Roadiz web response and render through global blocks.
+- Stories are available on `/_stories` to preview components.
+- Maintenance page is generated via a dedicated build.
+
+Full details: `docs/architecture.md`.
+
+## Folder structure
+
+- `app/pages` Nuxt routes (catch-all for Roadiz)
+- `app/components` atomic design components (atoms, molecules, organisms, blocks)
+- `app/assets` images, icons, styles, story fixtures
+- `server` Nitro server API and story assets
+- `i18n` locales and config
+
+## Prerequisites
+
+- Node `24.12.0`
+- PNPM `9.12.0`
+
+## Environment (.env)
+
+Duplicate `.env.sample` into `.env`, then fill in:
+
+- `NUXT_PUBLIC_SITE_URL`, `NUXT_PUBLIC_SITE_ENV`
+- `NUXT_PUBLIC_API_URL` (if using a remote API)
+- `NUXT_PUBLIC_INTERVENTION_REQUEST_*` for the image provider
+- `XILOFONE_*` if you want to fetch translations
+
+The full list and usage details are in `docs/architecture.md`.
+
+## Useful commands
 
 ```bash
+## Development
+pnpm dev
+## Stories (UI)
+pnpm dev:stories
+## Production build
 pnpm build
-```
-
-Locally preview production build:
-
-```bash
+## Production preview
 pnpm preview
-```
 
-## Code quality and formatting
-
-Run the following command to lint and format the code:
-
-```bash
-pnpm lint
-```
-
-### Lint and format script (JS / Vue files)
-
-```bash
-pnpm lint:js
-```
-
-### Lint and format style (CSS / SCSS / Vue files)
-
-```bash
+## Lint and format style (CSS / SCSS / Vue files)
 pnpm lint:css
-```
-
-### Lint fix (script and style)
-
-```bash
+## Lint fix (script and style)
 pnpm lint-fix
 ```
 
-## I18n
 
-The application uses `nuxt-i18n` module for internationalization.  
-Please refer to the [documentation](https://v8.i18n.nuxtjs.org/) for more information.
 
-The localized messages come from Xilofone, our translation management system.  
-The messages can be fetched automatically using the `@rezo-zero/xilofone-fetch` script.  
-Fill the Xilofone env variables in the `.env` file.
+## i18n
 
-```dotenv
-XILOFONE_BASE_URL=https://xilofone.rezo-zero.com
-XILOFONE_USERNAME=
-XILOFONE_PASSWORD=
-XILOFONE_FILE_ID=
-XILOFONE_OUTPUT=assets/locales/
-```
+Translations come from Xilofone and can be fetched with:
 
-Run the following command to fetch the messages:
 ```bash
 pnpm xilo
 ```
 
-## Image
+nuxt-i18n docs: https://v8.i18n.nuxtjs.org/
 
-The application uses `@nuxt/image` module.  
-Please refer to the Nuxt image module [documentation](https://image.nuxt.com/) for more information.
+## Images
 
-The provider by default is Intervention Request.  
-Fill the .env file with the values for the provider.
-```dotenv
-NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL=
-NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL=
-NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH=
-```
-See the provider [documentation](https://github.com/rezozero/intervention-request-provider) for more information.
+Nuxt Image is configured with the Intervention Request provider.
+Docs: https://image.nuxt.com/
 
 ## SVG
 
-### Single file
-
-Use `vite-svg-loader` to import SVG file.  
-See the plugin [documentation](https://github.com/jpkleemans/vite-svg-loader) for more information.
+Import an SVG as a component:
 
 ```vue
 <script setup lang="ts">
@@ -125,77 +103,47 @@ import IconCheck from '~/assets/images/icons/check.svg?component'
 </script>
 
 <template>
-    <div>
-        <IconCheck />
-    </div>
+    <IconCheck />
 </template>
 ```
 
-### Icon module
-
-All the SVG files in `~/assets/images/icons` can be displayed using the VIcon component.
-Set the file name to display svg as a background-image or mask-image element.
-See the module `@nuxt/icon` [documentation](https://nuxt.com/modules/icon) for more information.
-
-```vue
-<template>
-    <div>
-        <VIcon name="check" />
-    </div>
-</template>
-```
-
+For icons, use `VIcon` with assets in `app/assets/images/icons`.
 
 ## Stories
 
-The application uses `@rezo-zero/nuxt-stories` module.  
+`*.stories.vue` files are exposed on `/_stories`.
+A layout is required for correct display.
 
-All the files with the `.stories.vue` extension are automatically imported and displayed in the stories.   
-The stories are available on `/_stories`.
+## Maintenance
 
-The app must use a layout (at least a default one) for allowing the stories to be displayed.  
-See Nuxt stories [caveat section](https://github.com/rezozero/nuxt-stories?tab=readme-ov-file#caveats).
+The maintenance build generates a static page:
 
-Checkout the Nuxt stories [documentation](https://github.com/rezozero/nuxt-stories) for more information.
-
+```bash
+pnpm generate:maintenance
+```
 
 ## Monitoring
 
-Sentry is included in the application for error monitoring.
-
-Fill the .env file with the values for enabling Sentry.
-```dotenv
-SENTRY_DSN=
-```
-
+Sentry is configured via `NUXT_PUBLIC_SENTRY_DSN`.
 
 ## Sitemap
 
-The application uses `@nuxtjs/sitemap` module.  
-It generates a sitemap from the `pages/` directory.
-Dynamic routes can be added with the server route `/api/sitemap`.
-
-Read the full module documentation [here](https://www.nuxtseo.com/sitemap/getting-started/installation).
+Sitemap is generated by `@nuxtjs/sitemap` with `/api/sitemap` as a source.
 
 ## Docker build
 
-The application can be built and run in a Docker container. This starter provide a multi-stage Dockerfile
-with a production build and a Nginx server.
-
-You can test build node image with the following command:
+Node build:
 
 ```bash
 docker buildx build --target node-prod -t nuxt-starter/node .
 ```
 
-Or use docker buildx bake to build all images in parallel. Update `docker-bake.hcl` file with your own values.
+Full build with bake:
 
 ```bash
 docker buildx bake
 ```
 
-This starter provide a .gitlab-ci.yml example file for a CI/CD pipeline using docker build.
-
 ## Contributing
 
-Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
+See `CONTRIBUTING.md`.
