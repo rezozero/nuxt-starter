@@ -14,33 +14,31 @@ const mainMenu = computed(() => mainMenuWalker.value && useRoadizMenu(mainMenuWa
         role="contentinfo"
     >
         <h2>{{ footerData?.item.title }}</h2>
-        <nav>
-            <ul v-if="mainMenu?.children">
-                <li
-                    v-for="(child, index) in mainMenu.children"
-                    :key="index"
+        <ul v-if="mainMenu?.children">
+            <li
+                v-for="(child, index) in mainMenu.children"
+                :key="index"
+            >
+                <VRoadizLink
+                    :reference="child.reference"
+                    :url="child.url"
                 >
-                    <VRoadizLink
-                        :reference="child.reference"
-                        :url="child.url"
+                    {{ child?.title }}
+                </VRoadizLink>
+                <ul v-if="child.children">
+                    <li
+                        v-for="(subChild, subIndex) in child.children"
+                        :key="subIndex"
                     >
-                        {{ child?.title }}
-                    </VRoadizLink>
-                    <ul v-if="child.children">
-                        <li
-                            v-for="(subChild, subIndex) in child.children"
-                            :key="subIndex"
+                        <VRoadizLink
+                            :reference="subChild.reference"
+                            :url="subChild.url"
                         >
-                            <VRoadizLink
-                                :reference="subChild.reference"
-                                :url="subChild.url"
-                            >
-                                {{ subChild?.title }}
-                            </VRoadizLink>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+                            {{ subChild?.title }}
+                        </VRoadizLink>
+                    </li>
+                </ul>
+            </li>
+        </ul>
     </footer>
 </template>
