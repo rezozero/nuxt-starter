@@ -73,7 +73,7 @@ const rootClasses = computed(() => {
     }
 
     &--status-error {
-        background-color: rgba(225, 64, 64, 0.10);
+        background-color: rgb(225, 64, 64, 10%);
         color: #E14040;
     }
 

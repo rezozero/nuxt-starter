@@ -27,8 +27,10 @@
     content: '';
 
     @media (prefers-reduced-motion: reduce) {
-        animation: none;
-        background: none;
+        @at-root #{&} {
+            animation: none;
+            background: none;
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { NuxtLink } from '#components'
+import SearchParam from '~/constants/search-param'
 
 const props = defineProps({
     pending: Boolean,
@@ -7,12 +8,13 @@ const props = defineProps({
 
 const route = useRoute()
 const page = computed(() => {
-    return route.query.page ? parseInt(route.query.page as string) : 1
+    const page = route.query[SearchParam.PAGE]
+    return page ? parseInt(page as string) : 1
 })
 const to = computed(() => {
     if (props.pending) return
 
-    return { path: route.path, query: { ...route.query, page: page.value + 1 } }
+    return { path: route.path, query: { ...route.query, [SearchParam.PAGE]: page.value + 1 } }
 })
 </script>
 

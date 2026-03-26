@@ -4,16 +4,19 @@ import type { UseHeadInput } from 'unhead/types'
 
 export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: RoadizAlternateLink[]) {
     const nuxtApp = useNuxtApp()
-    const route = useRoute()
     const runtimeConfig = useRuntimeConfig()
     const { $i18n } = nuxtApp
+
     const script: UseHeadInput['script'] = []
-    const link: UseHeadInput['link'] = [
-        {
+    const link: UseHeadInput['link'] = []
+
+    const canonicalUrl = useCurrentPageSearchParams().canonicalUrl.value
+    if (canonicalUrl) {
+        link.push({
             rel: 'canonical',
-            href: joinURL(runtimeConfig.public.site.url, webResponse?.item?.url || route.path),
-        },
-    ]
+            href: canonicalUrl,
+        })
+    }
 
     // ALTERNATE LINKS
     const alternateLinksHead = alternateLinks
@@ -36,7 +39,10 @@ export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: 
         link,
         meta: [
             // app version
-            { name: 'version', content: runtimeConfig.public.version },
+            {
+                name: 'version',
+                content: runtimeConfig.public.version,
+            },
         ],
     })
 }

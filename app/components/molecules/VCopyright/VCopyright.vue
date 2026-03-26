@@ -89,7 +89,7 @@ $leave-delay: 0.1s;
     }
 
     &:has(.button[aria-expanded="true"]) {
-        --v-copyright-border-color: var(--colors-copyright-border-dialog, rgba(1, 1, 1, 15%));
+        --v-copyright-border-color: var(--colors-copyright-border-dialog, rgb(1, 1, 1, 15%));
 
         background-color: var(--colors-surface-primary, #FFF);
         transition-delay: initial;
