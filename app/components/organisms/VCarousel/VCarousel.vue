@@ -185,7 +185,7 @@ onBeforeUnmount(disposeSwiper)
             aria-atomic="false"
             class="visually-hidden"
         >
-            {{ $t('carousel.live_region', { index: slideIndex + 1, length: snapLength }) }}
+            {{ $t('carousel.progress', { index: slideIndex + 1, length: snapLength }) }}
         </div>
 
         <component
