@@ -23,9 +23,11 @@ const defaultComponentMaps: ComponentsMap = {
     'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
 }
 
+// Normalize backend datetime values to the HTML `datetime-local` format (YYYY-MM-DDTHH:mm)
+// because the input rejects seconds/timezone and would otherwise re-emit a modified value,
+// causing a reactive update loop when seconds are present.
 const datetimePattern = '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$'
 const datetimePatternRegExp = new RegExp(datetimePattern)
-
 const isDateTimeLocalNoSeconds = (value: string): boolean => datetimePatternRegExp.test(value)
 
 const normalizeDateTimeLocal = (value: string): string => {
