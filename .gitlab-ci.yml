@@ -1,4 +1,5 @@
 stages:
+    - test
     - build
     - release
 
@@ -7,11 +8,31 @@ include:
     - template: Jobs/Secret-Detection.gitlab-ci.yml
     - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
+test_audit:
+    image: node:24.14.1-alpine
+    stage: test
+    interruptible: true
+    rules:
+        -   if: '$CI_COMMIT_BRANCH == "develop"'
+        -   if: '$CI_COMMIT_TAG'
+        -   if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    cache:
+        paths:
+            - ./node_modules/
+            - ./.pnpm-store/
+    before_script:
+        - corepack enable
+        - pnpm config set store-dir .pnpm-store
+        - pnpm install --frozen-lockfile
+    allow_failure: true
+    script:
+        - pnpm audit --audit-level=moderate --prod
+
 build_merge_requests:
     stage: build
     image: docker:git
-    only:
-        - merge_requests
+    rules:
+        - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     services:
         - docker:dind
     variables:
@@ -19,7 +40,6 @@ build_merge_requests:
         DOCKER_TLS_CERTDIR: "/certs"
         # Provide env vars for docker bake
         REGISTRY: ${CI_REGISTRY_IMAGE}
-    when: on_success
     script:
         # Print docker image to be built with their args
         - "docker buildx bake --print"
@@ -28,8 +48,8 @@ build_merge_requests:
 build_develop:
     stage: build
     image: docker:git
-    only:
-        - develop
+    rules:
+        - if: $CI_COMMIT_BRANCH == "develop"
     services:
         - docker:dind
     variables:
@@ -37,7 +57,6 @@ build_develop:
         DOCKER_TLS_CERTDIR: "/certs"
         # Provide env vars for docker bake
         REGISTRY: ${CI_REGISTRY_IMAGE}
-    when: on_success
     script:
         # Connect to your Gitlab Registry
         - "echo \"Registry image: ${CI_REGISTRY_IMAGE} for develop\""
@@ -47,8 +66,8 @@ build_develop:
 build_production:
     stage: build
     image: docker:git
-    only:
-        - tags
+    rules:
+        - if: $CI_COMMIT_TAG
     services:
         - docker:dind
     variables:
@@ -57,7 +76,6 @@ build_production:
         # Provide env vars for docker bake
         VERSION: ${CI_COMMIT_TAG}
         REGISTRY: ${CI_REGISTRY_IMAGE}
-    when: on_success
     script:
         # Connect to your Gitlab Registry
         - "echo \"Registry image: ${CI_REGISTRY_IMAGE} for tag ${CI_COMMIT_TAG}\""
@@ -69,7 +87,8 @@ build_production:
 # ==========================================
 create_gitlab_release:
     stage: release
-    image: registry.gitlab.com/gitlab-org/release-cli:latest
+    image: registry.gitlab.com/gitlab-org/cli:latest
+    allow_failure: true
     rules:
         - if: $CI_COMMIT_TAG
     script:
