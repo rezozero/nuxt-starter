@@ -23,6 +23,34 @@ const defaultComponentMaps: ComponentsMap = {
     'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
 }
 
+// Normalize backend datetime values to the HTML `datetime-local` format (YYYY-MM-DDTHH:mm)
+// because the input rejects seconds/timezone and would otherwise re-emit a modified value,
+// causing a reactive update loop when seconds are present.
+const datetimePattern = '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$'
+const datetimePatternRegExp = new RegExp(datetimePattern)
+const isDateTimeLocalNoSeconds = (value: string): boolean => datetimePatternRegExp.test(value)
+
+const normalizeDateTimeLocal = (value: string): string => {
+    if (!value) return ''
+    if (isDateTimeLocalNoSeconds(value)) return value
+
+    const yearMatch = value.match(/^(\d{4})/)
+    if (!yearMatch?.[1]) return ''
+
+    const year = Number.parseInt(yearMatch[1], 10)
+    if (year > 9999) return ''
+
+    const parsed = Date.parse(value)
+    if (Number.isNaN(parsed)) return ''
+
+    // Handle timezones between data and client
+    const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
+    const localISOTime = new Date(parsed - tzOffset).toISOString()
+    const localISODateTime = localISOTime.split('.')[0] || ''
+
+    return localISODateTime.slice(0, 16)
+}
+
 export default function createFormChildren(
     parentProps: FactoryPropsTypes,
     emit: EmitType,
@@ -280,15 +308,12 @@ export default function createFormChildren(
                     props.step = '1'
                 }
                 else if (type === 'datetime' || type === 'datetime-local') {
-                    if (props.modelValue && typeof props.modelValue === 'string') {
-                        // Handle timezones between data and client
-                        const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
-                        const localISOTime = new Date(Date.parse(props.modelValue) - tzOffset).toISOString()
-                        props.modelValue = localISOTime.split('.')[0]
-                    }
-                    else {
-                        props.modelValue = ''
-                    }
+                    const normalizedValue = typeof props.modelValue === 'string'
+                        ? normalizeDateTimeLocal(props.modelValue)
+                        : ''
+
+                    props.modelValue = normalizedValue
+                    props.pattern = datetimePattern
                     props.step = 'unknown'
                     props.type = 'datetime-local'
                 }
