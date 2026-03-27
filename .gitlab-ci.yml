@@ -9,7 +9,7 @@ include:
     - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
 test_audit:
-    image: node:24-alpine
+    image: node:24.14.1-alpine
     stage: test
     interruptible: true
     rules:
@@ -22,6 +22,7 @@ test_audit:
             - ./.pnpm-store/
     before_script:
         - corepack enable
+        - pnpm config set store-dir .pnpm-store
         - pnpm install --frozen-lockfile
     allow_failure: true
     script:
