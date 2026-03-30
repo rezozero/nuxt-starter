@@ -37,7 +37,7 @@
     "husky": "^9.1.7",
     "include-media": "^2.0.0",
     "msw": "^2.12.14",
-    "nuxt": "^4.3.1",
+    "nuxt": "4.3.x",
     "postcss-html": "^1.8.1",
     "postcss-pxtorem": "^6.1.0",
     "sass": "^1.98.0",
