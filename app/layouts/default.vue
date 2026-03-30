@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
-import VFooter from '~/components/organisms/VFooter/VFooter.vue'
 
 // init Roadiz page data (i.e. dynamic page)
 const route = useRoute()
