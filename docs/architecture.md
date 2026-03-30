@@ -23,17 +23,9 @@ HTTP request
 - `defineI18nRoute(false)` disables i18n routes for this page because Roadiz owns the URL.
 - If the web response URL does not match the current route, a 301 redirect is applied.
 
-## Components and structure
+## Roadiz blocks
 
-Components are organized with atomic design:
-
-- `app/components/atoms`
-- `app/components/molecules`
-- `app/components/organisms`
-- `app/components/blocks`
-
-Blocks are imported globally with the `.global.vue` suffix to avoid including stories
-in production bundles.
+Roadiz blocks components are located into `app/blocks` and are imported globally.
 
 ## UI stories
 

@@ -28,8 +28,7 @@ Key modules:
 
 ## Architecture
 
-- Components live under `app/components` and follow atomic design:
-  - atoms, molecules, organisms, blocks
+- Components live under `app/components`
 - Prefer small, focused, reusable components.
 - Follow established patterns before introducing new ones.
 
