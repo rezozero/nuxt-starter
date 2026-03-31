@@ -4,7 +4,7 @@ export function useApiUrl() {
     const runtimeConfig = useRuntimeConfig()
 
     return joinURL(
-        (runtimeConfig.public.api?.url || runtimeConfig.public.site?.url || '') as string,
+        useApiBaseUrl(),
         (runtimeConfig.public.api?.endpointPrefix || '') as string,
     )
 }

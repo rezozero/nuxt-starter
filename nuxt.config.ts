@@ -49,6 +49,10 @@ export default defineNuxtConfig({
     },
     css: ['~/assets/scss/main.scss'],
     runtimeConfig: {
+        // Server-only: overrides api.url for Node SSR context (e.g. internal cluster URL).
+        // Never exposed to the browser bundle.
+        // Falls back to NUXT_PUBLIC_API_URL when unset.
+        serverApiUrl: '',
         public: {
             version,
             site: {
