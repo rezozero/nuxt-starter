@@ -31,6 +31,7 @@ export function useRoadizSeoMeta(webResponse?: RoadizWebResponse) {
                     quality: 70,
                 },
                 {
+                    // @ts-expect-error interventionRequest is a custom provider not in generated types
                     provider: 'interventionRequest',
                 },
             )

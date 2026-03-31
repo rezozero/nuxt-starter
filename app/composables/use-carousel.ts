@@ -51,8 +51,10 @@ export function useCarousel(options?: UseCarouselOptions) {
     // Intersection observer
     const { stop: stopIntersectionObserver } = useIntersectionObserver(
         element,
-        ([{ isIntersecting }]) => {
-            isVisible.value = isIntersecting
+        ([entry]) => {
+            if (entry) {
+                isVisible.value = entry.isIntersecting
+            }
         },
     )
 

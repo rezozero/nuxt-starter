@@ -1,5 +1,3 @@
-<script lang="ts" setup></script>
-
 <template>
     <NuxtStory :class="$style.root">
         <VTag label="Tag label default" />

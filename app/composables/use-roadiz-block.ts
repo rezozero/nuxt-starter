@@ -1,4 +1,5 @@
 import type { RoadizNodesSources } from '@roadiz/types'
+import type { UseRoadizBlockProps } from '~~/types/app'
 
 export interface UseRoadizBlockOptions {
     props: UseRoadizBlockProps

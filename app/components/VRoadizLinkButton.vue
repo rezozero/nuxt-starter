@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-import { vRoadizLinkProps } from '~/components/molecules/VRoadizLink/VRoadizLink.vue'
-import { vButtonProps } from '~/components/molecules/VButton/VButton.vue'
+import { vRoadizLinkProps } from '~/components/VRoadizLink.vue'
+import { vButtonProps } from '~/components/VButton.vue'
 
 export type VButtonEmphasis = 'primary' | 'secondary' | 'ternary'
 

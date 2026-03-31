@@ -1,16 +1,36 @@
 <script lang="ts">
-import type { ExtractPropTypes } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import { imgProps } from '#image/components/NuxtImg.vue'
-import { getInt, parseSize } from '#image/utils'
+import type { ExtractPropTypes, PropType } from 'vue'
 
+// TODO: get the Nuxt image props from the actual component instead of hardcoding them here,
+// to avoid duplication and potential mismatches.
 export const vImgProps = {
-    ...imgProps,
-    loading: {
-        type: imgProps.loading.type,
-        // overrides NuxtImg default value
-        default: 'lazy',
+    // Nuxt Image v2 props (mirrors BaseImageProps + ImageProps from @nuxt/image)
+    src: { type: String },
+    format: { type: String },
+    quality: { type: [String, Number] as PropType<string | number> },
+    background: { type: String },
+    fit: { type: String },
+    modifiers: { type: Object as PropType<ImageOptions['modifiers']> },
+    preset: { type: String },
+    provider: { type: null as unknown as PropType<string> },
+    sizes: { type: [String, Object] as PropType<string | Record<string, unknown>> },
+    densities: { type: String },
+    preload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority: 'auto' | 'high' | 'low' }> },
+    width: { type: [String, Number] as PropType<string | number> },
+    height: { type: [String, Number] as PropType<string | number> },
+    crossorigin: { type: [String, Boolean] as PropType<'anonymous' | 'use-credentials' | boolean> },
+    nonce: { type: String },
+    placeholder: {
+        type: [Boolean, String, Number, Array] as PropType<
+            boolean | string | number | [number, number, number?, number?]
+        >,
     },
+    // HTML img attributes
+    alt: { type: String },
+    loading: { type: String as PropType<'lazy' | 'eager'>, default: 'lazy' },
+    decoding: { type: String as PropType<'async' | 'auto' | 'sync'> },
+    longdesc: { type: String },
 }
 
 export type VImgProps = ExtractPropTypes<typeof vImgProps>
@@ -51,16 +71,23 @@ export default defineComponent({
         })
 
         const $img = useImage()
+        const parseSize = (input?: string | number): number | undefined => {
+            if (typeof input === 'number') return input
+            if (typeof input === 'string') {
+                const n = parseInt(input, 10)
+                return isNaN(n) ? undefined : n
+            }
+        }
         const width = computed(() => parseSize(props.width))
         const height = computed(() => parseSize(props.height))
         const modifiers = computed<ImageOptions['modifiers']>(() => ({
             ...props.modifiers,
             width: width.value,
             height: height.value,
-            quality: getInt(props.quality || props.modifiers?.quality) || $img.options.quality,
+            quality: Number(props.quality || props.modifiers?.quality) || $img.options.quality,
             format: props.format || props.modifiers?.format,
         }))
-        const options = computed<ImageOptions>(() => ({
+        const options = computed(() => ({
             provider: props.provider,
             preset: props.preset,
             densities: props.densities,

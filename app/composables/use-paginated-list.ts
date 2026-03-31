@@ -1,4 +1,4 @@
-import { debounce } from '@antfu/utils'
+import { useDebounceFn } from '@vueuse/core'
 import type { Ref } from 'vue'
 import SearchParam from '~/constants/search-param'
 
@@ -22,7 +22,7 @@ export function usePaginatedList(options: Options) {
         scrollToTop()
     })
 
-    const scrollEndCallback = debounce(100, onScrollEnd)
+    const scrollEndCallback = useDebounceFn(onScrollEnd, 100)
     let scrollEndTimeout = -1
 
     function scrollToTop() {

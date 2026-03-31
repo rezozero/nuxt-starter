@@ -141,9 +141,12 @@ export async function useRoadizLoadMore<
                 deep: false,
                 pick: ['hydra:member', 'hydra:totalItems'],
                 onResponse({ response }) {
-                    if (cacheTagsKey) {
+                    if (cacheTagsKey && response._data) {
                         // temp assign cacheTags to response._data for useCacheTags()
-                        response._data.cacheTags = response.headers.get(cacheTagsKey)
+                        const cacheTagsHeader = response.headers.get(cacheTagsKey)
+                        if (cacheTagsHeader) {
+                            response._data.cacheTags = cacheTagsHeader
+                        }
                     }
                 },
             })

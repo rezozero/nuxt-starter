@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VModalAlign } from './VModal.vue'
+import type { VModalAlign } from '~/components/VModal.vue'
 
 const isOpen = ref(false)
 const hasLeave = ref(!isOpen.value)
@@ -9,7 +9,7 @@ const selectedAlign = ref<VModalAlign>('top-left')
 
 function onSelect(event: Event) {
     const el = event.target as HTMLSelectElement
-    selectedAlign.value = (el.options[el.selectedIndex].value as VModalAlign) || 'top-left'
+    selectedAlign.value = (el.options[el.selectedIndex]?.value as VModalAlign) || 'top-left'
 }
 
 function open() {

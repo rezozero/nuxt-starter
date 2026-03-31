@@ -3,11 +3,22 @@
         <VPopoverContent
             label="Label"
             open
-            style="margin: 0 auto"
+            :class="$style.root"
         >
-            <div style="min-width: 300px; padding-bottom: 40px">
+            <div :class="$style.item">
                 Content
             </div>
         </VPopoverContent>
     </NuxtStory>
 </template>
+
+<style lang="scss" module>
+.root {
+    margin: 0 auto;
+}
+
+.item {
+    min-width: 300px;
+    padding-bottom: 40px;
+}
+</style>

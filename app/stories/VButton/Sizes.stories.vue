@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { vButtonSizes as sizes } from '~/components/molecules/VButton/VButton.vue'
+import { vButtonSizes as sizes } from '~/components/VButton.vue'
 </script>
 
 <template>

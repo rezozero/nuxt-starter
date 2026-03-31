@@ -8,9 +8,7 @@ const snapGridLength = ref(numSlides)
 
 <template>
     <NuxtStory>
-        <div
-            style="overflow: hidden;width: 500px; max-width: 100vw; border: 1px solid #ccc"
-        >
+        <div :class="$style.root">
             <VCarousel
                 v-slot="{ slideClass }"
                 v-model:index="slideIndex"
@@ -29,3 +27,12 @@ const snapGridLength = ref(numSlides)
         </div>
     </NuxtStory>
 </template>
+
+<style lang="scss" module>
+.root {
+    overflow: hidden;
+    width: 500px;
+    max-width: 100vw;
+    border: 1px solid #ccc;
+}
+</style>

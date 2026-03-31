@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Theme } from '~~/types/theme'
+
 const { themes } = useAppConfig()
 </script>
 
@@ -8,7 +10,7 @@ const { themes } = useAppConfig()
             v-for="theme in themes"
             :key="theme"
             v-slot="{ themeClass }"
-            :preferred-theme="theme"
+            :preferred-theme="(theme as Theme)"
         >
             <div :class="[themeClass, $style.item]">
                 <slot :theme="theme" />

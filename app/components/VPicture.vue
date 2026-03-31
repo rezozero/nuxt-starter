@@ -1,14 +1,15 @@
 <script lang="ts">
-import type { ExtractPropTypes } from 'vue'
+import type { ExtractPropTypes, ImgHTMLAttributes, PropType } from 'vue'
+import type { VImgProps } from '~/components/VImg.vue'
 import pick from 'lodash/pick'
-import { pictureProps } from '#image/components/NuxtPicture.vue'
-import { imgProps } from '#image/components/NuxtImg.vue'
-import VImg from '~/components/molecules/VImg/VImg.vue'
-import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
+import VImg, { vImgProps } from '~/components/VImg.vue'
+import VPictureSource from '~/components/VPictureSource.vue'
 
 export const vPictureProps = {
-    ...pictureProps,
-    placeholder: imgProps.placeholder,
+    ...vImgProps,
+    // NuxtPicture v2 extra props
+    legacyFormat: { type: String },
+    imgAttrs: { type: Object as PropType<ImgHTMLAttributes> },
 }
 
 export type VPictureProps = ExtractPropTypes<typeof vPictureProps>
@@ -22,15 +23,13 @@ export default defineComponent({
         provide('pictureProps', props)
 
         const $style = useCssModule()
-        const imgFilteredProps = computed(() => pick(props, Object.keys(imgProps)))
+        const imgFilteredProps = computed(() => pick(props, Object.keys(vImgProps)) as VImgProps)
 
         return () =>
             h('picture', { class: $style.root }, [
                 context.slots.default?.() || h(VPictureSource),
-                h(VImg, {
-                    ...imgFilteredProps.value,
-                    ...props.imgAttrs,
-                }),
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                h(VImg, { ...imgFilteredProps.value, ...props.imgAttrs } as any),
             ])
     },
 })

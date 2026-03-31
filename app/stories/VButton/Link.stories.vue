@@ -40,7 +40,7 @@ const firstRoute = router.options.routes[0]
                 icon-name="arrow-right"
             />
             <VButton
-                :label="`Route ${firstRoute.name?.toString()}`"
+                :label="`Route ${firstRoute?.name?.toString()}`"
                 :to="firstRoute"
             />
         </NuxtStoryVariant>
