@@ -9,5 +9,5 @@ export function useJoinApiUrl(path: string) {
             ? path.replace(prefixWithLeadingSlash, '')
             : path
 
-    return joinURL(useApiUrl(), formattedPath)
+    return joinURL(getApiUrl(), formattedPath)
 }

@@ -1,6 +1,6 @@
 import { joinURL } from 'ufo'
 
-export function useApiUrl() {
+export function getApiUrl() {
     const runtimeConfig = useRuntimeConfig()
 
     return joinURL(

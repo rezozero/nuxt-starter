@@ -28,3 +28,5 @@ siege.txt
 !.env.stories
 
 .claude
+
+.nuxt-stories
