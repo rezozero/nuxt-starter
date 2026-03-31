@@ -1,6 +1,3 @@
-<script setup lang="ts">
-</script>
-
 <template>
     <NuxtStory>
         <NuxtStoryVariant>
@@ -34,7 +31,7 @@
 </template>
 
 <style lang="scss" module>
-@use './v-button';
+@use '~/assets/scss/components/v-button';
 
 .button {
     &--sm {

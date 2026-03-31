@@ -1,8 +1,10 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
+// TODO resolve : Cannot find module '#image/components/NuxtImg.vue' or its corresponding type declarations.
 import { imgProps } from '#image/components/NuxtImg.vue'
-import { getInt, parseSize } from '#image/utils'
+// TODO resolve : Cannot find module '#image/utils' or its corresponding type declarations.
+import { parseSize } from '#image/utils'
 
 export const vImgProps = {
     ...imgProps,
@@ -57,7 +59,7 @@ export default defineComponent({
             ...props.modifiers,
             width: width.value,
             height: height.value,
-            quality: getInt(props.quality || props.modifiers?.quality) || $img.options.quality,
+            quality: Number(props.quality || props.modifiers?.quality) || $img.options.quality,
             format: props.format || props.modifiers?.format,
         }))
         const options = computed<ImageOptions>(() => ({

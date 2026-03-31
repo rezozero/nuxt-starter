@@ -5,7 +5,5 @@
 <style lang="scss" module>
 .root {
     display: inline;
-
-    // color: red;
 }
 </style>

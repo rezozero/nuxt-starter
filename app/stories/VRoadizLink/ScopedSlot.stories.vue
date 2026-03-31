@@ -1,5 +1,3 @@
-<script lang="ts" setup></script>
-
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Node Reference">

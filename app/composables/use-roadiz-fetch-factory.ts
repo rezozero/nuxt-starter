@@ -17,9 +17,9 @@ export function useRoadizFetchFactory<DefaultR extends NitroFetchRequest = Nitro
                 }
 
                 context.options.headers = {
-                    ...context.options.headers,
+                    ...(context.options.headers as unknown as Record<string, string>),
                     Authorization: `Bearer ${token.value}`,
-                }
+                } as unknown as typeof context.options.headers
             }
             /*
              * Add locale to every request if it is not a web response request.

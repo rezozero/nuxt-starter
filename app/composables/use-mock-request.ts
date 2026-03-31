@@ -3,6 +3,7 @@ import type { RequestHandler } from 'msw'
 export function useMockRequest(...handlers: RequestHandler[]) {
     const { $msw } = useNuxtApp()
 
+    // TODO resolve : Property 'use' does not exist on type '{}'.
     $msw?.use(...handlers)
 
     const router = useRouter()
@@ -14,7 +15,7 @@ export function useMockRequest(...handlers: RequestHandler[]) {
 
         $msw?.resetHandlers(...handlers)
         // maybe other handlers have been added in the meantime, then we filter them out
-        const newHandlers = $msw?.listHandlers().filter(handler => !handlers.includes(handler))
+        const newHandlers = $msw?.listHandlers().filter((handler: RequestHandler) => !handlers.includes(handler))
 
         if (newHandlers) $msw?.resetHandlers(...newHandlers)
 

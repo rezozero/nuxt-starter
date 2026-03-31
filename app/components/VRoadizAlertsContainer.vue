@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { HydraCollection } from '@roadiz/types'
 import DataObserver from '~/utils/data-observer'
-import type { RoadizAlert } from '~/components/molecules/VRoadizAlert/VRoadizAlert.vue'
+import type { RoadizAlert } from '~/components/VRoadizAlert.vue'
 
 const ALERT_LIST_STORAGE_ID = 'alert-list'
 const alertList = ref<RoadizAlert[]>([])

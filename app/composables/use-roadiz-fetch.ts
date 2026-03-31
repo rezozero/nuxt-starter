@@ -27,5 +27,5 @@ export function useRoadizFetch<
     return useFetch<ResT, ErrorT, ReqT, Method, _ResT, DataT, PickKeys, DefaultT>(request, {
         ...opts,
         $fetch: opts?.$fetch || useRoadizFetchFactory(),
-    })
+    }) as AsyncData<PickFrom<DataT, PickKeys> | DefaultT, ErrorT | null>
 }

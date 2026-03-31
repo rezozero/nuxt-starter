@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
+import type { VSelectOption } from '~/components/VSelect.vue'
 
 const options: VSelectOption[] = [...Array(7)].map((_, i) => ({
     value: i.toString(),

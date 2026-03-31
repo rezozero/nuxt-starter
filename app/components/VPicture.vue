@@ -1,10 +1,12 @@
 <script lang="ts">
 import type { ExtractPropTypes } from 'vue'
 import pick from 'lodash/pick'
+// TODO resolve : Cannot find module '#image/components/NuxtPicture.vue' or its corresponding type declarations.
 import { pictureProps } from '#image/components/NuxtPicture.vue'
+// TODO resolve : Cannot find module '#image/components/NuxtImg.vue' or its corresponding type declarations.
 import { imgProps } from '#image/components/NuxtImg.vue'
-import VImg from '~/components/molecules/VImg/VImg.vue'
-import VPictureSource from '~/components/molecules/VPicture/VPictureSource.vue'
+import VImg from '~/components/VImg.vue'
+import VPictureSource from '~/components/VPictureSource.vue'
 
 export const vPictureProps = {
     ...pictureProps,

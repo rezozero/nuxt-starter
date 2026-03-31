@@ -7,8 +7,15 @@ const datePickerValue = ref({
 
 <template>
     <NuxtStory>
-        <div style="max-width: 500px; margin: 0 auto">
+        <div :class="$style.root">
             <VDatePicker v-model.range="datePickerValue" />
         </div>
     </NuxtStory>
 </template>
+
+<style lang="scss" module>
+.root {
+    max-width: 500px;
+    margin: 0 auto;
+}
+</style>

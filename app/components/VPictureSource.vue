@@ -2,7 +2,7 @@
 import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
 import type { SerializableHead } from 'unhead/types'
-import type { VPictureProps } from '~/components/molecules/VPicture/VPicture.vue'
+import type { VPictureProps } from '~/components/VPicture.vue'
 
 const props = defineProps({
     media: String,
@@ -26,26 +26,24 @@ const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
 
 const $img = useImage()
 
-const options: ImageOptions = computed(() => {
+const options = computed<ImageOptions>(() => {
     if (!pictureProps) return {}
 
     const picturePropsValue = toValue<VPictureProps>(pictureProps)
-    const $img = useImage()
 
     return {
         modifiers: {
             ...picturePropsValue?.modifiers,
             ...props.modifiers,
-            fit: props.fit || props.modifiers?.fit,
+            width: props.width || picturePropsValue?.width,
+            height: props.height || picturePropsValue?.height,
+            fit: props.fit || picturePropsValue?.modifiers?.fit,
             quality:
                 props.quality
-                || props.modifiers?.quality
                 || picturePropsValue?.quality
                 || picturePropsValue?.modifiers?.quality
                 || $img.options.quality,
         },
-        width: props.width || props.modifiers?.width || picturePropsValue?.width,
-        height: props.height || props.modifiers?.height || picturePropsValue?.height,
         provider: picturePropsValue?.provider,
         preset: picturePropsValue?.preset,
         sizes: props.sizes || picturePropsValue?.sizes || $img.options.screens,
@@ -54,7 +52,7 @@ const options: ImageOptions = computed(() => {
 
 const dimensions = computed(() => {
     const crop = options.value.modifiers?.crop
-    const result: number[] = [options.value.width, options.value.height]
+    const result = [options.value.modifiers?.width, options.value.modifiers?.height]
 
     // If the image has a crop modifier, set the width and height.
     if (typeof crop === 'string' && crop.includes('x')) {

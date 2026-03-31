@@ -26,7 +26,7 @@
 </template>
 
 <style lang="scss" module>
-@use '~/components/molecules/VButton/v-button';
+@use '~/assets/scss/components/v-button';
 
 .button-emphasis-updated {
     @include v-button.size('lg');
