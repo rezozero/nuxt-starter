@@ -1,7 +1,7 @@
 import type { Component, VNodeChild } from 'vue'
-import type { VSelectOption } from '~/components/molecules/VSelect/VSelect.vue'
-import type { FactoryPropsTypes } from '~/components/organisms/VForm/VFormElementFactory'
-import LazyVFormFieldset from '~/components/organisms/VForm/VFormFieldset.vue'
+import type { VSelectOption } from '~/components/VSelect.vue'
+import type { FactoryPropsTypes } from '~/components/VFormElementFactory'
+import LazyVFormFieldset from '~/components/VFormFieldset.vue'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 export type ComponentsMap = Record<string, Component | undefined>
@@ -9,18 +9,18 @@ export type ComponentsMap = Record<string, Component | undefined>
 type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
 
 const defaultComponentMaps: ComponentsMap = {
-    'inputList': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
-    'hiddenInput': defineAsyncComponent(() => import('~/components/atoms/VHiddenInput/VHiddenInput.vue')),
-    'captchaInput': defineAsyncComponent(() => import('~/components/molecules/VCaptchaInput/VCaptchaInput.vue')),
-    'input': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
+    'inputList': defineAsyncComponent(() => import('~/components/VInputList.vue')),
+    'hiddenInput': defineAsyncComponent(() => import('~/components/VHiddenInput.vue')),
+    'captchaInput': defineAsyncComponent(() => import('~/components/VCaptchaInput.vue')),
+    'input': defineAsyncComponent(() => import('~/components/VInput.vue')),
     'new-password': undefined,
-    'textarea': defineAsyncComponent(() => import('~/components/molecules/VTextarea/VTextarea.vue')),
+    'textarea': defineAsyncComponent(() => import('~/components/VTextarea.vue')),
     'markdown': undefined,
-    'checkbox': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
-    'select': defineAsyncComponent(() => import('~/components/molecules/VSelect/VSelect.vue')),
-    'file': defineAsyncComponent(() => import('~/components/molecules/VInput/VInput.vue')),
-    'selectExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
-    'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/molecules/VInputList/VInputList.vue')),
+    'checkbox': defineAsyncComponent(() => import('~/components/VInput.vue')),
+    'select': defineAsyncComponent(() => import('~/components/VSelect.vue')),
+    'file': defineAsyncComponent(() => import('~/components/VInput.vue')),
+    'selectExpanded': defineAsyncComponent(() => import('~/components/VInputList.vue')),
+    'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/VInputList.vue')),
 }
 
 // Normalize backend datetime values to the HTML `datetime-local` format (YYYY-MM-DDTHH:mm)

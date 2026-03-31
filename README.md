@@ -37,7 +37,8 @@ Full details: `docs/architecture.md`.
 ## Folder structure
 
 - `app/pages` Nuxt routes (catch-all for Roadiz)
-- `app/components` atomic design components (atoms, molecules, organisms, blocks)
+- `app/components` app components
+- `app/blocks` Roadiz blocks components
 - `app/assets` images, icons, styles, story fixtures
 - `server` Nitro server API and story assets
 - `i18n` locales and config

@@ -31,17 +31,11 @@ export default defineNuxtConfig({
     ],
     plugins,
     components: [
-        '~/components/atoms',
-        '~/components/molecules',
-        '~/components/organisms',
+        '~/components',
         {
-            path: '~/components/blocks',
+            path: '~/blocks',
             // As the blocks are used in the CMS, we need to import them globally.
             global: true,
-            // To avoid importing unnecessary components that are present in the blocks/ folder (e.g. the story files),
-            // we add a `global` suffix to the block components.
-            // Therefore only these components will be included into the production bundles.
-            extensions: ['.global.vue'],
         },
     ],
     devtools: { enabled: true },
