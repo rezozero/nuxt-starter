@@ -3,9 +3,9 @@
         <VPopoverContent
             label="Label"
             open
-            class="$style.root"
+            :class="$style.root"
         >
-            <div class="$style.item">
+            <div :class="$style.item">
                 Content
             </div>
         </VPopoverContent>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import download from '~/assets/stories/fixtures/documents//download-01.json'
+import download from '~/assets/stories/fixtures/documents/download-01.json'
 import page from '~/assets/stories/fixtures/nodes/page.json'
 import { joinURL } from 'ufo'
 
