@@ -16,10 +16,16 @@ export default defineNuxtConfig({
         '~': fileURLToPath(new URL('../app', import.meta.url)),
         '@': fileURLToPath(new URL('../app', import.meta.url)),
     },
+    ssr: false,
     modules: [
         '@rezo-zero/nuxt-stories',
     ],
-    ssr: false,
+    routeRules: {
+            '/**': {
+                // Reset the app headers to prevent conflicts with the stories shell (e.g. CSP)
+                headers: null,
+            },
+        },
     stories: {
         mode: 'shell',
         frameCwd: '../',
