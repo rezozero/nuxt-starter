@@ -4,7 +4,7 @@ import createFormChildren from '~/utils/form/create-form-children'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { Violation } from '~~/types/form'
 
-type FormModelValue = Record<string, unknown>
+export type FormModelValue = Record<string, unknown>
 
 export interface FactoryPropsTypes {
     schema?: JsonSchemaExtended

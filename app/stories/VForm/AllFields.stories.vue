@@ -5,6 +5,8 @@ import type { JsonSchemaExtended } from '~~/types/json-schema'
 
 <template>
     <NuxtStory>
-        <VForm :schema="(schema as JsonSchemaExtended)" />
+        <VForm
+            :schema="(schema as JsonSchemaExtended)"
+        />
     </NuxtStory>
 </template>

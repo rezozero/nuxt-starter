@@ -70,21 +70,26 @@ const onSelectChange = (event: Event) => {
 
 <template>
     <VFieldWrapper
+        :id="id"
         :disabled="disabled"
         :filled="isFilled"
         :focused="isFocused"
-        :hide-separator="multiple"
-        :inline="inline"
         :label="label"
         :errors="errors"
+        :description="description"
     >
-        <div :class="[$style.inner, multiple && $style['inner--multiple']]">
+        <template
+            #default="scopedSlot"
+        >
             <select
+                :id="id"
                 :class="$style.select"
                 :disabled="disabled"
                 :multiple="multiple"
+                :autocomplete="autocomplete"
                 :name="name"
                 :required="required"
+                :aria-describedby="scopedSlot?.describedby || undefined"
                 @blur="() => (isFocused = false)"
                 @change="onSelectChange"
                 @focus="() => (isFocused = true)"
@@ -105,57 +110,24 @@ const onSelectChange = (event: Event) => {
                     {{ option.label }}
                 </option>
             </select>
-            <VIcon
-                v-if="!multiple"
-                :class="$style.icon"
-                name="form-arrow-down"
-            />
-        </div>
+        </template>
     </VFieldWrapper>
 </template>
 
 <style lang="scss" module>
-.inner {
-    display: grid;
-    align-items: center;
-
-    label + & {
-        margin-top: px-to-rem(8);
-    }
-
-    &--multiple {
-        padding: px-to-rem(10);
-        border: 1px solid rgb(1 1 1 / 30%);
-    }
-
-    &:not(#{&}--multiple) {
-        position: absolute;
-        inset: 0;
-    }
-}
+@use '~/assets/scss/form';
 
 .select {
-    border: initial;
-    appearance: none;
+    @include form.form-control;
 
-    // focus-visible is triggered on click
-    // https://github.com/w3c/csswg-drafts/issues/5822
-    &:focus-visible {
-        outline: none;
+    appearance: initial;
+    background-image: url("~/assets/images/icons/form-arrow-down.svg");
+    background-position: center right var(--v-select-position-right, 6px);
+    background-repeat: no-repeat;
+    background-size: var(--v-select-arrow-size, 24px);
+
+    [data-theme="dark"] & {
+        background-image: url("~/assets/images/icons/form-arrow-down.svg");
     }
-}
-
-.select[multiple]:focus option:checked,
-.select[multiple] option:checked {
-    $color: rgb(240 240 240); // rgb(1 1 1 / 10%);
-
-    background: $color linear-gradient(0deg, $color 0%, $color 100%);
-}
-
-.icon {
-    position: absolute;
-    right: 0;
-    font-size: 1.5em;
-    pointer-events: none;
 }
 </style>

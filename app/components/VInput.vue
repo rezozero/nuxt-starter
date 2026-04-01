@@ -32,13 +32,13 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
         :disabled="disabled"
         :filled="isFilled || prefilled"
         :focused="isFocused"
-        :hide-separator="hideSeparator"
-        :inline="isCheckbox || isRadio"
         :label="label"
         :required="required"
         :errors="errors"
     >
-        <template #[slotName]>
+        <template
+            #[slotName]="scopedSlot"
+        >
             <input
                 :id="id"
                 ref="input"
@@ -52,6 +52,7 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
                 :type="type"
                 :value="model"
                 :max="props.type === 'datetime-local' ? '9999-12-31T23:59' : undefined"
+                :aria-describedby="scopedSlot?.describedby || undefined"
                 @blur="onBlur"
                 @focus="onFocus"
                 @input="onInput"
@@ -59,62 +60,54 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
             <LazyVCheckbox
                 v-if="isCheckbox || isRadio"
                 :class="$style.checkbox"
+                aria-hidden="true"
             />
         </template>
     </VFieldWrapper>
 </template>
 
 <style lang="scss" module>
+@use '~/assets/scss/form';
+
 .input {
-    width: 100%;
-    padding-left: initial;
-    border: none;
-    grid-column: 1/-1;
-    grid-row: 1;
-    user-select: auto; // Safari - solving issue when using user-select:none on the <body> text input doesn't working
+    @include form.form-control;
 
     &[type='radio'],
     &[type='checkbox'] {
+        --v-input-width: initial;
+
+        // Visually hide the input but keep it accessible for screen readers and keyboard navigation
+        // VCheckbox will be used to display the custom checkbox/radio UI
         position: absolute;
-        cursor: pointer;
-        opacity: 0;
+        z-index: 1; // Ensure the input is above the custom UI for interaction
+        overflow: hidden;
+        margin: 0;
+        inset: 0;
+        opacity: 0; // Hide the native checkbox/radio but keep it accessible and clickable
     }
 
-    &[type='file'] {
-        margin-top: px-to-rem(12);
+    &[type="date"],
+    &[type="datetime-local"] {
+        font-family: inherit;
     }
 
     &[type='file']::file-selector-button {
         padding: 0.4em 1em;
         border: none;
-        border-radius: 1em;
-        background-color: rgb(1 1 1 / 20%);
-        font-size: px-to-rem(14);
+        border-radius: 50vmax;
+        margin-right: 12px;
+        background-color: var(--button-label-on-light-solid-bg, #000);
+        color: var(--button-label-on-light-solid-content, #FFF);
+        font-size: 14px;
 
-        .root--theme-dark & {
-            background-color: rgb(255 255 255 / 50%);
+        [data-theme="dark"] & {
+            background-color: var(--button-label-on-dark-solid-bg, #fff);
+            color: var(--button-label-on-dark-solid-content, #000);
         }
-    }
-
-    &:disabled {
-        background-color: transparent;
-        opacity: 0.3;
-    }
-
-    &:focus-visible {
-        outline: none;
-    }
-
-    &::placeholder {
-        color: rgb(1 1 1);
-        opacity: 0.5;
     }
 }
 
 .checkbox {
-    --v-checkbox-size: 0.5lh;
-
-    flex-shrink: 0;
-    margin-right: px-to-rem(14);
+    margin-right: 10px;
 }
 </style>

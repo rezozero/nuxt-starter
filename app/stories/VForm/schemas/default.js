@@ -112,5 +112,5 @@ export default {
             propertyOrder: 10,
         },
     },
-    required: ['nom', 'prenom', 'zip_postal_code', 'message'],
+    required: ['nom', 'prenom', 'zip_postal_code', 'votre_demande_concerne', 'message'],
 }

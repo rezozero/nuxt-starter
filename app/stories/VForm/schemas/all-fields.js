@@ -25,6 +25,10 @@ export default {
         'text': {
             type: 'string',
             title: 'Text',
+            attr: {
+                'data-group': null,
+                'placeholder': 'Enter some text',
+            },
         },
         'textarea': {
             type: 'string',
@@ -54,6 +58,7 @@ export default {
                 'placeholder': null,
             },
             widget: 'checkbox',
+            description: 'A boolean description',
             propertyOrder: 5,
         },
         'number_int': {
@@ -79,8 +84,9 @@ export default {
             title: 'Email',
             attr: {
                 'data-group': null,
-                'placeholder': null,
+                'placeholder': 'john.doe@gmail.com',
             },
+            description: 'Format attendu: nom@domaine.fr',
             widget: 'email',
             propertyOrder: 8,
         },

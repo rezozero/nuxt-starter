@@ -1,0 +1,74 @@
+// For VInput, VSelect, VTextarea
+@mixin form-control() {
+    width: var(--form-control-width, 100%);
+    padding: var(--form-control-padding, var(--spacing-4xs, 8px) var(--spacing-2xs, 12px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px));
+    border-width: var(--form-control-border-width, 1px);
+    border-style: var(--form-control-border-style, solid);
+    border-color: var(--form-control-border-color, transparent);
+    border-radius: var(--form-control-border-radius, initial);
+    margin-top: var(--form-control-margin-top, var(--spacing-5xs, 6px));
+    background-color: var(--form-control-background-color, var(--form-fields-on-light-bg, #F7F7F7));
+    color: var(--form-control-color, var(--form-fields-on-light-input-text, #000));
+    font-family: inherit;
+    font-size: var(--form-control-font-size, 16px);
+    transition: var(--form-control-transition, background-color 0.3s, border-color 0.3s);
+
+    &::placeholder {
+        color: var(--form-control-placeholder-color, var(--form-fields-on-light-placeholder, rgb(0, 0, 0, 50%)));
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    &:focus {
+        // Browser enable focus-visible when input is clicked too, so we need to reset the outline here
+        outline: initial;
+
+        --form-control-border-color: var(--form-control-border-color-focus);
+        --form-control-background-color: var(--form-control-background-color-focus);
+    }
+
+    &:not(:placeholder-shown, :focus-visible):invalid {
+        --form-control-border-color: var(--form-control-border-color-invalid);
+        --form-control-background-color: var(--form-control-background-color-invalid, var(--status-alert-container, #FBE5E5));
+        --form-control-color: var(--form-control-color-invalid, var(--status-alert, #E14040));
+    }
+
+    @media (hover: hover) {
+        &:not(:disabled):hover {
+            --form-control-border-color: var(--form-control-border-color-hover);
+            --form-control-background-color: var(--form-control-background-color-hover);
+        }
+    }
+}
+
+.v-form--default {
+    // Base
+    --form-control-border-radius: var(--radius-2xs, 4px);
+
+    // Hover
+    --form-control-border-color-hover: var(--form-fields-on-light-border-hover, rgb(0, 0, 0, 60%));
+    --form-control-background-color-hover: var(--form-fields-on-light-bg-hover, #F0F0F0);
+
+    // Focus
+    --form-control-border-color-focus: var(--form-fields-on-light-border-focus, rgb(0, 0, 0, 60%));
+    --form-control-background-color-focus: var(--form-fields-on-light-bg-focus, #F0F0F0);
+}
+
+.v-form--underline {
+    // Base
+    --form-control-border-color: var(--form-fields-on-light-border, rgb(0, 0, 0, 20%));
+    --form-control-border-width: 0 0 1PX 0;
+
+    // Hover
+    --form-control-background-color-hover: var(--form-fields-on-light-bg-hover, #F0F0F0);
+    --form-control-border-color-hover: var(--form-fields-on-light-border-hover, rgb(0, 0, 0, 60%));
+
+    // Focus
+    --form-control-background-color-focus: var(--form-fields-on-light-bg-focus, #F0F0F0);
+    --form-control-border-color-focus: var(--form-fields-on-light-border-focus, #000);
+
+    // Invalid
+    --form-control-border-color-invalid: var(--status-alert, #E14040);
+}

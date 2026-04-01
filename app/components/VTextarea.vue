@@ -20,36 +20,37 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
         :required="required"
         :disabled="disabled"
         :errors="errors"
+        :description="description"
     >
-        <textarea
-            v-bind="props"
-            :id="id"
-            ref="input"
-            v-model="(model as string)"
-            :required="required"
-            :placeholder="placeholder"
-            :name="name"
-            :disabled="disabled"
-            :class="$style.textarea"
-            @focus="onFocus"
-            @blur="onBlur"
-        />
+        <template
+            #default="scopedSlot"
+        >
+            <textarea
+                :id="id"
+                ref="input"
+                v-model="(model as string)"
+                :autocomplete="autocomplete"
+                :required="required"
+                :placeholder="placeholder"
+                :name="name"
+                :disabled="disabled"
+                :class="$style.textarea"
+                :aria-describedby="scopedSlot?.describedby || undefined"
+                @focus="onFocus"
+                @blur="onBlur"
+            />
+        </template>
     </VFieldWrapper>
 </template>
 
 <style lang="scss" module>
+@use '~/assets/scss/form';
+
 .textarea {
-    min-height: px-to-rem(150);
+    @include form.form-control;
+
+    min-height: 150px;
     user-select: auto; // Safari - solving issue when using user-select:none on the <body> text input doesn't working
     white-space: revert; // Revert the 'white-space' property for textarea elements on Safari
-
-    &:focus,
-    &:focus-visible {
-        outline: none;
-    }
-
-    &:disabled {
-        background-color: transparent;
-    }
 }
 </style>

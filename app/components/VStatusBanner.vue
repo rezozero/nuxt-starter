@@ -73,12 +73,12 @@ const rootClasses = computed(() => {
     }
 
     &--status-error {
-        background-color: rgb(225, 64, 64, 10%);
-        color: #E14040;
+        background-color: var(--status-alert-container, #FBE5E5);
+        color: var(--status-alert, #E14040);
     }
 
     &--status-neutral {
-        background-color: #F5F5F5;
+        background-color: var(--status-neutral-container, #F5F5F5);
     }
 }
 
@@ -91,12 +91,8 @@ const rootClasses = computed(() => {
 }
 
 .message {
-    > *:last-child {
-        margin-bottom: 0;
-    }
-
-    .root--layout-default & {
-        margin-top: 12px;
+    @at-root p {
+        margin: initial;
     }
 }
 </style>

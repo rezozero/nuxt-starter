@@ -8,42 +8,67 @@
 </template>
 
 <style lang="scss" module>
-$check-border-width: 2px;
-
 .root {
     position: relative;
-    display: flex;
-    width: px-to-rem(18);
-    height: px-to-rem(18);
+    display: inline-flex;
+    width: var(--v-checkbox-size, 16px);
+    height: var(--v-checkbox-size, 16px);
     align-items: center;
     justify-content: center;
-    border: $check-border-width solid currentColor;
-    color: inherit;
+    border: 2PX solid currentcolor;
+    border-radius: var(--v-checkbox-border-radius);
 
-    :global(input):checked + & {
+    input[type='radio'] + & {
+        --v-checkbox-border-radius: 50vmax;
+    }
+
+    input[type='checkbox'] + & {
+        --v-checkbox-border-radius: calc(var(--form-control-border-radius, 0) * 0.5);
+    }
+
+    input:checked + & {
         background-color: currentcolor;
     }
 
-    :global(input)[type='radio'] + & {
-        border-radius: 50%;
+    input:focus-visible + & {
+        outline: 2px solid currentcolor;
+        outline-offset: 2px;
     }
 
-    :global(input)[type='radio'] + &::after {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
+    input:disabled + & {
+        border-color: var(--form-checkbox-radio-on-light-border-disabled, #BFBFBF);
+    }
+
+    @media (hover:hover) {
+        input:not(:disabled):hover + &::before {
+            background-color: var(--form-checkbox-radio-on-light-bg-hover, #E5E5E5);
+        }
+    }
+
+    // Hover element
+    input + &::before {
+        position: absolute;
+        z-index: -1;
+        border-radius: var(--form-control-border-radius, 0);
+        content: '';
+        inset: -8px;
+        transition: background-color 0.3s ease(out-quad);
+    }
+
+    // Radio check shape
+    input[type='radio'] + &::after {
+        width: max(var(--v-checkbox-size, 18px) / 3, 6px);
+        height: max(var(--v-checkbox-size, 18px) / 3, 6px);
+        border-radius: inherit;
         background-color: rgb(255 255 255);
         content: '';
     }
 }
 
 .icon {
-    $offset: px-to-rem(24 - 18 - $check-border-width * 0.5);
-
     position: absolute;
-    top: -$offset;
-    left: -$offset;
-    color: rgb(255 255 255);
+    color: var(--surface-light-primary, #FFF);
+    font-size: var(--v-input-font-size, 24px);
     visibility: hidden;
 
     :global(input)[type='checkbox']:checked + .root & {
