@@ -1,3 +1,4 @@
+import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 import { version } from './package.json'
@@ -153,7 +154,8 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: '@use "assets/scss/_resources.scss" as *;',
+                    additionalData: `@use "${fileURLToPath(new URL('./app/assets/scss/_resources.scss', import.meta.url))}" as *;`,
+                    loadPaths: [fileURLToPath(new URL('./app', import.meta.url))],
                     quietDeps: true,
                 },
             },
