@@ -1,6 +1,16 @@
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineNuxtConfig({
+    vite: {
+        server: {
+            fs: {
+                // Vite restricts file serving to the project root by default. nuxt-stories lives in
+                // a sibling directory, so its node_modules (e.g. primeicons fonts) would be blocked.
+                // '../../nuxt-stories' resolves to the sibling package relative to this stories/ dir.
+                allow: ['..', fileURLToPath(new URL('../../nuxt-stories', import.meta.url))],
+            },
+        },
+    },
     extends: ['../'],
     alias: {
         '~': fileURLToPath(new URL('../app', import.meta.url)),
