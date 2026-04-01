@@ -20,12 +20,6 @@ export default defineNuxtConfig({
     modules: [
         '@rezo-zero/nuxt-stories',
     ],
-    routeRules: {
-            '/**': {
-                // Reset the app headers to prevent conflicts with the stories shell (e.g. CSP)
-                headers: null,
-            },
-        },
     stories: {
         mode: 'shell',
         frameCwd: '../',
