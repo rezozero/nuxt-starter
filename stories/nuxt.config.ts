@@ -15,4 +15,10 @@ export default defineNuxtConfig({
         frameCwd: '../',
         framePort: 3000,
     },
+    // Prevent i18n from creating ___locale suffixed route name variants (e.g. shell-v-button___fr).
+    // The stories shell uses router.getRoutes() to build its nav — locale variants corrupt the
+    // iframe URLs (e.g. /-frame/v-button/css-size___fr). no_prefix skips route localisation entirely.
+    i18n: {
+        strategy: 'no_prefix',
+    },
 })
