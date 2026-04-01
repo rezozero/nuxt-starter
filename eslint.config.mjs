@@ -11,11 +11,17 @@ export default withNuxt(
         ],
     },
 ).append({
-    files: ['./app/**/*.stories.vue'],
+    files: ['stories/**'],
+    rules: {
+        // temporarily disable this rule for stories because it seems to be buggy with the layer extends
+        'nuxt/nuxt-config-keys-order': 'off',
+    },
+}).append({
+    files: ['**/*.stories.vue'],
     rules: {
         'vue/multi-word-component-names': 'off',
     },
-}).override('nuxt/stylistic', {
+}).append({
     rules: {
         '@stylistic/function-paren-newline': ['error', 'consistent'],
     },

@@ -1,6 +1,12 @@
 import { fileURLToPath, URL } from 'node:url'
 
 export default defineNuxtConfig({
+    extends: ['../'],
+    alias: {
+        '~': fileURLToPath(new URL('../app', import.meta.url)),
+        '@': fileURLToPath(new URL('../app', import.meta.url)),
+    },
+    ssr: false,
     vite: {
         server: {
             fs: {
@@ -11,12 +17,6 @@ export default defineNuxtConfig({
             },
         },
     },
-    extends: ['../'],
-    alias: {
-        '~': fileURLToPath(new URL('../app', import.meta.url)),
-        '@': fileURLToPath(new URL('../app', import.meta.url)),
-    },
-    ssr: false,
     modules: [
         '@rezo-zero/nuxt-stories',
     ],
@@ -31,4 +31,6 @@ export default defineNuxtConfig({
     i18n: {
         strategy: 'no_prefix',
     },
+    robots: false,
+    sitemap: false,
 })
