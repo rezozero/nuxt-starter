@@ -4,14 +4,11 @@ import type { PropType } from 'vue'
 import pick from 'lodash/pick'
 import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
-// TODO resolve : Cannot find module '#image/components/NuxtPicture.vue' or its corresponding type declarations.
-import { pictureProps } from '#image/components/NuxtPicture.vue'
-// TODO resolve : Cannot find module '#image/components/NuxtImg.vue' or its corresponding type declarations.
-import { imgProps } from '#image/components/NuxtImg.vue'
+import { vImgProps } from '~/components/VImg.vue'
+import { vPictureProps } from '~/components/VPicture.vue'
 
 export const vRoadizImageProps = {
-    ...imgProps,
-    ...pictureProps,
+    ...vPictureProps,
     ...interventionRequestProps,
     document: [Array, Object] as PropType<RoadizDocument | RoadizDocument[]>,
     tag: String as PropType<'picture' | 'img'>,
@@ -81,7 +78,7 @@ export default defineComponent({
         const $img = useImage()
         const imageComponentProps = computed(() => {
             return {
-                ...pick(props, Object.keys(isPicture.value ? pictureProps : imgProps)),
+                ...pick(props, Object.keys(isPicture.value ? vPictureProps : vImgProps)),
                 src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
                 width: width.value,
                 height: height.value,
