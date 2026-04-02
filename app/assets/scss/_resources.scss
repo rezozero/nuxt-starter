@@ -11,3 +11,5 @@
 // mixins
 @forward './mixins/include-media' show media;
 @forward './mixins/typography';
+
+@forward './components/v-button';
