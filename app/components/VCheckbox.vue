@@ -8,8 +8,6 @@
 </template>
 
 <style lang="scss" module>
-@use '~/assets/scss/functions/ease' as *;
-
 .root {
     position: relative;
     display: inline-flex;

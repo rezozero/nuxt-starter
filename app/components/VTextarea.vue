@@ -44,10 +44,8 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
 </template>
 
 <style lang="scss" module>
-@use '~/assets/scss/form';
-
 .textarea {
-    @include form.form-control;
+    @include form-control(filled);
 
     min-height: 150px;
     user-select: auto; // Safari - solving issue when using user-select:none on the <body> text input doesn't working

@@ -67,10 +67,8 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
 </template>
 
 <style lang="scss" module>
-@use '~/assets/scss/form';
-
 .input {
-    @include form.form-control;
+    @include form-control(filled);
 
     &[type='radio'],
     &[type='checkbox'] {

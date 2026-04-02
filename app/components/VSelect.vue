@@ -115,10 +115,8 @@ const onSelectChange = (event: Event) => {
 </template>
 
 <style lang="scss" module>
-@use '~/assets/scss/form';
-
 .select {
-    @include form.form-control;
+    @include form-control(filled);
 
     appearance: initial;
     background-image: url("~/assets/images/icons/form-arrow-down.svg");
