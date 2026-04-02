@@ -31,6 +31,7 @@
 </template>
 
 <style lang="scss" module>
+@use '~/assets/scss/_resources' as *;
 @use '~/assets/scss/components/v-button';
 
 .button {
