@@ -1,4 +1,5 @@
 import withNuxt from './.nuxt/eslint.config.mjs'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default withNuxt(
     {
@@ -22,6 +23,7 @@ export default withNuxt(
         'vue/multi-word-component-names': 'off',
     },
 }).append({
+    plugins: { '@stylistic': stylistic },
     rules: {
         '@stylistic/function-paren-newline': ['error', 'consistent'],
     },
@@ -44,6 +46,7 @@ export default withNuxt(
     },
 }).append({
     files: ['**/*.ts', '**/*.js', '**/*.mjs', '**/*.jsx', '**/*.tsx'],
+    plugins: { '@stylistic': stylistic },
     rules: {
         '@stylistic/max-len': ['warn', {
             code: 120,
