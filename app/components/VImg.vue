@@ -101,14 +101,14 @@ export default defineComponent({
                 },
                 {
                     ...options.value,
-                },
+                } as ImageOptions,
             ))
         const responsiveImageData = computed(() => {
             if (props.sizes || props.densities) {
                 return ($img.getSizes(props.src!, {
                     ...options.value,
                     sizes: props.sizes,
-                }))
+                } as ImageOptions))
             }
             else return undefined
         })
