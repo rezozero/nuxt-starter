@@ -31,6 +31,4 @@ export default defineNuxtConfig({
     i18n: {
         strategy: 'no_prefix',
     },
-    robots: false,
-    sitemap: false,
 })
