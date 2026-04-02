@@ -36,7 +36,7 @@
     "eslint": "^10.1.0",
     "husky": "^9.1.7",
     "include-media": "^2.0.0",
-    "nuxt": "4.3.x",
+    "nuxt": "4.3.1",
     "postcss-html": "^1.8.1",
     "postcss-pxtorem": "^6.1.0",
     "sass": "^1.98.0",
