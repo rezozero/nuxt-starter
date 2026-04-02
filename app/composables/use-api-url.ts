@@ -1,4 +1,5 @@
 import { joinURL } from 'ufo'
+import { useApiBaseUrl } from './use-api-base-url'
 
 export function useApiUrl() {
     const runtimeConfig = useRuntimeConfig()
