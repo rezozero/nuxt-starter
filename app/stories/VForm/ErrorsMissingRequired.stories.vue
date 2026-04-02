@@ -24,7 +24,7 @@ const schema = {
             title: 'captcha',
         },
     },
-    required: ['simple_texte'],
+    required: ['texte', 'mail', 'frc-captcha-response'],
 }
 
 function submitCallback(args: { action?: string, formData?: FormData }): Promise<void> {
@@ -36,7 +36,7 @@ function submitCallback(args: { action?: string, formData?: FormData }): Promise
     })
 }
 
-const data = ref({ simple_texte: null })
+const data = ref({ 'texte': null, 'mail': null, 'frc-captcha-response': null })
 </script>
 
 <template>

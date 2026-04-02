@@ -30,19 +30,12 @@ const describedby = computed(() => {
 })
 
 const needLabel = computed(() => props.tag !== 'fieldset' && props.labelTag !== 'legend')
-
-const style = useCssModule()
-const classNames = computed(() => [
-    style.root,
-    props.focused && style['root--focused'],
-    props.filled && style['root--filled'],
-])
 </script>
 
 <template>
     <component
         :is="tag || 'div'"
-        :class="classNames"
+        :class="$style.root"
     >
         <slot name="beforeLabel" />
         <component
@@ -75,7 +68,7 @@ const classNames = computed(() => [
                 :id="violation.id"
                 :key="violation.id"
                 status="error"
-                :message="violation.message "
+                :message="violation.message"
             />
         </div>
     </component>

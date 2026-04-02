@@ -22,14 +22,15 @@
     }
 
     &:focus {
-        // Browser enable focus-visible when input is clicked too, so we need to reset the outline here
-        outline: initial;
+        // By default outline is only applied on keyboard focus, but some browsers apply it on click as well,
+        // Could be customized or removed depending on design needs.
+        outline: var(--form-control-focus-outline, 2PX solid black);
 
         --form-control-border-color: var(--form-control-border-color-focus);
         --form-control-background-color: var(--form-control-background-color-focus);
     }
 
-    &:not(:placeholder-shown, :focus-visible):invalid {
+    &:not(:placeholder-shown, :focus-visible):user-invalid {
         --form-control-border-color: var(--form-control-border-color-invalid);
         --form-control-background-color: var(--form-control-background-color-invalid, var(--status-alert-container, #FBE5E5));
         --form-control-color: var(--form-control-color-invalid, var(--status-alert, #E14040));
@@ -52,6 +53,7 @@
     --form-control-background-color-hover: var(--form-fields-on-light-bg-hover, #F0F0F0);
 
     // Focus
+    --form-control-focus-outline: none;
     --form-control-border-color-focus: var(--form-fields-on-light-border-focus, rgb(0, 0, 0, 60%));
     --form-control-background-color-focus: var(--form-fields-on-light-bg-focus, #F0F0F0);
 }
@@ -66,6 +68,7 @@
     --form-control-border-color-hover: var(--form-fields-on-light-border-hover, rgb(0, 0, 0, 60%));
 
     // Focus
+    --form-control-focus-outline: none;
     --form-control-background-color-focus: var(--form-fields-on-light-bg-focus, #F0F0F0);
     --form-control-border-color-focus: var(--form-fields-on-light-border-focus, #000);
 

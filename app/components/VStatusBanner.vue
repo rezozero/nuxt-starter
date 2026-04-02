@@ -91,8 +91,6 @@ const rootClasses = computed(() => {
 }
 
 .message {
-    @at-root p {
-        margin: initial;
-    }
+    margin: initial;
 }
 </style>

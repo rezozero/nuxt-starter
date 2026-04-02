@@ -8,6 +8,8 @@
 </template>
 
 <style lang="scss" module>
+@use '~/assets/scss/functions/ease' as *;
+
 .root {
     position: relative;
     display: inline-flex;
@@ -16,14 +18,17 @@
     align-items: center;
     justify-content: center;
     border: 2PX solid currentcolor;
-    border-radius: var(--v-checkbox-border-radius);
 
     input[type='radio'] + & {
-        --v-checkbox-border-radius: 50vmax;
+        border-radius: 50vmax;
+
+        --v-checkbox-hover-border-radius: 50vmax;
     }
 
     input[type='checkbox'] + & {
-        --v-checkbox-border-radius: calc(var(--form-control-border-radius, 0) * 0.5);
+        border-radius: var(--v-checkbox-border-radius, 2PX);
+
+        --v-checkbox-hover-border-radius: var(--form-control-border-radius, 0);
     }
 
     input:checked + & {
@@ -49,9 +54,9 @@
     input + &::before {
         position: absolute;
         z-index: -1;
-        border-radius: var(--form-control-border-radius, 0);
+        border-radius: var(--v-checkbox-hover-border-radius);
         content: '';
-        inset: -8px;
+        inset: -7px;
         transition: background-color 0.3s ease(out-quad);
     }
 
@@ -60,8 +65,11 @@
         width: max(var(--v-checkbox-size, 18px) / 3, 6px);
         height: max(var(--v-checkbox-size, 18px) / 3, 6px);
         border-radius: inherit;
-        background-color: rgb(255 255 255);
         content: '';
+    }
+
+    input[type='radio']:checked + &::after {
+        background-color: #fff;
     }
 }
 

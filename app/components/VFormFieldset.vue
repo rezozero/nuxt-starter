@@ -13,7 +13,7 @@ interface Props extends FormElementProps<FormModelValue> {
 }
 
 const props = defineProps<Props>()
-const id = useId()
+const generatedId = computed(() => props.id || useId())
 
 const emit = defineEmits(['update:modelValue'])
 
@@ -36,7 +36,7 @@ const internalParents = computed((): string[] => {
 
 <template>
     <VFieldWrapper
-        :id="id"
+        :id="generatedId"
         :disabled="disabled"
         :name="name"
         :label="label"
@@ -44,7 +44,7 @@ const internalParents = computed((): string[] => {
         tag="fieldset"
     >
         <VFormElementFactory
-            :id="id"
+            :id="generatedId"
             v-model="value"
             :schema="schema"
             :errors="errors"
