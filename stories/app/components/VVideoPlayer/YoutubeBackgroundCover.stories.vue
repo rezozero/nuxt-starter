@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import video from '~/assets/stories/fixtures/documents/youtube-01.json'
+import video from '~stories/assets/fixtures/documents/youtube-01.json'
 </script>
 
 <template>

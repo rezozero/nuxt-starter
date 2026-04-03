@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import video from '~/assets/stories/fixtures/documents/vimeo-01.json'
+import video from '~stories/assets/fixtures/documents/vimeo-01.json'
 
 const defaultProps = {
     embedId: video.embedId,

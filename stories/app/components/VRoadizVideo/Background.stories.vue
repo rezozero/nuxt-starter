@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
-import document from '~/assets/stories/fixtures/documents/vimeo-01.json'
+import document from '~stories/assets/fixtures/documents/vimeo-01.json'
 </script>
 
 <template>

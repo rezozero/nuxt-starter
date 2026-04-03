@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
 import { useMediaViewer } from '~/composables/use-media-viewer'
-import video from '~/assets/stories/fixtures/documents/video-01.json'
+import video from '~stories/assets/fixtures/documents/video-01.json'
 
 const documents = [video, video, video, video] as RoadizDocument[]
 const { isOpen, open } = useMediaViewer()

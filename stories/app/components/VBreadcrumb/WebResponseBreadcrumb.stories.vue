@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { RoadizWebResponse } from '@roadiz/types'
-import webResponse from '~/assets/stories/fixtures/web-responses/sub-page.json'
+import webResponse from '~stories/assets/fixtures/web-responses/sub-page.json'
 
 const route = useRoute()
 

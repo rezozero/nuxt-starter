@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import image from '~/assets/stories/fixtures/documents/image-01.json'
-import imagePortrait from '~/assets/stories/fixtures/documents/image-portrait.json'
-import video from '~/assets/stories/fixtures/documents/video-01.json'
+import image from '~stories/assets/fixtures/documents/image-01.json'
+import imagePortrait from '~stories/assets/fixtures/documents/image-portrait.json'
+import video from '~stories/assets/fixtures/documents/video-01.json'
 import type { RoadizDocument } from '@roadiz/types'
 import { useMediaViewer } from '~/composables/use-media-viewer'
 

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
-import mp4Video from '~/assets/stories/fixtures/documents/video-01.json'
-import vimeoVideo from '~/assets/stories/fixtures/documents/vimeo-01.json'
+import mp4Video from '~stories/assets/fixtures/documents/video-01.json'
+import vimeoVideo from '~stories/assets/fixtures/documents/vimeo-01.json'
 </script>
 
 <template>

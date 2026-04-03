@@ -6,7 +6,7 @@ export default defineNuxtConfig({
         '~': fileURLToPath(new URL('../app', import.meta.url)),
         '~~': fileURLToPath(new URL('../', import.meta.url)),
         '@': fileURLToPath(new URL('../app', import.meta.url)),
-        '~stories': fileURLToPath(new URL('./', import.meta.url)),
+        '~stories': fileURLToPath(new URL('./app', import.meta.url)),
     },
     ssr: false,
     vite: {

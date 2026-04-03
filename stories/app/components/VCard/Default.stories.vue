@@ -1,5 +1,5 @@
 <script  lang="ts" setup>
-import image from '~/assets/stories/fixtures/documents/image-01.json'
+import image from '~stories/assets/fixtures/documents/image-01.json'
 
 const cardProps = {
     overtitle: 'Overtitle example',

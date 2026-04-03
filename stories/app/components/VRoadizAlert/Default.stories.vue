@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import alert from '~/assets/stories/fixtures/nodes/alert.json'
+import alert from '~stories/assets/fixtures/nodes/alert.json'
 </script>
 
 <template>

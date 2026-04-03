@@ -94,7 +94,7 @@ const embedVideoAttrs = computed(() => {
 </template>
 
 <style lang="scss" module>
-@use '~/components/molecules/VButton/v-button';
+@use 'assets/scss/components/v-button';
 
 .root {
     --v-player-position: absolute;
