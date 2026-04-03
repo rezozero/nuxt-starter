@@ -27,6 +27,9 @@ siege.txt
 !.env.sample
 !.env.stories
 
+# IA agents
 .claude
+agents/screenshots
 
+# Nuxt stories
 .nuxt-stories

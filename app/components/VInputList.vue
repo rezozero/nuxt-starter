@@ -10,7 +10,6 @@ export interface InputListOption {
 interface Props extends FormElementProps {
     options?: InputListOption[]
     multiple?: boolean
-    legend?: string
 }
 
 const props = defineProps<Props>()
@@ -42,113 +41,32 @@ const displayRequiredGroupInput = computed(() => props.required && !valueFilled.
 <template>
     <VFieldWrapper
         :id="id"
-        :class="[$style.root, disabled && $style['root--disabled'], errors && $style['root--errors']]"
-        :description="false"
         :disabled="disabled"
-        :label="false"
+        :label="label"
         :required="required"
-        :hide-separator="hideSeparator"
-        tag="fieldset"
         :errors="errors"
+        tag="fieldset"
+        label-tag="legend"
+        :description="description"
     >
-        <legend
-            v-if="label"
-            :class="$style.legend"
-        >
-            {{ label }}
-            <VRequiredMark v-if="required" />
-        </legend>
+        <VInput
+            v-for="(option, index) in options"
+            :id="id + '-' + option.value"
+            :key="index"
+            v-model="option.value"
+            :disabled="disabled"
+            :label="option.label"
+            :name="`${name}[]`"
+            :required="option.required"
+            :type="multiple ? 'checkbox' : 'radio'"
+            @input="onOptionInput(option.value)"
+        />
         <input
             v-if="displayRequiredGroupInput"
-            :class="$style['input-group-validation']"
+            class="visually-hidden"
             required
             type="checkbox"
+            tabindex="-1"
         >
-        <p
-            v-if="description"
-            :class="$style.description"
-        >
-            {{ description }}
-        </p>
-        <div
-            v-for="(option, index) in options"
-            :key="index"
-            :class="$style['input-wrapper']"
-        >
-            <VInput
-                :id="id + '-' + option.value"
-                v-model="option.value"
-                :disabled="disabled"
-                :label="option.label"
-                :name="`${name}[]`"
-                :required="option.required"
-                :type="multiple ? 'checkbox' : 'radio'"
-                hide-separator
-                @input="onOptionInput(option.value)"
-            />
-        </div>
     </VFieldWrapper>
 </template>
-
-<style lang="scss" module>
-.input-group-validation {
-    all: revert;
-    position: absolute;
-    left: 50%;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.root {
-    display: flex;
-    flex-wrap: wrap;
-    margin-top: px-to-rem(30);
-
-    &--disabled {
-        opacity: 0.3;
-    }
-
-    &--errors {
-        padding-bottom: px-to-rem(16);
-    }
-}
-
-.legend {
-    width: 100%;
-    flex-shrink: 0;
-}
-
-.description {
-    opacity: 0.5;
-}
-
-.input-wrapper {
-    position: relative;
-    width: 100%;
-    padding-bottom: px-to-rem(15);
-    margin-bottom: px-to-rem(15);
-
-    &:nth-child(1 of &) {
-        margin-top: px-to-rem(18);
-    }
-
-    &:last-child {
-        margin-bottom: initial;
-    }
-
-    &::after {
-        position: absolute;
-        right: 0;
-        bottom: 0;
-        left: 30px;
-        height: 1px;
-        flex-shrink: 0;
-        background-color: rgb(1 1 1 / 15%);
-        content: '';
-    }
-
-    &:last-child::after {
-        content: none;
-    }
-}
-</style>

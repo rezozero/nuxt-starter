@@ -3,8 +3,9 @@ import { computed } from 'vue'
 import type { JsonSchemaExtended } from '~~/types/json-schema'
 import type { ComponentsMap } from '~/utils/form/create-form-children'
 import type { FormElementProps } from '~~/types/form'
+import type { FormModelValue } from '~/components/VFormElementFactory.ts'
 
-interface Props extends FormElementProps {
+interface Props extends FormElementProps<FormModelValue> {
     schema: JsonSchemaExtended
     componentsMap: ComponentsMap
     schemaKey: string
@@ -12,12 +13,13 @@ interface Props extends FormElementProps {
 }
 
 const props = defineProps<Props>()
+const generatedId = computed(() => props.id || useId())
 
 const emit = defineEmits(['update:modelValue'])
 
 const value = computed({
     get() {
-        return props.modelValue
+        return props.modelValue as FormModelValue
     },
     set(value) {
         emit('update:modelValue', value)
@@ -33,67 +35,21 @@ const internalParents = computed((): string[] => {
 </script>
 
 <template>
-    <fieldset
+    <VFieldWrapper
+        :id="generatedId"
         :disabled="disabled"
-        class="fieldset"
-        :class="$style.root"
         :name="name"
+        :label="label"
+        label-tag="legend"
+        tag="fieldset"
     >
-        <legend
-            v-if="label"
-            class="fieldset__legend"
-            :class="$style.legend"
-        >
-            {{ label }}
-        </legend>
-        <div
-            v-if="description"
-            class="fieldset__element"
-            :class="$style.description"
-        >
-            <div class="fr-hint-text">
-                {{ description }}
-            </div>
-        </div>
-        <div class="fieldset__element">
-            <VFormElementFactory
-                :id="id"
-                v-model="value"
-                :schema="schema"
-                :errors="errors"
-                :parents="internalParents"
-                :components-map="componentsMap"
-            />
-        </div>
-    </fieldset>
+        <VFormElementFactory
+            :id="generatedId"
+            v-model="value"
+            :schema="schema"
+            :errors="errors"
+            :parents="internalParents"
+            :components-map="componentsMap"
+        />
+    </VFieldWrapper>
 </template>
-
-<style lang="scss" module>
-.root {
-    &:not(:first-child) {
-        margin-top: px-to-rem(16);
-    }
-
-    &:not(:last-child) {
-        &::after {
-            width: 100%;
-            border-bottom: 1px dashed var(--border-default-grey);
-            margin: 0.5rem;
-            content: '';
-        }
-    }
-
-    &:last-child {
-        margin-bottom: 0;
-
-        .element {
-            margin-bottom: 0;
-        }
-    }
-}
-
-.legend,
-.description {
-    margin-bottom: px-to-rem(16);
-}
-</style>

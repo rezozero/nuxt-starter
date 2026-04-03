@@ -5,16 +5,18 @@ export interface Violation {
 }
 
 export interface FormElementProps<T = string> {
+    // Input attributes
     id?: string
     required?: boolean
-    errors?: Violation[] | undefined
-    label?: string
     name?: string
     disabled?: boolean
-    hideSeparator?: boolean
-    description?: string
     autocomplete?: string
     placeholder?: string
-    parents?: string[]
+    // Form field data
+    description?: string
+    label?: string
+    // Form context data
     modelValue?: T | unknown
+    parents?: string[]
+    errors?: Violation[] | undefined
 }

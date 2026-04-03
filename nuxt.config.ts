@@ -41,6 +41,10 @@ export default defineNuxtConfig({
     },
     css: ['~/assets/scss/main.scss'],
     runtimeConfig: {
+        // Server-only: overrides api.url for Node SSR context (e.g. internal cluster URL).
+        // Never exposed to the browser bundle.
+        // Falls back to NUXT_PUBLIC_API_URL when unset.
+        serverApiUrl: '',
         public: {
             version,
             site: {
@@ -162,6 +166,7 @@ export default defineNuxtConfig({
         },
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
+            // @ts-expect-error vite-svg-loader plugin types are incompatible with Vite 7 rollup types
             svgLoader({
                 svgoConfig: {
                     multipass: true,

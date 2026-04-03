@@ -1,0 +1,66 @@
+// For VInput, VSelect, VTextarea
+@mixin form-control($style: null) {
+    width: var(--form-control-width, 100%);
+    padding: var(--form-control-padding, var(--spacing-4xs, 8px) var(--spacing-2xs, 12px) var(--spacing-4xs, 8px) var(--spacing-2xs, 12px));
+    border: var(--form-control-border, revert);
+    border-radius: var(--form-control-border-radius, revert);
+    margin-top: var(--form-control-margin-top, var(--spacing-5xs, 6px));
+    color: var(--form-control-color, var(--form-fields-on-light-input-text, #000));
+    font-family: inherit;
+    font-size: var(--form-control-font-size, 16px);
+    transition: var(--form-control-transition, background-color 0.3s, border-color 0.3s);
+
+    &::placeholder {
+        color: var(--form-control-placeholder-color, var(--form-fields-on-light-placeholder, rgb(0, 0, 0, 50%)));
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+    }
+
+    @if $style == filled {
+        --v-checkbox-hover-border-radius: var(--radius-2xs, 4px);
+
+        border-width: 1px;
+        border-style: solid;
+        border-color: transparent;
+        border-radius: var(--form-control-border-radius, var(--radius-2xs, 4px));
+        background-color: var(--form-control-background-color, var(--form-fields-on-light-bg, #F7F7F7));
+
+        &:focus {
+            border-color: var(--form-control-border-color-focus, var(--form-fields-on-light-border-focus, rgb(0, 0, 0, 60%)));
+            background-color: var(--form-control-background-color-focus, var(--form-fields-on-light-bg-focus, #F0F0F0));
+            outline: var(--form-control-focus-outline, none);
+        }
+
+        @media (hover: hover) {
+            &:not(:disabled):hover {
+                border-color: var(--form-control-border-color-hover, var(--form-fields-on-light-border-hover, rgb(0, 0, 0, 60%)));
+                background-color: var(--form-control-background-color-hover, var(--form-fields-on-light-bg-hover, #F0F0F0));
+            }
+        }
+    } @else if $style == underline {
+        border-width: var(--form-control-border-width, 0 0 1PX 0);
+        border-style: solid;
+        border-color: var(--form-control-border-color, var(--form-fields-on-light-border, rgb(0, 0, 0, 20%)));
+        background-color: var(--form-control-background-color, var(--form-fields-on-light-bg, #F7F7F7));
+
+        &:focus {
+            border-color: var(--form-control-border-color-focus, var(--form-fields-on-light-border-focus, #000));
+            background-color: var(--form-control-background-color-focus, var(--form-fields-on-light-bg-focus, #F0F0F0));
+            outline: var(--form-control-focus-outline, none);
+        }
+
+        @media (hover: hover) {
+            &:not(:disabled):hover {
+                border-color: var(--form-control-border-color-hover, var(--form-fields-on-light-border-hover, rgb(0, 0, 0, 60%)));
+                background-color: var(--form-control-background-color-hover, var(--form-fields-on-light-bg-hover, #F0F0F0));
+            }
+        }
+
+        // Invalid
+        &:not(:placeholder-shown, :focus-visible):user-invalid {
+            border-color: var(--form-control-border-color-invalid, var(--status-alert, #E14040));
+        }
+    }
+}

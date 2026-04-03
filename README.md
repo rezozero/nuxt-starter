@@ -91,6 +91,32 @@ pnpm xilo
 
 nuxt-i18n docs: https://v8.i18n.nuxtjs.org/
 
+## API
+
+The application connects to an API using the `NUXT_PUBLIC_API_URL` environment variable.
+
+When the Node SSR process and the browser live in different network planes, set `NUXT_SERVER_API_URL` so SSR requests use a different URL than the browser. This happens in two common scenarios:
+
+**Local development** — both the API and Nuxt run in Docker, but the browser runs on the host machine:
+```dotenv
+# Browser reaches the API through the exposed Docker port
+NUXT_PUBLIC_API_URL=http://localhost:8080
+# Node SSR reaches the API directly inside the Docker network
+NUXT_SERVER_API_URL=http://api:8080
+```
+
+**Cloud/Kubernetes** — keep SSR traffic inside the cluster network:
+```dotenv
+NUXT_PUBLIC_API_URL=https://api.example.com
+NUXT_SERVER_API_URL=http://api.internal
+```
+
+When `NUXT_SERVER_API_URL` is absent, both SSR and browser use `NUXT_PUBLIC_API_URL`. The server URL is never exposed to the client bundle.
+
+> **Warning:** `NUXT_SERVER_API_URL` must only be used for data fetching. Never use it to build URLs that are rendered in HTML (image `src`, anchor `href`, etc.): server and client would produce different values, causing Vue hydration mismatches. Rendered URLs always use `NUXT_PUBLIC_API_URL`.
+
+## Image
+
 ## Images
 
 Nuxt Image is configured with the Intervention Request provider.
