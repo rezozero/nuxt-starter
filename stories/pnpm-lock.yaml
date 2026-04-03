@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@rezo-zero/nuxt-stories':
-        specifier: 0.2.0-next.5
-        version: 0.2.0-next.5(@babel/parser@7.29.2)(vue@3.5.31)
+        specifier: 0.2.0-next.12
+        version: 0.2.0-next.12(@babel/parser@7.29.2)(vue@3.5.31)
 
 packages:
 
@@ -95,8 +95,8 @@ packages:
     resolution: {integrity: sha512-ckffyeJcBCAVhi5IkiYcpQ8EVoNv0eSZhbxBdU3T5wz5bYgo0jd9dAetMc5D2j+vGLBqcTZQnqy8eTwcN3rZHQ==}
     engines: {node: '>=12.11.0'}
 
-  '@rezo-zero/nuxt-stories@0.2.0-next.5':
-    resolution: {integrity: sha512-80wR14zb37d4CNL9CXyYE5JLQmXd0LIVD4UKmpRUq3i2/5BMDBWUpUfm2jzUA8tguVhgeWgoXSUquqszJ3BP7w==}
+  '@rezo-zero/nuxt-stories@0.2.0-next.12':
+    resolution: {integrity: sha512-x3Ls/UuZ2DHmOuGM9rj8hYeSzn/EuJmGxZAMopVoaP7fszwZyewmwgL9LyAhOoLQ00nDFxYIU7d5XWZ02u4pUw==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@types/estree@1.0.8':
@@ -542,7 +542,7 @@ snapshots:
       - supports-color
       - vue
 
-  '@rezo-zero/nuxt-stories@0.2.0-next.5(@babel/parser@7.29.2)(vue@3.5.31)':
+  '@rezo-zero/nuxt-stories@0.2.0-next.12(@babel/parser@7.29.2)(vue@3.5.31)':
     dependencies:
       '@primeuix/themes': 2.0.3
       '@primevue/nuxt-module': 4.5.4(@babel/parser@7.29.2)(vue@3.5.31)
