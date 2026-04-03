@@ -54,6 +54,7 @@ export default {
                 'placeholder': null,
             },
             widget: 'checkbox',
+            description: 'A boolean description',
             propertyOrder: 5,
         },
         number_int: {

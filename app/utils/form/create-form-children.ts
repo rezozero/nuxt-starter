@@ -57,7 +57,6 @@ export default function createFormChildren(
     componentsMap?: ComponentsMap,
 ): VNodeChild | undefined {
     const rootSchema = parentProps.schema
-    const propertiesLength = Object.keys(rootSchema?.properties || {}).length
     const requiredProperties = rootSchema?.required || []
     const parents = parentProps.parents
     const mergedComponentsMap = { ...defaultComponentMaps, ...componentsMap }
@@ -68,18 +67,13 @@ export default function createFormChildren(
 
     return Object.entries(rootSchema.properties)
         .sort((a, b) => a[1]?.propertyOrder - b[1]?.propertyOrder)
-        .map((property, propertyIndex) => {
+        .map((property) => {
             const key = property[0]
             const schema = property[1] as JsonSchemaExtended
             const errors = parentProps.errors?.filter(item => item.propertyPath === key)
             const id = parentProps.id ? `${parentProps.id}-${key}` : key
             const required = requiredProperties === true ? requiredProperties : requiredProperties.includes(key)
             const name = parents?.length ? parents.slice().concat([key]).join('[') + ']'.repeat(parents.length) : key
-            const lastItem = propertyIndex === propertiesLength - 1
-            const typeWithoutSeparator
-                = schema.type === 'boolean'
-                    || schema.widget === 'choice-multiple-expanded'
-                    || schema.widget === 'choice-expanded'
             /*
              * Make initial field value optional
              */
@@ -92,7 +86,6 @@ export default function createFormChildren(
                 errors,
                 name,
                 parents,
-                'hideSeparator': lastItem && typeWithoutSeparator,
                 'description': schema.description,
                 'hint': schema.description,
                 'disabled': schema.attr?.disabled || parentProps.disabled,
@@ -172,11 +165,10 @@ export default function createFormChildren(
 
                 return h(component, {
                     ...defaultProps,
-                    legend: schema.title,
+                    label: schema.title,
                     required,
                     options,
                     multiple: isMultiple,
-                    inline: isMultiple,
                     modelValue: currentModelValue || (isMultiple ? [] : ''),
                 })
             }
@@ -209,7 +201,6 @@ export default function createFormChildren(
                     required,
                     options,
                     multiple: isMultiple,
-                    inline: isMultiple,
                     modelValue: currentModelValue || (isMultiple ? [] : ''),
                 })
             }

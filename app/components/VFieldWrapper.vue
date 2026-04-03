@@ -1,70 +1,74 @@
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import type { Violation } from '~~/types/form'
+import type { FormElementProps } from '~~/types/form'
 
-const style = useCssModule()
-const props = defineProps({
-    id: String,
-    errors: Array as PropType<Violation[]>,
-    label: [String, Boolean],
-    required: Boolean,
-    inline: Boolean,
-    hideSeparator: Boolean,
-    focused: Boolean,
-    active: Boolean,
-    filled: Boolean,
-    disabled: Boolean,
-    description: [String, Boolean],
-    tag: {
-        type: String,
-        default: 'div',
-    },
+const props = defineProps<{
+    tag?: string
+    labelTag?: string
+    focused?: boolean
+    filled?: boolean
+} & FormElementProps>()
+
+const descriptionId = computed(() => (props.description ? `description-${props.id}` : undefined))
+const _errors = computed(() => {
+    return props.errors?.map((error, index) => ({
+        ...error,
+        id: `error-${index}-${props.id}`,
+    }))
 })
 
-const classNames = computed(() => [
-    style.root,
-    props.focused && style['root--focused'],
-    props.filled && style['root--filled'],
-    props.disabled && style['root--disabled'],
-    !props.inline && style['root--default'],
-    props.inline && style['root--inline'],
-    props.hideSeparator && style['root--hide-separator'],
-])
+const describedby = computed(() => {
+    const results = []
+    if (props.description) {
+        results.push(descriptionId.value)
+    }
+
+    _errors.value?.forEach((error) => {
+        results.push(error.id)
+    })
+
+    return results.join(' ')
+})
+
+const needLabel = computed(() => props.tag !== 'fieldset' && props.labelTag !== 'legend')
 </script>
 
 <template>
     <component
-        :is="tag"
-        :class="classNames"
+        :is="tag || 'div'"
+        :class="$style.root"
     >
-        <div :class="$style.field">
-            <label
-                v-if="label"
-                :class="$style.label"
-                :for="id"
-            >
-                <slot name="beforeLabel" />{{ label }}<VRequiredMark v-if="required" /></label>
-            <slot />
-        </div>
+        <slot name="beforeLabel" />
+        <component
+            :is="labelTag || 'label'"
+            v-if="label"
+            :class="$style.label"
+            :for="needLabel ? id : undefined"
+        >
+            {{ label }}
+            <VRequiredMark v-if="required" />
+        </component>
+
         <p
             v-if="description"
+            :id="descriptionId"
             :class="$style.description"
         >
             {{ description }}
         </p>
+
+        <slot :describedby="describedby" />
+
         <div
             v-if="errors?.length"
             :class="$style.errors"
-            aria-live="assertive"
-            role="log"
-            aria-atomic="true"
-            aria-relevant="additions removals"
+            role="alert"
         >
             <LazyVStatusBanner
-                v-for="(violation, index) in errors"
-                :key="(id || label || '')?.toString() + index + violation.message"
+                v-for="violation in _errors"
+                :id="violation.id"
+                :key="violation.id"
                 status="error"
-                :message="violation.message "
+                :message="violation.message"
             />
         </div>
     </component>
@@ -73,98 +77,54 @@ const classNames = computed(() => [
 <style lang="scss" module>
 .root {
     position: relative;
+    margin-top: var(--v-field-wrapper-margin-top, 16px);
 
-    &--disabled {
-        opacity: 0.3;
-    }
+    // Add grid layout on checkboxes and radios wrapper
+    // to align input and label, and set description under label
+    &:not(fieldset):has(> input[type="checkbox"]),
+    &:not(fieldset):has(> input[type="radio"]) {
+        display: grid;
+        width: 100%;
+        grid-template-columns: auto 1fr;
 
-    & + & {
-        margin-top: px-to-rem(16);
-    }
+        .description {
+            grid-column: 2 / -1;
+        }
 
-    & + fieldset#{&} {
-        margin-top: px-to-rem(32);
+        .errors {
+            grid-column: 1 / -1;
+        }
     }
 }
 
-.field {
-    position: relative;
-    display: grid;
-    width: 100%;
-    flex-wrap: wrap;
-    align-items: start;
-    padding-top: px-to-rem(18);
-    padding-bottom: px-to-rem(14);
-    border-bottom: 1px solid rgb(1 1 1 / 30%);
-    transition: border-color 0.3s;
+fieldset.root {
+    border-width: 1px;
+    border-style: solid;
+    border-color: var(--form-fields-on-light-border, rgb(0, 0, 0, 20%));
+    border-radius: var(--v-field-wrapper-border-radius, var(--form-control-border-radius));
+    margin-top: var(--v-field-wrapper-margin-top, 24px);
+    padding-block: 0 var(--spacing-md, 24px);
+    padding-inline: var(--spacing-xl, 32px);
 
-    .root--hide-separator & {
-        padding: 0;
-        border-bottom: none;
-    }
-
-    .root--focused &,
-    .root--filled & {
-        border-color: rgb(1 1 1);
+    legend {
+        padding-inline: var(--spacing-6xs, 4px);
     }
 }
 
 .label {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    cursor: pointer;
-    font-size: px-to-rem(20);
-    grid-column: 1/-1;
-    opacity: 0.5;
-    pointer-events: none;
-    user-select: none;
-
-    &:has(input[type='checkbox']) {
-        font-size: px-to-rem(16);
-        opacity: 1;
-    }
-
-    .root--default > .field > & {
-        display: block;
-        grid-row: 1;
-        transform-origin: 0 center;
-        transition-duration: 0.2s;
-        transition-property: transform, opacity;
-        transition-timing-function: ease-out;
-    }
-
-    .root--inline & {
-        display: inline;
-        align-items: center;
-        pointer-events: all;
-    }
-
-    .root--focused.root--inline & {
-        text-decoration: underline;
-    }
-
-    .root--focused:not(.root--inline) &,
-    .root--filled:not(.root--inline) & {
-        transform: translate3d(0, -100%, 0) scale(0.7);
-    }
-
-    // .root--focused:not(.root--inline, .root--disabled) &,
-    // .root--filled:not(.root--inline, .root--disabled) & {
-    //     opacity: 0.5;
-    // }
-}
-
-.description,
-.errors {
-    padding-top: px-to-rem(8);
-    margin-top: 0;
-    margin-bottom: px-to-rem(-5);
-    font-size: px-to-rem(12);
-    grid-column: 1/-1;
+    display: inline-block;
+    color: var(--v-field-wrapper-label-color, currentColor);
+    font-size: var(--v-field-wrapper-label-size, 16px);
 }
 
 .description {
-    opacity: 0.5;
+    color: var(--form-fields-on-light-supporting-text, rgb(0, 0, 0, 60%));
+    font-size: var(--v-field-wrapper-meta-font-size, 12px);
+    margin-block: 6px 0;
+}
+
+.errors {
+    margin-top: 8px;
+    font-size: var(--v-field-wrapper-meta-font-size);
 }
 </style>
