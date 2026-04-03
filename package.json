@@ -27,7 +27,6 @@
     "@nuxtjs/sitemap": "^8.0.9",
     "@rezo-zero/intervention-request-provider": "^2.0.0",
     "@rezo-zero/nuxt-cache-control": "^0.1.7",
-    "@rezo-zero/nuxt-stories": "0.2.0-next.2",
     "@rezo-zero/xilofone-fetch": "^0.2.2",
     "@roadiz/types": "^0.5.0",
     "@types/body-scroll-lock": "^3.1.2",
