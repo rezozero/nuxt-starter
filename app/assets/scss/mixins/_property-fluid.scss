@@ -20,16 +20,16 @@
         @warn "property-fluid(): The values map has no XL breakpoint";
     }
 
-    $value-xl: if($is-map, map.get($value, xl), $value);
+    $value-xl: if(sass($is-map): map.get($value, xl); else: $value);
     $value-hd: decimal-round(math.div(breakpoint(hd), breakpoint(xl)) * $value-xl);
-    $default-value: if($is-map, fluid($value), px-to-rem($value));
+    $default-value: if(sass($is-map): fluid($value); else: px-to-rem($value));
 
     @if $breakpoint {
         @include media($breakpoint) {
-            #{$property}: $default-value
+            #{$property}: $default-value;
         }
     } @else {
-        #{$property}: $default-value
+        #{$property}: $default-value;
     }
 
     @include media('>=xl') {

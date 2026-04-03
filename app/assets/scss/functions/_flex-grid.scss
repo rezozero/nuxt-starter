@@ -3,7 +3,7 @@
 }
 
 @function flex-grid-value($columns: 1, $total-columns: 1, $length: '%', $fullscreen: false) {
-    $num-gutters: if($fullscreen, $total-columns + 1, $total-columns - 1);
+    $num-gutters: if(sass($fullscreen): $total-columns + 1; else: $total-columns - 1);
     $total-width: '(100#{$length} - #{$num-gutters} * var(--gutter))';
     $result: '(#{$total-width} / #{$total-columns})';
 
