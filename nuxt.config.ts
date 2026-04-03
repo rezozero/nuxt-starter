@@ -1,4 +1,4 @@
-import type { NuxtPlugin } from '@nuxt/schema'
+import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 import { version } from './package.json'
@@ -6,12 +6,6 @@ import { version } from './package.json'
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
 const isGenerateMaintenance = isGenerate && process.argv.includes('--maintenance')
-const isNuxtStories = process.env.NUXT_STORIES === '1'
-const plugins: (NuxtPlugin | string)[] = []
-
-if (isNuxtStories) {
-    plugins.push('~/plugins/stories/msw.ts')
-}
 
 export default defineNuxtConfig({
     modules: [
@@ -19,7 +13,6 @@ export default defineNuxtConfig({
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
-        '@rezo-zero/nuxt-stories',
         '@nuxtjs/i18n',
         '@nuxtjs/sitemap',
         '@vueuse/nuxt',
@@ -29,7 +22,6 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@sentry/nuxt/module',
     ],
-    plugins,
     components: [
         '~/components',
         {
@@ -166,7 +158,8 @@ export default defineNuxtConfig({
         css: {
             preprocessorOptions: {
                 scss: {
-                    additionalData: '@use "assets/scss/_resources.scss" as *;',
+                    additionalData: `@use "${fileURLToPath(new URL('./app/assets/scss/_resources.scss', import.meta.url))}" as *;`,
+                    loadPaths: [fileURLToPath(new URL('./app', import.meta.url))],
                     quietDeps: true,
                 },
             },
@@ -270,9 +263,5 @@ export default defineNuxtConfig({
     sitemap: {
         enabled: !isGenerateMaintenance,
         sources: ['/api/sitemap'],
-    },
-    // https://github.com/rezozero/nuxt-stories
-    stories: {
-        root: 'app/**/*.stories.vue',
     },
 })

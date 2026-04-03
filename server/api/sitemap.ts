@@ -1,6 +1,4 @@
 import type { HydraCollection, JsonLdObject, RoadizRequestParams, RoadizTranslation } from '@roadiz/types'
-import { hydraCollectionFetch } from '~/utils/hydra-collection-fetch'
-import { useApiUrl } from '~/composables/use-api-url'
 
 type ReachableEntity = JsonLdObject & {
     url?: string
@@ -17,7 +15,7 @@ const apiFetch = $fetch.create({
         'accept-encoding': 'gzip, deflate',
         'Accept': 'application/ld+json',
     },
-    baseURL: useApiUrl(), // Auto imports within the server folder aren't supported
+    baseURL: getApiUrl(), // Auto imports within the server folder aren't supported
 })
 
 function fetchAllByLocale(path: string, _locale = 'fr', params: RoadizRequestParams = {}): Promise<ReachableEntity[]> {

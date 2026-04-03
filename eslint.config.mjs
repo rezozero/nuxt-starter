@@ -1,4 +1,5 @@
 import withNuxt from './.nuxt/eslint.config.mjs'
+import stylistic from '@stylistic/eslint-plugin'
 
 export default withNuxt(
     {
@@ -11,11 +12,18 @@ export default withNuxt(
         ],
     },
 ).append({
-    files: ['./app/**/*.stories.vue'],
+    files: ['stories/**'],
+    rules: {
+        // temporarily disable this rule for stories because it seems to be buggy with the layer extends
+        'nuxt/nuxt-config-keys-order': 'off',
+    },
+}).append({
+    files: ['**/*.stories.vue'],
     rules: {
         'vue/multi-word-component-names': 'off',
     },
-}).override('nuxt/stylistic', {
+}).append({
+    plugins: { '@stylistic': stylistic },
     rules: {
         '@stylistic/function-paren-newline': ['error', 'consistent'],
     },
@@ -38,6 +46,7 @@ export default withNuxt(
     },
 }).append({
     files: ['**/*.ts', '**/*.js', '**/*.mjs', '**/*.jsx', '**/*.tsx'],
+    plugins: { '@stylistic': stylistic },
     rules: {
         '@stylistic/max-len': ['warn', {
             code: 120,

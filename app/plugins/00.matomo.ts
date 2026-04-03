@@ -15,7 +15,7 @@ export default defineNuxtPlugin({
     async setup() {
         const config = useRuntimeConfig().public.matomo
 
-        if (!config.cloudId) return
+        if (!config?.cloudId) return
 
         const normalizedCloudId = withoutTrailingSlash(withoutProtocol(config.cloudId))
         const origin = config?.url ? config?.url : `https://cdn.matomo.cloud/${normalizedCloudId}/`

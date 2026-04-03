@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxi dev",
-    "dev:stories": "nuxi dev --dotenv .env.stories",
+    "stories": "nuxi dev stories --port 6006 --dotenv .env.stories",
     "build": "nuxi build",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
@@ -27,7 +27,6 @@
     "@nuxtjs/sitemap": "^8.0.9",
     "@rezo-zero/intervention-request-provider": "^2.0.0",
     "@rezo-zero/nuxt-cache-control": "^0.1.7",
-    "@rezo-zero/nuxt-stories": "^0.1.18",
     "@rezo-zero/xilofone-fetch": "^0.2.2",
     "@roadiz/types": "^0.5.0",
     "@types/body-scroll-lock": "^3.1.2",
@@ -36,8 +35,7 @@
     "eslint": "^10.1.0",
     "husky": "^9.1.7",
     "include-media": "^2.0.0",
-    "msw": "^2.12.14",
-    "nuxt": "4.3.x",
+    "nuxt": "4.3.1",
     "postcss-html": "^1.8.1",
     "postcss-pxtorem": "^6.1.0",
     "sass": "^1.98.0",
@@ -72,11 +70,6 @@
     "node": "24.14.1"
   },
   "packageManager": "pnpm@9.12.0",
-  "msw": {
-    "workerDirectory": [
-      "public"
-    ]
-  },
   "pnpm": {
     "overrides": {
       "h3@<=1.15.5": "1.15.10",
