@@ -16,14 +16,14 @@ export function getApiUrl() {
     const runtimeConfig = useRuntimeConfig()
     let baseUrl: string
 
-    if (import.meta.server && typeof runtimeConfig.serverApiUrl === 'string') {
+    if (import.meta.server && runtimeConfig.serverApiUrl) {
         baseUrl = runtimeConfig.serverApiUrl
     }
-    else if (typeof runtimeConfig.public.api?.url === 'string') {
-        baseUrl = runtimeConfig.public.api?.url
+    else if (runtimeConfig.public.api?.url) {
+        baseUrl = runtimeConfig.public.api.url
     }
-    else if (typeof runtimeConfig.public.site?.url === 'string') {
-        baseUrl = runtimeConfig.public.site?.url
+    else if (runtimeConfig.public.site?.url) {
+        baseUrl = runtimeConfig.public.site.url
     }
     else {
         baseUrl = ''
@@ -31,6 +31,6 @@ export function getApiUrl() {
 
     return joinURL(
         baseUrl,
-        typeof runtimeConfig.public.api?.endpointPrefix === 'string' ? runtimeConfig.public.api.endpointPrefix : '',
+        runtimeConfig.public.api?.endpointPrefix || '',
     )
 }
