@@ -230,7 +230,8 @@ export default defineNuxtConfig({
             {
                 normalizeIconName: false,
                 prefix: 'icon',
-                dir: 'app/assets/images/icons',
+                // The icons directory is used into other context (e.g. stories), so we need to get the absolute path.
+                dir: fileURLToPath(new URL('./app/assets/images/icons', import.meta.url)),
             },
         ],
     },
