@@ -22,7 +22,7 @@ pnpm dev
 
 ```bash
 docker compose up -d
-pnpm dev:stories
+pnpm stories
 ```
 
 ## Architecture in 2 minutes
@@ -65,7 +65,7 @@ The full list and usage details are in `docs/architecture.md`.
 ## Development
 pnpm dev
 ## Stories (UI)
-pnpm dev:stories
+pnpm stories
 ## Production build
 pnpm build
 ## Production preview
@@ -137,11 +137,6 @@ import IconCheck from '~/assets/images/icons/check.svg?component'
 ```
 
 For icons, use `VIcon` with assets in `app/assets/images/icons`.
-
-## Stories
-
-`*.stories.vue` files are exposed on `/_stories`.
-A layout is required for correct display.
 
 ## Maintenance
 

@@ -19,6 +19,8 @@ services:
     intervention:
         image: ambroisemaupate/intervention-request:latest
         volumes:
-            - ./assets/stories/images:/var/www/html/web/images:ro
+            - ./stories/app/assets/images:/app/public/images:ro
+        tmpfs:
+            - /app/public/assets:mode=0777
         ports:
             - "8080:80/tcp"
