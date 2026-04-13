@@ -1,5 +1,3 @@
-import type { RoadizNodesSourcesHead } from '@roadiz/types'
-
 export interface SocialLink {
     name: string
     url: string
@@ -7,44 +5,51 @@ export interface SocialLink {
     icon?: string
 }
 
-export function getSocialLinks(head: RoadizNodesSourcesHead | undefined) {
-    if (!head) return []
-
-    const links = [] as SocialLink[]
-    const { twitterUrl, instagramUrl, youtubeUrl, linkedinUrl, facebookUrl } = head
-
-    if (twitterUrl) {
-        links.push({ url: twitterUrl, name: 'Twitter', icon: 'x' })
+export function getSocialLinks(key: string, url: string) {
+    if (key.startsWith('mastodon')) {
+        return { url: url, name: 'Mastodon', icon: 'social-mastodon' }
     }
-    if (instagramUrl) {
-        links.push({ url: instagramUrl, name: 'Instagram', icon: 'instagram' })
+    if (key.startsWith('pinterest')) {
+        return { url: url, name: 'Pinterest', icon: 'social-pinterest' }
     }
-    if (youtubeUrl) {
-        links.push({ url: youtubeUrl, name: 'Youtube', icon: 'youtube' })
+    if (key.startsWith('snapchat')) {
+        return { url: url, name: 'Snapchat', icon: 'social-snapchat' }
     }
-    if (linkedinUrl) {
-        links.push({ url: linkedinUrl, name: 'LinkedIn', icon: 'linkedin' })
+    if (key.startsWith('instagram')) {
+        return { url: url, name: 'Instagram', icon: 'social-instagram' }
     }
-    if (facebookUrl) {
-        links.push({ url: facebookUrl, name: 'Facebook', icon: 'facebook' })
+    if (key.startsWith('youtube')) {
+        return { url: url, name: 'Youtube', icon: 'social-youtube' }
     }
-    // if (vimeoUrl) {
-    //     links.push({ url: vimeoUrl, name: 'Vimeo' })
-    // }
-    // if (spotifyUrl) {
-    //     links.push({ url: spotifyUrl, name: 'Spotify' })
-    // }
-
-    return links.map((link) => {
-        return {
-            ...link,
-            label: link.name,
-        }
-    })
+    if (key.startsWith('linkedin')) {
+        return { url: url, name: 'LinkedIn', icon: 'social-linkedin' }
+    }
+    if (key.startsWith('facebook')) {
+        return { url: url, name: 'Facebook', icon: 'social-facebook' }
+    }
+    if (key.startsWith('tiktok')) {
+        return { url: url, name: 'Tiktok', icon: 'social-tiktok' }
+    }
+    if (key.startsWith('spotify')) {
+        return { url: url, name: 'Spotify', icon: 'social-spotify' }
+    }
+    if (key.startsWith('twitter') || key.startsWith('x_')) {
+        return { url: url, name: 'X', icon: 'social-x' }
+    }
+    return
 }
 
-export async function useRoadizHeadSocialLinks() {
+export function useRoadizHeadSocialLinks() {
     const { data } = useCommonContent()
 
-    return ref(getSocialLinks(data.value?.head))
+    return computed(() => {
+        const urlEntriesList = Object.entries(data.value?.urls || {}).filter(([_key, value]) => typeof value === 'string') as [string, string][]
+
+        return urlEntriesList.reduce((acc, [urlKey, url]) => {
+            const link = getSocialLinks(urlKey, url)
+            if (link) acc.push(link)
+
+            return acc
+        }, [] as SocialLink[])
+    })
 }
