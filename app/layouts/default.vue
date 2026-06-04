@@ -61,6 +61,7 @@ useHead({
                     { anchor: '#footer', label: $t('skip_to.footer') },
                 ]"
             />
+            <VRoadizAlertsContainer />
             <VLoadingIndicator />
             <NuxtRouteAnnouncer />
         </ClientOnly>
