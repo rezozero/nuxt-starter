@@ -207,12 +207,7 @@ export default defineNuxtConfig({
     },
     // https://i18n.nuxtjs.org/docs/getting-started/usage
     i18n: {
-        // 'prefix_except_default' is intentionally avoided here: @nuxtjs/i18n@10.4.0 has a bug where
-        // its navigation guard calls localePath() on catch-all routes marked with defineI18nRoute(false),
-        // which returns '/' instead of the actual path, redirecting every client-side navigation to '/'.
-        // 'no_prefix' disables the prefix-based routing guard entirely, which is equivalent for a
-        // single-locale setup. Revisit this when adding a second locale.
-        strategy: 'no_prefix',
+        strategy: 'prefix_except_default',
         detectBrowserLanguage: {
             useCookie: true,
         },

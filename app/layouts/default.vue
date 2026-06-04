@@ -5,7 +5,7 @@ import type { RoadizNodesSources } from '@roadiz/types'
 const route = useRoute()
 
 // if the route is a dynamic page (i.e. [...slug].vue page)
-if (route.name === 'slug') {
+if (route.meta.isDynamicPage) {
     const { webResponse, alternateLinks } = await useRoadizWebResponse()
 
     // init page data for components outside page
@@ -53,14 +53,10 @@ useHead({
 <template>
     <div>
         <ClientOnly>
-            <VueSkipTo
-                :class="$style['skip-to-nav']"
-                :list-label="$t('skip_to.list_label').toString()"
-                :to="[
-                    { anchor: '#main', label: $t('skip_to.main_content') },
-                    { anchor: '#footer', label: $t('skip_to.footer') },
-                ]"
-            />
+            <VueSkipTo :class="$style['skip-to-nav']" :list-label="$t('skip_to.list_label').toString()" :to="[
+                { anchor: '#main', label: $t('skip_to.main_content') },
+                { anchor: '#footer', label: $t('skip_to.footer') },
+            ]" />
             <VLoadingIndicator />
             <NuxtRouteAnnouncer />
         </ClientOnly>
