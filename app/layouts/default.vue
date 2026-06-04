@@ -53,10 +53,14 @@ useHead({
 <template>
     <div>
         <ClientOnly>
-            <VueSkipTo :class="$style['skip-to-nav']" :list-label="$t('skip_to.list_label').toString()" :to="[
-                { anchor: '#main', label: $t('skip_to.main_content') },
-                { anchor: '#footer', label: $t('skip_to.footer') },
-            ]" />
+            <VueSkipTo
+                :class="$style['skip-to-nav']"
+                :list-label="$t('skip_to.list_label').toString()"
+                :to="[
+                    { anchor: '#main', label: $t('skip_to.main_content') },
+                    { anchor: '#footer', label: $t('skip_to.footer') },
+                ]"
+            />
             <VRoadizAlertsContainer />
             <VLoadingIndicator />
             <NuxtRouteAnnouncer />

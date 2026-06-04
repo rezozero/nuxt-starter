@@ -57,10 +57,10 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'light' })
 
     position: relative;
     z-index: 101;
+    background-color: var(--v-roadiz-alert-background, var(--surfaces-primary));
     color: var(--content-primary, currentColor);
     grid-auto-flow: dense;
     padding-block: 28px;
-    background-color: var(--v-roadiz-alert-background, var(--surfaces-primary));
 }
 
 .close {
