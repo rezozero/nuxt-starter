@@ -48,6 +48,8 @@ const { getPageTitle } = useRoadizPageTitle()
 useHead({
     titleTemplate: getPageTitle,
 })
+
+const { isActive: previewIsActive } = useRoadizPreview()
 </script>
 
 <template>
@@ -72,6 +74,7 @@ useHead({
             </slot>
         </div>
         <VFooter id="footer" />
+        <LazyVRoadizPreview v-if="previewIsActive" />
     </div>
 </template>
 
