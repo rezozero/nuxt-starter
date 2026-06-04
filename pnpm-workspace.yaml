@@ -1,0 +1,8 @@
+allowBuilds:
+  '@parcel/watcher': true
+  '@sentry/cli': true
+  core-js: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true
