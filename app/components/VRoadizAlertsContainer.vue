@@ -62,9 +62,18 @@ function close(alert: NSAlert) {
 </script>
 
 <template>
-    <div aria-live="polite" aria-atomic="false" aria-relevant="additions removals">
+    <div
+        aria-live="polite"
+        aria-atomic="false"
+        aria-relevant="additions removals"
+    >
         <template v-if="alertList.length">
-            <LazyVRoadizAlert v-for="alert in alertList" :key="alert['@id']" :alert="alert" @close="close" />
+            <LazyVRoadizAlert
+                v-for="alert in alertList"
+                :key="alert['@id']"
+                :alert="alert"
+                @close="close"
+            />
         </template>
     </div>
 </template>

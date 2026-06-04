@@ -19,14 +19,33 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'light' })
 </script>
 
 <template>
-    <section :class="[$style.root, themeClass]" class="grid">
-        <VButton :class="$style.close" :aria-label="$t('close')" icon-name="cross-small" @click="close" />
+    <section
+        :class="[$style.root, themeClass]"
+        class="grid"
+    >
+        <VButton
+            :class="$style.close"
+            :aria-label="$t('close')"
+            icon-name="cross-small"
+            @click="close"
+        />
         <h2 :class="$style.title">
             {{ alert.title }}
         </h2>
-        <VMarkdown v-if="alert.content" :content="alert.content" :class="$style.content" inline tag="p" />
-        <VRoadizLinkButton v-if="linkReference || alert.linkExternalUrl" :label="alert.linkLabel"
-            :reference="linkReference" :url="alert.linkExternalUrl" :class="$style.link" />
+        <VMarkdown
+            v-if="alert.content"
+            :content="alert.content"
+            :class="$style.content"
+            inline
+            tag="p"
+        />
+        <VRoadizLinkButton
+            v-if="linkReference || alert.linkExternalUrl"
+            :label="alert.linkLabel"
+            :reference="linkReference"
+            :url="alert.linkExternalUrl"
+            :class="$style.link"
+        />
     </section>
 </template>
 
