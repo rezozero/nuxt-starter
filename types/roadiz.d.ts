@@ -15,6 +15,13 @@
 import type { RoadizNodesSources } from '@roadiz/types'
 
 export type NSMenu = RoadizNodesSources
+export type NSAlert = RoadizNodesSources & {
+    content?: string
+    linkLabel?: string
+    linkExternalUrl?: string
+    linkInternalReference?: Array<RoadizNodesSources>
+    linkEventReference?: unknown
+}
 
 export interface NSMenuLink extends RoadizNodesSources {
     linkExternalUrl?: string

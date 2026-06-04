@@ -1,15 +1,18 @@
 <script lang="ts" setup>
 import type { HydraCollection } from '@roadiz/types'
 import DataObserver from '~/utils/data-observer'
-import type { RoadizAlert } from '~/components/VRoadizAlert.vue'
+import type { NSAlert } from '~~/types/roadiz'
 
-const ALERT_LIST_STORAGE_ID = 'alert-list'
-const alertList = ref<RoadizAlert[]>([])
-const fetch = useRoadizFetchFactory()
+const config = useRuntimeConfig().public
+const ALERT_LIST_STORAGE_ID = `${config.site.name || 'app'}-alert-list`
+
+const roadizFetch = useRoadizFetchFactory()
 let dataObserver: DataObserver | null = null
 
+const alertList = ref<NSAlert[]>([])
+
 async function fetchAlerts(): Promise<void> {
-    const response = await fetch<HydraCollection<RoadizAlert>>('/alerts', {
+    const response = await roadizFetch<HydraCollection<NSAlert>>('/alerts', {
         params: {
             'publishedAt[before]': 'now',
             'unpublishedAt[after]': 'now',
@@ -21,11 +24,11 @@ async function fetchAlerts(): Promise<void> {
 
     if (!alertList.value.length && !newAlertList?.length) return
 
-    const storedAlertList = window.sessionStorage.getItem(ALERT_LIST_STORAGE_ID)
+    const storedAlertList = window.localStorage.getItem(ALERT_LIST_STORAGE_ID)
     const closedAlertList = storedAlertList && JSON.parse(storedAlertList)
 
     alertList.value = closedAlertList
-        ? (newAlertList as RoadizAlert[])?.filter((alert: RoadizAlert) => !closedAlertList.includes(alert['@id']))
+        ? (newAlertList as NSAlert[])?.filter((alert: NSAlert) => !closedAlertList.includes(alert['@id']))
         : newAlertList || []
 }
 
@@ -44,8 +47,8 @@ onUnmounted(() => {
     dataObserver = null
 })
 
-function close(alert: RoadizAlert) {
-    const storedAlertList = window.sessionStorage.getItem(ALERT_LIST_STORAGE_ID)
+function close(alert: NSAlert) {
+    const storedAlertList = window.localStorage.getItem(ALERT_LIST_STORAGE_ID)
     const alertListToStore = storedAlertList ? JSON.parse(storedAlertList) : []
 
     if (!alertListToStore.includes(alert['@id'])) {
@@ -54,17 +57,14 @@ function close(alert: RoadizAlert) {
 
     alertList.value = alertList.value.filter(alert => !alertListToStore.includes(alert['@id']))
 
-    window.sessionStorage.setItem(ALERT_LIST_STORAGE_ID, JSON.stringify(alertListToStore))
+    window.localStorage.setItem(ALERT_LIST_STORAGE_ID, JSON.stringify(alertListToStore))
 }
 </script>
 
 <template>
-    <template v-if="alertList.length">
-        <LazyVRoadizAlert
-            v-for="alert in alertList"
-            :key="alert['@id']"
-            :alert="alert"
-            @close="close"
-        />
-    </template>
+    <div aria-live="polite" aria-atomic="false" aria-relevant="additions removals">
+        <template v-if="alertList.length">
+            <LazyVRoadizAlert v-for="alert in alertList" :key="alert['@id']" :alert="alert" @close="close" />
+        </template>
+    </div>
 </template>
