@@ -3,8 +3,8 @@ import type { HydraCollection } from '@roadiz/types'
 import DataObserver from '~/utils/data-observer'
 import type { NSAlert } from '~~/types/roadiz'
 
-const config = useRuntimeConfig().public
-const ALERT_LIST_STORAGE_ID = `${config.site.name || 'app'}-alert-list`
+const id = useId()
+const ALERT_LIST_STORAGE_ID = `${id}-alert-list`
 
 const roadizFetch = useRoadizFetchFactory()
 let dataObserver: DataObserver | null = null
