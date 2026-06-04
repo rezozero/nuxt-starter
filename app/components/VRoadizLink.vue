@@ -29,11 +29,22 @@ export default defineComponent({
         const attributes = computed<Record<string, unknown>>(() => {
             const defaultAttrs = { ...attrs, ...props.nuxtLinkProps }
 
-            // Download
+            // Document
             if (props.document?.relativePath) {
                 return {
                     ...defaultAttrs,
                     href: useRoadizDocumentUrl(props.document?.relativePath),
+                    target: attrs?.target || '_blank',
+                    rel: attrs?.rel || 'noopener noreferrer',
+                    download: '',
+                }
+            }
+
+            // File link
+            if (props.url && isFileUrl(props.url)) {
+                return {
+                    ...defaultAttrs,
+                    href: props.url,
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener noreferrer',
                     download: '',
@@ -47,6 +58,7 @@ export default defineComponent({
                     href: props.url,
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener noreferrer',
+                    external: true, // Ensure NuxtLink handles it as external link
                 }
             }
 
@@ -71,6 +83,7 @@ export default defineComponent({
                 return {
                     ...defaultAttrs,
                     to: props.url,
+                    external: true, // Ensure NuxtLink handles it as external link
                 }
             }
 
