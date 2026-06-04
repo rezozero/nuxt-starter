@@ -1,6 +1,11 @@
 overrides:
   fast-xml-builder: '>=1.1.7'
   postcss@<8.5.10: '>=8.5.10'
+  # @nuxt/eslint@1.15.2 pulls @typescript-eslint@8.57.1 which only supports TypeScript <6.0.0.
+  # Force 8.60.1 which supports <6.1.0, compatible with our TypeScript 6.0.3.
+  '@typescript-eslint/typescript-estree': '8.60.1'
+  '@typescript-eslint/parser': '8.60.1'
+  '@typescript-eslint/eslint-plugin': '8.60.1'
 
 allowBuilds:
   '@parcel/watcher': true
