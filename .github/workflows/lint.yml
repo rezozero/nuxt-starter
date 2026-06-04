@@ -23,8 +23,6 @@ jobs:
                   node-version-file: 'package.json'
             - uses: pnpm/action-setup@v4
               name: Install pnpm
-              with:
-                  version: latest
             - name: Install dependencies
               run: pnpm install
             - name: Lint scripts
