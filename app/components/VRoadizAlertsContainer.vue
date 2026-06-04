@@ -3,7 +3,7 @@ import type { HydraCollection } from '@roadiz/types'
 import DataObserver from '~/utils/data-observer'
 import type { NSAlert } from '~~/types/roadiz'
 
-const STORAGE_ID = `alert-list`
+const STORAGE_KEY = `alert-list`
 
 const roadizFetch = useRoadizFetchFactory()
 let dataObserver: DataObserver | null = null
@@ -23,7 +23,7 @@ async function fetchAlerts(): Promise<void> {
 
     if (!alertList.value.length && !newAlertList?.length) return
 
-    const storedAlertList = window.localStorage.getItem(STORAGE_ID)
+    const storedAlertList = window.localStorage.getItem(STORAGE_KEY)
     const closedAlertList = storedAlertList && JSON.parse(storedAlertList)
 
     alertList.value = closedAlertList
@@ -47,7 +47,7 @@ onUnmounted(() => {
 })
 
 function close(alert: NSAlert) {
-    const storedAlertList = window.localStorage.getItem(STORAGE_ID)
+    const storedAlertList = window.localStorage.getItem(STORAGE_KEY)
     const alertListToStore = storedAlertList ? JSON.parse(storedAlertList) : []
 
     if (!alertListToStore.includes(alert['@id'])) {
@@ -56,7 +56,7 @@ function close(alert: NSAlert) {
 
     alertList.value = alertList.value.filter(alert => !alertListToStore.includes(alert['@id']))
 
-    window.localStorage.setItem(STORAGE_ID, JSON.stringify(alertListToStore))
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(alertListToStore))
 }
 </script>
 
