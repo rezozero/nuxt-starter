@@ -7,7 +7,7 @@ Guidelines for developers contributing to this project. Read [`AI_CONTEXT.md`](.
 ## Stack
 
 - **Nuxt 4 / Vue 3 / TypeScript** — SSR
-- **CSS Modules + SCSS** — no Tailwind, no global utility classes
+- **CSS Modules + SCSS** — no Tailwind, avoid adding new global utility classes
 - **@roadiz/types** — CMS types
 - **pnpm** — package manager
 
@@ -59,7 +59,7 @@ All components use `<style lang="scss" module>`. Classes are referenced via `$st
 | Semantic child | short descriptive name | `.title`, `.label`, `.icon`, `.content` |
 | State modifier | `root--<state>` | `.root--open`, `.root--disabled` |
 | Prop modifier | `root--<prop>-<value>` | `.root--size-md`, `.root--icon-last` |
-| Theme modifier | handled via `theme-variants` mixin | see Themes section |
+| Theme modifier | handled via `theme-variants` mixin | see `app/assets/scss/mixins/_theme.scss` |
 
 ```vue
 <template>
@@ -281,7 +281,7 @@ Use `<component :is="tag">` for components whose root element varies (button/lin
 
 - **Lazy-load** heavy components: prefix with `Lazy` (`<LazyVModal>`)
 - **Dynamic imports** for heavy third-party libraries (e.g. Swiper imported on demand)
-- **Named imports** for tree-shaking: `import { pick } from 'lodash/pick'` not `import _ from 'lodash'`
+- **Named imports** for tree-shaking: `import pick from 'lodash/pick'` not `import _ from 'lodash'`
 - `ClientOnly` for components with no useful SSR rendering
 
 ---
