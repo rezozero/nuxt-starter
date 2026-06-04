@@ -47,6 +47,12 @@ export default defineComponent({
                     href: props.url,
                     target: attrs?.target || '_blank',
                     rel: attrs?.rel || 'noopener noreferrer',
+                    // If the file URL contains executable extensions (html, php, etc.)
+                    // we could expect another domain (because this is not our way of doing things)
+                    // so the download attribute will be ignored by the browser
+                    // and the file will be opened in a new tab instead of being downloaded.
+                    // In this case, the external link handling will take precedence
+                    // and the link will be treated as an external link.
                     download: '',
                 }
             }
