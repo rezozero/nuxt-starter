@@ -1,15 +1,15 @@
 import type { Ref } from 'vue'
 import type { FormElementProps } from '~~/types/form'
 
-export interface TextInputProps extends FormElementProps {
-    modelValue?: string | unknown
-}
-
 type EmitFunction = (event: string, value?: string) => void
-
+type textInputElement = HTMLInputElement | HTMLTextAreaElement
 export const textInputEmits = ['update:modelValue']
 
-export function useTextInput(props: TextInputProps, emit: EmitFunction, element: Ref<HTMLInputElement | null>) {
+export function useTextInput(
+    props: FormElementProps,
+    emit: EmitFunction,
+    element: Ref<textInputElement | null>,
+) {
     const isFocused = ref(false)
     const model = ref(props.modelValue)
 
@@ -24,7 +24,9 @@ export function useTextInput(props: TextInputProps, emit: EmitFunction, element:
     }
 
     const onInput = (event: Event) => {
-        model.value = (event.target as HTMLInputElement).value
+        const el = event.target as textInputElement
+        if (!el) return
+        model.value = el.value
     }
 
     watch(
@@ -33,16 +35,18 @@ export function useTextInput(props: TextInputProps, emit: EmitFunction, element:
     )
 
     watch(model, (value) => {
-        const nextValue = typeof value === 'string' ? value : undefined
+        if (typeof value !== 'string') return
 
+        const nextValue = value.length > 0 ? value : undefined
         if (nextValue === props.modelValue) return
 
         emit('update:modelValue', nextValue)
     })
 
     onMounted(() => {
-        // possibly autofilled
-        if (!model.value) {
+        // possibly autofilled — skip checkboxes/radios (their default .value is "on")
+        const type = element.value?.type
+        if (!model.value && type !== 'checkbox' && type !== 'radio') {
             if (element.value) model.value = element.value.value
         }
     })

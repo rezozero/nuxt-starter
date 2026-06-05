@@ -6,6 +6,7 @@ export interface Violation {
 
 export interface FormElementProps<T = string> {
     // Input attributes
+    pattern?: string
     id?: string
     required?: boolean
     name?: string
@@ -16,7 +17,7 @@ export interface FormElementProps<T = string> {
     description?: string
     label?: string
     // Form context data
-    modelValue?: T | unknown
+    modelValue?: T
     parents?: string[]
     errors?: Violation[] | undefined
 }

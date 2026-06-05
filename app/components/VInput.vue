@@ -14,15 +14,13 @@ const emit = defineEmits([...textInputEmits])
 const input = ref<HTMLInputElement | null>(null)
 const { isFilled, isFocused, model, onBlur, onFocus, onInput } = useTextInput(props, emit, input)
 
-const isCheckbox = computed(() => props.type === 'checkbox')
+const isBooleanInput = computed(() => props.type === 'checkbox' || props.type === 'radio')
 
-const isRadio = computed(() => props.type === 'radio')
+const prefilled = computed(() => {
+    return props.type === 'date' || props.type === 'datetime-local' || props.type === 'file' || !!props.placeholder
+})
 
-const prefilled = computed(
-    () => props.type === 'date' || props.type === 'datetime-local' || props.type === 'file' || !!props.placeholder,
-)
-
-const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabel' : 'default'))
+const slotName = computed(() => (isBooleanInput.value ? 'beforeLabel' : 'default'))
 </script>
 
 <template>
@@ -42,6 +40,8 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
             <input
                 :id="id"
                 ref="input"
+                :aria-invalid="errors?.length ? 'true' : undefined"
+                :aria-required="required ? 'true' : undefined"
                 :autocomplete="autocomplete"
                 :class="$style.input"
                 :disabled="disabled"
@@ -52,13 +52,13 @@ const slotName = computed(() => (isCheckbox.value || isRadio.value ? 'beforeLabe
                 :type="type"
                 :value="model"
                 :max="props.type === 'datetime-local' ? '9999-12-31T23:59' : undefined"
-                :aria-describedby="scopedSlot?.describedby || undefined"
+                :aria-describedby="'describedby' in scopedSlot ? scopedSlot.describedby : undefined"
                 @blur="onBlur"
                 @focus="onFocus"
                 @input="onInput"
             >
             <LazyVCheckbox
-                v-if="isCheckbox || isRadio"
+                v-if="isBooleanInput"
                 :class="$style.checkbox"
                 aria-hidden="true"
             />

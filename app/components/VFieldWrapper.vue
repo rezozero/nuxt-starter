@@ -115,6 +115,10 @@ fieldset.root {
     display: inline-block;
     color: var(--v-field-wrapper-label-color, currentColor);
     font-size: var(--v-field-wrapper-label-size, 16px);
+
+    .root:has( [disabled]) & {
+        color: var(--v-field-wrapper-label-color-disabled, #505050);
+    }
 }
 
 .description {
@@ -125,6 +129,5 @@ fieldset.root {
 
 .errors {
     margin-top: 8px;
-    font-size: var(--v-field-wrapper-meta-font-size);
 }
 </style>
