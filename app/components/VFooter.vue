@@ -7,6 +7,8 @@ const footerData = computed(() => data.value?.footers?.footerWalker)
 
 const mainMenuWalker = computed(() => data.value?.menus?.footerMenuWalker as RoadizWalker | undefined)
 const mainMenu = computed(() => mainMenuWalker.value && useRoadizMenu(mainMenuWalker.value).value)
+
+const socials = useRoadizHeadSocialLinks()
 </script>
 
 <template>
@@ -40,5 +42,9 @@ const mainMenu = computed(() => mainMenuWalker.value && useRoadizMenu(mainMenuWa
                 </ul>
             </li>
         </ul>
+        <LazyVSocialLinks
+            v-if="socials.length"
+            :socials="socials"
+        />
     </footer>
 </template>

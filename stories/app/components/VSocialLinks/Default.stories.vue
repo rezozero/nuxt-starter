@@ -1,22 +1,39 @@
 <script setup lang="ts">
-import commonContent from './fixtures/common-content.json'
-import { COMMON_CONTENT_KEY } from '~/composables/use-common-content'
+const list = [
+    {
+        name: 'Twitter',
+        url: 'https://twitter.com/roadiz_io',
+    },
+    {
+        name: 'Facebook',
+        url: 'https://www.facebook.com/roadiz.io/',
+    },
+    {
+        name: 'LinkedIn',
+        url: 'https://www.linkedin.com/company/roadiz/',
+    },
+]
 
-useNuxtApp().payload.data[COMMON_CONTENT_KEY] = commonContent
+const socials = list.map(social => getSocialLinks(social.name, social.url))
 </script>
 
 <template>
     <NuxtStory>
-        <VSocialLinks>
-            <template #default="{ social }">
-                <NuxtLink
-                    :to="social.url"
-                    target="_blank"
-                >
-                    {{ social.name }}
-                    <VIcon :name="social.icon" />
-                </NuxtLink>
-            </template>
-        </VSocialLinks>
+        <NuxtStoryVariant title="Default">
+            <VSocialLinks :socials="socials" />
+        </NuxtStoryVariant>
+
+        <NuxtStoryVariant title="Slot">
+            <VSocialLinks :socials="socials">
+                <template #default="{ social }">
+                    <NuxtLink
+                        :to="social.url"
+                        target="_blank"
+                    >
+                        {{ social.name }}
+                    </NuxtLink>
+                </template>
+            </VSocialLinks>
+        </NuxtStoryVariant>
     </NuxtStory>
 </template>

@@ -1,5 +1,7 @@
 <script setup lang="ts">
-const socials = useRoadizHeadSocialLinks()
+defineProps<{
+    socials: SocialLink[]
+}>()
 </script>
 
 <template>
@@ -8,7 +10,13 @@ const socials = useRoadizHeadSocialLinks()
             v-for="social in socials"
             :key="social.url"
         >
-            <slot :social="social" />
+            <slot :social="social">
+                <VButton
+                    :aria-label="social.name"
+                    :to="social.url"
+                    :icon-name="social.icon"
+                />
+            </slot>
         </li>
     </ul>
 </template>
@@ -20,12 +28,7 @@ const socials = useRoadizHeadSocialLinks()
     flex-wrap: wrap;
     padding: var(--v-social-links-padding, 0);
     margin: var(--v-social-links-margin, 0);
-    gap: var(--spacing-4xs);
+    gap: var(--v-social-links-gap, var(--spacing-4xs));
     list-style: none;
-}
-
-.button {
-    --v-button-padding: 12px;
-    --v-button-font-size: 18px;
 }
 </style>
