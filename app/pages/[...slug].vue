@@ -7,8 +7,10 @@ import { useRoadizSeoMeta } from '~/composables/use-roadiz-seo-meta'
 
 definePageMeta({
     pageTransition: defaultPageTransition,
-    isDynamicPage: true,
 })
+
+// Roadiz handles the routing
+defineI18nRoute(false)
 
 const route = useRoute()
 const {
@@ -68,7 +70,10 @@ const pageEntity = computed(() => item.value && isPageEntity(item.value) && item
 </script>
 
 <template>
-    <LazyVDefaultPage v-if="pageEntity" :web-response="webResponse" />
+    <LazyVDefaultPage
+        v-if="pageEntity"
+        :web-response="webResponse"
+    />
 </template>
 
 <!-- <style module lang="scss"></style> -->

@@ -5,7 +5,7 @@ import type { RoadizNodesSources } from '@roadiz/types'
 const route = useRoute()
 
 // if the route is a dynamic page (i.e. [...slug].vue page)
-if (route.meta.isDynamicPage) {
+if (route.name === 'slug') {
     const { webResponse, alternateLinks } = await useRoadizWebResponse()
 
     // init page data for components outside page
