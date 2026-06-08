@@ -19,3 +19,9 @@ export function isInternalURL(url: string, siteUrl?: string) {
 export function isExternalUrl(url: string, siteUrl?: string) {
     return isHttpUrlScheme(url) && !isInternalURL(url, siteUrl)
 }
+
+// Strips query string and hash, then checks the last path segment ends with a dot-extension.
+// [^./]+ excludes dots and slashes so a dot in a directory name (e.g. /v1.2/release) doesn't match.
+export function isFileUrl(url: string) {
+    return /\.[^./]+$/.test(url.replace(/[?#].*$/, ''))
+}

@@ -25,11 +25,8 @@ if (error.value) {
     showError(error.value)
 }
 
-// Meta data
+// Cache management
 if (import.meta.server) {
-    useRoadizSeoMeta(webResponse.value)
-    useRoadizHead(webResponse.value, alternateLinks.value)
-
     // Cache tags
     useCacheTags(headers.value?.[useRuntimeConfig().public.cacheTags?.key])
 
@@ -39,6 +36,12 @@ if (import.meta.server) {
         rawHeader: headers.value?.['cache-control'],
     })
 }
+
+// Meta data
+// Update on server AND during client side navigation.
+// The client side update is required for the share on iOS Safari feature to have the correct meta data when sharing.
+useRoadizSeoMeta(webResponse.value)
+useRoadizHead(webResponse.value, alternateLinks.value)
 
 // Force redirect when web response URL is not matching current route path
 if (item.value?.url && item.value.url !== route.path) {
