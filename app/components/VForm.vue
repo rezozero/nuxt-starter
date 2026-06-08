@@ -274,7 +274,7 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
             :errors="errorsPerProperty"
             :schema="formattedSchema"
         />
-        <footer :class="$style.footer">
+        <footer>
             <LazyVStatusBanner
                 v-if="errorMessage"
                 status="error"
