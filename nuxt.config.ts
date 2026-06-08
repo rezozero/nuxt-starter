@@ -54,6 +54,9 @@ export default defineNuxtConfig({
                 url: '',
                 env: '',
             },
+            newsletter: {
+                schemaEndpoint: '/api/newsletter_form/definition',
+            },
             api: {
                 url: '',
                 endpointPrefix: '/api',
