@@ -1,14 +1,10 @@
-# This is not a monorepo — pnpm-workspace.yaml is used here only for pnpm settings
-# (overrides and allowBuilds), which pnpm 10+ no longer reads from package.json.
-
 overrides:
-  fast-xml-builder: '>=1.1.7'
-  postcss@<8.5.10: '>=8.5.10'
-  # @nuxt/eslint@1.15.2 pulls @typescript-eslint@8.57.1 which only supports TypeScript <6.0.0.
-  # Force 8.60.1 which supports <6.1.0, compatible with our TypeScript 6.0.3.
-  '@typescript-eslint/typescript-estree': '8.60.1'
-  '@typescript-eslint/parser': '8.60.1'
-  '@typescript-eslint/eslint-plugin': '8.60.1'
+  # Temporary: nuxt 4.4.7 regression (macOS socket path too long), fix ships in 4.5
+  # https://github.com/nuxt/nuxt/pull/35265
+  nuxt: "4.4.6"
+  # Temporary: i18n 10.3.0 regression (NuxtLink no-op with defineI18nRoute(false)), see CLAUDE.md
+  # https://github.com/nuxt-modules/i18n/issues/3989 / https://github.com/nuxt-modules/i18n/issues/3960
+  "@nuxtjs/i18n": "10.2.4"
 
 allowBuilds:
   '@parcel/watcher': true
