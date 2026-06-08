@@ -42,7 +42,8 @@ const props = defineProps({
         default: true,
     },
     gdpr: {
-        type: String,
+        type: [String, Boolean] as PropType<string | boolean>,
+        default: true,
     },
     submitLabel: {
         type: String,
@@ -198,11 +199,11 @@ async function onSubmit(event: Event): Promise<void> {
 const { data: loadedSchema } = typeof props.schema === 'string' ? await useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(props.schema)) : { data: null }
 
 const gdprContent = computed(() => {
-    if (typeof props.gdpr === 'string') {
+    if (typeof props.gdpr === 'string' && props.gdpr.trim() !== '') {
         return props.gdpr
     }
 
-    if (te('form.gdpr')) {
+    if (typeof props.gdpr === 'boolean' && props.gdpr && te('form.gdpr')) {
         return t('form.gdpr')
     }
 
