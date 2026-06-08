@@ -76,6 +76,7 @@ const onSelectChange = (event: Event) => {
         :focused="isFocused"
         :label="label"
         :errors="errors"
+        :required="required"
         :description="description"
     >
         <template
@@ -89,6 +90,8 @@ const onSelectChange = (event: Event) => {
                 :autocomplete="autocomplete"
                 :name="name"
                 :required="required"
+                :aria-invalid="errors?.length ? 'true' : undefined"
+                :aria-required="required"
                 :aria-describedby="scopedSlot?.describedby || undefined"
                 @blur="() => (isFocused = false)"
                 @change="onSelectChange"

@@ -28,4 +28,9 @@ export interface NSMenuLink extends RoadizNodesSources {
     linkInternalReference?: Array<RoadizNodesSources>
 }
 
+export interface NSFormBlock extends RoadizNodesSources {
+    customForm?: unknown
+}
+
+
 export type NSPage = RoadizNodesSources

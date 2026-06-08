@@ -1,0 +1,16 @@
+overrides:
+  # Temporary: nuxt 4.4.7 regression (macOS socket path too long), fix ships in 4.5
+  # https://github.com/nuxt/nuxt/pull/35265
+  nuxt: "4.4.6"
+  # Temporary: i18n 10.3.0 regression (NuxtLink no-op with defineI18nRoute(false)), see CLAUDE.md
+  # https://github.com/nuxt-modules/i18n/issues/3989 / https://github.com/nuxt-modules/i18n/issues/3960
+  "@nuxtjs/i18n": "10.2.4"
+
+allowBuilds:
+  '@parcel/watcher': true
+  '@sentry/cli': true
+  core-js: true
+  esbuild: true
+  sharp: true
+  unrs-resolver: true
+  vue-demi: true

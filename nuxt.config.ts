@@ -54,6 +54,9 @@ export default defineNuxtConfig({
                 url: '',
                 env: '',
             },
+            newsletter: {
+                schemaEndpoint: '/api/newsletter_form/definition',
+            },
             api: {
                 url: '',
                 endpointPrefix: '/api',
@@ -111,7 +114,7 @@ export default defineNuxtConfig({
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
-    compatibilityDate: '2025-04-07',
+    compatibilityDate: '2026-06-05',
     nitro: {
         prerender: {
             autoSubfolderIndex: false,
