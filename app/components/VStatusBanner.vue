@@ -18,7 +18,6 @@ const $style = useCssModule()
 const rootClasses = computed(() => {
     return [
         $style.root,
-        props.title ? $style['root--layout-default'] : $style['root--layout-condensed'],
         $style[`root--${props.status}`],
     ]
 })
