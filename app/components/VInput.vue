@@ -35,7 +35,7 @@ const slotName = computed(() => (isBooleanInput.value ? 'beforeLabel' : 'default
         :errors="errors"
     >
         <template
-            #[slotName]="scopedSlot"
+            #[slotName]="slotProps"
         >
             <input
                 :id="id"
@@ -52,7 +52,7 @@ const slotName = computed(() => (isBooleanInput.value ? 'beforeLabel' : 'default
                 :type="type"
                 :value="model"
                 :max="props.type === 'datetime-local' ? '9999-12-31T23:59' : undefined"
-                :aria-describedby="'describedby' in scopedSlot ? scopedSlot.describedby : undefined"
+                :aria-describedby="'describedby' in slotProps ? slotProps.describedby : undefined"
                 :pattern="pattern"
                 @blur="onBlur"
                 @focus="onFocus"
