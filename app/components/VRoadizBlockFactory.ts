@@ -1,12 +1,16 @@
-import type { FunctionalComponent, VNodeChild } from 'vue'
+import type { ExtractPropTypes, FunctionalComponent, VNodeChild } from 'vue'
 import { h, resolveDynamicComponent, resolveComponent } from 'vue'
 import type { RoadizWalker } from '@roadiz/types'
 
-export interface RoadizBlockFactoryProps {
-    prefix?: string
-    blocks: RoadizWalker[]
-    [key: string]: unknown
+const props = {
+    prefix: String,
+    blocks: {
+        type: Array as () => RoadizWalker[],
+        required: true as const,
+    },
 }
+
+export type RoadizBlockFactoryProps = ExtractPropTypes<typeof props>
 
 const isComponent = (component: string | undefined): boolean => {
     return typeof resolveDynamicComponent(component) !== 'string'
@@ -35,5 +39,7 @@ const RoadizBlockFactory: FunctionalComponent<RoadizBlockFactoryProps> = ({ bloc
         }
     })
 }
+
+RoadizBlockFactory.props = props
 
 export default RoadizBlockFactory

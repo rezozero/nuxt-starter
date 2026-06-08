@@ -77,13 +77,22 @@ export default defineComponent({
         )
         const $img = useImage()
         const imageComponentProps = computed(() => {
-            return {
+            const baseProps = {
                 ...pick(props, Object.keys(isPicture.value ? vPictureProps : vImgProps)),
                 src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
                 width: width.value,
                 height: height.value,
                 alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
                 placeholder: document.value?.imageAverageColor,
+                provider: 'interventionRequest',
+            }
+
+            if (!document.value?.processable) {
+                return baseProps
+            }
+
+            return {
+                ...baseProps,
                 format: props.format || 'webp',
                 sizes:
                     props.sizes
@@ -91,7 +100,6 @@ export default defineComponent({
                         && !props.densities
                         && ($img.options.presets?.default?.sizes || $img.options.screens))
                     || undefined,
-                provider: 'interventionRequest',
                 modifiers: {
                     ...modifiers.value,
                     format: props.format || 'webp',

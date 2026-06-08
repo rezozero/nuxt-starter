@@ -30,7 +30,9 @@ export default defineNuxtConfig({
             global: true,
         },
     ],
-    devtools: { enabled: true },
+    devtools: {
+        enabled: process.env.NUXT_DEVTOOLS === 'true',
+    },
     app: {
         head: {
             htmlAttrs: {
