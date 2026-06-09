@@ -1,6 +1,6 @@
 # Frontend Guidelines
 
-Guidelines for developers contributing to this project. Also used as AI context alongside [`AI_CONTEXT.md`](./AI_CONTEXT.md) — see that file for project overview, stack, and workflow.
+Frontend code rules for this project. For project overview, stack, and workflow, see [`README.md`](../README.md).
 
 ---
 
@@ -22,7 +22,7 @@ Guidelines for developers contributing to this project. Also used as AI context 
 <p>Text</p>
 ```
 
-- Maximum **2–3 levels of nesting** per component in common cases
+- Ideally **2–3 levels of nesting** per component in common cases
 - Prefer HTML5 semantic elements (`<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<header>`, `<footer>`, `<figure>`, `<dialog>`, `<fieldset>`) over generic `<div>`
 - One component = one root element (`<component :is="tag">` or a single semantic tag), no unnecessary phantom `<div>`
 - Use `<template>` for conditions/loops that need grouping without an extra DOM node
@@ -120,7 +120,18 @@ Before overriding a component's CSS property, check its `<style>` block to see w
 ## 4. SCSS — usage rules
 
 - Global variables live in `app/assets/scss/variables/` — do not redefine locally
-- SCSS nesting limited to **2 levels max** inside component modules
+- Avoid nested descendant selectors — prefer flat declarations:
+
+```scss
+// ❌ Avoid
+.header {
+    .logo { … }
+}
+
+// ✅ Prefer
+.header { … }
+.logo { … }
+```
 - Use `:where()` for overrides without increasing specificity:
 
 ```scss
@@ -205,22 +216,6 @@ const reducedMotion = usePreferredReducedMotion()
 
 ## 6. Vue components — code conventions
 
-### Script
-
-- `<script setup lang="ts">` for new components
-- Explicit interface types for complex props:
-
-```ts
-interface VModalProps {
-    align?: 'top' | 'bottom' | 'left' | 'right'
-    scrollableElement?: MaybeRef<HTMLElement | null>
-}
-const props = defineProps<VModalProps>()
-```
-
-- `defineModel<T>()` for v-model bindings
-- `defineEmits` with explicit types
-
 ### Dynamic classes
 
 For complex class bindings, prefer `computed` — it keeps the template readable and the logic testable. Simple inline expressions in the template are fine:
@@ -273,7 +268,6 @@ Use `<component :is="tag">` when the root element varies semantically (e.g. `<bu
 
 ## 8. Internationalisation
 
-- All user-visible text goes through `$t('key')` or `const { t } = useI18n()`
 - Translation keys follow a hierarchy: `component.element` (e.g. `card.link_label`, `form.error`)
 - Never hardcode strings in a template
 
