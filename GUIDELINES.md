@@ -1,15 +1,6 @@
 # Frontend Guidelines
 
-Guidelines for developers contributing to this project. Read [`AI_CONTEXT.md`](./AI_CONTEXT.md) first.
-
----
-
-## Stack
-
-- **Nuxt 4 / Vue 3 / TypeScript** — SSR
-- **CSS Modules + SCSS** — no Tailwind, avoid adding new global utility classes
-- **@roadiz/types** — CMS types
-- **pnpm** — package manager
+Guidelines for developers contributing to this project. Also used as AI context alongside [`AI_CONTEXT.md`](./AI_CONTEXT.md) — see that file for project overview, stack, and workflow.
 
 ---
 
@@ -42,8 +33,7 @@ Guidelines for developers contributing to this project. Read [`AI_CONTEXT.md`](.
 
 - **`V` prefix** is mandatory: `VButton`, `VCard`, `VModal`, `VCarousel`
 - **PascalCase** for filenames: `VFieldWrapper.vue`, `VRoadizImage.vue`
-- CMS blocks (in `app/blocks/`) are registered globally — same convention applies
-- Avoid generic names: `VWrapper`, `VContainer` are red flags
+- CMS blocks (in `app/blocks/`) are registered globally — their filename must match the CMS block type name (e.g. `ContentBlock` in Roadiz → `ContentBlock.vue`)
 
 ---
 
@@ -52,6 +42,8 @@ Guidelines for developers contributing to this project. Read [`AI_CONTEXT.md`](.
 All components use `<style lang="scss" module>`. Classes are referenced via `$style`.
 
 ### Classes
+
+The naming follows a BEM-like approach: a root class, semantic children, and modifiers suffixed on root.
 
 | Usage | Convention | Example |
 |-------|-----------|---------|
@@ -127,7 +119,6 @@ Before overriding a component's CSS property, check its `<style>` block to see w
 
 ## 4. SCSS — usage rules
 
-- **`@use`** only, never `@import` (deprecated)
 - Global variables live in `app/assets/scss/variables/` — do not redefine locally
 - SCSS nesting limited to **2 levels max** inside component modules
 - Use `:where()` for overrides without increasing specificity:
@@ -209,7 +200,6 @@ const reducedMotion = usePreferredReducedMotion()
 
 - Every `<input>` must have an associated `<label>` via `for`/`id`
 - Error messages must be linked to the input via `aria-describedby`
-- Visually hidden inputs (custom checkbox/radio) must remain in the DOM with `position: absolute; opacity: 0` — never use `display: none` or `visibility: hidden` for them
 
 ---
 
@@ -230,17 +220,10 @@ const props = defineProps<VModalProps>()
 
 - `defineModel<T>()` for v-model bindings
 - `defineEmits` with explicit types
-- Export props and types from `<script>` to allow reuse:
-
-```ts
-// Exported for reuse in other components
-export const vButtonProps = { … }
-export type VButtonSize = 'xs' | 'sm' | 'md' | 'lg'
-```
 
 ### Dynamic classes
 
-Build classes via `computed` — never write complex inline expressions in the template:
+For complex class bindings, prefer `computed` — it keeps the template readable and the logic testable. Simple inline expressions in the template are fine:
 
 ```ts
 const rootClasses = computed(() => [
@@ -252,7 +235,7 @@ const rootClasses = computed(() => [
 
 ### Dynamic component
 
-Use `<component :is="tag">` for components whose root element varies (button/link):
+Use `<component :is="tag">` when the root element varies semantically (e.g. `<button>` for an action, `<a>` for navigation):
 
 ```vue
 <component :is="internalTag" v-bind="attrs">…</component>
@@ -262,8 +245,27 @@ Use `<component :is="tag">` for components whose root element varies (button/lin
 
 ## 7. Images
 
-- Always use `VImg` or `VRoadizImage` — never a bare `<img>` tag
-- Define `sizes` for responsive images
+- Define `sizes` for responsive images — this tells the browser which rendered width to expect at each breakpoint:
+
+```vue
+    <VImg
+        v-bind="imageProps"
+        sizes="xs:100vw md:100vw"
+    />
+    <VRoadizImage
+        :document="mainDocument"
+        alt=""
+    >
+        <VPictureSource
+            sizes="xs:100vw md:100vw lg:100vw"
+        />
+        <VPictureSource
+            sizes="lg:80vw vl:80vw xl:80vw xxl:80vw qhd:80vw"
+            media="(max-width: 1024px)"
+        />
+    </VRoadizImage>
+```
+
 - Use `fetchpriority="high"` (via the `preload` prop) only for the above-the-fold image (LCP)
 - Never omit the `alt` attribute — empty (`alt=""`) for decorative images, descriptive otherwise
 
@@ -281,20 +283,3 @@ Use `<component :is="tag">` for components whose root element varies (button/lin
 
 - **Lazy-load** heavy components: prefix with `Lazy` (`<LazyVModal>`)
 - **Dynamic imports** for heavy third-party libraries (e.g. Swiper imported on demand)
-- **Named imports** for tree-shaking: `import pick from 'lodash/pick'` not `import _ from 'lodash'`
-- `ClientOnly` for components with no useful SSR rendering
-
----
-
-## 10. PR checklist
-
-- [ ] `pnpm lint` passes without errors
-- [ ] No unnecessary `<div>` — every element has a reason to exist
-- [ ] Semantic HTML used (no `<div>` in place of `<button>`, `<nav>`, etc.)
-- [ ] `:focus-visible` styled on all interactive elements
-- [ ] `alt` present on all images
-- [ ] Appropriate `aria-*` on interactive components (toggle, modal, form)
-- [ ] Texts translated via `$t()`
-- [ ] No hardcoded values in CSS (use CSS custom properties)
-- [ ] No `@import` in SCSS (use `@use`)
-- [ ] CSS naming convention respected (`.root`, `.root--modifier`, children without prefix)
