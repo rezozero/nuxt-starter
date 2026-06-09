@@ -228,14 +228,6 @@ const rootClasses = computed(() => [
 ])
 ```
 
-### Dynamic component
-
-Use `<component :is="tag">` when the root element varies semantically (e.g. `<button>` for an action, `<a>` for navigation):
-
-```vue
-<component :is="internalTag" v-bind="attrs">…</component>
-```
-
 ---
 
 ## 7. Images
