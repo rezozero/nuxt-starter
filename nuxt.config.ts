@@ -30,7 +30,9 @@ export default defineNuxtConfig({
             global: true,
         },
     ],
-    devtools: { enabled: true },
+    devtools: {
+        enabled: process.env.NUXT_DEVTOOLS === 'true',
+    },
     app: {
         head: {
             htmlAttrs: {
@@ -51,6 +53,9 @@ export default defineNuxtConfig({
                 name: '',
                 url: '',
                 env: '',
+            },
+            newsletter: {
+                schemaEndpoint: '/api/newsletter_form/definition',
             },
             api: {
                 url: '',
@@ -109,7 +114,7 @@ export default defineNuxtConfig({
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
-    compatibilityDate: '2025-04-07',
+    compatibilityDate: '2026-06-05',
     nitro: {
         prerender: {
             autoSubfolderIndex: false,

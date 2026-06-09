@@ -48,6 +48,8 @@ const { getPageTitle } = useRoadizPageTitle()
 useHead({
     titleTemplate: getPageTitle,
 })
+
+const { isActive: previewIsActive } = useRoadizPreview()
 </script>
 
 <template>
@@ -61,6 +63,7 @@ useHead({
                     { anchor: '#footer', label: $t('skip_to.footer') },
                 ]"
             />
+            <VRoadizAlertsContainer />
             <VLoadingIndicator />
             <NuxtRouteAnnouncer />
         </ClientOnly>
@@ -71,6 +74,7 @@ useHead({
             </slot>
         </div>
         <VFooter id="footer" />
+        <LazyVRoadizPreview v-if="previewIsActive" />
     </div>
 </template>
 

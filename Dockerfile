@@ -61,7 +61,7 @@ USER node
 
 # Make sure to copy pnpm-lock.yaml .npmrc to stick to the same versions
 # and avoid any issues with the versions of the dependencies
-COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml .npmrc ./
+COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 
@@ -79,7 +79,7 @@ USER node
 
 # Make sure to copy pnpm-lock.yaml .npmrc to stick to the same versions
 # and avoid any issues with the versions of the dependencies
-COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml .npmrc ./
+COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 # Install dependencies
 RUN pnpm install --frozen-lockfile
 

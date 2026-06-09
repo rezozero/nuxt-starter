@@ -2,11 +2,11 @@
 import type { FormElementProps } from '~~/types/form'
 import { textInputEmits } from '~/composables/use-text-input'
 
-const props = defineProps<FormElementProps>()
+const props = defineProps<FormElementProps<string>>()
 
 const emit = defineEmits([...textInputEmits])
 
-const input = ref<HTMLInputElement | null>(null)
+const input = ref<HTMLTextAreaElement | null>(null)
 
 const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit, input)
 </script>
@@ -28,7 +28,9 @@ const { isFocused, isFilled, model, onBlur, onFocus } = useTextInput(props, emit
             <textarea
                 :id="id"
                 ref="input"
-                v-model="(model as string)"
+                v-model="model"
+                :aria-invalid="errors?.length ? 'true' : undefined"
+                :aria-required="required"
                 :autocomplete="autocomplete"
                 :required="required"
                 :placeholder="placeholder"
