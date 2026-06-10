@@ -1,3 +1,6 @@
+packages:
+  - stories
+
 overrides:
   # Temporary: nuxt 4.4.7 regression (macOS socket path too long), fix ships in 4.5
   # https://github.com/nuxt/nuxt/pull/35265
