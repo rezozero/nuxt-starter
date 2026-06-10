@@ -10,10 +10,9 @@ run_lint() {
 	eval "$command" || (echo "$ERROR_MESSAGE" && exit 1)
 }
 
-# Check if Docker is running and execute the appropriate lint command
-if ! docker info >/dev/null 2>&1; then
-	# Docker is not running, use local pnpm lint
-	run_lint "pnpm lint"
-else
+# Use Docker only when explicitly requested
+if [ "${USE_DOCKER_FOR_PREPUSH}" = "true" ]; then
 	run_lint "docker compose run -T --rm node pnpm lint"
+else
+	run_lint "pnpm lint"
 fi
