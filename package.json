@@ -54,6 +54,7 @@
     "@popperjs/core": "^2.11.8",
     "@sentry/nuxt": "^10.56.0",
     "@types/lodash": "^4.17.24",
+    "@types/node": "^25.9.2",
     "@vue-a11y/skip-to": "^3.0.3",
     "@vueuse/core": "^14.3.0",
     "body-scroll-lock": "^3.1.5",
