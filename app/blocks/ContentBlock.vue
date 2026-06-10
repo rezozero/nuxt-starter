@@ -9,6 +9,9 @@ const { item } = useRoadizBlock<NSContentBlock>({ props })
 <template>
     <VBlock :item="item">
         <h2>{{ item.title }}</h2>
-        <VMarkdown v-if="item.content" :content="item.content" />
+        <VMarkdown
+            v-if="item.content"
+            :content="item.content"
+        />
     </VBlock>
 </template>

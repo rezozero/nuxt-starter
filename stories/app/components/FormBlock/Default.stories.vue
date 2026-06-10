@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { RoadizWalkerKnown } from '~/utils/roadiz/types';
+import type { RoadizWalkerKnown } from '~/utils/roadiz/types'
 import type { NSFormBlock } from '~~/types/roadiz'
 import type { CustomForm } from '~~/types/api'
 
