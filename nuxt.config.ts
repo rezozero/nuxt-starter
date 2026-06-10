@@ -161,6 +161,19 @@ export default defineNuxtConfig({
             assetsInlineLimit: 0,
         },
         css: {
+            modules: {
+                generateScopedName(name: string, filename: string) {
+                    // Strip query params that differ between SSR (?ssr=true) and client
+                    const cleanFilename = (filename.split('?')[0] ?? filename).replace(/\\/g, '/')
+                    const hash = createHash('md5').update(cleanFilename).digest('hex').substring(0, 5)
+                    // in dev mode, display the componentName in the className
+                    if (isDev) {
+                        const componentName = cleanFilename.split('/').pop()?.replace(/\.vue.*$/, '') ?? ''
+                        return `${componentName}_${name}_${hash}`
+                    }
+                    return `_${name}_${hash}`
+                },
+            },
             preprocessorOptions: {
                 scss: {
                     additionalData: `@use "${fileURLToPath(new URL('./app/assets/scss/_resources.scss', import.meta.url))}" as *;`,
