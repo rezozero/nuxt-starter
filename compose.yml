@@ -19,7 +19,7 @@ services:
     intervention:
         image: ambroisemaupate/intervention-request:latest
         volumes:
-            - ./stories/app/assets/images:/app/public/images:ro
+            - ./stories/public/images:/app/public/images:ro
         tmpfs:
             - /app/public/assets:mode=0777
         ports:
