@@ -41,7 +41,6 @@ $vars: (
         prefix: 'icon',
     ),
 );
-
 $component: 'v-button';
 
 // Outputs CSS property declarations using the CSS variables set by `size()`, with sm values as fallbacks.
@@ -54,8 +53,8 @@ $component: 'v-button';
         transition: color 0.3s ease(out-quad), background-color 0.3s ease(out-quad);
 
         &:where([inert], #{&}--disabled, [disabled]) {
-            outline-color: var(--button-label-on-light-outline-border-disabled, rgba(1, 1, 1, 0.30));
             color: var(--button-label-on-light-outline-content-disabled, #bdbdbd);
+            outline-color: var(--button-label-on-light-outline-border-disabled, rgb(1, 1, 1, 30%));
         }
 
         @media (hover: hover) {

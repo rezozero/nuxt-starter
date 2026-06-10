@@ -114,7 +114,7 @@ export default defineComponent({
 
     // Default styles
     @include v-button.apply;
-    @include v-button.size-classes();
+    @include v-button.size-classes;
 
     &--icon-last {
         flex-direction: row-reverse;
@@ -149,7 +149,7 @@ export default defineComponent({
         @include v-button-outlined.apply;
     }
 
-    @include v-button-outlined.size-classes();
+    @include v-button-outlined.size-classes;
 }
 
 .icon {

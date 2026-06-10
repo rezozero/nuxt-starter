@@ -38,7 +38,7 @@ import { vButtonDesign, vButtonSizes } from '~/components/VButton.vue'
 <style lang="scss" module>
 .row {
     display: flex;
-    gap: 16px;
     margin-bottom: 16px;
+    gap: 16px;
 }
 </style>
