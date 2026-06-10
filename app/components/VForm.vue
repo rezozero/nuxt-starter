@@ -42,7 +42,7 @@ const props = defineProps({
         default: true,
     },
     gdpr: {
-        type: Boolean,
+        type: [String, Boolean] as PropType<string | boolean>,
         default: true,
     },
     submitLabel: {
@@ -73,7 +73,7 @@ const props = defineProps({
 })
 
 // COMMONS
-const { t } = useI18n()
+const { t, te } = useI18n()
 
 // ERRORS
 const error = ref<FetchError | null>(null)
@@ -98,24 +98,28 @@ const errorsPerProperty = computed(() => {
     })
 })
 
+watch(errorsPerProperty, (violations) => {
+    if (!violations.length) return
+
+    const target = formEl.value?.querySelector(`[name="${violations[0]?.propertyPath}"]`)
+
+    if (target instanceof HTMLElement) {
+        target.focus()
+    }
+})
+
 const errorMessage = computed(() => {
     if (!error.value) return
 
-    if (props.errorLabel) return props.errorLabel
-
-    if (error.value?.response?._data?.['hydra:description'] && errorsPerProperty.value.length === 0) {
-        return error.value?.response?._data['hydra:description'] || null
-    }
-
-    if (error.value?.response?._data?.detail) {
-        return error.value?.response?._data?.detail || null
+    if (props.errorLabel) {
+        return props.errorLabel
     }
 
     if (error.value?.response?.status === 429) {
         return t('form.error_too_many_requests')
     }
 
-    return errorsPerProperty.value.length > 1 ? 'form.contains_errors' : 'form.error' // null
+    return errorsPerProperty.value.length > 1 ? t('form.contains_errors') : t('form.error')
 })
 
 // SUBMIT
@@ -194,7 +198,18 @@ async function onSubmit(event: Event): Promise<void> {
 // SCHEMA
 const { data: loadedSchema } = typeof props.schema === 'string' ? await useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(props.schema)) : { data: null }
 
-const gdprContent = computed(() => props.gdpr && t('form.gdpr'))
+const gdprContent = computed(() => {
+    if (typeof props.gdpr === 'string' && props.gdpr.trim() !== '') {
+        return props.gdpr
+    }
+
+    if (typeof props.gdpr === 'boolean' && props.gdpr && te('form.gdpr')) {
+        return t('form.gdpr')
+    }
+
+    return null
+})
+
 const rawSchema = computed(() => (typeof props.schema === 'object' ? props.schema : loadedSchema?.value))
 const formattedSchema = computed(() => {
     if (!rawSchema.value) {
@@ -259,34 +274,39 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
             :errors="errorsPerProperty"
             :schema="formattedSchema"
         />
-        <footer :class="$style.footer">
-            <div>
-                <p
-                    v-if="errorMessage"
-                    role="status"
-                    :class="$style.errors"
-                >
-                    {{ $t(errorMessage) }}
-                </p>
-                <p
-                    v-if="isSuccess"
-                    role="status"
-                    :class="$style.success"
-                >
-                    {{ successLabel || $t('form.success') }}
-                </p>
-                <slot
-                    name="submitButton"
-                    v-bind="{ canSubmit, isPending, isDisabled, error, label: submitButtonLabel }"
-                >
-                    <VButton
-                        v-if="canSubmit"
-                        :disabled="isDisabled"
-                        :label="submitButtonLabel"
-                        outlined
-                    />
-                </slot>
-            </div>
+        <footer>
+            <LazyVStatusBanner
+                v-if="errorMessage"
+                status="error"
+                :message="errorMessage"
+                :class="$style.error"
+                role="alert"
+            />
+            <LazyVStatusBanner
+                v-if="isSuccess"
+                status="success"
+                :message="successLabel || t('form.success')"
+                :class="$style.success"
+                role="status"
+            />
+            <slot
+                v-if="!isSuccess"
+                name="submitButton"
+                v-bind="{
+                    canSubmit,
+                    isPending,
+                    isDisabled,
+                    error,
+                    label: submitButtonLabel,
+                }"
+            >
+                <VButton
+                    v-if="canSubmit"
+                    :disabled="isDisabled"
+                    :label="submitButtonLabel"
+                    :class="$style.submit"
+                />
+            </slot>
             <VMarkdown
                 v-if="gdprContent"
                 :class="$style.gdpr"
@@ -304,22 +324,22 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
     z-index: 1;
 }
 
-.errors {
-    margin: 1em 0;
-    color: rgb(244, 67, 54);
+.error {
+    margin-block: 18px;
 }
 
 .success {
-    margin: 1em 0;
-    color: rgb(34, 187, 150);
+    margin-block: 18px;
 }
 
-.footer {
-    margin-top: px-to-rem(32);
+.submit {
+    --v-button-display: flex;
+
+    margin-block: 32px 18px;
 }
 
 .gdpr {
-    margin-top: px-to-rem(32);
+    margin-top: 32px;
     color: var(--v-form-gdpr-color, rgb(117 117 117));
 }
 </style>
