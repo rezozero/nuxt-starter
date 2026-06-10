@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 import { version } from './package.json'
+import { createHash } from 'node:crypto'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
