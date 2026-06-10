@@ -32,5 +32,9 @@ export interface NSFormBlock extends RoadizNodesSources {
     customForm?: unknown
 }
 
+export interface NSContentBlock extends RoadizNodesSources {
+    content?: string
+}
+
 
 export type NSPage = RoadizNodesSources

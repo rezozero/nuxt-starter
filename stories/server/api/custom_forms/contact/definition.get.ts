@@ -1,0 +1,72 @@
+export default defineEventHandler(() => ({
+    title: 'formulaire_de_contact',
+    type: 'object',
+    properties: {
+        nom: {
+            type: 'string',
+            title: 'Nom',
+            attr: { 'data-group': null, 'placeholder': null },
+            propertyOrder: 1,
+        },
+        prenom: {
+            type: 'string',
+            title: 'Prénom',
+            attr: { 'data-group': null, 'placeholder': null },
+            propertyOrder: 2,
+        },
+        adresse_e_mail: {
+            type: 'string',
+            title: 'Adresse e-mail',
+            attr: { 'data-group': null, 'placeholder': null },
+            widget: 'email',
+            propertyOrder: 3,
+        },
+        telephone: {
+            type: 'string',
+            title: 'Téléphone',
+            attr: { 'data-group': null, 'placeholder': null },
+            widget: 'tel',
+            propertyOrder: 4,
+        },
+        date_arrivee: {
+            type: 'string',
+            title: 'Date d\'arrivée',
+            attr: { 'data-group': null, 'placeholder': null },
+            widget: 'date',
+            propertyOrder: 5,
+        },
+        date_depart: {
+            type: 'string',
+            title: 'Date de départ',
+            attr: { 'data-group': null, 'placeholder': null },
+            widget: 'date',
+            propertyOrder: 6,
+        },
+        nombre_de_personnes: {
+            enum: ['1', '2', '3', '4', '5', '6+'],
+            enum_titles: ['1 personne', '2 personnes', '3 personnes', '4 personnes', '5 personnes', '6 personnes et plus'],
+            options: {
+                enum_titles: ['1 personne', '2 personnes', '3 personnes', '4 personnes', '5 personnes', '6 personnes et plus'],
+            },
+            type: 'string',
+            title: 'Nombre de personnes',
+            attr: { 'data-group': null, 'placeholder': 'Sélectionner' },
+            propertyOrder: 7,
+        },
+        message: {
+            type: 'string',
+            title: 'Message',
+            attr: { 'data-group': null, 'placeholder': null },
+            widget: 'textarea',
+            propertyOrder: 8,
+        },
+        newsletter: {
+            type: 'boolean',
+            title: 'Je souhaite recevoir les actualités du Chalet du Parc',
+            attr: { 'data-group': null, 'placeholder': null },
+            widget: 'checkbox',
+            propertyOrder: 9,
+        },
+    },
+    required: ['nom', 'prenom', 'adresse_e_mail', 'message'],
+}))
