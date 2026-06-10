@@ -46,9 +46,9 @@ $component: 'v-button';
 // Outputs CSS property declarations using the CSS variables set by `size()`, with sm values as fallbacks.
 // Usage: @include v-button.apply('') or @include v-button.apply('label')
 @mixin apply($prefix: '') {
-    @if $prefix=='' {
-        background: transparent;
+    @if $prefix == '' {
         border: initial;
+        background: transparent;
         outline: 1px solid var(--v-button-outline-color, var(--button-label-on-light-outline-border, #010101));
         transition: color 0.3s ease(out-quad), background-color 0.3s ease(out-quad);
 
