@@ -161,8 +161,8 @@ importers:
   stories:
     dependencies:
       '@rezo-zero/nuxt-stories':
-        specifier: 0.2.0-next.12
-        version: 0.2.0-next.12(@babel/parser@7.29.7)(magicast@0.5.3)(vue@3.5.35(typescript@6.0.3))
+        specifier: 0.2.0-next.14
+        version: 0.2.0-next.14(@babel/parser@7.29.7)(magicast@0.5.3)(vue@3.5.35(typescript@6.0.3))
 
 packages:
 
@@ -2467,8 +2467,8 @@ packages:
     resolution: {integrity: sha512-BcoG9mXsfrSsJ935PbU/iErhBX5u6T/nPIICPl2YsZlwSMSLLIv9tjx4j4g6/GhLIYK4PJIXoOMHumWhD7DMvQ==}
     engines: {node: ^20}
 
-  '@rezo-zero/nuxt-stories@0.2.0-next.12':
-    resolution: {integrity: sha512-x3Ls/UuZ2DHmOuGM9rj8hYeSzn/EuJmGxZAMopVoaP7fszwZyewmwgL9LyAhOoLQ00nDFxYIU7d5XWZ02u4pUw==}
+  '@rezo-zero/nuxt-stories@0.2.0-next.14':
+    resolution: {integrity: sha512-RstRxxgccwdvxAV0utjoy477o65sd18KmkX3zZOZgBQac3tctitupyZReJAgl3dibXK93nIhij1iUk11/u8AHg==}
     engines: {node: ^20.19.0 || >=22.12.0}
 
   '@rezo-zero/xilofone-fetch@1.0.0':
@@ -8663,7 +8663,7 @@ snapshots:
     transitivePeerDependencies:
       - magicast
 
-  '@rezo-zero/nuxt-stories@0.2.0-next.12(@babel/parser@7.29.7)(magicast@0.5.3)(vue@3.5.35(typescript@6.0.3))':
+  '@rezo-zero/nuxt-stories@0.2.0-next.14(@babel/parser@7.29.7)(magicast@0.5.3)(vue@3.5.35(typescript@6.0.3))':
     dependencies:
       '@primeuix/themes': 2.0.3
       '@primevue/nuxt-module': 4.5.5(@babel/parser@7.29.7)(magicast@0.5.3)(vue@3.5.35(typescript@6.0.3))
