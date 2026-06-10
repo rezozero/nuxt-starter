@@ -1,10 +1,14 @@
 <script lang="ts" setup>
-import type { RoadizWalker } from '@roadiz/types'
+import type { RoadizWalkerKnown } from '~/utils/roadiz/types'
+import type { NSContentBlock } from '~~/types/roadiz'
 
-const walker: RoadizWalker = {
+const walker: RoadizWalkerKnown<NSContentBlock> = {
     item: {
+        slug: 'content-block',
         title: 'Hello world',
+        content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     },
+    children: [],
 }
 </script>
 
