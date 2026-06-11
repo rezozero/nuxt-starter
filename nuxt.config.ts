@@ -185,7 +185,6 @@ export default defineNuxtConfig({
         },
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
-            // @ts-expect-error vite-svg-loader plugin types are incompatible with Vite 7 rollup types
             svgLoader({
                 svgoConfig: {
                     multipass: true,
