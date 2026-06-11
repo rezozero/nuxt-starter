@@ -51,6 +51,7 @@
     "vite-svg-loader": "^5.1.1"
   },
   "dependencies": {
+    "@events-api/javascript-sdk": "^9.3.5",
     "@floating-ui/vue": "^1.1.11",
     "@gtm-support/vue-gtm": "^3.2.0",
     "@popperjs/core": "^2.11.8",

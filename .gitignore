@@ -6,7 +6,6 @@
 .cache
 .pnpm-store
 dist
-.npmrc
 
 # Node dependencies
 node_modules
