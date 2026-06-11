@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "nuxi dev",
-    "stories": "nuxi dev stories --port 6006 --dotenv ../.env.stories",
+    "stories": "nuxi dev stories",
     "build": "nuxi build",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
