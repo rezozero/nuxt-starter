@@ -12,3 +12,6 @@
 @forward './mixins/include-media' show media;
 @forward './mixins/typography';
 @forward './mixins/form';
+
+// components
+@forward './components/v-button';
