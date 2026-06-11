@@ -1,0 +1,9 @@
+{
+    "stylelint.enable": true,
+    "stylelint.packageManager": "pnpm",
+    "stylelint.validate": ["css", "scss", "vue"],
+    "stylelint.configFile": "./stylelint.config.ts",
+    "[scss]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+    }
+}
