@@ -85,6 +85,7 @@ export default defineComponent({
                 alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
                 placeholder: document.value?.imageAverageColor,
                 provider: 'interventionRequest',
+                loading: props.loading ?? ('lazy' as const),
             }
 
             if (!document.value?.processable) {
@@ -106,7 +107,7 @@ export default defineComponent({
                 },
             }
         })
-        const imageComponent = h(isPicture.value ? VPicture : VImg, imageComponentProps.value, slots.default)
+        const imageComponent = h(isPicture.value ? VPicture : VImg, imageComponentProps.value as Record<string, unknown>, slots.default)
 
         return () => {
             if (copyright.value) {

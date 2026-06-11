@@ -253,7 +253,7 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
         ref="formEl"
         :action="formattedAction"
         :method="method"
-        @submit="(e) => onSubmit(e)"
+        @submit="(e: Event) => onSubmit(e)"
     >
         <dialog
             v-if="displayUserConsentDialog"

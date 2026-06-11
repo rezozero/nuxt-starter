@@ -15,8 +15,8 @@ export function getResponseAlternateLinks(links: string): Array<RoadizAlternateL
             const title = attributes[3]?.split('title="').join('').split('"').join('').trim() || undefined
 
             return {
-                url: attributes[0].split('<').join('').split('>').join('').trim(),
-                locale: attributes[2].split('hreflang="').join('').split('"').join('').trim(),
+                url: attributes[0]!.split('<').join('').split('>').join('').trim(),
+                locale: attributes[2]!.split('hreflang="').join('').split('"').join('').trim(),
                 // Must decode translation name from base64 because headers are ASCII only
                 title: title ? b64DecodeUnicode(title) : undefined,
             } as RoadizAlternateLink
