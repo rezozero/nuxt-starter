@@ -1,5 +1,5 @@
 @use 'assets/scss/mixins/css-vars-map';
-@use 'assets/scss/mixins/sizes';
+@use 'assets/scss/mixins/sizes' as *;
 
 // $example-sizes-map: (
 //     (
@@ -90,5 +90,5 @@ $component: 'v-button';
 //   &--size-sm { --v-button-solid-min-height: 40px; … }
 //   &--size-md { --v-button-solid-min-height: 56px; … } etc.
 @mixin size-classes() {
-    @include sizes.sizes($vars, $component);
+    @include sizes($vars, $component);
 }

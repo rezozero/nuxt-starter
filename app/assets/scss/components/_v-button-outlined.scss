@@ -1,5 +1,5 @@
 @use 'assets/scss/mixins/css-vars-map';
-@use 'assets/scss/mixins/sizes';
+@use 'assets/scss/mixins/sizes' as *;
 @use 'assets/scss/functions/ease' as *;
 
 $vars: (
@@ -54,7 +54,7 @@ $component: 'v-button';
 
         &:where([inert], #{&}--disabled, [disabled]) {
             color: var(--button-label-on-light-outline-content-disabled, #bdbdbd);
-            outline-color: var(--button-label-on-light-outline-border-disabled, rgb(1, 1, 1, 30%));
+            outline-color: var(--button-label-on-light-outline-border-disabled, rgba(1, 1, 1, 0.3));
         }
 
         @media (hover: hover) {
@@ -86,5 +86,5 @@ $component: 'v-button';
 //   &--size-sm { --v-button-solid-min-height: 40px; … }
 //   &--size-md { --v-button-solid-min-height: 56px; … } etc.
 @mixin size-classes() {
-    @include sizes.sizes($vars, $component);
+    @include sizes($vars, $component);
 }
