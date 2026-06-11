@@ -25,6 +25,9 @@ jobs:
               name: Install pnpm
             - name: Install dependencies
               run: pnpm install
+              env:
+                  EVENTS_API_NPM_TOKEN: ${{ secrets.EVENTS_API_NPM_TOKEN }}
+                  EVENTS_API_NPM_REGISTRY_URL: ${{ secrets.EVENTS_API_NPM_REGISTRY_URL }}
             - name: Lint scripts
               run: pnpm lint:js
             - name: Lint styles

@@ -11,6 +11,9 @@ importers:
 
   .:
     dependencies:
+      '@events-api/javascript-sdk':
+        specifier: ^9.3.5
+        version: 9.3.5
       '@floating-ui/vue':
         specifier: ^1.1.11
         version: 1.1.11(vue@3.5.35(typescript@6.0.3))
@@ -952,6 +955,9 @@ packages:
   '@eslint/plugin-kit@0.7.2':
     resolution: {integrity: sha512-+CNAzxglkrpNf/kKywqQfk74QjtceuOE7Qm+AF8miRvPF/wmmK5+OJOgVh3AVTT3RP2mH3+FOaxlE5v72owk0A==}
     engines: {node: ^20.19.0 || ^22.13.0 || >=24}
+
+  '@events-api/javascript-sdk@9.3.5':
+    resolution: {integrity: sha1-2cFBiPkodRB2+szzh5zXKVAz8Gs=, tarball: https://gitlab.rezo-zero.com/api/v4/projects/428/packages/npm/@events-api/javascript-sdk/-/@events-api/javascript-sdk-9.3.5.tgz}
 
   '@fastify/accept-negotiator@2.0.1':
     resolution: {integrity: sha512-/c/TW2bO/v9JeEgoD/g1G5GxGeCF1Hafdf79WPmUlgYiBXummY0oX3VVq4yFkKKVBKDNlaDUYoab7g38RpPqCQ==}
@@ -7060,6 +7066,10 @@ snapshots:
     dependencies:
       '@eslint/core': 1.2.1
       levn: 0.4.1
+
+  '@events-api/javascript-sdk@9.3.5':
+    dependencies:
+      '@roadiz/types': 0.5.0
 
   '@fastify/accept-negotiator@2.0.1':
     optional: true
