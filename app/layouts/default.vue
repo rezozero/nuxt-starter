@@ -22,7 +22,7 @@ if (route.name === 'slug') {
     const webResponseLocale = (webResponse.value?.item as RoadizNodesSources)?.translation?.locale
 
     if (webResponseLocale) {
-        const { $i18n } = useNuxtApp()
+        const { locale, locales, setLocale } = useI18n()
 
         // trying to redirect to the preferred locale
         await useRoadizDetectBrowserLanguage({
@@ -31,11 +31,11 @@ if (route.name === 'slug') {
         })
 
         if (
-            webResponseLocale !== $i18n.locale.value
-            && $i18n.locales.value.find(availableLocale => availableLocale.code === webResponseLocale)
+            webResponseLocale !== locale.value
+            && locales.value.find(availableLocale => availableLocale.code === webResponseLocale)
         ) {
-            // @ts-expect-error we except the web response locale is a valid locale
-            await $i18n.setLocale(webResponseLocale)
+            // @ts-expect-error we expect the web response locale is a valid locale
+            await setLocale(webResponseLocale)
         }
     }
 }
