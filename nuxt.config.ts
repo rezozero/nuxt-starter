@@ -169,7 +169,7 @@ export default defineNuxtConfig({
                     const hash = createHash('md5').update(cleanFilename).digest('hex').substring(0, 5)
                     // in dev mode, display the componentName in the className
                     if (isDev) {
-                        const componentName = cleanFilename.split('/').pop()?.replace(/\.vue.*$/, '') ?? ''
+                        const componentName = cleanFilename.split('/').pop()?.replace(/\.vue.*$/, '').replace(/\./g, '-') ?? ''
                         return `${componentName}_${name}_${hash}`
                     }
                     return `_${name}_${hash}`
