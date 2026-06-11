@@ -36,6 +36,8 @@
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/components/v-button';
+
 .button {
     &--xs {
         @include v-button.size('xs');

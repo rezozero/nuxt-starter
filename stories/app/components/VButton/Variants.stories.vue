@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { vButtonDesign, vButtonSizes } from '~/components/VButton.vue'
+import { vButtonVariant, vButtonSizes } from '~/components/VButton.vue'
 </script>
 
 <template>
     <NuxtStory>
         <NuxtStoryVariant
-            v-for="design in vButtonDesign"
-            :key="design"
-            :title="design"
+            v-for="variant in vButtonVariant"
+            :key="variant"
+            :title="variant"
         >
             <div>
                 <template
@@ -17,13 +17,13 @@ import { vButtonDesign, vButtonSizes } from '~/components/VButton.vue'
                     <div :class="$style.row">
                         <VButton
                             :label="`Button label ${size}`"
-                            :design="design"
+                            :variant="variant"
                             :size="size"
                             icon-name="check"
                         />
                         <VButton
                             :label="`Button label ${size}`"
-                            :design="design"
+                            :variant="variant"
                             :size="size"
                             icon-name="check"
                             disabled

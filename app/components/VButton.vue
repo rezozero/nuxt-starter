@@ -4,8 +4,8 @@ import type { RouteLocationRaw } from 'vue-router'
 import { NuxtLink } from '#components'
 import type { Theme } from '~~/types/theme'
 
-export const vButtonDesign = ['outlined'] as const
-export type VButtonDesign = (typeof vButtonDesign)[number]
+export const vButtonVariant = ['outlined'] as const
+export type VButtonVariant = (typeof vButtonVariant)[number]
 
 export const vButtonSizes = ['xs', 'sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
@@ -22,7 +22,7 @@ export const vButtonProps = {
     disabled: Boolean,
     size: [String, Boolean] as PropType<VButtonSize | false>,
     theme: [String, Boolean] as PropType<Theme | false>,
-    design: [String, Boolean] as PropType<VButtonDesign | false>,
+    variant: [String, Boolean] as PropType<VButtonVariant | false>,
 }
 
 export default defineComponent({
@@ -55,7 +55,7 @@ export default defineComponent({
                 hasIcon.value && $style['root--has-icon'],
                 props.disabled && $style['root--disabled'],
                 typeof props.size === 'string' && $style[`root--size-${props.size}`],
-                typeof props.design === 'string' && $style[`root--design-${props.design}`],
+                typeof props.variant === 'string' && $style[`root--variant-${props.variant}`],
                 themeClass.value,
             ]
         })
@@ -145,7 +145,7 @@ export default defineComponent({
         }
     }
 
-    &--design-outlined {
+    &--variant-outlined {
         @include v-button-outlined.apply;
     }
 
@@ -158,7 +158,7 @@ export default defineComponent({
 
     @include v-button.apply('icon');
 
-    .root--design-outlined & {
+    .root--variant-outlined & {
         @include v-button-outlined.apply('icon')
     }
 }
@@ -170,7 +170,7 @@ export default defineComponent({
 
     @include v-button.apply('label');
 
-    .root--design-outlined & {
+    .root--variant-outlined & {
         @include v-button-outlined.apply('label')
     }
 }
