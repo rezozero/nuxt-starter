@@ -74,7 +74,10 @@ const sources = computed(() => {
     if (!src) return []
 
     const internalFormat
-        = props.format || (props.modifiers?.format as string | undefined) || picturePropsValue?.format || (picturePropsValue?.modifiers?.format as string | undefined)
+        = props.format
+            || (props.modifiers?.format as string | undefined)
+            || picturePropsValue?.format
+            || (picturePropsValue?.modifiers?.format as string | undefined)
     const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
 
     return formats.map((format: string) => {
