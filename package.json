@@ -66,6 +66,7 @@
     "plyr": "^3.8.4",
     "swiper": "^12.2.0",
     "tiny-emitter": "^2.1.0",
+    "ufo": "^1.6.4",
     "v-calendar": "^3.1.2",
     "vue-multiselect": "^3.5.0"
   },

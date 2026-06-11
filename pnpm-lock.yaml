@@ -56,6 +56,9 @@ importers:
       tiny-emitter:
         specifier: ^2.1.0
         version: 2.1.0
+      ufo:
+        specifier: ^1.6.4
+        version: 1.6.4
       v-calendar:
         specifier: ^3.1.2
         version: 3.1.2(@popperjs/core@2.11.8)(vue@3.5.35(typescript@6.0.3))
