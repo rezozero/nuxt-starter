@@ -221,6 +221,14 @@ const formattedSchema = computed(() => {
     return schema
 })
 
+// REQUIRED FIELDS
+const hasRequiredFields = computed(() => {
+    const required = formattedSchema.value?.required
+    if (required === true) return true
+
+    return Array.isArray(required) && required.length > 0
+})
+
 // CAPTCHA
 const captchaInputKey = computed(() => {
     const fieldKeys = Object.keys(toValue(formattedSchema.value?.properties) || {})
@@ -266,6 +274,13 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
             </button>
         </dialog>
         <slot name="beforeFields" />
+        <p
+            v-if="hasRequiredFields"
+            :class="$style['required-notice']"
+            class="text-body-xs"
+        >
+            {{ $t('form.required_fields_notice') }}
+        </p>
         <VFormElementFactory
             :id="id"
             v-model="model"
@@ -322,6 +337,11 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
 <style lang="scss" module>
 .consent-dialog {
     z-index: 1;
+}
+
+.required-notice {
+    color: rgb(117 117 117);
+    margin-block: 16px;
 }
 
 .error {
