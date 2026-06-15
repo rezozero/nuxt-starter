@@ -16,7 +16,7 @@ export interface CommonContent {
     footers?: Partial<CommonContentFooters>
     errorPage?: RoadizWalker
     accessibility?: RoadizNodesSources
-    urls?: Record<`${string}_url`, unknown>
+    urls?: Record<`${string}_url` | `${string}Url`, unknown>
 }
 
 export const COMMON_CONTENT_KEY = 'commonContent'
