@@ -6,36 +6,38 @@ export interface SocialLink {
 }
 
 export function getSocialLinks({ key, url }: { key: string, url: string }) {
-    const _key = key.toLowerCase()
+    // Remove trailing "url" and convert to lowercase for better matching
+    // For example, "twitterUrl" becomes "twitter", "linkedin_url" becomes "linkedin"
+    const formattedKey = key.toLowerCase().replace(/_?url$/, '')
 
-    if (_key.startsWith('mastodon')) {
+    if (formattedKey.startsWith('mastodon')) {
         return { url: url, name: 'Mastodon', icon: 'social-mastodon' }
     }
-    if (_key.startsWith('pinterest')) {
+    if (formattedKey.startsWith('pinterest')) {
         return { url: url, name: 'Pinterest', icon: 'social-pinterest' }
     }
-    if (_key.startsWith('snapchat')) {
+    if (formattedKey.startsWith('snapchat')) {
         return { url: url, name: 'Snapchat', icon: 'social-snapchat' }
     }
-    if (_key.startsWith('instagram')) {
+    if (formattedKey.startsWith('instagram')) {
         return { url: url, name: 'Instagram', icon: 'social-instagram' }
     }
-    if (_key.startsWith('youtube')) {
+    if (formattedKey.startsWith('youtube')) {
         return { url: url, name: 'Youtube', icon: 'social-youtube' }
     }
-    if (_key.startsWith('linkedin')) {
+    if (formattedKey.startsWith('linkedin')) {
         return { url: url, name: 'LinkedIn', icon: 'social-linkedin' }
     }
-    if (_key.startsWith('facebook')) {
+    if (formattedKey.startsWith('facebook')) {
         return { url: url, name: 'Facebook', icon: 'social-facebook' }
     }
-    if (_key.startsWith('tiktok')) {
+    if (formattedKey.startsWith('tiktok')) {
         return { url: url, name: 'Tiktok', icon: 'social-tiktok' }
     }
-    if (_key.startsWith('spotify')) {
+    if (formattedKey.startsWith('spotify')) {
         return { url: url, name: 'Spotify', icon: 'social-spotify' }
     }
-    if (_key.startsWith('twitter') || _key.startsWith('x_')) {
+    if (formattedKey.startsWith('twitter') || formattedKey === 'x') {
         return { url: url, name: 'X', icon: 'social-x' }
     }
 
