@@ -2,6 +2,7 @@ import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 import { version } from './package.json'
+import { createHash } from 'node:crypto'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
@@ -161,6 +162,19 @@ export default defineNuxtConfig({
             assetsInlineLimit: 0,
         },
         css: {
+            modules: {
+                generateScopedName(name: string, filename: string) {
+                    // Strip query params that differ between SSR (?ssr=true) and client
+                    const cleanFilename = (filename.split('?')[0] ?? filename).replace(/\\/g, '/')
+                    const hash = createHash('md5').update(cleanFilename).digest('hex').substring(0, 5)
+                    // in dev mode, display the componentName in the className
+                    if (isDev) {
+                        const componentName = cleanFilename.split('/').pop()?.replace(/\.vue.*$/, '').replace(/\./g, '-') ?? ''
+                        return `${componentName}_${name}_${hash}`
+                    }
+                    return `_${name}_${hash}`
+                },
+            },
             preprocessorOptions: {
                 scss: {
                     additionalData: `@use "${fileURLToPath(new URL('./app/assets/scss/_resources.scss', import.meta.url))}" as *;`,
@@ -171,7 +185,6 @@ export default defineNuxtConfig({
         },
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
-            // @ts-expect-error vite-svg-loader plugin types are incompatible with Vite 7 rollup types
             svgLoader({
                 svgoConfig: {
                     multipass: true,
