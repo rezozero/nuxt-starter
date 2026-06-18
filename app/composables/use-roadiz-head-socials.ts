@@ -25,21 +25,21 @@ function normalizeKey(key: string): string {
 
 export function getSocialLinks(key: string, url: string): SocialLink {
     const normalized = normalizeKey(key)
-    const network = SOCIAL_NETWORKS.find(({ prefixes }) => prefixes.some((p) => normalized === p))
+    const network = SOCIAL_NETWORKS.find(({ prefixes }) => prefixes.some(p => normalized === p))
 
     if (network) {
         return {
             url,
             name: network.name,
             icon: network.icon,
-            order: network.order
+            order: network.order,
         }
     }
 
     return {
         url,
         name: key,
-        icon: 'link'
+        icon: 'link',
     }
 }
 
@@ -50,6 +50,5 @@ export function useRoadizHeadSocialLinks() {
         Object.entries(data.value?.urls || {})
             .filter(([, value]) => typeof value === 'string')
             .map(([key, url]) => getSocialLinks(key, url as string))
-            .sort((a, b) => (a.order ?? SOCIAL_NETWORKS.length) - (b.order ?? SOCIAL_NETWORKS.length)),
-    )
+            .sort((a, b) => (a.order ?? SOCIAL_NETWORKS.length) - (b.order ?? SOCIAL_NETWORKS.length)))
 }
