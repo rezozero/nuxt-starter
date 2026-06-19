@@ -52,7 +52,7 @@
         "@floating-ui/vue": "^2.0.0",
         "@gtm-support/vue-gtm": "^3.2.0",
         "@popperjs/core": "^2.11.8",
-        "@sentry/nuxt": "^10.57.0",
+        "@sentry/nuxt": "^10.58.0",
         "@vue-a11y/skip-to": "^3.0.3",
         "@vueuse/core": "^14.3.0",
         "@vueuse/nuxt": "^14.3.0",
