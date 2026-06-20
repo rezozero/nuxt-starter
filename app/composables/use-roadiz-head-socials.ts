@@ -34,14 +34,14 @@ export function getSocialLinks(key: string, url: string): SocialLink {
         return {
             url,
             name: network.name,
-            icon: network.icon
+            icon: network.icon,
         }
     }
 
     return {
         url,
         name: normalized,
-        icon: 'link'
+        icon: 'link',
     }
 }
 
