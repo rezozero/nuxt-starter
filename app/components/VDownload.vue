@@ -82,7 +82,7 @@ const metaText = computed(() => {
     }
 
     &:not([href]) {
-        color: var(--v-download, #8C8C8C);
+        color: var(--v-download-disabled-color, #8C8C8C);
     }
 }
 
