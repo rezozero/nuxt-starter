@@ -64,13 +64,13 @@ const metaText = computed(() => {
 
 <style lang="scss" module>
 .root {
+    container-type: inline-size;
     display: flex;
+    width: 100%;
     align-items: center;
     justify-content: space-between;
-    padding-block: 10px;
     gap: 6px;
-    container-type: inline-size;
-    width: 100%;
+    padding-block: 10px;
 
     @at-root {
         // remove the user agent style, but without specificity (i.e. :where()) for overriding it easily
@@ -89,10 +89,10 @@ const metaText = computed(() => {
 .label {
     display: -webkit-box;
     overflow: hidden;
+    padding-right: 16px;
     margin-right: auto;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
-    padding-right: 16px;
 
     @container (width > 600px) {
         -webkit-line-clamp: 1;
