@@ -64,11 +64,11 @@ const metaText = computed(() => {
 
 <style lang="scss" module>
 .root {
-    container-type: inline-size;
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: space-between;
+    container-type: inline-size;
     gap: 6px;
     padding-block: 10px;
 

@@ -1,10 +1,10 @@
 export const units = {
     BYTES: 'bytes',
-    KILOBYTE: 'Kib',
+    KILOBYTE: 'KiB',
     MEGABYTE: 'MiB',
     GIGABYTE: 'GiB',
-    TERABYTE: 'Tib',
-    PETABYTE: 'Pib',
+    TERABYTE: 'TiB',
+    PETABYTE: 'PiB',
 }
 
 export const unitsByLocale = {
@@ -17,7 +17,7 @@ export const unitsByLocale = {
         [units.PETABYTE]: 'Po',
     },
     en: {
-        [units.BYTES]: 'b',
+        [units.BYTES]: 'B',
         [units.KILOBYTE]: 'KiB',
         [units.MEGABYTE]: 'MiB',
         [units.GIGABYTE]: 'GiB',
@@ -28,7 +28,7 @@ export const unitsByLocale = {
 
 // Intl.NumberFormat supports byte units but only in base-1000 (SI) and requires a fixed unit.
 // Manual calculation allows base-1024 (binary) and auto-selects the appropriate unit.
-export function formatBytes(size: number | string, locale: keyof typeof unitsByLocale) {
+export function formatBytes(size: number | string, locale: string) {
     let bytesLength = 0
     let n = parseInt(size.toString(), 10) || 0
 
@@ -38,8 +38,9 @@ export function formatBytes(size: number | string, locale: keyof typeof unitsByL
 
     const value = n.toFixed(n < 10 && bytesLength > 0 ? 1 : 0)
 
-    const localizesUnits = Object.values(unitsByLocale[locale])
-    const unitOutput = localizesUnits[bytesLength]
+    const localeKey = locale in unitsByLocale ? (locale as keyof typeof unitsByLocale) : 'en'
+    const localizesUnits = Object.values(unitsByLocale[localeKey])
+    const unitOutput = localizesUnits[Math.min(bytesLength, localizesUnits.length - 1)]
 
     return `${value}${unitOutput}`
 }
