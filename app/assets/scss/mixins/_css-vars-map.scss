@@ -1,5 +1,5 @@
 @use 'sass:map';
-@use '../functions/list' as *;
+@use 'assets/scss/functions/list';
 
 // Get CSS variables from a map
 // Parameters:
@@ -26,7 +26,7 @@
 // }
 @mixin get($map, $name) {
     @each $key, $value in $map {
-        --#{list-implode(($name, $key), '-')}: #{$value};
+        --#{list.list-implode(($name, $key), '-')}: #{$value};
     }
 }
 
@@ -68,11 +68,44 @@
 //     --example-margin: 8px;
 //     --example-label-padding: 40px;
 // }
+// Outputs CSS property declarations using the CSS variables set by `deep-get()`, with fallback values.
+// Parameters:
+// - $map: The map containing nested variables (same structure as deep-get)
+// - $name: The base component name used for CSS variable names
+// - $prefix: The entry prefix to target ('' for root, 'label' for label entries, etc.)
+// - $fallback-size: The size key to use as fallback values
+//
+// Example usage:
+// .example-component {
+//     @include css-vars-map.apply($vars, 'example-component', 'label', 'sm');
+// }
+//
+// This will generate:
+// .example-component {
+//     font-size: var(--example-component-label-font-size, 14px);
+//     padding: var(--example-component-label-padding, 4px 8px);
+// }
+@mixin apply($map, $name, $prefix: '', $fallback-size: 'sm') {
+    $var-prefix: list.list-implode(($name, $prefix), '-');
+
+    @each $entry in $map {
+        @if map.get($entry, 'prefix') == $prefix {
+            $entry-vars: map.get($entry, 'vars');
+
+            @if map.has-key($entry-vars, $fallback-size) {
+                @each $property, $default-value in map.get($entry-vars, $fallback-size) {
+                    #{$property}: var(--#{$var-prefix}-#{$property}, #{$default-value});
+                }
+            }
+        }
+    }
+}
+
 @mixin deep-get($map, $key, $name) {
     @each $value in $map {
         @if map.has-key($value, 'vars') {
             $map: map.get($value, 'vars');
-            $prefix: list-implode(($name, map.get($value, 'prefix')), '-');
+            $prefix: list.list-implode(($name, map.get($value, 'prefix')), '-');
 
             @if map.has-key($map, $key) {
                 $key-vars: map.get($map, $key);
