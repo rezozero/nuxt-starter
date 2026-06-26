@@ -28,7 +28,7 @@ export const unitsByLocale = {
 
 // Intl.NumberFormat supports byte units but only in base-1000 (SI) and requires a fixed unit.
 // Manual calculation allows base-1024 (binary) and auto-selects the appropriate unit.
-export function formatBytes(size: number | string, locale: string) {
+export function formatBytes(size: number | string, locale?: string) {
     let bytesLength = 0
     let n = parseInt(size.toString(), 10) || 0
 
@@ -38,9 +38,9 @@ export function formatBytes(size: number | string, locale: string) {
 
     const value = n.toFixed(n < 10 && bytesLength > 0 ? 1 : 0)
 
-    const localeKey = locale in unitsByLocale ? (locale as keyof typeof unitsByLocale) : 'en'
-    const localizesUnits = Object.values(unitsByLocale[localeKey])
-    const unitOutput = localizesUnits[Math.min(bytesLength, localizesUnits.length - 1)]
+    const localeKey = (locale && locale in unitsByLocale) ? (locale as keyof typeof unitsByLocale) : 'en'
+    const localizedUnits = Object.values(unitsByLocale[localeKey])
+    const unitOutput = localizedUnits[Math.min(bytesLength, localizedUnits.length - 1)]
 
     return `${value}${unitOutput}`
 }
