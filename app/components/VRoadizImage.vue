@@ -54,8 +54,14 @@ export default defineComponent({
                             && hotspot.areaEndX
                             && hotspot.areaStartY
                             && hotspot.areaEndY
-                        )
-                            result.crop = `${Math.floor(document.value?.imageWidth * (hotspot.areaEndX - hotspot.areaStartX))}x${Math.floor(document.value?.imageHeight * (hotspot.areaEndY - hotspot.areaStartY))}`
+                        ) {
+                            const x = hotspot.areaEndX - hotspot.areaStartX
+                            const y = hotspot.areaEndY - hotspot.areaStartY
+                            const cropWidth = Math.floor(document.value.imageWidth * x)
+                            const cropHeight = Math.floor(document.value.imageHeight * y)
+
+                            result.crop = `${cropWidth}x${cropHeight}`
+                        }
                     }
                 }
             }
@@ -85,6 +91,7 @@ export default defineComponent({
                 alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
                 placeholder: document.value?.imageAverageColor,
                 provider: 'interventionRequest',
+                loading: props.loading ?? ('lazy' as const),
             }
 
             if (!document.value?.processable) {
@@ -106,7 +113,10 @@ export default defineComponent({
                 },
             }
         })
-        const imageComponent = h(isPicture.value ? VPicture : VImg, imageComponentProps.value, slots.default)
+        const imageComponent = h(
+            isPicture.value ? VPicture : VImg,
+            imageComponentProps.value as Record<string, unknown>, slots.default,
+        )
 
         return () => {
             if (copyright.value) {

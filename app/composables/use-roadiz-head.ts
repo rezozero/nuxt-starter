@@ -1,14 +1,14 @@
 import { joinURL } from 'ufo'
 import type { RoadizAlternateLink, RoadizWebResponse } from '@roadiz/types'
-import type { UseHeadInput } from 'unhead/types'
+import type { ResolvableLink, ResolvableScript } from '@unhead/vue'
 
 export function useRoadizHead(webResponse?: RoadizWebResponse, alternateLinks?: RoadizAlternateLink[]) {
     const nuxtApp = useNuxtApp()
     const runtimeConfig = useRuntimeConfig()
     const { $i18n } = nuxtApp
 
-    const script: UseHeadInput['script'] = []
-    const link: UseHeadInput['link'] = []
+    const script: ResolvableScript[] = []
+    const link: ResolvableLink[] = []
 
     const canonicalUrl = useCurrentPageSearchParams().canonicalUrl.value
     if (canonicalUrl) {

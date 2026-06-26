@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
-import type { SerializableHead } from 'unhead/types'
+import type { ResolvableLink } from '@unhead/vue'
 import type { VPictureProps } from '~/components/VPicture.vue'
 
 const props = defineProps({
@@ -26,7 +26,7 @@ const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
 
 const $img = useImage()
 
-const options = computed<ImageOptions>(() => {
+const options = computed(() => {
     if (!pictureProps) return {}
 
     const picturePropsValue = toValue<VPictureProps>(pictureProps)
@@ -74,7 +74,10 @@ const sources = computed(() => {
     if (!src) return []
 
     const internalFormat
-        = props.format || props.modifiers?.format || picturePropsValue?.format || picturePropsValue?.modifiers?.format
+        = props.format
+            || (props.modifiers?.format as string | undefined)
+            || picturePropsValue?.format
+            || (picturePropsValue?.modifiers?.format as string | undefined)
     const formats = internalFormat?.split(',') || ($img.options.format?.length ? [...$img.options.format] : ['webp'])
 
     return formats.map((format: string) => {
@@ -84,7 +87,7 @@ const sources = computed(() => {
                 ...options.value?.modifiers,
                 format,
             },
-        })
+        } as ImageOptions)
 
         return {
             media: props.media,
@@ -104,10 +107,10 @@ const picturePropsValue = pictureProps && toValue<VPictureProps>(pictureProps)
 const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue?.preload)
 
 if (preload) {
-    const link: NonNullable<SerializableHead['link']>[number] = {
+    const link: ResolvableLink = {
         rel: 'preload',
         as: 'image',
-        imagesrcset: sources.value[0].srcset,
+        imagesrcset: sources.value[0]?.srcset,
         nonce: props.nonce,
         ...(typeof preload !== 'boolean' && preload.fetchPriority
             ? { fetchpriority: preload.fetchPriority }
@@ -115,7 +118,7 @@ if (preload) {
     }
 
     if (sources.value?.[0]?.sizes) {
-        link.imagesizes = sources.value[0].sizes
+        link.imagesizes = sources.value[0]?.sizes
     }
 
     useHead({ link: [link] })
