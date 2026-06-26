@@ -63,7 +63,11 @@ USER node
 # and avoid any issues with the versions of the dependencies
 COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=secret,id=npm_token,uid=1000 \
+    --mount=type=secret,id=npm_registry_url,uid=1000 \
+    EVENTS_API_NPM_TOKEN=$(cat /run/secrets/npm_token) \
+    EVENTS_API_NPM_REGISTRY_URL=$(cat /run/secrets/npm_registry_url) \
+    pnpm install --frozen-lockfile
 
 COPY --link --chown=${UID}:${UID} . .
 
@@ -81,7 +85,11 @@ USER node
 # and avoid any issues with the versions of the dependencies
 COPY --link --chown=${UID}:${UID} package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=secret,id=npm_token,uid=1000 \
+    --mount=type=secret,id=npm_registry_url,uid=1000 \
+    EVENTS_API_NPM_TOKEN=$(cat /run/secrets/npm_token) \
+    EVENTS_API_NPM_REGISTRY_URL=$(cat /run/secrets/npm_registry_url) \
+    pnpm install --frozen-lockfile
 
 COPY --link --chown=${UID}:${UID} . .
 

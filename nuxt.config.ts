@@ -76,6 +76,7 @@ export default defineNuxtConfig({
             },
             googleTagManager: {
                 id: '',
+                debug: '',
             },
             friendlyCaptcha: {
                 siteKey: '',
