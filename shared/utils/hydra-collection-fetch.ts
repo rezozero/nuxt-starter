@@ -5,6 +5,8 @@ import type { FetchOptions } from 'ofetch'
 export async function hydraCollectionFetch<T>(url: string, request?: FetchOptions, fetch = $fetch) {
     const result = [] as Array<T>
     let page = request?.params?.page || 1
+    // It is used into a do-while loop to fetch the collection until there are no more pages to fetch
+    // eslint-disable-next-line no-useless-assignment
     let active = true
 
     do {

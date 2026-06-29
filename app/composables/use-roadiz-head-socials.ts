@@ -5,43 +5,42 @@ export interface SocialLink {
     icon?: string
 }
 
-export function getSocialLinks({ key, url }: { key: string, url: string }) {
-    const _key = key.toLowerCase()
+// useRoadizHeadSocialLinks will sort the social links based on the order defined in SOCIAL_NETWORKS
+// and will use a default icon for unknown networks
+const SOCIAL_NETWORKS = [
+    { prefixes: ['instagram'], name: 'Instagram', icon: 'social-instagram' },
+    { prefixes: ['facebook'], name: 'Facebook', icon: 'social-facebook' },
+    { prefixes: ['tiktok'], name: 'Tiktok', icon: 'social-tiktok' },
+    { prefixes: ['linkedin'], name: 'LinkedIn', icon: 'social-linkedin' },
+    { prefixes: ['mastodon'], name: 'Mastodon', icon: 'social-mastodon' },
+    { prefixes: ['pinterest'], name: 'Pinterest', icon: 'social-pinterest' },
+    { prefixes: ['snapchat'], name: 'Snapchat', icon: 'social-snapchat' },
+    { prefixes: ['youtube'], name: 'Youtube', icon: 'social-youtube' },
+    { prefixes: ['spotify'], name: 'Spotify', icon: 'social-spotify' },
+    { prefixes: ['twitter', 'x'], name: 'X', icon: 'social-x' },
+] as const
 
-    if (_key.startsWith('mastodon')) {
-        return { url: url, name: 'Mastodon', icon: 'social-mastodon' }
-    }
-    if (_key.startsWith('pinterest')) {
-        return { url: url, name: 'Pinterest', icon: 'social-pinterest' }
-    }
-    if (_key.startsWith('snapchat')) {
-        return { url: url, name: 'Snapchat', icon: 'social-snapchat' }
-    }
-    if (_key.startsWith('instagram')) {
-        return { url: url, name: 'Instagram', icon: 'social-instagram' }
-    }
-    if (_key.startsWith('youtube')) {
-        return { url: url, name: 'Youtube', icon: 'social-youtube' }
-    }
-    if (_key.startsWith('linkedin')) {
-        return { url: url, name: 'LinkedIn', icon: 'social-linkedin' }
-    }
-    if (_key.startsWith('facebook')) {
-        return { url: url, name: 'Facebook', icon: 'social-facebook' }
-    }
-    if (_key.startsWith('tiktok')) {
-        return { url: url, name: 'Tiktok', icon: 'social-tiktok' }
-    }
-    if (_key.startsWith('spotify')) {
-        return { url: url, name: 'Spotify', icon: 'social-spotify' }
-    }
-    if (_key.startsWith('twitter') || _key.startsWith('x_')) {
-        return { url: url, name: 'X', icon: 'social-x' }
+// Api keys in commonContent.urls can be in snake_case or camelCase,
+// so we need to normalize them to match the prefixes in SOCIAL_NETWORKS
+function normalizeKey(key: string): string {
+    return key.replace(/_url$/i, '').replace(/Url$/, '').toLowerCase()
+}
+
+export function getSocialLinks(key: string, url: string): SocialLink {
+    const normalized = normalizeKey(key)
+    const network = SOCIAL_NETWORKS.find(({ prefixes }) => prefixes.some(p => normalized === p))
+
+    if (network) {
+        return {
+            url,
+            name: network.name,
+            icon: network.icon,
+        }
     }
 
     return {
-        url: url,
-        name: key,
+        url,
+        name: normalized,
         icon: 'link',
     }
 }
@@ -49,10 +48,13 @@ export function getSocialLinks({ key, url }: { key: string, url: string }) {
 export function useRoadizHeadSocialLinks() {
     const { data } = useCommonContent()
 
-    return computed(() => {
-        const urlEntriesList = Object.entries(data.value?.urls || {})
-            .filter(([_key, value]) => typeof value === 'string') as [string, string][]
-
-        return urlEntriesList.map(([key, url]) => getSocialLinks({ key, url }))
-    })
+    return computed(() =>
+        Object.entries(data.value?.urls || {})
+            .filter(([, value]) => typeof value === 'string')
+            .map(([key, url]) => getSocialLinks(key, url as string))
+            .sort((a, b) => {
+                const ai = SOCIAL_NETWORKS.findIndex(({ name }) => name === a.name)
+                const bi = SOCIAL_NETWORKS.findIndex(({ name }) => name === b.name)
+                return (ai === -1 ? SOCIAL_NETWORKS.length : ai) - (bi === -1 ? SOCIAL_NETWORKS.length : bi)
+            }))
 }

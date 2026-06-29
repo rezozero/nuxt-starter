@@ -1,3 +1,5 @@
+import type stylelint from 'stylelint'
+
 export default {
     extends: [
         'stylelint-config-standard-scss',
@@ -21,7 +23,7 @@ export default {
         'scss/function-no-unknown': [
             true,
             {
-                ignoreFunctions: ['get-fluid-formatted-values', 'fluid', 'px-to-em', 'px-to-rem', 'ease', 'v-bind', 'flex-grid', 'sass'], // use custom functions
+                ignoreFunctions: ['get-fluid-formatted-values', 'fluid', 'px-to-em', 'px-to-rem', 'ease', 'v-bind', 'flex-grid', 'sass'],
             },
         ],
         'declaration-property-value-no-unknown': null, // prevent collision with sass functions
@@ -39,4 +41,4 @@ export default {
     },
     defaultSeverity: 'warning',
     ignoreFiles: ['./dist/**/*.css'],
-}
+} satisfies stylelint.Config

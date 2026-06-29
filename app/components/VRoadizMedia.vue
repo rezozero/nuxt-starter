@@ -49,7 +49,7 @@ export default defineComponent({
             return undefined
         })
 
-        if (!tag.value) return () => h('')
+        if (!tag.value) return () => null
 
         const nodeProps = computed(() => {
             const result = { document: displayedDocument.value }

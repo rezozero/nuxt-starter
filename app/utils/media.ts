@@ -1,7 +1,7 @@
 import breakpoints from '~/assets/scss/export/_breakpoints.module.scss'
 
 export function getBreakpointValue(breakpoint: string) {
-    return parseInt(breakpoints['breakpoint-' + breakpoint])
+    return parseInt(breakpoints['breakpoint-' + breakpoint] ?? '0')
 }
 
 export function mediaIsMin(breakpoint: string, windowWidth?: number): boolean {

@@ -1,30 +1,33 @@
 <script setup lang="ts">
-const list = [
-    {
-        name: 'Twitter',
-        url: 'https://twitter.com/roadiz_io',
-    },
-    {
-        name: 'Facebook',
-        url: 'https://www.facebook.com/roadiz.io/',
-    },
-    {
-        name: 'LinkedIn',
-        url: 'https://www.linkedin.com/company/roadiz/',
-    },
+// Keys as they come from the API — snake_case or camelCase are both supported
+const known = [
+    getSocialLinks('instagram_url', 'https://instagram.com/roadiz'),
+    getSocialLinks('facebookUrl', 'https://facebook.com/roadiz'),
+    getSocialLinks('linkedin_url', 'https://linkedin.com/company/roadiz'),
+    getSocialLinks('youtubeUrl', 'https://youtube.com/@roadiz'),
+    getSocialLinks('twitter_url', 'https://twitter.com/roadiz_io'),
 ]
 
-const socials = list.map(social => getSocialLinks(social.name, social.url))
+// An unrecognized key falls back to a generic 'link' icon
+const withUnknown = [
+    getSocialLinks('instagram_url', 'https://instagram.com/roadiz'),
+    getSocialLinks('discord_url', 'https://discord.gg/roadiz'),
+    getSocialLinks('linkedin_url', 'https://linkedin.com/company/roadiz'),
+]
 </script>
 
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="Default">
-            <VSocialLinks :socials="socials" />
+            <VSocialLinks :socials="known" />
         </NuxtStoryVariant>
 
-        <NuxtStoryVariant title="Slot">
-            <VSocialLinks :socials="socials">
+        <NuxtStoryVariant title="With unknown network">
+            <VSocialLinks :socials="withUnknown" />
+        </NuxtStoryVariant>
+
+        <NuxtStoryVariant title="Custom slot">
+            <VSocialLinks :socials="known">
                 <template #default="{ social }">
                     <NuxtLink
                         :to="social.url"

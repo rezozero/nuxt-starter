@@ -12,8 +12,7 @@ export interface MenuItem {
 function parseWalker(walker: RoadizWalker): MenuItem {
     return {
         title: walker.item?.title,
-        // @ts-expect-error linkExternalUrl is not in the type definition
-        url: walker.item?.linkExternalUrl as string | undefined ?? walker.item?.url,
+        url: walker.item?.url,
         // @ts-expect-error linkInternalReference is not in the type definition
         reference: walker.item?.linkInternalReference as RoadizNodesSources[] | undefined,
         slug: walker.item?.slug,

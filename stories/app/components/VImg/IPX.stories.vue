@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const imageProps = {
-    src: 'http://localhost:8080/images/01.jpg',
+    src: '/images/01.jpg',
     width: 900,
     height: 600,
     alt: 'Image alt text',
