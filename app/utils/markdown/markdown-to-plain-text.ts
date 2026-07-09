@@ -13,7 +13,7 @@ function decodeHtmlEntities(value: string): string {
     return value.replace(/&(#\d+|[a-z]+);/gi, (match, entity: string) => {
         if (entity[0] === '#') {
             const code = Number.parseInt(entity.slice(1), 10)
-            return Number.isNaN(code) ? match : String.fromCharCode(code)
+            return Number.isNaN(code) ? match : String.fromCodePoint(code)
         }
         return HTML_ENTITIES[entity.toLowerCase()] ?? match
     })
