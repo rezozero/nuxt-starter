@@ -1,9 +1,7 @@
 <script lang="ts" setup>
 import type { RoadizNodesSources } from '@roadiz/types'
-import { isPageEntity } from '~/utils/roadiz/entity'
+import { isPageEntity, isSearchPageEntity } from '~/utils/roadiz/entity'
 import { defaultPageTransition } from '~/transitions/default-page-transition'
-import { useRoadizHead } from '~/composables/use-roadiz-head'
-import { useRoadizSeoMeta } from '~/composables/use-roadiz-seo-meta'
 
 definePageMeta({
     pageTransition: defaultPageTransition,
@@ -25,7 +23,12 @@ if (error.value) {
     showError(error.value)
 }
 
-// Cache management
+// Force redirect when web response URL is not matching current route path
+if (item.value?.url && item.value.url !== route.path) {
+    await navigateTo({ path: item.value?.url }, { redirectCode: 301 })
+}
+
+// ----------------- Cache strategy ----------------
 if (import.meta.server) {
     // Cache tags
     useCacheTags(headers.value?.[useRuntimeConfig().public.cacheTags?.key])
@@ -37,41 +40,49 @@ if (import.meta.server) {
     })
 }
 
-// Meta data
+// ---------------- Currently displayed page entity ----------------
+const pageEntity = computed(() => item.value && isPageEntity(item.value) && item.value)
+// Search page entity
+const searchPageEntity = computed(() => item.value && isSearchPageEntity(item.value) && item.value)
+
+// ----------------- Update meta data ----------------
 // Update on server AND during client side navigation.
-// The client side update is required for the share on iOS Safari feature to have the correct meta data when sharing.
-useRoadizSeoMeta(webResponse.value)
-useRoadizHead(webResponse.value, alternateLinks.value)
+// The client side update is required for the share on iOS Safari feature
+// to have the correct meta data when sharing.
+const roadizMeta = await useRoadizMeta(webResponse, alternateLinks)
+const {
+    head: pageMetaHead,
+    image: pageMetaImage,
+    title: pageMetaTitle,
+    truncatedDescription: pageMetaDescription,
+} = usePageMeta(roadizMeta)
+useHead(pageMetaHead)
 
-// Force redirect when web response URL is not matching current route path
-if (item.value?.url && item.value.url !== route.path) {
-    await navigateTo({ path: item.value?.url }, { redirectCode: 301 })
-}
+// Schema.org structured data
+useSchemaOrg(computed(() => [
+    defineWebPage({
+        '@type': searchPageEntity.value ? 'SearchResultsPage' : 'WebPage',
+        'name': pageMetaTitle.value,
+        'primaryImageOfPage': pageMetaImage.value,
+        'description': pageMetaDescription.value,
+    }),
+]))
 
-// WebResponse head meta title is constructed through the API (node title + siteName || node metaTitle)
-// Let the front-end handle the title construction to be able to include additional information
-// (e.g. search params label) and ensure the siteName is always included in the title for a11y purpose.
-const nodeTitle = computed(() => {
-    return item.value?.metaTitle || item.value?.title || (item as { name?: string })?.name || ''
-})
-
+// ------------------ Provide page data to components ----------------
 usePage({
     webResponse: webResponse.value,
     alternateLinks: alternateLinks.value,
-    title: nodeTitle.value,
+    title: pageMetaTitle.value,
 })
-
-useHead({
-    title: nodeTitle,
-})
-
-// Current entity
-const pageEntity = computed(() => item.value && isPageEntity(item.value) && item.value)
 </script>
 
 <template>
-    <LazyVDefaultPage
+    <LazyVPageDefault
         v-if="pageEntity"
+        :web-response="webResponse"
+    />
+    <LazyVPageSearch
+        v-else-if="searchPageEntity"
         :web-response="webResponse"
     />
 </template>

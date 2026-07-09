@@ -22,6 +22,7 @@ export default defineNuxtConfig({
         '@nuxtjs/robots',
         '@nuxt/icon',
         '@sentry/nuxt/module',
+        'nuxt-schema-org',
     ],
     components: [
         '~/components',
