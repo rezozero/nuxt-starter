@@ -12,7 +12,7 @@ export async function useRoadizMeta(
     const runtimeConfig = useRuntimeConfig()
     const { data: commonContentData } = useCommonContent()
     const item = computed(() => toValue(webResponse)?.item)
-    const siteName = computed(() => commonContentData.value?.head?.siteName || nuxtApp.$config.public.site.name || '')
+    const siteName = computed(() => commonContentData.value?.head?.siteName || undefined)
     const { canonicalUrl } = useCurrentPageSearchParams()
 
     // ------------------- Noindex -------------------
@@ -20,7 +20,7 @@ export async function useRoadizMeta(
     const noindex = computed(() => (item.value as RoadizNodesSources)?.noIndex || previewIsActive.value)
 
     // -------------------- Title -------------------
-    const { getPageTitle } = usePageTitle()
+    const { getPageTitle } = usePageTitle({ siteName })
     const title = computed(() => {
         // The API should always return a meta title.
         // The meta title is set in the Roadiz back office for each page. The logic is:
