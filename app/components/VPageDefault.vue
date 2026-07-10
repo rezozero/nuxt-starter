@@ -11,7 +11,7 @@ const blocks = computed(() => (webResponse?.blocks && getBlockCollection(webResp
 
 <template>
     <div>
-        <h1>{{ page?.title || 'VDefaultPage' }}</h1>
+        <h1>{{ page?.title || 'Default page' }}</h1>
         <VRoadizBlockFactory
             v-if="blocks.length"
             :blocks="blocks"
