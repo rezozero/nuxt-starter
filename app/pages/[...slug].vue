@@ -56,6 +56,7 @@ const {
     title: pageMetaTitle,
     truncatedDescription: pageMetaDescription,
 } = usePageMeta(roadizMeta)
+
 useHead(pageMetaHead)
 
 // Schema.org structured data

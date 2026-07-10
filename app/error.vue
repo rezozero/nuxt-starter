@@ -43,13 +43,18 @@ const blocks = computed(() => {
     return errorPage.value?.children || []
 })
 
-useHead({
-    title: title.value,
-})
-
 function reloadPage() {
     window.location.reload()
 }
+
+// ------------------ Update meta data ----------------
+const siteName = useRoadizSiteName()
+const { getPageTitle } = usePageTitle({ siteName })
+const pageMeta = usePageMeta({
+    title: getPageTitle(title.value),
+})
+
+useHead(pageMeta)
 </script>
 
 <template>

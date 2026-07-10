@@ -20,7 +20,7 @@ export async function useRoadizMeta(
     const noindex = computed(() => (item.value as RoadizNodesSources)?.noIndex || previewIsActive.value)
 
     // -------------------- Title -------------------
-    const { getPageTitle } = useRoadizPageTitle()
+    const { getPageTitle } = usePageTitle()
     const title = computed(() => {
         // The API should always return a meta title.
         // The meta title is set in the Roadiz back office for each page. The logic is:
@@ -130,8 +130,6 @@ export async function useRoadizMeta(
         return commonContentData.value?.head?.shareImage
     })
 
-    const fallbackImageUrl = joinURL(runtimeConfig.app.cdnUrl || runtimeConfig.public.site.url, '/images/share.jpg')
-
     async function resolveMetaImage(document: RoadizDocument | null | undefined): Promise<string | undefined> {
         if (!document?.processable || !document?.relativePath) return undefined
 
@@ -157,7 +155,7 @@ export async function useRoadizMeta(
     const resolvedImageUrl = ref<string | undefined>()
 
     async function resolveImage(document: RoadizDocument | null | undefined) {
-        resolvedImageUrl.value = (await resolveMetaImage(document)) || fallbackImageUrl
+        resolvedImageUrl.value = await resolveMetaImage(document)
     }
 
     // Resolve upfront so the first (SSR) render already has the URL available.
