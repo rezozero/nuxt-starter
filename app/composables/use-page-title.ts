@@ -12,7 +12,11 @@ export function usePageTitle(options: UsePageTitleOptions = {}) {
 
     function getPageTitle(title: string | undefined) {
         if (!title) {
-            return internalSiteName.value || null
+            return internalSiteName.value
+        }
+
+        if (!internalSiteName.value) {
+            return title
         }
 
         return `${title} — ${internalSiteName.value}`
