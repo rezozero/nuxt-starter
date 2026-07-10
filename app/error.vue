@@ -50,11 +50,11 @@ function reloadPage() {
 // ------------------ Update meta data ----------------
 const siteName = useRoadizSiteName()
 const { getPageTitle } = usePageTitle({ siteName })
-const pageMeta = usePageMeta({
+const { head: pageMetaHead } = usePageMeta({
     title: getPageTitle(title.value),
 })
 
-useHead(pageMeta)
+useHead(pageMetaHead)
 </script>
 
 <template>
