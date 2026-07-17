@@ -22,7 +22,7 @@ function mapEventAvailabilityToStatusSchema(availabilityCode: EventsApi.Availabi
         case AvailabilityCode.CANCELLED:
             return 'EventCancelled'
 
-        // An Event date POSTPONED haven't a new date proposed yet, so we use EventPostponed
+        // A POSTPONED event date doesn't have a new date proposed yet, so we use EventPostponed
         case AvailabilityCode.POSTPONED:
             return 'EventPostponed'
 
