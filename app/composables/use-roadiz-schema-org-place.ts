@@ -84,10 +84,11 @@ export async function useRoadizSchemaOrgPlace(
         const mapped = specs
             .filter(spec => spec.opens && spec.closes)
             .map((spec) => {
-                const days = Array.isArray(spec.dayOfWeek) ? spec.dayOfWeek : [spec.dayOfWeek].filter(Boolean)
+                const days = (Array.isArray(spec.dayOfWeek) ? spec.dayOfWeek : [spec.dayOfWeek])
+                    .filter((day): day is string => !!day)
                 return {
                     '@type': 'OpeningHoursSpecification' as const,
-                    'dayOfWeek': days.map(day => SCHEMA_ORG_DAY_NAMES[day!] ?? day),
+                    'dayOfWeek': days.map(day => SCHEMA_ORG_DAY_NAMES[day] ?? day),
                     'opens': spec.opens ?? undefined,
                     'closes': spec.closes ?? undefined,
                     'validFrom': spec.validFrom ?? undefined,
