@@ -166,7 +166,7 @@ export async function useRoadizSchemaOrgEvent(options: UseSchemaOrgEventOptions)
         if (!event) return {}
 
         const [startDate, endDate] = getEventDateRange(event.arrayDates)
-        const eventStatus = mapEventAvaibilityToStatusSchema(event.availability?.value)
+        const eventStatus = mapEventAvailabilityToStatusSchema(event.availability?.value)
 
         return {
             name: event.name,
