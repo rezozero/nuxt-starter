@@ -74,14 +74,14 @@ export async function useRoadizSchemaOrgEvent(options: UseSchemaOrgEventOptions)
         const offers = eventDates.flatMap((date) => {
             const offers = date.offers?.offers || []
             const seatCategories = date.additionalTicketingData?.seatCategories || []
-            const lowPrice = date?.minPrice || seatCategories.reduce((acc, category) => {
-                const price = (category.minPrice || 0) / 1000
-                return Math.min(acc, price)
-            }, 0)
-            const highPrice = date?.maxPrice || seatCategories.reduce((acc, category) => {
-                const price = (category.maxPrice || 0) / 1000
-                return Math.max(acc, price)
-            }, 0)
+            const lowPriceFromCategories = seatCategories.length
+                ? seatCategories.reduce((acc, category) => Math.min(acc, (category.minPrice ?? Infinity) / 1000), Infinity)
+                : undefined
+            const highPriceFromCategories = seatCategories.length
+                ? seatCategories.reduce((acc, category) => Math.max(acc, (category.maxPrice ?? 0) / 1000), 0)
+                : undefined
+            const lowPrice = date?.minPrice ?? (lowPriceFromCategories === Infinity ? undefined : lowPriceFromCategories)
+            const highPrice = date?.maxPrice ?? highPriceFromCategories
 
             return offers.map((offer) => {
                 return {
