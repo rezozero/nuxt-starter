@@ -9,10 +9,10 @@ type UseSchemaOrgEventOptions = {
     eventDates: MaybeRefOrGetter<EventsApi.EventDate[] | undefined>
 }
 
-function mapEventAvaibilityToStatusSchema(avaibilityCode: EventsApi.AvailabilityCode | undefined) {
-    if (typeof avaibilityCode !== 'number') return undefined
+function mapEventAvailabilityToStatusSchema(availabilityCode: EventsApi.AvailabilityCode | undefined) {
+    if (typeof availabilityCode !== 'number') return undefined
 
-    switch (avaibilityCode) {
+    switch (availabilityCode) {
         // https://schema.org/EventRescheduled
         // EventRescheduled is when a new date is proposed
         // the previous date need to be specified with previousStartDate property
