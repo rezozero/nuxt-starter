@@ -16,19 +16,22 @@ defineProps<{
 .root {
     position: relative;
     display: flex;
-    min-width: var(--v-copyright-button-min-width, 24px);
-    min-height: var(--v-copyright-button-min-height, 24px);
     align-items: center;
     justify-content: center;
     border: none;
-    border-radius: 50vmax;
+    border: 1px solid #ccc;
+    border-radius: 4PX;
+    background: #fff;
     text-decoration: initial;
 
-    &::after {
-        position: absolute;
-        width: max(100%, 52px); // Taller clickable zone on mobile
-        height: max(100%, 52px); // Taller clickable zone on mobile
-        content: '';
+    // Taller clickable zone on mobile
+    @media (hover: none) {
+        &::after {
+            position: absolute;
+            width: max(100%, 52px);
+            height: max(100%, 52px);
+            content: '';
+        }
     }
 }
 </style>
