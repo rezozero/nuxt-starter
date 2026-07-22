@@ -8,6 +8,17 @@ const content = `
 ###### h6 Heading
 
 
+Lorem ipsum dolor sit amet, <u>consectetur adipiscing elit.</u> Sed non risus. Suspendisse lectus tortor,
+dignissim ==sit amet, adipiscing nec, ultricies sed, dolor.== Cras **elementum ultrices diam**.
+Maecenas ligula massa, *varius a, semper congue*, euismod non, mi. Proin porttitor,
+orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper.
+
+Duis arcu massa, ==scelerisque vitae,== consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat
+libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim.
+Pellentesque **sed dui ut augue** blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
+posuere cubilia Curae; _Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum_. Maecenas adipiscing ante
+non diam sodales hendrerit.
+
 ## Horizontal Rules
 
 ___
@@ -44,7 +55,7 @@ ___
 Unordered
 
 + Create a list by starting a line with \`+\`, \`-\`, or \`*\`
-+ Lorem ipsum 
++ Lorem ipsum
 + Lorem ipsum
 - Marker character change forces new list start:
 * Ac tristique libero volutpat at
@@ -74,8 +85,8 @@ ___
 
 1. Lorem ipsum dolor sit amet
 12. Consectetur adipiscing elit
-    1. Nested item 
-    22999. Other nested item 
+    1. Nested item
+    22999. Other nested item
 51. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 4. Integer molestie lorem at massa
 
