@@ -12,7 +12,7 @@ export async function useRoadizMeta(
     const runtimeConfig = useRuntimeConfig()
     const { data: commonContentData } = useCommonContent()
     const item = computed(() => toValue(webResponse)?.item)
-    const siteName = computed(() => commonContentData.value?.head?.siteName || undefined)
+    const siteName = computed(() => commonContentData.value?.head?.siteName || nuxtApp.$config.public.site.name || '')
     const { canonicalUrl } = useCurrentPageSearchParams()
 
     // ------------------- Noindex -------------------
@@ -20,7 +20,7 @@ export async function useRoadizMeta(
     const noindex = computed(() => (item.value as RoadizNodesSources)?.noIndex || previewIsActive.value)
 
     // -------------------- Title -------------------
-    const { getPageTitle } = usePageTitle({ siteName })
+    const { getPageTitle } = useRoadizPageTitle()
     const title = computed(() => {
         // The API should always return a meta title.
         // The meta title is set in the Roadiz back office for each page. The logic is:
@@ -88,7 +88,7 @@ export async function useRoadizMeta(
     })
 
     // ------------------- Share image -------------------
-    const img = useImage()
+    const { resolveImageUrl } = useRoadizResolvedImage()
     const itemImageDocument = computed(() => {
         // For pages, the image is generally stored in the "image", "images", "media" or "medias" field.
         const pageImage = (item.value as { image?: RoadizDocument[] } | undefined)?.image?.[0]
@@ -130,32 +130,18 @@ export async function useRoadizMeta(
         return commonContentData.value?.head?.shareImage
     })
 
-    async function resolveMetaImage(document: RoadizDocument | null | undefined): Promise<string | undefined> {
-        if (!document?.processable || !document?.relativePath) return undefined
+    const fallbackImageUrl = joinURL(runtimeConfig.app.cdnUrl || runtimeConfig.public.site.url, '/images/share.jpg')
 
-        // On the server, nuxtApp.runWithContext() always wraps its callback's return value in a
-        // Promise (unctx's callAsync is declared `async`), even though this callback is synchronous.
-        // Without awaiting it, the unresolved Promise ends up as the og:image content, which
-        // renders as "[object Promise]" instead of the actual URL.
-        return await nuxtApp.runWithContext(() =>
-            img(
-                document.relativePath!,
-                {
-                    width: 1200,
-                    crop: '1200x630',
-                    quality: 70,
-                },
-                {
-                    // @ts-expect-error The `provider` option is not well typed in the `useImage()` composable.
-                    provider: 'interventionRequest',
-                },
-            )) as string | undefined
+    async function resolveMetaImage(document: RoadizDocument | null | undefined): Promise<string | undefined> {
+        if (!document?.processable) return undefined
+
+        return resolveImageUrl(document, { width: 1200, crop: '1200x630', quality: 70 })
     }
 
     const resolvedImageUrl = ref<string | undefined>()
 
     async function resolveImage(document: RoadizDocument | null | undefined) {
-        resolvedImageUrl.value = await resolveMetaImage(document)
+        resolvedImageUrl.value = (await resolveMetaImage(document)) || fallbackImageUrl
     }
 
     // Resolve upfront so the first (SSR) render already has the URL available.
