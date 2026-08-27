@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
-import image01 from '~stories/assets/fixtures/documents/image-01.json'
-import image02 from '~stories/assets/fixtures/documents/image-02.json'
 import image03 from '~stories/assets/fixtures/documents/image-03.json'
 
 const { open } = useMediaViewer()
 
-const documents = [image03, image01, image02, image01, image03, image02].map(d => d as unknown as RoadizDocument)
+const documents = [image03].map(d => d as unknown as RoadizDocument)
 
 onMounted(() => open(documents, 0))
 </script>
