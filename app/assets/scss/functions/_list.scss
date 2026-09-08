@@ -14,8 +14,8 @@
 		$piece: list.nth($pieces, $i);
 
 		@if meta.type-of($piece) == list {
-			$result: string.unquote("#{$result}#{$glue}#{implode($piece, $glue)}");
-		} @else {
+			$result: string.unquote("#{$result}#{$glue}#{list-implode($piece, $glue)}");
+		} @else if $piece != null and $piece != '' {
 			$result: string.unquote("#{$result}#{$glue}#{$piece}");
 		}
 	}

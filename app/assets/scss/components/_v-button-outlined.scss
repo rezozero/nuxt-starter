@@ -1,30 +1,7 @@
 @use 'assets/scss/mixins/css-vars-map';
 @use 'assets/scss/mixins/sizes' as *;
+@use 'assets/scss/functions/ease' as *;
 
-// $example-sizes-map: (
-//     (
-//         'vars': (
-//             'sm': (
-//                 'padding': 4px,
-//             ),
-//             'md': (
-//                 'padding': 8px,
-//             ),
-//         ),
-//         'prefix': '',
-//     ),
-//     (
-//         'vars': (
-//             'sm': (
-//                 'margin': 8px,
-//             ),
-//             'md': (
-//                 'margin': 16px,
-//             ),
-//         ),
-//         'prefix': 'label',
-//     ),
-// );
 $vars: (
     (vars: (xs: (padding: 8px 12px,
                 gap: 6px,
@@ -69,6 +46,25 @@ $component: 'v-button';
 // Outputs CSS property declarations using the CSS variables set by `size()`, with sm values as fallbacks.
 // Usage: @include v-button.apply('') or @include v-button.apply('label')
 @mixin apply($prefix: '') {
+    @if $prefix == '' {
+        border: initial;
+        background: transparent;
+        outline: 1px solid var(--v-button-outline-color, var(--button-label-on-light-outline-border, #010101));
+        transition: color 0.3s ease(out-quad), background-color 0.3s ease(out-quad);
+
+        &:where([inert], #{&}--disabled, [disabled]) {
+            color: var(--button-label-on-light-outline-content-disabled, #bdbdbd);
+            outline-color: var(--button-label-on-light-outline-border-disabled, rgba(1, 1, 1, 0.3));
+        }
+
+        @media (hover: hover) {
+            &:hover {
+                background-color: var(--button-label-on-light-outline-bg, #010101);
+                color: var(--button-label-on-light-outline-content-hover, #FFF);
+            }
+        }
+    }
+
     @include css-vars-map.apply($vars, $component, $prefix, $fallback-size: 'sm');
 }
 

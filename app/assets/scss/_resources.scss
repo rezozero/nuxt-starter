@@ -3,15 +3,16 @@
 // Include only SASS variables / mixins / functions.
 
 // functions
-@forward "./functions/px-to-rem";
-@forward "./functions/px-to-em";
-@forward "./functions/ease";
-@forward "./functions/flex-grid";
+@forward "assets/scss/functions/px-to-rem";
+@forward "assets/scss/functions/px-to-em";
+@forward "assets/scss/functions/ease";
+@forward "assets/scss/functions/flex-grid";
 
 // mixins
-@forward './mixins/include-media' show media;
-@forward './mixins/typography';
-@forward './mixins/form';
+@forward 'assets/scss/mixins/include-media' show media;
+@forward 'assets/scss/mixins/typography';
+@forward 'assets/scss/mixins/form';
+@forward 'assets/scss/mixins/theme';
 
 // components
-@forward './components/v-button';
+@forward 'assets/scss/components/v-button';
