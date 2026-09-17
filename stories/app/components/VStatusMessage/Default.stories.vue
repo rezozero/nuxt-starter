@@ -5,25 +5,25 @@ const message = 'Cras mattis consectetur purus sit amet'
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="success">
-            <VStatusBanner
+            <VStatusMessage
                 status="success"
                 :message="message"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="warning">
-            <VStatusBanner
+            <VStatusMessage
                 status="warning"
                 :message="message"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="error">
-            <VStatusBanner
+            <VStatusMessage
                 status="error"
                 :message="message"
             />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Neutral">
-            <VStatusBanner
+            <VStatusMessage
                 status="neutral"
                 :message="message"
             />
