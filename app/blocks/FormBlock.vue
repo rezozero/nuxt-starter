@@ -19,7 +19,7 @@ const vFormProps = computed(() => {
         return {
             action: customForm.value?.postUrl,
             schema: customForm.value.definitionUrl,
-            gdpr: defaultGdpr || (te('form.gdpr') && t('form.gdpr')),
+            gdpr: defaultGdpr || (te('form.gdpr') ? t('form.gdpr') : undefined),
         }
     }
     else if (newsletterSchemaEndpoint) {
@@ -29,7 +29,7 @@ const vFormProps = computed(() => {
             description: te('form.newsletter_description') ? t('form.newsletter_description') : undefined,
             submitLabel: te('form.newsletter_submit') ? t('form.newsletter_submit') : undefined,
             successLabel: te('form.newsletter_success') ? t('form.newsletter_success') : undefined,
-            gdpr: defaultGdpr || (te('form.newsletter_gdpr') && t('form.newsletter_gdpr')),
+            gdpr: defaultGdpr || (te('form.newsletter_gdpr') ? t('form.newsletter_gdpr') : undefined),
         }
     }
 
