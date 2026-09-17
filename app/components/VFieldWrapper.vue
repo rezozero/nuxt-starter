@@ -63,12 +63,12 @@ const needLabel = computed(() => props.tag !== 'fieldset' && props.labelTag !== 
             :class="$style.errors"
             role="alert"
         >
-            <LazyVStatusBanner
+            <LazyVStatusMessage
                 v-for="violation in _errors"
                 :id="violation.id"
                 :key="violation.id"
                 status="error"
-                :message="violation.message"
+                :message="$t(violation.message)"
             />
         </div>
     </component>
