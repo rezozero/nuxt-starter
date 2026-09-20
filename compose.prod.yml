@@ -4,6 +4,7 @@ services:
         build:
             context: .
             target: node-prod
+        cpus: 2
         mem_limit: 512m
         tmpfs:
             - /tmp
@@ -18,6 +19,7 @@ services:
     nginx:
         ports:
             - "8081:80/tcp"
+        cpus: 1
         mem_limit: 128m
         depends_on:
             - node
@@ -28,6 +30,7 @@ services:
             target: nginx-prod
 
     maintenance:
+        cpus: 0.5
         mem_limit: 64m
         ports:
             - "8082:80/tcp"

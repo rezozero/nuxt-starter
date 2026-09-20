@@ -158,6 +158,20 @@ export default defineNuxtConfig({
         },
     },
     vite: {
+        optimizeDeps: {
+            // Vite discovers these at runtime and re-optimizes, which force-reloads the page
+            // mid-session (worst in stories, where it reloads the frame you are looking at).
+            // Listing them here pre-bundles them once at startup instead.
+            include: [
+                '@gtm-support/vue-gtm',
+                '@unhead/schema-org/vue',
+                '@vue-a11y/skip-to',
+                'lodash/pick',
+                'lodash/throttle',
+                'plyr',
+                'tiny-emitter',
+            ],
+        },
         build: {
             // If the generated svg-sprite file is under 4kb, the build process converts it to an inlined base64 file,
             // which breaks the use of icons.
