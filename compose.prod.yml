@@ -4,11 +4,16 @@ services:
         build:
             context: .
             target: node-prod
+            secrets:
+                - npm_token
+                - npm_registry_url
         mem_limit: 512m
         tmpfs:
             - /tmp
         environment:
             NUXT_PUBLIC_SITE_ENVIRONMENT: preproduction # or production
+            # Use internal docker address for SSR fetches and avoid loop-back
+            NUXT_SERVER_API_URL: http://api.internal
             NUXT_PUBLIC_API_URL: http://localhost:8088
             NUXT_PUBLIC_API_ENDPOINT_PREFIX: /api
             NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8088/assets
@@ -26,6 +31,9 @@ services:
         build:
             context: .
             target: nginx-prod
+            secrets:
+                - npm_token
+                - npm_registry_url
 
     maintenance:
         mem_limit: 64m
@@ -34,3 +42,13 @@ services:
         build:
             context: .
             target: nginx-maintenance
+            secrets:
+                - npm_token
+                - npm_registry_url
+
+# Only needed by @events-api/javascript-sdk, read from the shell or `.env`
+secrets:
+    npm_token:
+        environment: EVENTS_API_NPM_TOKEN
+    npm_registry_url:
+        environment: EVENTS_API_NPM_REGISTRY_URL
