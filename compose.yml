@@ -3,9 +3,6 @@ services:
         build:
             context: .
             target: node-dev
-            args:
-                EVENTS_API_NPM_TOKEN: ${EVENTS_API_NPM_TOKEN:-}
-                EVENTS_API_NPM_REGISTRY_URL: ${EVENTS_API_NPM_REGISTRY_URL:-}
         tmpfs:
             - /tmp
         volumes:
