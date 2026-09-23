@@ -25,6 +25,10 @@ export function getApiUrl() {
     else if (runtimeConfig.public.site?.url) {
         baseUrl = runtimeConfig.public.site.url
     }
+    else if (import.meta.server) {
+        // A relative base would make Nitro answer the API calls itself.
+        throw new Error('No API URL: set NUXT_PUBLIC_API_URL (or NUXT_SERVER_API_URL) in .env')
+    }
     else {
         baseUrl = ''
     }

@@ -40,8 +40,9 @@ services:
             NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8088/assets
             NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL: http://localhost:8088/assets/n
             NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH: /files
-            EVENTS_API_NPM_REGISTRY_URL: ${EVENTS_API_NPM_REGISTRY_URL}
-            EVENTS_API_NPM_TOKEN: ${EVENTS_API_NPM_TOKEN}
+            # For `docker compose run --rm node pnpm install`, optional without @events-api/javascript-sdk
+            EVENTS_API_NPM_TOKEN: ${EVENTS_API_NPM_TOKEN:-}
+            EVENTS_API_NPM_REGISTRY_URL: ${EVENTS_API_NPM_REGISTRY_URL:-}
 
     # Mirrors `pnpm stories` + stories/.env.sample: images come from the intervention service.
     stories:
