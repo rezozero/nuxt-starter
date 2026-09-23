@@ -1,5 +1,5 @@
-ARG NODE_VERSION=24.14.1
-ARG NGINX_VERSION=1.29.4
+ARG NODE_VERSION=24.21.0
+ARG NGINX_VERSION=1.30.4
 ARG UID=1000
 
 #############
@@ -11,9 +11,6 @@ FROM node:${NODE_VERSION}-trixie-slim AS node
 LABEL org.opencontainers.image.authors="ambroise@rezo-zero.com"
 
 ARG UID
-
-# Fix: "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory"
-ENV NODE_OPTIONS="--max_old_space_size=4096"
 
 # Prevent Corepack pnpm download confirm prompt
 ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
@@ -52,6 +49,9 @@ WORKDIR /app
 
 FROM node AS node-prod-build
 
+# Fix: "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 ENV NITRO_PRESET=node_server
 # Use the cluster preset to run the app with multiple workers
 # There is an issue in Nitro 2.10.4
@@ -79,6 +79,9 @@ RUN pnpm build
 
 FROM node AS node-maintenance-build
 
+# Fix: "FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory"
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 USER node
 
 # Make sure to copy pnpm-lock.yaml .npmrc to stick to the same versions
@@ -101,6 +104,8 @@ RUN pnpm generate:maintenance
 
 FROM node AS node-dev
 
+# Keep the V8 old space under the container mem_limit (see compose.yml)
+ENV NODE_OPTIONS="--max-old-space-size=768"
 ENV NITRO_HOST=0.0.0.0
 ENV NITRO_PORT=3000
 
@@ -117,6 +122,8 @@ CMD ["pnpm", "dev"]
 
 FROM node AS node-prod
 
+# Keep the V8 old space under the container mem_limit (see compose.prod.yml)
+ENV NODE_OPTIONS="--max-old-space-size=384"
 ENV NITRO_PORT=3000
 ENV NODE_ENV=production
 

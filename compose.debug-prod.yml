@@ -1,4 +1,4 @@
-# docker compose -f compose.prod.yml up --force-recreate
+# docker compose -f compose.debug-prod.yml up --force-recreate
 services:
     node:
         build:
@@ -7,6 +7,7 @@ services:
             secrets:
                 - npm_token
                 - npm_registry_url
+        cpus: 2
         mem_limit: 512m
         ports:
             -   3000:3000
