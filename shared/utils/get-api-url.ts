@@ -12,11 +12,6 @@ import { joinURL } from 'ufo'
  * server and client would produce different values, causing Vue hydration mismatches.
  * For rendered URLs, always use runtimeConfig.public.api.url directly.
  */
-
-// Module-level flag: this is called on every request, so the warning below
-// must only fire once per server process, not once per request.
-let hasWarnedMissingApiUrl = false
-
 export function getApiUrl() {
     const runtimeConfig = useRuntimeConfig()
     let baseUrl: string
@@ -38,15 +33,14 @@ export function getApiUrl() {
     // `/api`: on the server this is resolved against the Nuxt server itself,
     // which has no such route and silently falls through to the catch-all
     // page, which fetches the same URL again — an unbounded SSR loop that
-    // eventually crashes with an out-of-memory error and no useful log.
-    if (!baseUrl && import.meta.server && !hasWarnedMissingApiUrl) {
-        hasWarnedMissingApiUrl = true
-        console.warn(
-            '[getApiUrl] No API base URL is configured '
-            + '(NUXT_SERVER_API_URL, NUXT_PUBLIC_API_URL and NUXT_PUBLIC_SITE_URL are all empty). '
-            + 'API requests will use a relative URL and loop back into this Nuxt server instead of '
-            + 'reaching the API. Set one of these in your .env file.',
-        )
+    // eventually crashes with an out-of-memory error. Fail fast instead.
+    if (!baseUrl && import.meta.server) {
+        throw createError({
+            statusCode: 500,
+            message: '[getApiUrl] No API base URL is configured '
+                + '(NUXT_SERVER_API_URL, NUXT_PUBLIC_API_URL and NUXT_PUBLIC_SITE_URL are all empty). '
+                + 'Set one of these in your .env file.',
+        })
     }
 
     return joinURL(
