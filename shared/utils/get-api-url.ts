@@ -29,20 +29,6 @@ export function getApiUrl() {
         baseUrl = ''
     }
 
-    // With no base URL, `joinURL('', '/api')` resolves to the relative path
-    // `/api`: on the server this is resolved against the Nuxt server itself,
-    // which has no such route and silently falls through to the catch-all
-    // page, which fetches the same URL again — an unbounded SSR loop that
-    // eventually crashes with an out-of-memory error. Fail fast instead.
-    if (!baseUrl && import.meta.server) {
-        throw createError({
-            statusCode: 500,
-            message: '[getApiUrl] No API base URL is configured '
-                + '(NUXT_SERVER_API_URL, NUXT_PUBLIC_API_URL and NUXT_PUBLIC_SITE_URL are all empty). '
-                + 'Set one of these in your .env file.',
-        })
-    }
-
     return joinURL(
         baseUrl,
         runtimeConfig.public.api?.endpointPrefix || '',
