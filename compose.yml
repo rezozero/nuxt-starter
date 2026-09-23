@@ -1,23 +1,73 @@
+# docker compose up -d                     # intervention-request only (bare-metal `pnpm dev` / `pnpm stories`)
+# docker compose --profile app up -d       # Nuxt dev server on :3000
+# docker compose --profile stories up -d   # UI stories on :6006
+#
+# Both node services bind-mount the repo and use the host `node_modules`:
+# run `pnpm install` on the host first.
+
+# nuxt-stories runs TWO dev servers (shell + frame) plus their @nuxt/cli workers and
+# esbuild services: ~6 node processes, ~160 threads. The tuning below is per-process.
+x-node-env: &node-env
+    # Applies to EVERY node process in the container, not to the container. Measured going
+    # from 2048 to 768: peak 1788 -> 1584 MB, steady state unchanged (~1080 MB). The bulk is
+    # live data across the 6 processes, not collectable garbage -- this only buys headroom
+    # under mem_limit, it does not make the dev server lighter.
+    NODE_OPTIONS: --max-old-space-size=768
+
+x-node-dev: &node-dev
+    build:
+        context: .
+        target: node-dev
+    # 4 was throttling the compile/HMR bursts (that is when it feels slow), not idle.
+    cpus: 8
+    mem_limit: 3g
+    tmpfs:
+        - /tmp
+    volumes:
+        - ./:/app
+
 services:
     node:
-        build:
-            context: .
-            target: node-dev
-        tmpfs:
-            - /tmp
-        volumes:
-            - ./:/app
+        <<: *node-dev
+        profiles:
+            - app
         ports:
             - "3000:3000/tcp"
         environment:
+            <<: *node-env
             NUXT_PUBLIC_API_URL: http://localhost:8088
             NUXT_PUBLIC_API_ENDPOINT_PREFIX: /api
             NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8088/assets
             NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL: http://localhost:8088/assets/n
             NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH: /files
+            EVENTS_API_NPM_REGISTRY_URL: ${EVENTS_API_NPM_REGISTRY_URL}
+            EVENTS_API_NPM_TOKEN: ${EVENTS_API_NPM_TOKEN}
+
+    # Mirrors `pnpm stories` + stories/.env.sample: images come from the intervention service.
+    stories:
+        <<: *node-dev
+        profiles:
+            - stories
+        command: ["pnpm", "stories"]
+        ports:
+            # 6006 is the stories shell (the UI), 6007 the frame server it iframes. The shell
+            # bakes an absolute `http://localhost:${framePort ?? devServer.port + 1}` into its
+            # bundle, so the BROWSER resolves it: both host ports must match the container ones.
+            - "6006:6006/tcp"
+            - "6007:6007/tcp"
+        environment:
+            <<: *node-env
+            # No-op while stories/nuxt.config.ts sets devServer.port explicitly (config wins
+            # over env); kept so the image default of 3000 never leaks through if it is removed.
+            NITRO_PORT: 6006
+            NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL: http://localhost:8080/assets
+            NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH: ""
+            NUXT_IMAGE_DOMAINS: http://localhost:8080
 
     intervention:
         image: ambroisemaupate/intervention-request:latest
+        cpus: 2
+        mem_limit: 512m
         volumes:
             - ./stories/public/images:/app/public/images:ro
         tmpfs:

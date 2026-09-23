@@ -9,7 +9,7 @@ include:
     - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
 test_audit:
-    image: node:24.14.1-alpine
+    image: node:24.21.0-alpine
     stage: test
     interruptible: true
     rules:
