@@ -1,6 +1,7 @@
 <script lang="ts">
 import type { Tokens } from 'marked'
 import { marked } from 'marked'
+import { markedTableExtension } from '~/utils/markdown/marked-table-extension'
 import { getSlotsInnerText } from '~/utils/vue/get-slot-children-text'
 
 const renderer = new marked.Renderer()
@@ -42,6 +43,8 @@ marked.use({
         },
     }],
 })
+
+marked.use(markedTableExtension)
 
 export default defineComponent({
     props: {
@@ -170,9 +173,29 @@ export default defineComponent({
         aspect-ratio: 16 / 9;
     }
 
+    // Scroll container rendered by marked-table-extension: the table keeps its semantics on narrow screens
+    :global(.v-markdown-table) {
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
     table {
         width: 100%;
+        min-width: max-content;
         border-collapse: collapse;
+
+        @include media('>=md') {
+            min-width: 0;
+        }
+    }
+
+    caption {
+        caption-side: top;
+        font-weight: 500;
+        padding-block-end: 1em;
+        text-align: start;
+
+        @include text-body;
     }
 
     mark {
@@ -187,6 +210,15 @@ export default defineComponent({
         border-bottom: 1PX solid var(--colors-line-secondary, rgb(0 0 0 / 20%));
 
         @include text-body;
+
+        & + :is(th, td) {
+            padding-inline-start: 1em;
+        }
+    }
+
+    th {
+        font-weight: 500;
+        text-align: start;
     }
 }
 </style>
