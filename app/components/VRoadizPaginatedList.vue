@@ -53,8 +53,10 @@ const placeholderCount = computed(() => {
     return Math.max(Math.min(itemsPerPage.value, remainingItems), 0) || itemsPerPage.value
 })
 
+const isPending = computed(() => status.value === 'pending' || isScrollingToTop.value)
+
 const items = computed<(T | null)[]>(() => {
-    if (status.value === 'pending' || isScrollingToTop.value) {
+    if (isPending.value) {
         return [...Array(placeholderCount.value).keys()].map(() => null)
     }
 
@@ -66,8 +68,23 @@ const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage.valu
 // Keep the pagination visible even if the current page is out of range, so the user can navigate back
 const hasMoreThanOnePage = computed(() => !error.value && totalPages.value > 1)
 
+// Move the focus to the top of the list once the new page is loaded,
+// so keyboard and screen reader users do not stay on the pagination
+watch(page, async () => {
+    await until(isPending).toBe(false)
+    root.value?.focus({ preventScroll: true })
+})
+
+const { t } = useI18n()
+const statusMessage = computed(() => {
+    if (isPending.value) return t('paginated_list.loading')
+    if (error.value || !totalPages.value) return ''
+
+    return t('paginated_list.page_%page%_of_%total%', { page: page.value, total: totalPages.value })
+})
+
 defineSlots<{
-    'item': (props: { item: T | null, classNames: string, index: number }) => unknown
+    'item': (props: { item: T | null, index: number }) => unknown
     'no-result'?: () => unknown
     'error'?: (props: { error: NonNullable<typeof error.value> }) => unknown
 }>()
@@ -77,27 +94,42 @@ defineSlots<{
     <div
         ref="root"
         :class="$style.root"
+        tabindex="-1"
     >
-        <div
+        <p
+            class="visually-hidden"
+            role="status"
+            aria-atomic="true"
+            aria-live="polite"
+        >
+            {{ statusMessage }}
+        </p>
+        <ul
             v-if="items.length"
             :class="$style.list"
             class="grid"
+            :aria-busy="isPending"
         >
-            <template
+            <li
                 v-for="(item, index) in items"
                 :key="itemBaseId + '-' + index"
+                :class="$style.item"
             >
                 <slot
                     name="item"
-                    v-bind="{ item, classNames: $style.item, index }"
+                    v-bind="{ item, index }"
                 />
-            </template>
-        </div>
-        <slot
+            </li>
+        </ul>
+        <div
             v-else-if="error"
-            name="error"
-            :error="error"
-        />
+            role="alert"
+        >
+            <slot
+                name="error"
+                :error="error"
+            />
+        </div>
         <slot
             v-else
             name="no-result"
@@ -116,10 +148,18 @@ defineSlots<{
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+
+    // Focus is moved programmatically on page change, no need for a visible outline on the whole list
+    &:focus {
+        outline: none;
+    }
 }
 
 .list {
-    margin-bottom: 48px;
+    padding: 0;
+    margin: 0 0 48px;
+    list-style: none;
+    row-gap: 24px;
 }
 
 .item {
@@ -135,6 +175,6 @@ defineSlots<{
 }
 
 .pagination {
-    margin-bottom: 48px;
+    margin-block: 48px;
 }
 </style>

@@ -30,8 +30,8 @@ function toArticleCard(item: NSArticle): ArticleCard {
                 :transform="toArticleCard"
                 :params="{ itemsPerPage: 6 }"
             >
-                <template #item="{ item, classNames }">
-                    <div :class="classNames">
+                <template #item="{ item }">
+                    <div>
                         <template v-if="item">
                             <a :href="item.href">{{ item.title }}</a> — {{ item.date }}
                         </template>
@@ -50,8 +50,8 @@ function toArticleCard(item: NSArticle): ArticleCard {
                 url="/paginated-items"
                 :params="{ itemsPerPage: 6 }"
             >
-                <template #item="{ item, classNames }">
-                    <div :class="classNames">
+                <template #item="{ item }">
+                    <div>
                         {{ item?.title }}
                     </div>
                 </template>
@@ -63,8 +63,8 @@ function toArticleCard(item: NSArticle): ArticleCard {
                 :transform="toArticleCard"
                 :params="{ itemsPerPage: 6, search: 'empty' }"
             >
-                <template #item="{ item, classNames }">
-                    <div :class="classNames">
+                <template #item="{ item }">
+                    <div>
                         {{ item?.title }}
                     </div>
                 </template>
@@ -79,8 +79,8 @@ function toArticleCard(item: NSArticle): ArticleCard {
                 :transform="toArticleCard"
                 :params="{ itemsPerPage: 6, search: 'error' }"
             >
-                <template #item="{ item, classNames }">
-                    <div :class="classNames">
+                <template #item="{ item }">
+                    <div>
                         {{ item?.title }}
                     </div>
                 </template>
