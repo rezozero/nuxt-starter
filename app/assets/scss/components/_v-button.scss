@@ -1,0 +1,46 @@
+@use '../mixins/css-vars-map';
+
+// $example-sizes-map: (
+//     (
+//         'vars': (
+//             'sm': (
+//                 'padding': 4px,
+//             ),
+//             'md': (
+//                 'padding': 8px,
+//             ),
+//         ),
+//         'prefix': '',
+//     ),
+//     (
+//         'vars': (
+//             'sm': (
+//                 'margin': 8px,
+//             ),
+//             'md': (
+//                 'margin': 16px,
+//             ),
+//         ),
+//         'prefix': 'label',
+//     ),
+// );
+$vars: (
+    (
+        vars: (
+            sm: (
+                font-size: 14px,
+            ),
+            md: (
+                font-size: 16px,
+            ),
+            lg: (
+                font-size: 18px,
+            ),
+        ),
+        prefix: 'label'
+    ),
+);
+
+@mixin size($size) {
+    @include css-vars-map.deep-get($vars, $size, 'v-button');
+}

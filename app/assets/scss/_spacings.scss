@@ -1,0 +1,7 @@
+@use 'variables/spacings' as *;
+
+:root {
+    @each $key, $value in $spacings {
+        --#{$key}: #{$value};
+    }
+}

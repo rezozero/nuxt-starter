@@ -1,0 +1,19 @@
+@use "floating-vue/dist/style.css";
+@use "../functions/px-to-rem" as *;
+@use "../mixins/include-media" as *;
+
+.v-popper__arrow-container {
+    display: none;
+    visibility: hidden;
+}
+
+.v-popper--theme-tooltip .v-popper__inner {
+    padding: px-to-rem(12);
+    border-radius: initial;
+    background-color: var(--theme-color-surfaces-primary);
+    color: var(--theme-color-content-primary);
+
+    @include media('>=md') {
+        padding: px-to-rem(24);
+    }
+}

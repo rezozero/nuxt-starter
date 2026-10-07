@@ -1,18 +1,29 @@
 import type { HydraCollection, JsonLdObject, RoadizRequestParams, RoadizTranslation } from '@roadiz/types'
-import { asSitemapUrl, defineSitemapEventHandler } from '#imports'
-import { hydraCollectionFetch } from '~/utils/hydra-collection-fetch'
-import { useApiUrl } from '~/composables/use-api-url'
 
-type ReachableEntity = JsonLdObject & { url?: string }
+type ReachableEntity = JsonLdObject & {
+    url?: string
+    // The `updatedAt` field can be on the root or inside a `node` object
+    updatedAt?: string
+    node?: {
+        updatedAt?: string
+    }
+}
 
-const apiFetch = $fetch.create({
-    method: 'GET',
-    headers: {
-        'accept-encoding': 'gzip, deflate',
-        'Accept': 'application/ld+json',
-    },
-    baseURL: useApiUrl(), // Auto imports within the server folder aren't supported
-})
+let apiFetchInstance: typeof $fetch | undefined
+
+// Created on first use: `getApiUrl()` throws when no API URL is configured, which must not break module loading.
+function apiFetch(): typeof $fetch {
+    apiFetchInstance ??= $fetch.create({
+        method: 'GET',
+        headers: {
+            'accept-encoding': 'gzip, deflate',
+            'Accept': 'application/ld+json',
+        },
+        baseURL: getApiUrl(), // Auto imports within the server folder aren't supported
+    })
+
+    return apiFetchInstance
+}
 
 function fetchAllByLocale(path: string, _locale = 'fr', params: RoadizRequestParams = {}): Promise<ReachableEntity[]> {
     return hydraCollectionFetch<ReachableEntity>(
@@ -24,38 +35,53 @@ function fetchAllByLocale(path: string, _locale = 'fr', params: RoadizRequestPar
                 ...params,
             },
         },
-        apiFetch,
+        apiFetch(),
     )
 }
 
 function fetchResourcesByLocale(locale: string) {
     const nodes = fetchAllByLocale('/nodes_sources', locale, {
-        'node.nodeType.reachable': true,
+        'reachable': true,
         'node.visible': true,
         'noIndex': false,
+        'properties[0]': 'url',
+        'properties[node][]': 'updatedAt',
+        'itemsPerPage': 50,
     })
 
     // const today = new Date()
-    // today.setFullYear(today.getFullYear() - 2)
+    // today.setFullYear(today.getFullYear() - 3)
     // const events = fetchAllByLocale('/events', locale, {
+    //     'properties[0]': 'url',
+    //     'properties[1]': 'updatedAt',
     //     'sortingDateTime[after]': today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate(),
+    //     'itemsPerPage': 50,
     // })
     //
     // const peoples = fetchAllByLocale('/people', locale, {
+    //     'properties[0]': 'url',
+    //     'properties[1]': 'updatedAt',
     //     'exists[description]': true,
     //     'order[familyName]': 'asc',
+    //     'itemsPerPage': 50,
     // })
-
+    //
+    // return [nodes, events, peoples]
     return [nodes]
 }
 
 export default defineSitemapEventHandler(async () => {
-    const locales = await apiFetch<HydraCollection<RoadizTranslation>>('/translations', {
+    const locales = await apiFetch()<HydraCollection<RoadizTranslation>>('/translations', {
         params: { available: true },
-    }).then(response => response['hydra:member'].map(({ locale }) => locale))
+    }).then(response => response['hydra:member']!.map(({ locale }) => locale))
 
-    const resourcesLocalized = locales.map(locale => fetchResourcesByLocale(locale)).flat()
+    const resourcesLocalized = locales.map(locale => fetchResourcesByLocale(locale as string)).flat()
     const resources = (await Promise.all(resourcesLocalized)).flat()
 
-    return resources.filter(r => r?.url).map(resource => asSitemapUrl(resource.url as string))
+    return resources.filter(r => r?.url).map(resource => asSitemapUrl({
+        loc: resource.url as string,
+        lastmod: (resource?.updatedAt)
+            ? (new Date(resource?.updatedAt).toISOString())
+            : (resource?.node?.updatedAt ? new Date(resource?.node?.updatedAt).toISOString() : undefined),
+    }))
 })

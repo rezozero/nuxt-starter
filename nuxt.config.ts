@@ -1,47 +1,63 @@
+import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
-import type { NuxtPlugin } from '@nuxt/schema'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 import { version } from './package.json'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './i18n.config'
+import { createHash } from 'node:crypto'
 
-const isNuxtStories = process.env.NUXT_STORIES === '1'
-const plugins: (NuxtPlugin | string)[] = []
-
-if (isNuxtStories) {
-    plugins.push('./plugins/stories/msw.ts')
-}
+const isDev = process.env.NODE_ENV === 'development'
+const isGenerate = process.argv.includes('generate')
+const isGenerateMaintenance = isGenerate && process.argv.includes('--maintenance')
 
 export default defineNuxtConfig({
     modules: [
-        '@nuxtjs/svg-sprite',
         // the Intervention Request provider module has to be registered before the Nuxt image module
         // @see https://github.com/rezozero/intervention-request-provider?tab=readme-ov-file#installation
         '@rezo-zero/intervention-request-provider',
         '@nuxt/image',
-        '@rezo-zero/nuxt-stories',
         '@nuxtjs/i18n',
         '@nuxtjs/sitemap',
         '@vueuse/nuxt',
         '@rezo-zero/nuxt-cache-control',
         '@nuxt/eslint',
         '@nuxtjs/robots',
+        '@nuxt/icon',
+        '@sentry/nuxt/module',
+        'nuxt-schema-org',
     ],
-    plugins,
-    // Don' use layer for now
-    // extends: ['github:rezozero/nuxt-layer#v0.1.6'],
     components: [
-        '~/components/atoms',
-        '~/components/molecules',
-        '~/components/organisms',
-        { path: '~/components/blocks/', global: true },
+        '~/components',
+        {
+            path: '~/blocks',
+            // As the blocks are used in the CMS, we need to import them globally.
+            global: true,
+        },
     ],
-    devtools: { enabled: true },
+    devtools: {
+        enabled: process.env.NUXT_DEVTOOLS === 'true',
+    },
+    app: {
+        head: {
+            htmlAttrs: {
+                lang: I18N_DEFAULT_LOCALE,
+            },
+            // if head elements are assets, it should be loaded via the head plugin (for supporting cdnUrl)
+        },
+    },
     css: ['~/assets/scss/main.scss'],
     runtimeConfig: {
+        // Server-only: overrides api.url for Node SSR context (e.g. internal cluster URL).
+        // Never exposed to the browser bundle.
+        // Falls back to NUXT_PUBLIC_API_URL when unset.
+        serverApiUrl: '',
         public: {
             version,
             site: {
-                url: 'http://localhost:3000',
-                environment: 'development',
+                name: '',
+                url: '',
+                env: '',
+            },
+            newsletter: {
+                schemaEndpoint: '/api/newsletter_form/definition',
             },
             api: {
                 url: '',
@@ -54,14 +70,26 @@ export default defineNuxtConfig({
             },
             matomo: {
                 url: '',
+                cloudId: '',
+                siteId: 1,
                 containerID: '',
+                trackerUrl: '',
             },
             googleTagManager: {
                 id: '',
+                debug: '',
             },
-            recaptcha: {
+            friendlyCaptcha: {
                 siteKey: '',
-                version: 3,
+            },
+            reCaptcha: {
+                siteKey: '',
+            },
+            hCaptcha: {
+                siteKey: '',
+            },
+            turnstile: {
+                siteKey: '',
             },
             sentry: {
                 dsn: '',
@@ -76,12 +104,34 @@ export default defineNuxtConfig({
             },
         },
     },
+    ignore: [
+        ...(isGenerateMaintenance ? ['app/layouts/**', 'app/pages/**', 'app/components/blocks/**', 'app/components/organisms/**', 'server/api/**', 'app/plugins/00.check-api-url.ts'] : []),
+        (isGenerateMaintenance || isDev) ? '!app/pages/maintenance.vue' : 'app/pages/maintenance.vue',
+        !isDev ? 'app/**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
+    ],
+    features: {
+        noScripts: isGenerateMaintenance, // maintenance page does not need JS
+        inlineStyles: id => !!id && id.includes('.vue'), // trying to keep the duplicated styles to a minimum  https://github.com/nuxt/nuxt/issues/21821#issuecomment-2556813895
+    },
     experimental: {
         asyncContext: true,
         appManifest: false, // We don't need client route rules for now, and Nuxt makes an extra request to get them.
     },
-    compatibilityDate: '2024-07-24',
+    compatibilityDate: '2026-06-05',
     nitro: {
+        prerender: {
+            autoSubfolderIndex: false,
+            crawlLinks: false,
+            failOnError: true,
+            ignore: [
+                (route) => {
+                    if (!isGenerateMaintenance)
+                        return false
+
+                    return !route.includes('maintenance')
+                },
+            ],
+        },
         routeRules: {
             '/**': {
                 headers: {
@@ -91,7 +141,7 @@ export default defineNuxtConfig({
                     // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
                     'Content-Security-Policy': [
                         // Only allows these iframe origins
-                        'frame-src \'self\' *.youtube.com *.youtube-nocookie.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com',
+                        'frame-src \'self\' *.cloudflare.com *.hcaptcha.com *.gstatic.com *.frcapi.com *.youtube.com *.youtube-nocookie.com *.vimeo.com *.instagram.com *.soundcloud.com *.google.com *.deezer.com *.spotify.com *.podcasts.apple.com *.linkedin.com',
                         // Only allows these script origins
                         // "script-src 'self' 'unsafe-inline' *.google.com *.googleapis.com *.gstatic.com",
                         // Only allows these images origins
@@ -99,35 +149,87 @@ export default defineNuxtConfig({
                     ].join('; '),
                 },
             },
-            // Auto generated page by svgSprite module
-            '/_icons': {
+            '/maintenance': {
+                prerender: isGenerateMaintenance,
                 headers: {
-                    // Do not index the page and remove it from sitemap
                     'X-Robots-Tag': 'noindex',
                 },
             },
         },
     },
     vite: {
+        optimizeDeps: {
+            // Vite discovers these at runtime and re-optimizes, which force-reloads the page
+            // mid-session (worst in stories, where it reloads the frame you are looking at).
+            // Listing them here pre-bundles them once at startup instead.
+            include: [
+                '@gtm-support/vue-gtm',
+                '@unhead/schema-org/vue',
+                '@vue-a11y/skip-to',
+                'lodash/pick',
+                'lodash/throttle',
+                'plyr',
+                'tiny-emitter',
+            ],
+        },
+        build: {
+            // If the generated svg-sprite file is under 4kb, the build process converts it to an inlined base64 file,
+            // which breaks the use of icons.
+            assetsInlineLimit: 0,
+        },
         css: {
+            modules: {
+                generateScopedName(name: string, filename: string) {
+                    // Strip query params that differ between SSR (?ssr=true) and client
+                    const cleanFilename = (filename.split('?')[0] ?? filename).replace(/\\/g, '/')
+                    const hash = createHash('md5').update(cleanFilename).digest('hex').substring(0, 5)
+                    // in dev mode, display the componentName in the className
+                    if (isDev) {
+                        const componentName = cleanFilename.split('/').pop()?.replace(/\.vue.*$/, '').replace(/\./g, '-') ?? ''
+                        return `${componentName}_${name}_${hash}`
+                    }
+                    return `_${name}_${hash}`
+                },
+            },
             preprocessorOptions: {
                 scss: {
+                    additionalData: `@use "${fileURLToPath(new URL('./app/assets/scss/_resources.scss', import.meta.url))}" as *;`,
+                    loadPaths: [fileURLToPath(new URL('./app', import.meta.url))],
                     quietDeps: true,
-                    // For now, just silence the deprecation warning.
-                    // But we have to use Dart Sass modern API https://sass-lang.com/documentation/breaking-changes/legacy-js-api/ soon.
-                    // Vite 5.x uses the legacy API as default https://vitejs.dev/config/shared-options.html#css-preprocessoroptions
-                    // Probably for best performance we should use `api: "modern-compiler"` and `sass-embedded` package.
-                    // Waiting on Vite fixing the missing sourcemap files https://github.com/vitejs/vite/pull/18113 warning.
-                    silenceDeprecations: ['legacy-js-api'],
                 },
             },
         },
         plugins: [
             // https://github.com/jpkleemans/vite-svg-loader?tab=readme-ov-file#setup
             svgLoader({
+                svgoConfig: {
+                    multipass: true,
+                    plugins: [
+                        {
+                            name: 'preset-default',
+                            params: {
+                                overrides: {
+                                    removeTitle: false,
+                                    // viewBox is required to resize SVGs with CSS.
+                                    // @see https://github.com/svg/svgo/issues/1128
+                                    removeViewBox: false,
+                                },
+                            },
+                        },
+                    ],
+                },
                 defaultImport: 'url',
             }),
         ],
+    },
+    postcss: {
+        plugins: {
+            // https://github.com/cuth/postcss-pxtorem?tab=readme-ov-file#options
+            'postcss-pxtorem': {
+                propList: ['*'],
+                exclude: /(node_modules|scss\/export)/i,
+            },
+        },
     },
     // https://eslint.nuxt.com/packages/module
     eslint: {
@@ -137,21 +239,35 @@ export default defineNuxtConfig({
             },
         },
     },
-    // https://v8.i18n.nuxtjs.org/getting-started/setup
+    // https://i18n.nuxtjs.org/docs/getting-started/usage
     i18n: {
         strategy: 'prefix_except_default',
-        detectBrowserLanguage: false,
+        detectBrowserLanguage: {
+            useCookie: true,
+        },
         defaultLocale: I18N_DEFAULT_LOCALE,
         locales: I18N_LOCALES.map(locale => ({
             code: locale,
             file: `nuxt.${locale}.json`,
         })),
-        lazy: true,
-        langDir: 'assets/locales/',
         compilation: {
-            // Message can contains HTML tag
-            strictMessage: false,
+            strictMessage: false, // Message can contains HTML tag
         },
+    },
+    // https://nuxt.com/modules/icon#usage
+    icon: {
+        componentName: 'NuxtIcon',
+        class: '',
+        fallbackToApi: false,
+        localApiEndpoint: '/_nuxt_icon',
+        customCollections: [
+            {
+                normalizeIconName: false,
+                prefix: 'icon',
+                // The icons directory is used into other context (e.g. stories), so we need to get the absolute path.
+                dir: fileURLToPath(new URL('./app/assets/images/icons', import.meta.url)),
+            },
+        ],
     },
     // https://image.nuxt.com/get-started/configuration
     image: {
@@ -176,22 +292,11 @@ export default defineNuxtConfig({
     // https://nuxtseo.com/robots/api/config
     robots: {
         allow: ['/'],
-        disallow: ['/rz-admin', '/maintenance', '/_icons', '/api'],
+        disallow: ['/rz-admin', '/maintenance', '/api'],
     },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
+        enabled: !isGenerateMaintenance,
         sources: ['/api/sitemap'],
-    },
-    // https://github.com/rezozero/nuxt-stories
-    stories: {
-        pattern: [
-            '**/*.stories.vue',
-            '!playground', // exclude layer stories
-        ],
-    },
-    // https://github.com/nuxt-modules/svg-sprite#options
-    svgSprite: {
-        input: '~/assets/images/icons',
-        output: '~/assets/images/sprites',
     },
 })

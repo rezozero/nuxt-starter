@@ -1,123 +1,131 @@
 # Nuxt starter
 
-## Application overview
+Nuxt starter for Roadiz-driven sites and platforms, with UI stories, i18n, optimized images, and a production-ready Docker setup.
 
-- Nuxt as framework
-- Vite for development and build
-- SCSS for styles
-- Typescript for scripts
-- PNPM as package manager
-- EsLint / StyleLint for linting and code formatting
+## Quick start
 
-##  Environment variables
-
-Duplicate the `.env.example` file and rename it to `.env`.  
-Fill in the environment variables with the correct values.
-
-## Setup
-
-Make sure to install the dependencies:
+1) Duplicate `.env.sample` into `.env` and fill the required values.
+2) Install dependencies:
 
 ```bash
 pnpm install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+3) Start the dev server:
 
 ```bash
 pnpm dev
 ```
-Start the development server on `http://localhost:6006` with stories preset (use the `.env.stories` file):
+
+4) Open `http://localhost:3000`.
+5) (Optional) Start stories — `docker compose up` provides the image server they need:
 
 ```bash
-docker-compose up -d // start the Intervention Request service
-pnpm dev:stories
+cp stories/.env.sample stories/.env
+docker compose up -d
+pnpm stories
 ```
 
-## Production
+## Architecture in 2 minutes
 
-Build the application for production:
+- Dynamic routing via Roadiz in `app/pages/[...slug].vue`.
+- Pages come from a Roadiz web response and render through global blocks.
+- Stories are available on `/_stories` to preview components.
+- Maintenance page is generated via a dedicated build.
+
+Full details: `docs/architecture.md`.
+
+## Folder structure
+
+- `app/pages` Nuxt routes (catch-all for Roadiz)
+- `app/components` app components
+- `app/blocks` Roadiz blocks components
+- `app/assets` images, icons, styles, story fixtures
+- `server` Nitro server API and story assets
+- `i18n` locales and config
+
+## Prerequisites
+
+- Node `24.21.0`
+- PNPM `11.5.1` (via `corepack enable pnpm`)
+
+## Environment (.env)
+
+Duplicate `.env.sample` into `.env`, then fill in:
+
+- `NUXT_PUBLIC_SITE_URL`, `NUXT_PUBLIC_SITE_ENV`
+- `NUXT_PUBLIC_API_URL` (if using a remote API)
+- `NUXT_PUBLIC_INTERVENTION_REQUEST_*` for the image provider
+- `XILOFONE_*` if you want to fetch translations
+
+The full list and usage details are in `docs/architecture.md`.
+
+## Useful commands
 
 ```bash
+## Development
+pnpm dev
+## Stories (UI)
+pnpm stories
+## Production build
 pnpm build
-```
-
-Locally preview production build:
-
-```bash
+## Production preview
 pnpm preview
-```
 
-## Code quality and formatting
-
-Run the following command to lint and format the code:
-
-```bash
-pnpm lint
-```
-
-### Lint and format script (JS / Vue files)
-
-```bash
-pnpm lint:js
-```
-
-### Lint and format style (CSS / SCSS / Vue files)
-
-```bash
+## Lint and format style (CSS / SCSS / Vue files)
 pnpm lint:css
-```
-
-### Lint fix (script and style)
-
-```bash
+## Lint fix (script and style)
 pnpm lint-fix
 ```
 
-## I18n
 
-The application uses `nuxt-i18n` module for internationalization.  
-Please refer to the [documentation](https://v8.i18n.nuxtjs.org/) for more information.
 
-The localized messages come from Xilofone, our translation management system.  
-The messages can be fetched automatically using the `@rezo-zero/xilofone-fetch` script.  
-Fill the Xilofone env variables in the `.env` file.
+## i18n
 
-```dotenv
-XILOFONE_BASE_URL=https://xilofone.rezo-zero.com
-XILOFONE_USERNAME=
-XILOFONE_PASSWORD=
-XILOFONE_FILE_ID=
-XILOFONE_OUTPUT=assets/locales/
-```
+Translations come from Xilofone and can be fetched with:
 
-Run the following command to fetch the messages:
+At the beginning of a project, import the translation files into Xilofone before running `pnpm xilo`.
+
 ```bash
 pnpm xilo
 ```
 
+nuxt-i18n docs: https://v8.i18n.nuxtjs.org/
+
+## API
+
+The application connects to an API using the `NUXT_PUBLIC_API_URL` environment variable.
+
+When the Node SSR process and the browser live in different network planes, set `NUXT_SERVER_API_URL` so SSR requests use a different URL than the browser. This happens in two common scenarios:
+
+**Local development** — both the API and Nuxt run in Docker, but the browser runs on the host machine:
+```dotenv
+# Browser reaches the API through the exposed Docker port
+NUXT_PUBLIC_API_URL=http://localhost:8080
+# Node SSR reaches the API directly inside the Docker network
+NUXT_SERVER_API_URL=http://api:8080
+```
+
+**Cloud/Kubernetes** — keep SSR traffic inside the cluster network:
+```dotenv
+NUXT_PUBLIC_API_URL=https://api.example.com
+NUXT_SERVER_API_URL=http://api.internal
+```
+
+When `NUXT_SERVER_API_URL` is absent, both SSR and browser use `NUXT_PUBLIC_API_URL`. The server URL is never exposed to the client bundle.
+
+> **Warning:** `NUXT_SERVER_API_URL` must only be used for data fetching. Never use it to build URLs that are rendered in HTML (image `src`, anchor `href`, etc.): server and client would produce different values, causing Vue hydration mismatches. Rendered URLs always use `NUXT_PUBLIC_API_URL`.
+
 ## Image
 
-The application uses `@nuxt/image` module.  
-Please refer to the Nuxt image module [documentation](https://image.nuxt.com/) for more information.
+## Images
 
-The provider by default is Intervention Request.  
-Fill the .env file with the values for the provider.
-```dotenv
-NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL=
-NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL=
-NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH=
-```
-See the provider [documentation](https://github.com/rezozero/intervention-request-provider) for more information.
+Nuxt Image is configured with the Intervention Request provider.
+Docs: https://image.nuxt.com/
 
 ## SVG
 
-### Single file
-
-Use `vite-svg-loader` to import SVG file.  
-See the plugin [documentation](https://github.com/jpkleemans/vite-svg-loader) for more information.
+Import an SVG as a component:
 
 ```vue
 <script setup lang="ts">
@@ -125,85 +133,120 @@ import IconCheck from '~/assets/images/icons/check.svg?component'
 </script>
 
 <template>
-    <div>
-        <IconCheck />
-    </div>
+    <IconCheck />
 </template>
 ```
 
-### Sprite
+For icons, use `VIcon` with assets in `app/assets/images/icons`.
 
-All the files in `~/assets/images/icons` are automatically imported in a SVG sprite.  
-It uses `@nuxtjs/svg-sprite` module. See the module [documentation](https://github.com/nuxt-modules/svg-sprite/tree/master) for more information.
+## Maintenance
 
-```vue
-<template>
-    <div>
-        <SvgIcon name="check" width="14" height="11" />
-    </div>
-</template>
+The maintenance build generates a static page:
+
+```bash
+pnpm generate:maintenance
 ```
-
-Nuxt layer introduces a component `VIcon` to easily use the sprite.
-
-```vue
-<template>
-    <div>
-        <VIcon name="check" />
-    </div>
-</template>
-```
-
-## Stories
-
-The application uses `@rezo-zero/nuxt-stories` module.  
-
-All the files with the `.stories.vue` extension are automatically imported and displayed in the stories.   
-The stories are available on `/_stories`.
-
-The app must use a layout (at least a default one) for allowing the stories to be displayed.  
-See Nuxt stories [caveat section](https://github.com/rezozero/nuxt-stories?tab=readme-ov-file#caveats).
-
-Checkout the Nuxt stories [documentation](https://github.com/rezozero/nuxt-stories) for more information.
-
 
 ## Monitoring
 
-Sentry is included in the application for error monitoring.
-
-Fill the .env file with the values for enabling Sentry.
-```dotenv
-SENTRY_DSN=
-```
-
+Sentry is configured via `NUXT_PUBLIC_SENTRY_DSN`.
 
 ## Sitemap
 
-The application uses `@nuxtjs/sitemap` module.  
-It generates a sitemap from the `pages/` directory.
-Dynamic routes can be added with the server route `/api/sitemap`.
+Sitemap is generated by `@nuxtjs/sitemap` with `/api/sitemap` as a source.
 
-Read the full module documentation [here](https://www.nuxtseo.com/sitemap/getting-started/installation).
+## Private npm registry
+
+`@events-api/javascript-sdk` is served by a private GitLab registry. Installing it requires two variables
+(values in Bitwarden). Projects that remove this dependency can leave them unset.
+
+- `EVENTS_API_NPM_REGISTRY_URL`: registry host and path, without scheme, with trailing slash
+  (e.g. `gitlab.example.com/api/v4/projects/<id>/packages/npm/`)
+- `EVENTS_API_NPM_TOKEN`: GitLab token with `read_api` scope (or a deploy token with `read_package_registry`)
+
+`.npmrc` reads them from the shell, so export them before `pnpm install`:
+
+```bash
+export EVENTS_API_NPM_REGISTRY_URL=... EVENTS_API_NPM_TOKEN=...
+pnpm install
+```
+
+Or install inside the dev container, which reads them from `.env`:
+
+```bash
+docker compose run --rm node pnpm install
+```
+
+Docker builds receive them as [build secrets](https://docs.docker.com/build/building/secrets/), never as build args,
+so they don't end up in image layers.
+
+## Docker development
+
+Dev services are behind Compose profiles, so you only start what you need:
+
+```bash
+## intervention-request only — for bare-metal `pnpm dev` / `pnpm stories`
+docker compose up -d
+## Nuxt dev server on http://localhost:3000
+docker compose --profile app up -d
+## UI stories on http://localhost:6006 (the frame server also needs 6007)
+docker compose --profile stories up -d
+```
+
+Both Node services bind-mount the repository and reuse the host `node_modules`:
+run `pnpm install` on the host first.
+
+CPU and memory are capped per container (`cpus` / `mem_limit`). `NODE_OPTIONS` caps
+the V8 old space per process so a compile burst cannot grow the heap into the
+`mem_limit` and get the container OOM-killed.
+
+> **Stories run two dev servers.** `pnpm stories` uses nuxt-stories in `mode: 'shell'`,
+> which starts the shell on `6006` **and** spawns a separate frame server on `6007` —
+> about 1.4 GB together, plus one inotify watcher set each (on top of the app's own dev
+> server). On a constrained machine this can hit `mem_limit` (OOM) or exhaust
+> `fs.inotify.max_user_instances` — the frame container then dies on
+> `EMFILE: too many open files`. Mitigations, cheapest first:
+> - **Don't run `pnpm dev` and `pnpm stories` at the same time** — the app dev server and
+>   the two stories servers each carry their own heap and watchers.
+> - **Raise `fs.inotify.max_user_instances`** on the host (a `sysctl`, machine-wide).
+> - **Single-server mode:** set `stories.mode` to `'all'` in `stories/nuxt.config.ts` to
+>   serve the shell and the isolated frames from one server (no `spawn`, same origin).
+>   Because the app uses a `[...slug]` catch-all, give it a namespaced route
+>   (`route: { path: '/_stories' }`) so the story routes don't collide. This stays inside
+>   the separate `stories/` app, which `pnpm build` (root `nuxi build`) never touches, so
+>   nothing ships to production. Only move the module into the app's own `nuxt.config.ts`
+>   if you also gate it with `stories: { enabled: isDev }`, or `/_stories` ends up in the
+>   production build.
+
+Ports clash with another project? Copy them into a `compose.override.yml` (gitignored)
+and tag the list with `!override` — Compose appends to `ports` otherwise, so the
+original bindings stay published and keep conflicting.
 
 ## Docker build
 
-The application can be built and run in a Docker container. This starter provide a multi-stage Dockerfile
-with a production build and a Nginx server.
-
-You can test build node image with the following command:
+With Compose, set the variables in `.env` or in the shell, then:
 
 ```bash
-docker buildx build --target node-prod -t nuxt-starter/node .
+docker compose -f compose.prod.yml build
 ```
 
-Or use docker buildx bake to build all images in parallel. Update `docker-bake.hcl` file with your own values.
+Node build:
 
 ```bash
-docker buildx bake
+docker buildx build --target node-prod \
+    --secret id=npm_token,env=EVENTS_API_NPM_TOKEN \
+    --secret id=npm_registry_url,env=EVENTS_API_NPM_REGISTRY_URL \
+    -t nuxt-starter/node .
 ```
 
-This starter provide a .gitlab-ci.yml example file for a CI/CD pipeline using docker build.
+Full build with bake:
+
+```bash
+docker buildx bake \
+    --set '*.secrets=id=npm_token,env=EVENTS_API_NPM_TOKEN' \
+    --set '*.secrets=id=npm_registry_url,env=EVENTS_API_NPM_REGISTRY_URL'
+```
 
 ## Contributing
 
-Please refer to the [CONTRIBUTING.md](CONTRIBUTING.md) file for more information.
+See `CONTRIBUTING.md`.

@@ -1,0 +1,29 @@
+@use 'sass:map';
+@use 'sass:meta';
+@use '../variables/breakpoints' as *;
+@use '../functions/strip-units' as *;
+
+/*
+ * @param {string} $key - breakpoint e.g. xl
+ */
+@function breakpoint($key, $strip-unit: false) {
+    @if meta.type-of($breakpoints) != map {
+        @warn "$breakpoints is not defined";
+
+        @return null;
+    }
+
+    @if map.has-key($breakpoints, $key) {
+        $value: map.get($breakpoints, $key);
+
+        @if $strip-unit {
+            @return strip-units($value)
+        } @else {
+            @return $value
+        }
+    }
+
+    @warn "Unkown '#{$key}' in $breakpoints.";
+
+    @return null;
+}

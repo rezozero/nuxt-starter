@@ -1,5 +1,18 @@
 # https://typicode.github.io/husky/#/?id=yarn-on-windows
 . "$(dirname -- "$0")/common.sh"
 
-# Echo a message when yarn lint command fails
-pnpm lint || (echo "$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)" && exit 1)
+# Define reusable error message
+ERROR_MESSAGE="$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)"
+
+# Run lint command with docker fallback
+run_lint() {
+	local command="$1"
+	eval "$command" || (echo "$ERROR_MESSAGE" && exit 1)
+}
+
+# Use Docker only when explicitly requested
+if [ "${USE_DOCKER_FOR_PREPUSH}" = "true" ]; then
+	run_lint "docker compose run -T --rm node pnpm lint"
+else
+	run_lint "pnpm lint"
+fi

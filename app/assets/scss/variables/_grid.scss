@@ -1,0 +1,15 @@
+@use '../functions/px-to-rem' as *;
+
+$gutters: (
+    0: px-to-rem(16)
+) !default;
+$grid-widths: (
+    0: calc(100% - 2 * var(--gutter)),
+) !default;
+$grid-max-widths: (
+    // 0: 1920px,
+) !default;
+$grid-columns: (
+    0: 12,
+) !default;
+

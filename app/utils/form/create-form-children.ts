@@ -1,0 +1,327 @@
+import type { Component, VNodeChild } from 'vue'
+import type { VSelectOption } from '~/components/VSelect.vue'
+import type { FactoryPropsTypes } from '~/components/VFormElementFactory'
+import LazyVFormFieldset from '~/components/VFormFieldset.vue'
+import type { JsonSchemaExtended } from '~~/types/json-schema'
+
+export type ComponentsMap = Record<string, Component | undefined>
+
+type EmitType = (event: 'update:modelValue', ...args: unknown[]) => void
+
+const defaultComponentMaps: ComponentsMap = {
+    'inputList': defineAsyncComponent(() => import('~/components/VInputList.vue')),
+    'hiddenInput': defineAsyncComponent(() => import('~/components/VHiddenInput.vue')),
+    'captchaInput': defineAsyncComponent(() => import('~/components/VCaptchaInput.vue')),
+    'input': defineAsyncComponent(() => import('~/components/VInput.vue')),
+    'new-password': undefined,
+    'textarea': defineAsyncComponent(() => import('~/components/VTextarea.vue')),
+    'markdown': undefined,
+    'checkbox': defineAsyncComponent(() => import('~/components/VInput.vue')),
+    'select': defineAsyncComponent(() => import('~/components/VSelect.vue')),
+    'file': defineAsyncComponent(() => import('~/components/VInput.vue')),
+    'selectExpanded': defineAsyncComponent(() => import('~/components/VInputList.vue')),
+    'selectMultipleExpanded': defineAsyncComponent(() => import('~/components/VInputList.vue')),
+}
+
+// Normalize backend datetime values to the HTML `datetime-local` format (YYYY-MM-DDTHH:mm)
+// because the input rejects seconds/timezone and would otherwise re-emit a modified value,
+// causing a reactive update loop when seconds are present.
+const datetimePattern = '^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$'
+const datetimePatternRegExp = new RegExp(datetimePattern)
+const isDateTimeLocalNoSeconds = (value: string): boolean => datetimePatternRegExp.test(value)
+
+const normalizeDateTimeLocal = (value: string): string => {
+    if (!value) return ''
+    if (isDateTimeLocalNoSeconds(value)) return value
+
+    const yearMatch = value.match(/^(\d{4})/)
+    if (!yearMatch?.[1]) return ''
+
+    const year = Number.parseInt(yearMatch[1], 10)
+    if (year > 9999) return ''
+
+    const parsed = Date.parse(value)
+    if (Number.isNaN(parsed)) return ''
+
+    // Handle timezones between data and client
+    const tzOffset = new Date().getTimezoneOffset() * 60000 // offset in milliseconds
+    const localISOTime = new Date(parsed - tzOffset).toISOString()
+    const localISODateTime = localISOTime.split('.')[0] || ''
+
+    return localISODateTime.slice(0, 16)
+}
+
+export default function createFormChildren(
+    parentProps: FactoryPropsTypes,
+    emit: EmitType,
+    componentsMap?: ComponentsMap,
+): VNodeChild | undefined {
+    const rootSchema = parentProps.schema
+    const requiredProperties = rootSchema?.required || []
+    const parents = parentProps.parents
+    const mergedComponentsMap = { ...defaultComponentMaps, ...componentsMap }
+
+    if (!rootSchema?.properties) {
+        return h('')
+    }
+
+    return Object.entries(rootSchema.properties)
+        .sort((a, b) => a[1]?.propertyOrder - b[1]?.propertyOrder)
+        .map((property) => {
+            const key = property[0]
+            const schema = property[1] as JsonSchemaExtended
+            const errors = parentProps.errors?.filter(item => item.propertyPath === key)
+            const id = parentProps.id ? `${parentProps.id}-${key}` : key
+            const required = requiredProperties === true ? requiredProperties : requiredProperties.includes(key)
+            const name = parents?.length ? parents.slice().concat([key]).join('[') + ']'.repeat(parents.length) : key
+            /*
+             * Make initial field value optional
+             */
+            const parentModelValues = parentProps.modelValue || {}
+            const currentModelValue = parentModelValues[key] ?? null
+
+            const defaultProps: Record<string, unknown> = {
+                id,
+                'label': schema.title,
+                errors,
+                name,
+                parents,
+                'description': schema.description,
+                'hint': schema.description,
+                'disabled': schema.attr?.disabled || parentProps.disabled,
+                'placeholder': schema.attr?.placeholder || null,
+                'autocomplete': schema.attr?.autocomplete || null,
+                // Binds reactivity
+                'modelValue': currentModelValue,
+                'onUpdate:modelValue': (value: unknown): void => {
+                    // Make sure null is passed as null and not as string
+                    if (value === 'null') {
+                        value = null
+                    }
+                    const finalValue = { ...parentModelValues, [key]: value }
+                    emit('update:modelValue', finalValue)
+                },
+            }
+            const defaultAttrs = {
+                ...schema.attr,
+                id,
+            }
+
+            // Virtual object = fieldset but flatten properties with parent's modelValue
+            if (schema.type === 'object' && schema?.attr?.virtual === true) {
+                return h(LazyVFormFieldset, {
+                    ...defaultProps,
+                    schema,
+                    'componentsMap': mergedComponentsMap,
+                    'virtual': schema?.attr?.virtual,
+                    'schemaKey': key,
+                    'modelValue': parentModelValues,
+                    'onUpdate:modelValue': (value: object): void => {
+                        const finalValue = { ...parentModelValues, ...value }
+                        emit('update:modelValue', finalValue)
+                    },
+                })
+            }
+            else if (schema.type === 'object') {
+                // nested object = fieldset
+                return h(LazyVFormFieldset, {
+                    ...defaultProps,
+                    schema,
+                    componentsMap: mergedComponentsMap,
+                    schemaKey: key,
+                })
+            }
+
+            // Captcha
+            const { enabled } = useRoadizFormCaptcha(key)
+            if (enabled.value) {
+                if (!mergedComponentsMap.captchaInput) return h('')
+
+                return h(mergedComponentsMap.captchaInput, {
+                    ...defaultProps,
+                })
+            }
+
+            // input list
+            if (schema.widget === 'choice-multiple-expanded' || schema.widget === 'choice-expanded') {
+                const isMultiple = schema.widget === 'choice-multiple-expanded'
+                const component
+                    = isMultiple && mergedComponentsMap.selectMultipleExpanded
+                        ? mergedComponentsMap.selectMultipleExpanded
+                        : mergedComponentsMap.selectExpanded || mergedComponentsMap.select
+                const enumList = isMultiple
+                    ? ((schema.items as JsonSchemaExtended)?.enum as (string | number)[])
+                    : (schema.enum as (string | number)[])
+
+                if (!enumList || !component) {
+                    return h('')
+                }
+
+                const titles = isMultiple ? (schema.items as JsonSchemaExtended)?.enum_titles : schema.enum_titles
+                const options: VSelectOption[] = enumList.map((value, index) => ({
+                    value: String(value),
+                    label: titles?.[index] || String(value),
+                }))
+
+                return h(component, {
+                    ...defaultProps,
+                    label: schema.title,
+                    required,
+                    options,
+                    multiple: isMultiple,
+                    modelValue: currentModelValue || (isMultiple ? [] : ''),
+                })
+            }
+
+            // select
+            if (schema.type === 'array' || schema.enum) {
+                const isMultiple = schema.type === 'array'
+                const items
+                    = schema.items && Array.isArray(schema.items)
+                        ? (schema.items as JsonSchemaExtended[])?.[0]
+                        : schema.items
+                const enumList = isMultiple ? items?.enum : schema.enum
+                const component
+                    = isMultiple && mergedComponentsMap.selectMultipleExpanded
+                        ? mergedComponentsMap.selectMultipleExpanded
+                        : mergedComponentsMap.select
+
+                if (!enumList || !component) {
+                    return h('')
+                }
+
+                const titles = isMultiple ? items?.enum_titles : schema.enum_titles
+                const options: VSelectOption[] = enumList.map((value, index) => ({
+                    value: String(value),
+                    label: titles?.[index] || String(value),
+                }))
+
+                return h(component, {
+                    ...defaultProps,
+                    required,
+                    options,
+                    multiple: isMultiple,
+                    modelValue: currentModelValue || (isMultiple ? [] : ''),
+                })
+            }
+
+            if (schema.type === 'string' && schema.widget === 'file' && !!mergedComponentsMap.file) {
+                const attrs: Record<string, string> = {
+                    ...defaultAttrs,
+                }
+                const type = schema.widget || schema.type
+                const props: Record<string, unknown> = {
+                    ...defaultProps,
+                    type,
+                    required,
+                }
+                if (props.name && attrs.multiple) {
+                    props.name = props.name + '[]'
+                }
+                return h(mergedComponentsMap.file, props)
+            }
+
+            // input / textarea / checkbox
+            if (['string', 'boolean', 'integer', 'number'].includes(schema.type as string)) {
+                if (schema.widget === 'textarea') {
+                    if (!mergedComponentsMap.textarea) return h('')
+
+                    return h(mergedComponentsMap.textarea, {
+                        ...defaultProps,
+                        isTextarea: true,
+                        required,
+                    })
+                }
+
+                if (schema.widget === 'joined') {
+                    const props: Record<string, unknown> = {
+                        ...defaultProps,
+                        required,
+                        modelValue: currentModelValue ? (currentModelValue as Array<string>).join(', ') : '',
+                    }
+                    props['onUpdate:modelValue'] = (value: string) =>
+                        emit('update:modelValue', { ...parentModelValues, [key]: value.split(',') })
+
+                    const component = mergedComponentsMap.markdown || mergedComponentsMap.textarea
+
+                    if (!component) return h('')
+
+                    return h(component, props)
+                }
+
+                if (schema.widget === 'markdown') {
+                    const component = mergedComponentsMap.markdown || mergedComponentsMap.textarea
+
+                    if (!component) return h('')
+
+                    return h(component, {
+                        ...defaultProps,
+                        isTextarea: true,
+                        required,
+                    })
+                }
+                if (schema.widget === 'new-password' && mergedComponentsMap['new-password']) {
+                    return h(mergedComponentsMap['new-password'], {
+                        ...defaultProps,
+                        autocomplete: 'new-password',
+                    })
+                }
+                if (schema.widget === 'password' && mergedComponentsMap['new-password']) {
+                    return h(mergedComponentsMap['new-password'], {
+                        ...defaultProps,
+                        autocomplete: 'current-password',
+                    })
+                }
+
+                const type = schema.widget || schema.type
+                const attrs: Record<string, string> = {
+                    ...defaultAttrs,
+                }
+                const props: Record<string, unknown> = {
+                    ...defaultProps,
+                    type,
+                    required,
+                }
+                props.modelValue = String(props.modelValue || '')
+
+                if (type === 'boolean' || type === 'checkbox') {
+                    props.type = 'checkbox'
+                }
+                else if (type === 'number') {
+                    props.type = 'string'
+                    props['onUpdate:modelValue'] = (value: string) =>
+                        emit('update:modelValue', { ...parentModelValues, [key]: Number.parseFloat(value) })
+                }
+                else if (type === 'integer') {
+                    props.type = 'number'
+                    props['onUpdate:modelValue'] = (value: string) =>
+                        emit('update:modelValue', { ...parentModelValues, [key]: Number.parseInt(value) })
+                    props.step = '1'
+                }
+                else if (type === 'datetime' || type === 'datetime-local') {
+                    const normalizedValue = typeof props.modelValue === 'string'
+                        ? normalizeDateTimeLocal(props.modelValue)
+                        : ''
+
+                    props.modelValue = normalizedValue
+                    props.pattern = datetimePattern
+                    props.step = 'unknown'
+                    props.type = 'datetime-local'
+                }
+                else if (type === 'file') {
+                    if (props.name && attrs.multiple) {
+                        props.name = props.name + '[]'
+                    }
+                }
+                else if (type === 'password') {
+                    props.type = 'password'
+                }
+
+                if (!mergedComponentsMap.input) return h('')
+
+                return h(mergedComponentsMap.input, props)
+            }
+
+            return h('')
+        })
+}

@@ -1,0 +1,55 @@
+import type { NitroFetchOptions, NitroFetchRequest } from 'nitropack'
+
+export function useRoadizFetchFactory<DefaultR extends NitroFetchRequest = NitroFetchRequest>(
+    options?: NitroFetchOptions<DefaultR>,
+) {
+    return $fetch.create({
+        onRequest(context) {
+            /*
+             * Add preview token to every request if preview mode is enabled.
+             */
+            const { token, isActive } = useRoadizPreview()
+
+            if (isActive.value && token.value) {
+                context.options.query = {
+                    ...context.options.query,
+                    _preview: '1',
+                }
+
+                context.options.headers = {
+                    ...(context.options.headers as unknown as Record<string, string>),
+                    Authorization: `Bearer ${token.value}`,
+                } as unknown as typeof context.options.headers
+            }
+            /*
+             * Add locale to every request if it is not a web response request.
+             */
+            if (context.request.toString() !== '/web_response_by_path') {
+                const { $i18n } = useNuxtApp()
+
+                context.options.query = {
+                    ...context.options.query,
+                    _locale: $i18n?.locale.value || $i18n?.defaultLocale?.toString(),
+                }
+            }
+        },
+        // Error handling:
+        // - Option 1: use createError and attach error.data manually
+        // - Option 2: keep default ofetch error
+        // Example:
+        // onResponseError(context) {
+        //     throw createError({
+        //         statusCode: context.response.status,
+        //         message: context.response.statusText,
+        //         data: context.response._data,
+        //     })
+        // },
+        timeout: 10000,
+        headers: {
+            'accept-encoding': 'gzip, deflate',
+            'accept': 'application/ld+json',
+        },
+        baseURL: getApiUrl(),
+        ...options,
+    })
+}

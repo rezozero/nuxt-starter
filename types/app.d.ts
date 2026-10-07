@@ -1,8 +1,18 @@
-import type { RoadizNodesSources } from '@roadiz/types'
-import type { UnionToIntersection } from '~/utils/types'
+import type { RoadizWalker, RoadizWebResponse } from '@roadiz/types'
 
-export type MenuNodeType = RoadizNodesSources
-export type MenuNodeKeyMerged = Partial<UnionToIntersection<MenuNodeType>>
+export type PageEntityProps = {
+    webResponse?: RoadizWebResponse
+}
 
-export type ReachableItem = RoadizNodesSources
-export type ReachableItemMerged = Partial<UnionToIntersection<ReachableItem>>
+export interface UseRoadizBlockProps {
+    walker: RoadizWalker
+    index: number
+    blocks?: RoadizWalker[]
+    numBlocks?: number | string
+}
+
+export type ComponentOrTagName
+    = | string
+        | Component
+        | ConcreteComponent
+        | Raw<DefineComponent>

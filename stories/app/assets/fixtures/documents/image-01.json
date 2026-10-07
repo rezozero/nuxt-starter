@@ -1,0 +1,18 @@
+{
+  "@id": "api/documents/01",
+  "@type": "Document",
+  "embedId": "",
+  "embedPlatform": "",
+  "mimeType": "image/jpeg",
+  "imageWidth": 1200,
+  "imageHeight": 800,
+  "mediaDuration": 0,
+  "imageAverageColor": "#5e6363",
+  "alt": "01.jpg",
+  "name": "Image name",
+  "description": "Image description",
+  "relativePath": "01.jpg",
+  "processable": true,
+  "type": "image",
+  "folders": []
+}

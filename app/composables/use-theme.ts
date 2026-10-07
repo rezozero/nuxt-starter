@@ -1,0 +1,18 @@
+import { inject } from 'vue'
+import { THEME_PROVIDER_KEY } from '~/composables/use-theme-provider'
+import type { ThemeOptions } from '~~/types/theme'
+
+export function useTheme(options?: ThemeOptions) {
+    const injectedTheme = inject(THEME_PROVIDER_KEY, null)
+    const $style = useCssModule()
+
+    const activeTheme = computed(() => {
+        return toValue(options?.preferredTheme) || options?.props?.theme || injectedTheme?.value || 'light'
+    })
+
+    const themeClass = computed(() => {
+        return activeTheme.value && !!$style && $style['root--theme-' + activeTheme.value]
+    })
+
+    return { activeTheme, themeClass }
+}

@@ -1,0 +1,19 @@
+body {
+    font-family: sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*:focus-visible {
+    outline: 2px solid var(--theme-color-content-primary, currentColor);
+    outline-offset: 6px;
+}
+
+.visually-hidden {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

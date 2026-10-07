@@ -18,6 +18,7 @@ logs
 .DS_Store
 .fleet
 .idea
+siege.txt
 
 # Local env files
 .env
@@ -26,3 +27,10 @@ logs
 !.env.sample
 !.env.stories
 
+# IA agents
+.claude
+agents/screenshots
+
+# Nuxt stories
+.nuxt-stories
+compose.override.yml
