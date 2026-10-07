@@ -61,6 +61,7 @@ The default layout is required for display.
 - Required env variables:
   - `NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL`
   - `NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL`
+  - `NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH` (declared by `@rezo-zero/intervention-request-provider`)
 
 ## SVG
 
@@ -114,7 +115,7 @@ When `NUXT_SERVER_API_URL` is absent, both SSR and browser use `NUXT_PUBLIC_API_
 
 ## Runtime config and .env variables
 
-Configuration lives in `runtimeConfig` (`nuxt.config.ts`). Each key is overridden by an env variable named `NUXT_` (or `NUXT_PUBLIC_` for `public`) + its path in SCREAMING_SNAKE_CASE, camelCase included: `public.reCaptcha.siteKey` → `NUXT_PUBLIC_RE_CAPTCHA_SITE_KEY`.
+Configuration lives in `runtimeConfig` (`nuxt.config.ts`, plus keys declared by modules). Each key is overridden by an env variable named `NUXT_` (or `NUXT_PUBLIC_` for `public`) + its path in SCREAMING_SNAKE_CASE, camelCase included: `public.reCaptcha.siteKey` → `NUXT_PUBLIC_RE_CAPTCHA_SITE_KEY`.
 
 Every variable is listed and commented in `.env.sample`: when you add a `runtimeConfig` key or an env variable, add it there in the same change.
 
