@@ -65,7 +65,7 @@ const { activeTheme } = useTheme()
                     v-bind="domAttributes"
                     :aria-describedby="'describedby' in scopedSlot ? scopedSlot.describedby : undefined"
                     :class="[$style.captcha, domAttributes.class]"
-                    aria-label="captcha"
+                    :aria-label="t('captcha.label')"
                     data-allow-mismatch="children"
                     :data-theme="activeTheme || 'light'"
                 />
@@ -88,14 +88,14 @@ const { activeTheme } = useTheme()
 <style lang="scss" module>
 .captcha {
     min-height: 65px;
-    margin-top: var(--form-control-margin-top, 6px);
+    margin-top: var(--form-control-margin-top, var(--spacing-5xs, 6px));
 
     &--fallback {
         display: flex;
-        width: 316px;
+        width: 316PX;
         align-items: center;
         justify-content: center;
-        background-color: var(--form-control-background-color, #f5f5f5);
+        background-color: var(--form-control-background-color, var(--form-field-on_light-bg));
     }
 }
 
