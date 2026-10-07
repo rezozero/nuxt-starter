@@ -28,7 +28,7 @@ Scripts are in `package.json`. Non-obvious ones:
 
 ## Non-negotiable rules
 
-- Before creating a component, search `app/components/` and the stories for an existing `V*` one; extend it through its `--v-*` custom properties. Same for tokens and mixins in `app/assets/scss/`.
+- **Start from the existing codebase.** Before implementing anything (component, block, composable, util, API call, style), find how the codebase already does something similar and reuse or extend it — same structure, naming and patterns. Reuse `V*` components through their `--v-*` properties and existing tokens/mixins in `app/assets/scss/`. Introduce a new pattern only when nothing fits, and say why.
 - Styles follow `docs/GUIDELINES.md` §3–4 (CSS Modules naming, SCSS rules).
 - No hardcoded UI strings — always i18n keys.
 - Figma is the only source for designs: if a value is missing, ask instead of guessing.
@@ -44,6 +44,5 @@ Xilofone is the source of truth; `pnpm xilo` regenerates `i18n/locales/nuxt.*.js
 ## Scope
 
 - Limit edits to files involved in the task; no unrelated reformatting.
-- Do not add a new convention without justification.
 - On a structural change (new module, convention, env variable, workflow), update the relevant file in `docs/` (and `.env.sample`) in the same change.
 - Before handing over: `pnpm lint` and `pnpm test` pass, and the change is checked on desktop and mobile.
