@@ -115,19 +115,9 @@ When `NUXT_SERVER_API_URL` is absent, both SSR and browser use `NUXT_PUBLIC_API_
 
 ## Runtime config and .env variables
 
-Public values are exposed via `runtimeConfig.public` in `nuxt.config.ts`.
-Common variables:
+Configuration lives in `runtimeConfig` (`nuxt.config.ts`). Each key is overridden by an env variable named `NUXT_` (or `NUXT_PUBLIC_` for `public`) + its path in SCREAMING_SNAKE_CASE, camelCase included: `public.reCaptcha.siteKey` → `NUXT_PUBLIC_RE_CAPTCHA_SITE_KEY`.
 
-- Site: `NUXT_PUBLIC_SITE_URL`, `NUXT_PUBLIC_SITE_ENV`
-- API: `NUXT_PUBLIC_API_URL`, `NUXT_PUBLIC_API_ENDPOINT_PREFIX`
-- Images: `NUXT_PUBLIC_INTERVENTION_REQUEST_*`
-- i18n: `XILOFONE_*`
-- Sentry: `NUXT_PUBLIC_SENTRY_DSN`
-- Analytics: `NUXT_PUBLIC_MATOMO_URL`, `NUXT_PUBLIC_GOOGLE_TAG_MANAGER_ID`
-- Captcha: `NUXT_PUBLIC_FRIENDLY_CAPTCHA_SITE_KEY`, `NUXT_PUBLIC_RECAPTCHA_SITE_KEY`,
-  `NUXT_PUBLIC_HCAPTCHA_SITE_KEY`, `NUXT_PUBLIC_TURNSTILE_SITE_KEY`
-
-The base template is in `.env.sample`.
+Every variable is listed and commented in `.env.sample`: when you add a `runtimeConfig` key or an env variable, add it there in the same change.
 
 ## Cache, headers, and security
 

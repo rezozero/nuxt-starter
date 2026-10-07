@@ -4,6 +4,31 @@ Frontend code rules for this project. For project overview, stack, and workflow,
 
 ---
 
+## 0. Principles
+
+These principles guide every decision below.
+
+- **Native first.** Prefer what the browser already does (e.g. `<dialog>`, the Popover API, native form validation, modern CSS) over custom JS. Less code to ship and maintain, and behaviour improves as browser support grows (progressive enhancement). When support is still partial, a simple fallback is enough.
+- **Mobile first.** Base styles target small screens; breakpoints add on top (`@include media('>=md')`), they don't undo.
+- **Style in CSS, not JS.** Never compute styles from client-side measurements (`window`, element width, inline styles). The SSR render would differ from the client one and cause layout shift (CLS). Drive states with classes, attributes and CSS custom properties.
+- **Minimal DOM.** No wrapper or nesting without a semantic or layout reason (see §1).
+- **Inferred types.** Let TypeScript infer types (`ref(0)`, `computed`, return values). Annotate only what acts as a contract: props, emits, public function signatures, empty refs.
+
+```ts
+// ❌ Redundant annotations
+const count: Ref<number> = ref<number>(0)
+const label = computed<string>(() => `${count.value} items`)
+
+// ✅ Inferred
+const count = ref(0)
+const label = computed(() => `${count.value} items`)
+
+// ✅ Annotated where inference can't help
+const element = ref<HTMLElement | null>(null)
+```
+
+---
+
 ## 1. DOM Structure — less is more
 
 **Main rule: every element must have a reason to exist.**
@@ -23,7 +48,7 @@ Frontend code rules for this project. For project overview, stack, and workflow,
 ```
 
 - Ideally **2–3 levels of nesting** per component in common cases
-- Prefer HTML5 semantic elements (`<nav>`, `<main>`, `<article>`, `<section>`, `<aside>`, `<header>`, `<footer>`, `<figure>`, `<dialog>`, `<fieldset>`) over generic `<div>`
+- Use the most specific HTML element; `<div>` / `<span>` only when no semantic element fits
 - One component = one root element (`<component :is="tag">` or a single semantic tag), no unnecessary phantom `<div>`
 - Use `<template>` for conditions/loops that need grouping without an extra DOM node
 
@@ -120,6 +145,10 @@ Before overriding a component's CSS property, check its `<style>` block to see w
 ## 4. SCSS — usage rules
 
 - Global variables live in `app/assets/scss/variables/` — do not redefine locally
+- `_resources.scss` is injected in every component: it must never output CSS (only variables, functions, mixins)
+- No hex colors in components — use the `color()` function
+- Mobile first: nest media queries inside the rule with named breakpoints (`@include media('>=md')`), never raw pixel values
+- No `vw` units and no half pixels; write `px`, they are converted to `rem` by `postcss-pxtorem`
 - Avoid nested descendant selectors — prefer flat declarations:
 
 ```scss
@@ -149,29 +178,16 @@ Before overriding a component's CSS property, check its `<style>` block to see w
 
 ## 5. Accessibility — non-negotiable
 
-Accessibility is a requirement, not a bonus.
+Accessibility is a requirement, not a bonus: RGAA compliance is required at delivery. When sources disagree, follow this order: **RGAA > WCAG > ARIA > APG / DSFR**. Agency RGAA referents: Timothé and Manuel.
 
-### Semantic elements
+Before each PR/MR, check: contrast, visible focus, keyboard navigation, status messages, 200% zoom, 320px width. Tools: axe, WAVE, Ara.
 
-Always use the most precise HTML element:
+### Semantics and ARIA
 
-| Need | Element |
-|------|---------|
-| Navigation | `<nav aria-label="…">` |
-| Dialog / modal | native `<dialog>` |
-| Grouped form fields | `<fieldset>` + `<legend>` |
-| Image with caption | `<figure>` + `<figcaption>` |
-| External link | `<a target="_blank" rel="noopener noreferrer">` |
-| Action without navigation | `<button>` (never `<div @click>`) |
-
-### ARIA
-
-- `aria-label`: when visible text is insufficient (e.g. icon-only buttons)
-- `aria-expanded`: for any toggle state (accordion, menu, popover)
-- `aria-controls`: link a button to the element it controls
-- `aria-describedby`: link a field to its error or help message
-- `aria-live="polite"`: for dynamic announcements (progress, messages)
-- `aria-hidden="true"`: hide purely decorative elements from the accessibility tree
+- Native semantics first: use the most specific element (see §1) and add ARIA only when no native element or attribute can express the role, state or relation (first rule of ARIA).
+- An action is a `<button>`, never a `<div @click>`; a modal is a native `<dialog>`.
+- Every interactive state the user perceives visually must be exposed to assistive technologies (expanded, selected, current, invalid…).
+- Decorative content is hidden from the accessibility tree (`aria-hidden="true"`, `alt=""`).
 
 ```vue
 <!-- ✅ Accessible button with state -->
@@ -215,6 +231,12 @@ const reducedMotion = usePreferredReducedMotion()
 ---
 
 ## 6. Vue components — code conventions
+
+### TypeScript
+
+- Type `defineProps` / `defineEmits`, use `defineModel` for `v-model`
+- No `any`; `import type` for type-only imports
+- Derived values go in `computed`, types are inferred (see §0)
 
 ### Dynamic classes
 
@@ -269,3 +291,13 @@ const rootClasses = computed(() => [
 
 - **Lazy-load** heavy components: prefix with `Lazy` (`<LazyVModal>`)
 - **Dynamic imports** for heavy third-party libraries (e.g. Swiper imported on demand)
+
+---
+
+## 10. GDPR
+
+GDPR compliance is required at delivery.
+
+- No third-party resource loaded by the browser without consent: fonts are self-hosted, embeds (video, maps, social) are loaded after consent
+- Audience measurement (Matomo, GTM) runs only after consent
+- Any new third-party service must be added to the project's processing and subcontractor registers

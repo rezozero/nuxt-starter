@@ -14,12 +14,12 @@ Key modules: `@nuxt/image` · `@nuxtjs/i18n` · `@rezo-zero/nuxt-stories` · `@n
 
 ## Prerequisites
 
-- Node `24.14.1`
-- PNPM `11.5.1`
+- Node `24.21.0`
+- PNPM `11.5.1` (via `corepack enable pnpm`)
 
 ## Quick start
 
-1) Duplicate `.env.sample` into `.env` — required variables are listed in the Environment section below.
+1) Duplicate `.env.sample` into `.env` — every variable is documented in it.
 2) Install dependencies:
 
 ```bash
@@ -48,39 +48,23 @@ pnpm stories
 - Stories are available on `/_stories` to preview components.
 - Maintenance page is generated via a dedicated build.
 
-Full details: `docs/architecture.md`.
-
-## Folder structure
-
-- `app/pages` Nuxt routes (catch-all for Roadiz)
-- `app/components` app components
-- `app/blocks` Roadiz blocks components
-- `app/assets` images, icons, styles, story fixtures
-- `server` Nitro server API and story assets
-- `i18n` locales and config
-
-## Prerequisites
-
-- Node `24.21.0`
-- PNPM `11.5.1` (via `corepack enable pnpm`)
+Full details, including the folder structure: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
 ## Environment (.env)
 
-- `NUXT_PUBLIC_SITE_URL`, `NUXT_PUBLIC_SITE_ENV`
-- `NUXT_PUBLIC_API_URL` (if using a remote API)
-- `NUXT_PUBLIC_INTERVENTION_REQUEST_*` for the image provider
-- `XILOFONE_*` if you want to fetch translations
-
-Full list and usage details: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
+Copy `.env.sample` to `.env`: every variable is listed and commented there. Naming rules: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
 ## Commands
 
 ```bash
 pnpm dev            # start dev server
-pnpm stories        # start UI stories (requires .env.stories)
+pnpm stories        # start UI stories (requires stories/.env)
 pnpm build          # production build
-pnpm lint           # lint all
+pnpm generate       # static generation
+pnpm preview        # preview the production build
+pnpm lint           # lint all (lint:js + lint:css)
 pnpm lint-fix       # lint and auto-fix
+pnpm test           # unit tests (Vitest)
 pnpm xilo           # fetch translations from Xilofone
 ```
 
@@ -113,7 +97,8 @@ docker buildx bake \
 
 | File | What it covers |
 |------|----------------|
-| [`CLAUDE.md`](./CLAUDE.md) | Code conventions, AI guidance (auto-loaded by Claude Code) |
-| [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md) | PR workflow, commit conventions, linting |
-| [`docs/GUIDELINES.md`](./docs/GUIDELINES.md) | Frontend code rules: DOM, CSS Modules, accessibility, Vue, images |
-| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | Technical architecture: routing, blocks, cache, env variables |
+| [`AGENTS.md`](./AGENTS.md) | Instructions for AI coding agents (imported by [`CLAUDE.md`](./CLAUDE.md)) |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Branches, commit conventions, PR/MR checklist |
+| [`SECURITY.md`](./SECURITY.md) | How to report a vulnerability |
+| [`docs/GUIDELINES.md`](./docs/GUIDELINES.md) | Frontend principles and code rules: DOM, CSS Modules, accessibility, Vue, images |
+| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | Technical architecture: folder structure, routing, blocks, cache, env variables |
