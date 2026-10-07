@@ -19,15 +19,19 @@ export type CaptchaProvider = {
     scriptsLoaded: boolean
     needUserConsent: boolean
     siteKey: string
+    widgetId?: string | null
     getDomAttributes: (options: CaptchaInputAttributes) => Record<string, string | boolean | undefined | (() => void)>
     loadScript: () => Promise<void>
     render: undefined | (() => void) | undefined
     execute: ((token?: string) => ExecuteResponse) | undefined
     remove: (() => void) | undefined
+    // Regenerate a fresh challenge/token on the already-rendered widget, without a full page reload —
+    // needed before a resubmit, since a token is single-use and the previous one is now consumed/expired.
+    reset: (() => void) | undefined
 }
 
 type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>
-type OptionalOptionKeys = 'siteKey' | 'loadScript' | 'getDomAttributes' | 'scriptsLoaded' | 'needUserConsent' | 'render' | 'remove'
+type OptionalOptionKeys = 'siteKey' | 'loadScript' | 'getDomAttributes' | 'scriptsLoaded' | 'needUserConsent' | 'render' | 'remove' | 'reset' | 'widgetId'
 type RequiredProviderOptions = WithOptional<CaptchaProvider, OptionalOptionKeys>
 
 export function defineCaptchaProvider(options: RequiredProviderOptions) {
@@ -35,6 +39,7 @@ export function defineCaptchaProvider(options: RequiredProviderOptions) {
         siteKey: '',
         scriptsLoaded: false,
         needUserConsent: true,
+        widgetId: null,
         getDomAttributes: function (options: CaptchaInputAttributes) {
             return {
                 ...this.inputAttributes,
@@ -65,6 +70,7 @@ export function defineCaptchaProvider(options: RequiredProviderOptions) {
         },
         render: () => {},
         remove: () => {},
+        reset: () => {},
         ...options,
     } as CaptchaProvider
 }

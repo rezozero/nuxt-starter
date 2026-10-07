@@ -3,6 +3,7 @@
     "back_home": "Back to home",
     "breadcrumb.aria_label": "Breadcrumb",
     "breadcrumb.home_label": "Home",
+    "captcha.turnstile.description": "This field is protected by Cloudflare Turnstile, an anti-bot verification service.",
     "card.link_label": "Learn more",
     "carousel.next_slide_aria": "Next slide",
     "carousel.previous_slide_aria": "Previous slide",

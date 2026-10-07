@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const props = defineProps<{
-    status: 'success' | 'warning' | 'error'
+    status: 'success' | 'warning' | 'error' | 'neutral'
     iconName?: string
     title?: string
     message: string
@@ -18,6 +18,7 @@ const $style = useCssModule()
 const rootClasses = computed(() => {
     return [
         $style.root,
+        props.title ? $style['root--layout-default'] : $style['root--layout-condensed'],
         $style[`root--${props.status}`],
     ]
 })
@@ -29,6 +30,7 @@ const rootClasses = computed(() => {
             v-if="iconName"
             :name="iconName"
             :class="$style.icon"
+            size="1.5rem"
         />
         <VMarkdown
             v-if="title"
@@ -43,6 +45,7 @@ const rootClasses = computed(() => {
             :class="$style.message"
             inline
             tag="p"
+            class="text-body-xs"
         />
     </div>
 </template>
@@ -51,11 +54,11 @@ const rootClasses = computed(() => {
 .root {
     display: grid;
     align-items: center;
-    padding: var(--v-status-banner-padding, 10px 12px);
-    border: 1PX solid var(--v-message-box-border-color, #cdcdcd);
-    border-radius: var(--radius-xs, 4px);
-    background-color: var(--v-message-box-background-color);
-    color: var(--v-message-box-color, currentColor);
+    padding: 8px 12px;
+    border: 1px solid var(--v-status-message-border-color);
+    border-radius: var(--radius-2xs, 4px);
+    background-color: var(--v-status-message-background-color);
+    color: var(--v-status-message-color, currentColor);
     column-gap: 8px;
     grid-template-areas:
         'icon title'
@@ -63,6 +66,7 @@ const rootClasses = computed(() => {
     grid-template-columns: auto 1fr;
 
     &:not(:has(.title)) {
+        border: none;
         grid-template-areas: 'icon content';
     }
 
@@ -70,26 +74,22 @@ const rootClasses = computed(() => {
         padding-bottom: 0;
     }
 
-    &:has(.icon) {
-        padding: var(--v-status-banner-padding, 10px 18px 10px 8px);
-    }
-
     &--success {
-        --v-message-box-border-color: var(--status-on-container, #217868);
-        --v-message-box-background-color: var(--status-success-background, rgb(49, 178, 155, 15%));
-        --v-message-box-color: var(--status-success-on-container, #217868);
+        --v-status-message-border-color: var(--status-success-on-container, #166a44);
+        --v-status-message-background-color: var(--status-success-container, rgb(35 169 108 / 15%));
+        --v-status-message-color: var(--status-success-on-container, #166a44);
     }
 
     &--warning {
-        --v-message-box-border-color: var(--status-on-container, #F6793F);
-        --v-message-box-background-color: var(--status-warning-background, rgb(246, 121, 63, 15%));
-        --v-message-box-color: var(--status-warning-on-container, #C84609);
+        --v-status-message-border-color: var(--status-warning-on-container, #c32b09);
+        --v-status-message-background-color: var(--status-warning-container, rgb(246 95 63 / 15%));
+        --v-status-message-color: var(--status-warning-on-container, #c32b09);
     }
 
     &--error {
-        --v-message-box-border-color: var(--status-on-container, #B11B1B);
-        --v-message-box-background-color: var(--status-error-background, rgb(225, 64, 64, 15%));
-        --v-message-box-color: var(--status-error-on-container, #B11B1B);
+        --v-status-message-border-color: var(--status-alert-on-container, #b31926);
+        --v-status-message-background-color: var(--status-alert-container, rgb(230 76 89 / 15%));
+        --v-status-message-color: var(--status-alert-on-container, #b31926);
     }
 }
 
@@ -99,13 +99,13 @@ const rootClasses = computed(() => {
 }
 
 .title {
-    font-weight: 600; /* Override text-overtitle-xs weight */
+    color: var(--v-status-message-color, currentColor);
     grid-area: title;
     margin-block: 0;
-
 }
 
 .message {
+    color: var(--v-status-message-color, currentColor);
     grid-area: content;
     margin-block: 0;
 
@@ -120,7 +120,7 @@ const rootClasses = computed(() => {
     }
 
     .title + & {
-        margin-top: var(--spacing-5xs);
+        margin-top: var(--spacing-5xs, 4px);
     }
 }
 </style>
