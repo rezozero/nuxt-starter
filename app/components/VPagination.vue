@@ -102,6 +102,7 @@ const { themeClass } = useTheme()
 <template>
     <nav
         :class="[$style.root, themeClass]"
+        :aria-label="$t('pagination.label')"
     >
         <ul
             :class="$style.list"

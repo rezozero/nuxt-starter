@@ -1,6 +1,7 @@
 // Without any API or site URL, `getApiUrl()` returns a relative `/api`, which SSR
 // resolves against the Nuxt server itself: it falls through to the catch-all page,
 // which fetches the same URL again, an unbounded loop ending in an out-of-memory crash.
+// Server-only: in the browser a relative `/api` is valid (e.g. stories with `ssr: false`).
 export default defineNuxtPlugin({
     name: 'check-api-url',
     setup() {
