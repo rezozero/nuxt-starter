@@ -16,7 +16,6 @@ interface RenderParameters {
 
 declare global {
     interface Window {
-        // https://github.com/FriendlyCaptcha/friendly-captcha-sdk/blob/main/src/sdk/sdk.ts
         turnstile?: {
             render(container: string | HTMLElement, params?: RenderParameters): string | null | undefined
             execute(container: string | HTMLElement, params?: RenderParameters): void
@@ -62,12 +61,18 @@ export default defineCaptchaProvider({
         this.render?.()
     },
     render: function () {
+        // Both `onMounted` and the `allowLoadScript` watcher may call `loadScript()`: avoid rendering twice.
+        if (this.widgetId) return
+
         const id = this.inputAttributes.id || ''
 
         this.widgetId = window?.turnstile?.render(`#${id}`)
     },
     remove: function () {
-        window.turnstile?.remove(this.widgetId ?? undefined)
+        if (!this.widgetId) return
+
+        window.turnstile?.remove(this.widgetId)
+        this.widgetId = null
     },
     execute: async function (token) {
         return token

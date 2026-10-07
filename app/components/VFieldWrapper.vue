@@ -68,7 +68,7 @@ const needLabel = computed(() => props.tag !== 'fieldset' && props.labelTag !== 
                 :id="violation.id"
                 :key="violation.id"
                 status="error"
-                :message="$t(violation.message)"
+                :message="$te(violation.message) ? $t(violation.message) : violation.message"
             />
         </div>
     </component>
