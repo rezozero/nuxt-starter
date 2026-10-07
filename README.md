@@ -33,12 +33,36 @@ pnpm dev
 ```
 
 4) Open `http://localhost:3000`.
-5) (Optional) Start stories:
+5) (Optional) Start stories — `docker compose up` provides the image server they need:
 
 ```bash
+cp stories/.env.sample stories/.env
 docker compose up -d
 pnpm stories
 ```
+
+## Architecture in 2 minutes
+
+- Dynamic routing via Roadiz in `app/pages/[...slug].vue`.
+- Pages come from a Roadiz web response and render through global blocks.
+- Stories are available on `/_stories` to preview components.
+- Maintenance page is generated via a dedicated build.
+
+Full details: `docs/architecture.md`.
+
+## Folder structure
+
+- `app/pages` Nuxt routes (catch-all for Roadiz)
+- `app/components` app components
+- `app/blocks` Roadiz blocks components
+- `app/assets` images, icons, styles, story fixtures
+- `server` Nitro server API and story assets
+- `i18n` locales and config
+
+## Prerequisites
+
+- Node `24.21.0`
+- PNPM `11.5.1` (via `corepack enable pnpm`)
 
 ## Environment (.env)
 
@@ -62,16 +86,27 @@ pnpm xilo           # fetch translations from Xilofone
 
 ## Docker build
 
+With Compose, set the variables in `.env` or in the shell, then:
+
+```bash
+docker compose -f compose.prod.yml build
+```
+
 Node build:
 
 ```bash
-docker buildx build --target node-prod -t nuxt-starter/node .
+docker buildx build --target node-prod \
+    --secret id=npm_token,env=EVENTS_API_NPM_TOKEN \
+    --secret id=npm_registry_url,env=EVENTS_API_NPM_REGISTRY_URL \
+    -t nuxt-starter/node .
 ```
 
 Full build with bake:
 
 ```bash
-docker buildx bake
+docker buildx bake \
+    --set '*.secrets=id=npm_token,env=EVENTS_API_NPM_TOKEN' \
+    --set '*.secrets=id=npm_registry_url,env=EVENTS_API_NPM_REGISTRY_URL'
 ```
 
 ## Documentation

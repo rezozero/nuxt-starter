@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { ThemeProps } from '~~/types/theme'
 
-const props = defineProps<{
+defineProps<{
     content?: string
 } & ThemeProps>()
-
-const { themeClass } = useTheme({ props })
 
 const id = useId()
 
@@ -34,7 +32,7 @@ function onTouchEnd() {
 
 <template>
     <div
-        :class="[$style.root, themeClass]"
+        :class="$style.root"
         :aria-label="$t('copyright.aria_label')"
         aria-live="polite"
         @mouseleave="onMouseLeave"
@@ -65,55 +63,43 @@ function onTouchEnd() {
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/mixins/theme' as *;
-
-$leave-delay: 0.1s;
-
 .root {
-    position: absolute;
-    right: var(--v-copyright-right, 16px);
-    bottom: var(--v-copyright-bottom, 16px);
-    display: flex;
-    max-width: 276px;
-    flex-direction: column-reverse;
-    border: 1px solid var(--v-copyright-border-color, transparent);
-    border-radius: 4px;
-    transition-delay: $leave-delay;
-    transition-duration: 0.2s;
-    transition-property: border-color, background-color;
-
-    @include theme-variants('copyright' 'colors-surface-primary');
-
-    &:has(.button[aria-expanded="false"]) {
-        pointer-events: none;
-    }
-
-    &:has(.button[aria-expanded="true"]) {
-        --v-copyright-border-color: var(--colors-copyright-border-dialog, rgb(1, 1, 1, 15%));
-
-        background-color: var(--colors-surface-primary, #FFF);
-        transition-delay: initial;
-    }
+    display: grid;
+    justify-content: end;
+    row-gap: 6px;
 }
 
 .button {
-    align-self: flex-end;
-    pointer-events: all;
-
-    &:focus {
-        outline-offset: 0;
-    }
+    grid-column: 1;
+    grid-row: 2;
+    justify-self: end;
 }
 
 .content {
+    max-width: 276px;
+    padding: var(--spacing-2xs);
+    border: 1PX solid #ccc;
+    border-radius: 4PX;
+    background: #fff;
+    color: #000;
+    grid-column: 1;
+    grid-row: 1;
     opacity: 0;
-    transition-delay: $leave-delay;
-    transition-duration: 0.2s;
-    transition-property: opacity;
+    transition-delay: 0s, 0.2s;
+    transition-duration: 0.2s, 0s;
+    transition-property: opacity, visibility;
+    visibility: hidden;
+
+    p {
+        &:first-child {
+            margin: 0;
+        }
+    }
 
     .button[aria-expanded="true"] + & {
         opacity: 1;
-        transition-delay: initial;
+        transition-delay: 0s, 0s;
+        visibility: inherit;
     }
 }
 </style>

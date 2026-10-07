@@ -2,14 +2,13 @@
 
 export function useRoadizPageTitle(title?: MaybeRefOrGetter<string>) {
     const commonContent = useCommonContent()
-    const runtimeConfig = useRuntimeConfig()
-    const siteName = computed(() => commonContent.data.value?.head?.siteName || runtimeConfig?.public?.site?.name)
+    const siteName = computed(() => commonContent.data.value?.head?.siteName || useRuntimeConfig().public.site.name)
 
     const { searchParamsLabel } = useCurrentPageSearchParams()
 
     function getPageTitle(title: string | undefined) {
         if (!title) {
-            return siteName.value || null
+            return siteName.value
         }
 
         const firstPart = [title, searchParamsLabel.value].filter(s => !!s).join(', ')

@@ -33,3 +33,4 @@ agents/screenshots
 
 # Nuxt stories
 .nuxt-stories
+compose.override.yml

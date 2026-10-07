@@ -38,3 +38,4 @@ export interface NSContentBlock extends RoadizNodesSources {
 
 
 export type NSPage = RoadizNodesSources
+export type NSSearchPage = RoadizNodesSources

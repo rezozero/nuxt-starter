@@ -5,6 +5,11 @@ type EmitFunction = (event: string, value?: string) => void
 type textInputElement = HTMLInputElement | HTMLTextAreaElement
 export const textInputEmits = ['update:modelValue']
 
+const PHONE_PATTERNS: Record<string, string> = {
+    'tel': String.raw`\+[1-9]([\s\-]?\d){6,14}`,
+    'tel-national': String.raw`0[1-9]([\s\-]?\d{2}){4}`,
+}
+
 export function useTextInput(
     props: FormElementProps,
     emit: EmitFunction,
@@ -12,6 +17,14 @@ export function useTextInput(
 ) {
     const isFocused = ref(false)
     const model = ref(props.modelValue)
+
+    const pattern = computed(() => {
+        if (props.pattern) return props.pattern
+        if (props.autocomplete && props.autocomplete in PHONE_PATTERNS) {
+            return PHONE_PATTERNS[props.autocomplete]
+        }
+        return undefined
+    })
 
     const isFilled = computed(() => typeof model.value === 'string' && model.value.length > 0)
 
@@ -58,5 +71,6 @@ export function useTextInput(
         onBlur,
         onFocus,
         onInput,
+        pattern,
     }
 }

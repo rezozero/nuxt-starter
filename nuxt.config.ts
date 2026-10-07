@@ -22,6 +22,7 @@ export default defineNuxtConfig({
         '@nuxtjs/robots',
         '@nuxt/icon',
         '@sentry/nuxt/module',
+        'nuxt-schema-org',
     ],
     components: [
         '~/components',
@@ -104,7 +105,7 @@ export default defineNuxtConfig({
         },
     },
     ignore: [
-        ...(isGenerateMaintenance ? ['app/layouts/**', 'app/pages/**', 'app/components/blocks/**', 'app/components/organisms/**', 'server/api/**'] : []),
+        ...(isGenerateMaintenance ? ['app/layouts/**', 'app/pages/**', 'app/components/blocks/**', 'app/components/organisms/**', 'server/api/**', 'app/plugins/00.check-api-url.ts'] : []),
         (isGenerateMaintenance || isDev) ? '!app/pages/maintenance.vue' : 'app/pages/maintenance.vue',
         !isDev ? 'app/**/*.stories.vue' : undefined, // prevents stories from blocks (globally imported) to be included in the production bundles
     ],
@@ -157,6 +158,20 @@ export default defineNuxtConfig({
         },
     },
     vite: {
+        optimizeDeps: {
+            // Vite discovers these at runtime and re-optimizes, which force-reloads the page
+            // mid-session (worst in stories, where it reloads the frame you are looking at).
+            // Listing them here pre-bundles them once at startup instead.
+            include: [
+                '@gtm-support/vue-gtm',
+                '@unhead/schema-org/vue',
+                '@vue-a11y/skip-to',
+                'lodash/pick',
+                'lodash/throttle',
+                'plyr',
+                'tiny-emitter',
+            ],
+        },
         build: {
             // If the generated svg-sprite file is under 4kb, the build process converts it to an inlined base64 file,
             // which breaks the use of icons.

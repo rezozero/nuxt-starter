@@ -12,7 +12,18 @@ const props = defineProps<Props>()
 const emit = defineEmits([...textInputEmits])
 
 const input = ref<HTMLInputElement | null>(null)
-const { isFilled, isFocused, model, onBlur, onFocus, onInput } = useTextInput(props, emit, input)
+
+const {
+    isFilled,
+    isFocused,
+    model,
+    onBlur,
+    onFocus,
+    onInput,
+    pattern: computedPattern,
+} = useTextInput(
+    props, emit, input,
+)
 
 const isBooleanInput = computed(() => props.type === 'checkbox' || props.type === 'radio')
 
@@ -53,7 +64,7 @@ const slotName = computed(() => (isBooleanInput.value ? 'beforeLabel' : 'default
                 :value="model"
                 :max="props.type === 'datetime-local' ? '9999-12-31T23:59' : undefined"
                 :aria-describedby="'describedby' in slotProps ? slotProps.describedby : undefined"
-                :pattern="pattern"
+                :pattern="computedPattern"
                 @blur="onBlur"
                 @focus="onFocus"
                 @input="onInput"

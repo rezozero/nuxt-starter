@@ -9,14 +9,21 @@ type ReachableEntity = JsonLdObject & {
     }
 }
 
-const apiFetch = $fetch.create({
-    method: 'GET',
-    headers: {
-        'accept-encoding': 'gzip, deflate',
-        'Accept': 'application/ld+json',
-    },
-    baseURL: getApiUrl(), // Auto imports within the server folder aren't supported
-})
+let apiFetchInstance: typeof $fetch | undefined
+
+// Created on first use: `getApiUrl()` throws when no API URL is configured, which must not break module loading.
+function apiFetch(): typeof $fetch {
+    apiFetchInstance ??= $fetch.create({
+        method: 'GET',
+        headers: {
+            'accept-encoding': 'gzip, deflate',
+            'Accept': 'application/ld+json',
+        },
+        baseURL: getApiUrl(), // Auto imports within the server folder aren't supported
+    })
+
+    return apiFetchInstance
+}
 
 function fetchAllByLocale(path: string, _locale = 'fr', params: RoadizRequestParams = {}): Promise<ReachableEntity[]> {
     return hydraCollectionFetch<ReachableEntity>(
@@ -28,7 +35,7 @@ function fetchAllByLocale(path: string, _locale = 'fr', params: RoadizRequestPar
                 ...params,
             },
         },
-        apiFetch,
+        apiFetch(),
     )
 }
 
@@ -64,7 +71,7 @@ function fetchResourcesByLocale(locale: string) {
 }
 
 export default defineSitemapEventHandler(async () => {
-    const locales = await apiFetch<HydraCollection<RoadizTranslation>>('/translations', {
+    const locales = await apiFetch()<HydraCollection<RoadizTranslation>>('/translations', {
         params: { available: true },
     }).then(response => response['hydra:member']!.map(({ locale }) => locale))
 

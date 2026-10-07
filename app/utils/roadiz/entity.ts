@@ -33,6 +33,10 @@ export function isPageEntity(entity: JsonLdObject): boolean {
     return isEntityType(entity, 'Page')
 }
 
+export function isSearchPageEntity(entity: JsonLdObject): boolean {
+    return isEntityType(entity, 'SearchPage')
+}
+
 export function isBlogPostEntity(entity: JsonLdObject): boolean {
     return isEntityType(entity, 'BlogPost')
 }
