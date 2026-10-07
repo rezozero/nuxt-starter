@@ -5,7 +5,7 @@ Nuxt starter for Roadiz-driven sites and platforms, with UI stories, i18n, optim
 ## Stack
 
 - **Nuxt 4 / Vue 3 / TypeScript** — SSR
-- **CSS Modules + SCSS** — no Tailwind, no global utility classes
+- **CSS Modules + SCSS** — no utility framework; only a few global helpers (e.g. `.visually-hidden`)
 - **@roadiz/types** — CMS content types
 - **pnpm** — package manager
 - **ESLint** — linting and formatting (no Prettier)
@@ -20,7 +20,13 @@ Key modules: `@nuxt/image` · `@nuxtjs/i18n` · `@rezo-zero/nuxt-stories` · `@n
 ## Quick start
 
 1) Duplicate `.env.sample` into `.env` — every variable is documented in it.
-2) Install dependencies:
+2) Export the private npm registry credentials required by `@events-api/javascript-sdk` (values in Bitwarden), then install dependencies:
+
+```bash
+export EVENTS_API_NPM_REGISTRY_URL=…
+export EVENTS_API_NPM_TOKEN=…
+```
+
 
 ```bash
 pnpm install

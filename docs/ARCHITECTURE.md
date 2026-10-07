@@ -61,7 +61,6 @@ The default layout is required for display.
 - Required env variables:
   - `NUXT_PUBLIC_INTERVENTION_REQUEST_BASE_URL`
   - `NUXT_PUBLIC_INTERVENTION_REQUEST_NO_PROCESS_BASE_URL`
-  - `NUXT_PUBLIC_INTERVENTION_REQUEST_IMAGES_PATH`
 
 ## SVG
 

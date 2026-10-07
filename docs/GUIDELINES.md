@@ -122,12 +122,12 @@ Components expose their styles via **CSS custom properties** with fallbacks — 
 
 The naming pattern is: `--v-<component>-<property>`.
 
-### Overriding a component — prefer CSS vars to avoid layout shift
+### Overriding a component — use its CSS custom properties
 
-When applying an external class on a component that already exposes CSS custom properties, **always use those variables rather than redeclaring the property directly**. Redeclaring the property creates a specificity conflict and can cause a layout shift during SSR rendering (the component's value is applied, then overridden client-side).
+When applying an external class on a component that already exposes CSS custom properties, **always use those variables rather than redeclaring the property directly**. The custom properties are the component's customisation API: redeclaring the property instead competes with the component's own declaration, and the winner then depends on stylesheet order, which is not guaranteed across chunks.
 
 ```scss
-// ❌ Risk of layout shift — display is declared twice
+// ❌ Cascade conflict — display is declared twice
 .my-button {
     display: flex;
 }
@@ -265,12 +265,13 @@ const rootClasses = computed(() => [
         :document="mainDocument"
         alt=""
     >
-        <VPictureSource
-            sizes="xs:100vw md:100vw lg:100vw"
-        />
+        <!-- Sources with a `media` condition first: the browser picks the first match -->
         <VPictureSource
             sizes="lg:80vw vl:80vw xl:80vw xxl:80vw qhd:80vw"
             media="(max-width: 1024px)"
+        />
+        <VPictureSource
+            sizes="xs:100vw md:100vw lg:100vw"
         />
     </VRoadizImage>
 ```
