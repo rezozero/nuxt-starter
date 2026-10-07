@@ -1,17 +1,15 @@
-<script  lang="ts" setup>
-import type { ComponentPublicInstance, PropType } from 'vue'
-import type { HydraCollection, JsonLdObject, RoadizRequestNSParams } from '@roadiz/types'
+<script lang="ts" setup generic="RawT extends JsonLdObject = RoadizNodesSources, T = RawT">
+import type { ComponentPublicInstance } from 'vue'
+import type { HydraCollection, JsonLdObject, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
 import { usePaginatedList } from '~/composables/use-paginated-list'
 
-const props = defineProps({
-    url: {
-        type: String,
-        required: true,
-    },
-    params: Object as PropType<RoadizRequestNSParams>,
-    itemElements: Array as PropType<(ComponentPublicInstance | HTMLElement)[]>,
-    generatePlaceholder: Function as PropType<(i: number) => T>,
-})
+const props = defineProps<{
+    url: string
+    params?: RoadizRequestNSParams
+    itemElements?: (ComponentPublicInstance | HTMLElement)[]
+    // Maps each fetched item (RawT) to the item exposed in the slot (T), which also lets T be inferred
+    transform?: (item: RawT) => T
+}>()
 
 const root = ref<HTMLElement | null>(null)
 const { page, isScrollingToTop } = usePaginatedList({
@@ -28,32 +26,50 @@ const { itemBaseId } = useList({
     params: internalParams,
 })
 
-const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
+const { data, status, error } = await useRoadizFetch<HydraCollection<RawT>>(props.url, {
     params: internalParams,
     watch: [page],
     pick: ['hydra:member', 'hydra:totalItems'],
 })
 
-const items = computed(() => {
+// Transform items only when data changes (not when the parent re-renders with a new transform function)
+const members = shallowRef<T[]>([])
+
+watch(data, (value) => {
+    const rawMembers = value?.['hydra:member'] || []
+
+    // Without transform, T defaults to RawT
+    members.value = props.transform ? rawMembers.map(props.transform) : rawMembers as unknown as T[]
+}, { immediate: true })
+
+const totalItems = computed(() => data.value?.['hydra:totalItems'] || 0)
+
+const placeholderCount = computed(() => {
+    // Don't render more placeholders than the target page can hold (e.g. last page)
+    if (!totalItems.value) return itemsPerPage.value
+
+    const remainingItems = totalItems.value - (page.value - 1) * itemsPerPage.value
+
+    return Math.max(Math.min(itemsPerPage.value, remainingItems), 0) || itemsPerPage.value
+})
+
+const items = computed<(T | null)[]>(() => {
     if (status.value === 'pending' || isScrollingToTop.value) {
-        return [...Array(itemsPerPage.value).keys()].map(() => null)
+        return [...Array(placeholderCount.value).keys()].map(() => null)
     }
 
-    return data.value?.['hydra:member'] || []
+    return members.value
 })
 
-const totalPages = computed(() => {
-    const totalItems = data.value?.['hydra:totalItems'] || 0
-    return Math.ceil(totalItems / itemsPerPage.value)
-})
+const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage.value))
 
-const hasMoreThanOnePage = computed(() => {
-    return (totalPages.value > 1)
-})
+// Keep the pagination visible even if the current page is out of range, so the user can navigate back
+const hasMoreThanOnePage = computed(() => !error.value && totalPages.value > 1)
 
 defineSlots<{
     'item': (props: { item: T | null, classNames: string, index: number }) => unknown
     'no-result'?: () => unknown
+    'error'?: (props: { error: NonNullable<typeof error.value> }) => unknown
 }>()
 </script>
 
@@ -62,38 +78,40 @@ defineSlots<{
         ref="root"
         :class="$style.root"
     >
-        <template v-if="items.length">
-            <div
-                :class="$style.list"
-                class="grid"
+        <div
+            v-if="items.length"
+            :class="$style.list"
+            class="grid"
+        >
+            <template
+                v-for="(item, index) in items"
+                :key="itemBaseId + '-' + index"
             >
-                <template
-                    v-for="(item, index) in items"
-                    :key="itemBaseId + '-' + index"
-                >
-                    <slot
-                        name="item"
-                        v-bind="{ item, classNames: $style.item, index }"
-                    />
-                </template>
-            </div>
-            <LazyVPagination
-                v-if="hasMoreThanOnePage"
-                v-model="page"
-                :class="$style.pagination"
-                :length="totalPages"
-            />
-        </template>
+                <slot
+                    name="item"
+                    v-bind="{ item, classNames: $style.item, index }"
+                />
+            </template>
+        </div>
+        <slot
+            v-else-if="error"
+            name="error"
+            :error="error"
+        />
         <slot
             v-else
             name="no-result"
+        />
+        <LazyVPagination
+            v-if="hasMoreThanOnePage"
+            v-model="page"
+            :class="$style.pagination"
+            :length="totalPages"
         />
     </div>
 </template>
 
 <style lang="scss" module>
-@use 'assets/scss/mixins/include-media' as *;
-
 .root {
     display: flex;
     flex-wrap: wrap;
