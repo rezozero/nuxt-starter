@@ -2,10 +2,31 @@
 
 Nuxt starter for Roadiz-driven sites and platforms, with UI stories, i18n, optimized images, and a production-ready Docker setup.
 
+## Stack
+
+- **Nuxt 4 / Vue 3 / TypeScript** — SSR
+- **CSS Modules + SCSS** — no utility framework; only a few global helpers (e.g. `.visually-hidden`)
+- **@roadiz/types** — CMS content types
+- **pnpm** — package manager
+- **ESLint** — linting and formatting (no Prettier)
+
+Key modules: `@nuxt/image` · `@nuxtjs/i18n` · `@rezo-zero/nuxt-stories` · `@nuxtjs/sitemap` · Sentry
+
+## Prerequisites
+
+- Node `24.21.0`
+- PNPM `11.5.1` (via `corepack enable pnpm`)
+
 ## Quick start
 
-1) Duplicate `.env.sample` into `.env` and fill the required values.
-2) Install dependencies:
+1) Duplicate `.env.sample` into `.env` — every variable is documented in it.
+2) Export the private npm registry credentials required by `@events-api/javascript-sdk` (values in Bitwarden), then install dependencies:
+
+```bash
+export EVENTS_API_NPM_REGISTRY_URL=…
+export EVENTS_API_NPM_TOKEN=…
+```
+
 
 ```bash
 pnpm install
@@ -33,194 +54,25 @@ pnpm stories
 - Stories are available on `/_stories` to preview components.
 - Maintenance page is generated via a dedicated build.
 
-Full details: `docs/architecture.md`.
-
-## Folder structure
-
-- `app/pages` Nuxt routes (catch-all for Roadiz)
-- `app/components` app components
-- `app/blocks` Roadiz blocks components
-- `app/assets` images, icons, styles, story fixtures
-- `server` Nitro server API and story assets
-- `i18n` locales and config
-
-## Prerequisites
-
-- Node `24.21.0`
-- PNPM `11.5.1` (via `corepack enable pnpm`)
+Full details, including the folder structure: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
 ## Environment (.env)
 
-Duplicate `.env.sample` into `.env`, then fill in:
+Copy `.env.sample` to `.env`: every variable is listed and commented there. Naming rules: [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md).
 
-- `NUXT_PUBLIC_SITE_URL`, `NUXT_PUBLIC_SITE_ENV`
-- `NUXT_PUBLIC_API_URL` (if using a remote API)
-- `NUXT_PUBLIC_INTERVENTION_REQUEST_*` for the image provider
-- `XILOFONE_*` if you want to fetch translations
-
-The full list and usage details are in `docs/architecture.md`.
-
-## Useful commands
+## Commands
 
 ```bash
-## Development
-pnpm dev
-## Stories (UI)
-pnpm stories
-## Production build
-pnpm build
-## Production preview
-pnpm preview
-
-## Lint and format style (CSS / SCSS / Vue files)
-pnpm lint:css
-## Lint fix (script and style)
-pnpm lint-fix
+pnpm dev            # start dev server
+pnpm stories        # start UI stories (requires stories/.env)
+pnpm build          # production build
+pnpm generate       # static generation
+pnpm preview        # preview the production build
+pnpm lint           # lint all (lint:js + lint:css)
+pnpm lint-fix       # lint and auto-fix
+pnpm test           # unit tests (Vitest)
+pnpm xilo           # fetch translations from Xilofone
 ```
-
-
-
-## i18n
-
-Translations come from Xilofone and can be fetched with:
-
-At the beginning of a project, import the translation files into Xilofone before running `pnpm xilo`.
-
-```bash
-pnpm xilo
-```
-
-nuxt-i18n docs: https://v8.i18n.nuxtjs.org/
-
-## API
-
-The application connects to an API using the `NUXT_PUBLIC_API_URL` environment variable.
-
-When the Node SSR process and the browser live in different network planes, set `NUXT_SERVER_API_URL` so SSR requests use a different URL than the browser. This happens in two common scenarios:
-
-**Local development** — both the API and Nuxt run in Docker, but the browser runs on the host machine:
-```dotenv
-# Browser reaches the API through the exposed Docker port
-NUXT_PUBLIC_API_URL=http://localhost:8080
-# Node SSR reaches the API directly inside the Docker network
-NUXT_SERVER_API_URL=http://api:8080
-```
-
-**Cloud/Kubernetes** — keep SSR traffic inside the cluster network:
-```dotenv
-NUXT_PUBLIC_API_URL=https://api.example.com
-NUXT_SERVER_API_URL=http://api.internal
-```
-
-When `NUXT_SERVER_API_URL` is absent, both SSR and browser use `NUXT_PUBLIC_API_URL`. The server URL is never exposed to the client bundle.
-
-> **Warning:** `NUXT_SERVER_API_URL` must only be used for data fetching. Never use it to build URLs that are rendered in HTML (image `src`, anchor `href`, etc.): server and client would produce different values, causing Vue hydration mismatches. Rendered URLs always use `NUXT_PUBLIC_API_URL`.
-
-## Image
-
-## Images
-
-Nuxt Image is configured with the Intervention Request provider.
-Docs: https://image.nuxt.com/
-
-## SVG
-
-Import an SVG as a component:
-
-```vue
-<script setup lang="ts">
-import IconCheck from '~/assets/images/icons/check.svg?component'
-</script>
-
-<template>
-    <IconCheck />
-</template>
-```
-
-For icons, use `VIcon` with assets in `app/assets/images/icons`.
-
-## Maintenance
-
-The maintenance build generates a static page:
-
-```bash
-pnpm generate:maintenance
-```
-
-## Monitoring
-
-Sentry is configured via `NUXT_PUBLIC_SENTRY_DSN`.
-
-## Sitemap
-
-Sitemap is generated by `@nuxtjs/sitemap` with `/api/sitemap` as a source.
-
-## Private npm registry
-
-`@events-api/javascript-sdk` is served by a private GitLab registry. Installing it requires two variables
-(values in Bitwarden). Projects that remove this dependency can leave them unset.
-
-- `EVENTS_API_NPM_REGISTRY_URL`: registry host and path, without scheme, with trailing slash
-  (e.g. `gitlab.example.com/api/v4/projects/<id>/packages/npm/`)
-- `EVENTS_API_NPM_TOKEN`: GitLab token with `read_api` scope (or a deploy token with `read_package_registry`)
-
-`.npmrc` reads them from the shell, so export them before `pnpm install`:
-
-```bash
-export EVENTS_API_NPM_REGISTRY_URL=... EVENTS_API_NPM_TOKEN=...
-pnpm install
-```
-
-Or install inside the dev container, which reads them from `.env`:
-
-```bash
-docker compose run --rm node pnpm install
-```
-
-Docker builds receive them as [build secrets](https://docs.docker.com/build/building/secrets/), never as build args,
-so they don't end up in image layers.
-
-## Docker development
-
-Dev services are behind Compose profiles, so you only start what you need:
-
-```bash
-## intervention-request only — for bare-metal `pnpm dev` / `pnpm stories`
-docker compose up -d
-## Nuxt dev server on http://localhost:3000
-docker compose --profile app up -d
-## UI stories on http://localhost:6006 (the frame server also needs 6007)
-docker compose --profile stories up -d
-```
-
-Both Node services bind-mount the repository and reuse the host `node_modules`:
-run `pnpm install` on the host first.
-
-CPU and memory are capped per container (`cpus` / `mem_limit`). `NODE_OPTIONS` caps
-the V8 old space per process so a compile burst cannot grow the heap into the
-`mem_limit` and get the container OOM-killed.
-
-> **Stories run two dev servers.** `pnpm stories` uses nuxt-stories in `mode: 'shell'`,
-> which starts the shell on `6006` **and** spawns a separate frame server on `6007` —
-> about 1.4 GB together, plus one inotify watcher set each (on top of the app's own dev
-> server). On a constrained machine this can hit `mem_limit` (OOM) or exhaust
-> `fs.inotify.max_user_instances` — the frame container then dies on
-> `EMFILE: too many open files`. Mitigations, cheapest first:
-> - **Don't run `pnpm dev` and `pnpm stories` at the same time** — the app dev server and
->   the two stories servers each carry their own heap and watchers.
-> - **Raise `fs.inotify.max_user_instances`** on the host (a `sysctl`, machine-wide).
-> - **Single-server mode:** set `stories.mode` to `'all'` in `stories/nuxt.config.ts` to
->   serve the shell and the isolated frames from one server (no `spawn`, same origin).
->   Because the app uses a `[...slug]` catch-all, give it a namespaced route
->   (`route: { path: '/_stories' }`) so the story routes don't collide. This stays inside
->   the separate `stories/` app, which `pnpm build` (root `nuxi build`) never touches, so
->   nothing ships to production. Only move the module into the app's own `nuxt.config.ts`
->   if you also gate it with `stories: { enabled: isDev }`, or `/_stories` ends up in the
->   production build.
-
-Ports clash with another project? Copy them into a `compose.override.yml` (gitignored)
-and tag the list with `!override` — Compose appends to `ports` otherwise, so the
-original bindings stay published and keep conflicting.
 
 ## Docker build
 
@@ -247,6 +99,12 @@ docker buildx bake \
     --set '*.secrets=id=npm_registry_url,env=EVENTS_API_NPM_REGISTRY_URL'
 ```
 
-## Contributing
+## Documentation
 
-See `CONTRIBUTING.md`.
+| File | What it covers |
+|------|----------------|
+| [`AGENTS.md`](./AGENTS.md) | Instructions for AI coding agents (imported by [`CLAUDE.md`](./CLAUDE.md)) |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Branches, commit conventions, PR/MR checklist |
+| [`SECURITY.md`](./SECURITY.md) | How to report a vulnerability |
+| [`docs/GUIDELINES.md`](./docs/GUIDELINES.md) | Frontend principles and code rules: DOM, CSS Modules, accessibility, Vue, images |
+| [`docs/ARCHITECTURE.md`](./docs/ARCHITECTURE.md) | Technical architecture: folder structure, routing, blocks, cache, env variables |
