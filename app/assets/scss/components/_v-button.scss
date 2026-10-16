@@ -1,4 +1,5 @@
-@use '../mixins/css-vars-map';
+@use 'assets/scss/mixins/css-vars-map';
+@use 'assets/scss/mixins/sizes' as *;
 
 // $example-sizes-map: (
 //     (
@@ -25,22 +26,69 @@
 //     ),
 // );
 $vars: (
-    (
-        vars: (
-            sm: (
-                font-size: 14px,
+    (vars: (xs: (padding: 8px 12px,
+                gap: 6px,
             ),
-            md: (
-                font-size: 16px,
+            sm: (padding: 10px 16px,
+                gap: 8px,
             ),
-            lg: (
-                font-size: 18px,
+            md: (padding: 16px 20px,
+                gap: 12px,
+            ),
+            lg: (padding: 18px 28px,
+                gap: 12px,
             ),
         ),
-        prefix: 'label'
+        prefix: '',
+    ),
+    (vars: (xs: (font-size: 14px,
+            ),
+            sm: (font-size: 16px,
+            ),
+            md: (font-size: 18px,
+            ),
+            lg: (font-size: 20px,
+            ),
+        ),
+        prefix: 'label',
+    ),
+    (vars: (xs: (font-size: 16px,
+            ),
+            sm: (font-size: 20px,
+            ),
+            md: (font-size: 24px,
+            ),
+            lg: (font-size: 32px,
+            ),
+        ),
+        prefix: 'icon',
     ),
 );
+$component: 'v-button';
 
+// Outputs CSS property declarations using the CSS variables set by `size()`, with sm values as fallbacks.
+// Usage: @include v-button.apply('') or @include v-button.apply('label')
+@mixin apply($prefix: '') {
+    @include css-vars-map.apply($vars, $component, $prefix, $fallback-size: 'sm');
+}
+
+// Sets the CSS variables for a given size (xs, sm, md, lg) from $vars.
+// Call this on the component element to drive properties() declarations elsewhere.
+// eg: @include v-button-solid.size('md') generates:
+//   --v-button-solid-min-height: 56px;
+//   --v-button-solid-padding-inline: 20px;
+//   --v-button-solid-label-font-size: 18px;
+//   --v-button-solid-icon-font-size: 24px; etc.
 @mixin size($size) {
-    @include css-vars-map.deep-get($vars, $size, 'v-button');
+    @include css-vars-map.deep-get($vars, $size, $component);
+}
+
+// Generates a BEM modifier class for each size in $vars.
+// Call this on the component root to enable size variants via CSS class.
+// eg: @include v-button-solid.size-classes() generates:
+//   &--size-xs { --v-button-solid-min-height: 32px; … }
+//   &--size-sm { --v-button-solid-min-height: 40px; … }
+//   &--size-md { --v-button-solid-min-height: 56px; … } etc.
+@mixin size-classes() {
+    @include sizes($vars, $component);
 }

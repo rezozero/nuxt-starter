@@ -4,6 +4,9 @@ import type { RouteLocationRaw } from 'vue-router'
 import { NuxtLink } from '#components'
 import type { Theme } from '~~/types/theme'
 
+export const vButtonVariant = ['outlined'] as const
+export type VButtonVariant = (typeof vButtonVariant)[number]
+
 export const vButtonSizes = ['xs', 'sm', 'md', 'lg'] as const
 export type VButtonSize = (typeof vButtonSizes)[number]
 
@@ -19,6 +22,7 @@ export const vButtonProps = {
     disabled: Boolean,
     size: [String, Boolean] as PropType<VButtonSize | false>,
     theme: [String, Boolean] as PropType<Theme | false>,
+    variant: [String, Boolean] as PropType<VButtonVariant | false>,
 }
 
 export default defineComponent({
@@ -51,6 +55,7 @@ export default defineComponent({
                 hasIcon.value && $style['root--has-icon'],
                 props.disabled && $style['root--disabled'],
                 typeof props.size === 'string' && $style[`root--size-${props.size}`],
+                typeof props.variant === 'string' && $style[`root--variant-${props.variant}`],
                 themeClass.value,
             ]
         })
@@ -78,6 +83,7 @@ export default defineComponent({
     >
         <slot
             name="icon"
+            :item-class="[$style.icon, iconClass]"
         >
             <VIcon
                 v-if="iconName"
@@ -96,24 +102,20 @@ export default defineComponent({
 
 <style lang="scss" module>
 @use 'assets/scss/components/v-button';
-@use 'assets/scss/mixins/theme' as *;
-@use 'assets/scss/mixins/sizes' as *;
+@use 'assets/scss/components/v-button-outlined';
 
 .root {
     display: var(--v-button-display, inline-flex);
     align-items: var(--v-button-align-items, center);
     justify-content: var(--v-button-justify-content, center);
-    padding: var(--v-button-padding, initial);
-    border: var(--v-button-border, initial);
-    background-color: var(--v-button-background-color, initial);
     font-family: var(--v-button-font-family, inherit);
-    text-decoration: var(--v-button-text-decoration, none);
-    user-select: none;
 
-    @include theme-variants('button');
-    @include sizes(v-button.$vars, 'v-button');
+    @include theme-variants('button-');
 
-    // PROPS STYLE
+    // Default styles
+    @include v-button.apply;
+    @include v-button.size-classes;
+
     &--icon-last {
         flex-direction: row-reverse;
     }
@@ -139,21 +141,37 @@ export default defineComponent({
         // remove the user agent style, but without specificity (i.e. :where()) for overriding it easily
         :where(button#{&}){
             text-align: inherit;
+            user-select: none;
         }
     }
+
+    &--variant-outlined {
+        @include v-button-outlined.apply;
+    }
+
+    @include v-button-outlined.size-classes;
 }
 
-// be aware than all nested svg are styled
-.root svg,
 .icon {
     flex-shrink: var(--v-button-icon-flex-shrink, 0);
     color: var(--v-button-icon-color, currentColor);
+
+    @include v-button.apply('icon');
+
+    .root--variant-outlined & {
+        @include v-button-outlined.apply('icon')
+    }
 }
 
 .label {
     overflow: var(--v-button-label-overflow, hidden);
-    font-size: var(--v-button-label-font-size);
     text-overflow: var(--v-button-label-text-overflow, ellipsis);
     white-space: var(--v-button-label-white-space, nowrap);
+
+    @include v-button.apply('label');
+
+    .root--variant-outlined & {
+        @include v-button-outlined.apply('label')
+    }
 }
 </style>
