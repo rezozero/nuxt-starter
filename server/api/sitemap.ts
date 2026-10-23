@@ -4,6 +4,9 @@ type ReachableEntity = JsonLdObject & {
     url?: string
     // The `updatedAt` field can be on the root or inside a `node` object
     updatedAt?: string
+    seo?: {
+        noIndex?: boolean
+    }
     node?: {
         updatedAt?: string
     }
@@ -54,6 +57,7 @@ function fetchResourcesByLocale(locale: string) {
     // const events = fetchAllByLocale('/events', locale, {
     //     'properties[0]': 'url',
     //     'properties[1]': 'updatedAt',
+    //     'properties[seo][]': 'noIndex',
     //     'sortingDateTime[after]': today.getFullYear() + '-' + today.getMonth() + '-' + today.getDate(),
     //     'itemsPerPage': 50,
     // })
@@ -61,6 +65,7 @@ function fetchResourcesByLocale(locale: string) {
     // const peoples = fetchAllByLocale('/people', locale, {
     //     'properties[0]': 'url',
     //     'properties[1]': 'updatedAt',
+    //     'properties[seo][]': 'noIndex',
     //     'exists[description]': true,
     //     'order[familyName]': 'asc',
     //     'itemsPerPage': 50,
@@ -78,7 +83,7 @@ export default defineSitemapEventHandler(async () => {
     const resourcesLocalized = locales.map(locale => fetchResourcesByLocale(locale as string)).flat()
     const resources = (await Promise.all(resourcesLocalized)).flat()
 
-    return resources.filter(r => r?.url).map(resource => asSitemapUrl({
+    return resources.filter(r => r?.url && !r.seo?.noIndex).map(resource => asSitemapUrl({
         loc: resource.url as string,
         lastmod: (resource?.updatedAt)
             ? (new Date(resource?.updatedAt).toISOString())

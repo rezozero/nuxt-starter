@@ -17,7 +17,7 @@ export async function useRoadizMeta(
 
     // ------------------- Noindex -------------------
     const { isActive: previewIsActive } = useRoadizPreview()
-    const noindex = computed(() => (item.value as RoadizNodesSources)?.noIndex || previewIsActive.value)
+    const noindex = computed(() => !!toValue(webResponse)?.head?.noIndex || previewIsActive.value)
 
     // -------------------- Title -------------------
     const { getPageTitle } = useRoadizPageTitle()
