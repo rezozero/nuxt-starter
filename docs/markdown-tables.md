@@ -15,4 +15,4 @@ Tableau : Tarifs des visites
 - **Column headers**: header row cells render as `<th scope="col">`; bold in them is redundant and dropped.
 - **Row headers**: a first cell fully in bold renders as `<th scope="row">`.
 - **Alignment**: `:---` left, `:---:` centered, `---:` right, rendered as an inline `text-align` on each cell.
-- **Responsive**: the table sits in a horizontal scroll container (`.v-markdown-table`) with `tabindex="0"`, so it can be scrolled with the keyboard in Safari (Chrome and Firefox make scroll containers focusable natively). No `role`/`aria-label`: the `<caption>` already names the table, a region label would announce it twice.
+- **Responsive**: the table sits in a horizontal scroll container (`.v-markdown-table`) with `tabindex="0"`, so it can be scrolled with the keyboard in Safari (Chrome and Firefox make scroll containers focusable natively). It uses `contain: inline-size` so the table's width doesn't stretch a grid or flex parent: the table scrolls inside its container instead of overflowing the page. No `role`/`aria-label`: the `<caption>` already names the table, a region label would announce it twice.

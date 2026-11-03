@@ -173,9 +173,11 @@ export default defineComponent({
         aspect-ratio: 16 / 9;
     }
 
-    // Scroll container rendered by marked-table-extension: the table keeps its semantics on narrow screens
+    // Scroll container rendered by marked-table-extension: the table keeps its semantics on narrow screens.
+    // Size containment stops its max-content width from widening grid or flex ancestors (min-width: auto)
     :global(.v-markdown-table) {
         max-width: 100%;
+        contain: inline-size;
         overflow-x: auto;
     }
 
