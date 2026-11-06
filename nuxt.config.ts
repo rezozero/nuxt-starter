@@ -135,8 +135,6 @@ export default defineNuxtConfig({
         routeRules: {
             '/**': {
                 headers: {
-                    // https://web.dev/articles/floc?hl=fr#can_websites_opt_out_of_being_included_in_the_floc_computation
-                    'Permissions-Policy': 'interest-cohort=()',
                     // Hardening client security policies
                     // https://developer.mozilla.org/fr/docs/Web/HTTP/CSP
                     'Content-Security-Policy': [
