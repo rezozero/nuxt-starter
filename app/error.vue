@@ -76,6 +76,7 @@ useHead(pageMetaHead)
             <LazyVRoadizBlockFactory
                 v-if="blocks?.length"
                 :blocks="blocks"
+                lazy-hydration
             />
         </div>
     </NuxtLayout>

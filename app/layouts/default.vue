@@ -73,7 +73,11 @@ useSchemaOrg(computed(() => [
                 <NuxtPage />
             </slot>
         </div>
-        <VFooter id="footer" />
+        <!-- Always below the fold: its code is loaded and hydrated only when it nears the viewport -->
+        <LazyVFooter
+            id="footer"
+            hydrate-on-visible
+        />
         <LazyVRoadizPreview v-if="previewIsActive" />
     </div>
 </template>

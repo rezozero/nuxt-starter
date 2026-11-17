@@ -196,7 +196,15 @@ async function onSubmit(event: Event): Promise<void> {
 }
 
 // SCHEMA
-const { data: loadedSchema } = typeof props.schema === 'string' ? await useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(props.schema)) : { data: null }
+const fetchSchema = (schemaUrl: string) => useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(schemaUrl), {
+    // The FormBlock may be lazily hydrated, once `nuxtApp.isHydrating` is false:
+    // the default handler would skip the SSR payload and fetch the schema again.
+    // Refreshes (`refresh()`, watch…) still fetch it.
+    // https://nuxt.com/docs/4.x/api/composables/use-async-data#params
+    // @see https://github.com/nuxt/nuxt/issues/33383
+    getCachedData: (key, nuxtApp, { cause }) => cause === 'initial' ? nuxtApp.payload.data[key] : undefined,
+})
+const { data: loadedSchema } = typeof props.schema === 'string' ? await fetchSchema(props.schema) : { data: null }
 
 const gdprContent = computed(() => {
     if (typeof props.gdpr === 'string' && props.gdpr.trim() !== '') {
