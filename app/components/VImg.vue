@@ -83,7 +83,9 @@ export default defineComponent({
         const modifiers = computed<ImageOptions['modifiers']>(() => ({
             ...props.modifiers,
             width: width.value,
-            height: height.value,
+            // Intervention Request reads `crop` as a ratio and sizes the image from `width` alone:
+            // a `height` could only shrink it.
+            height: props.modifiers?.crop ? undefined : height.value,
             quality: Number(props.quality || props.modifiers?.quality) || $img.options.quality,
             format: props.format || props.modifiers?.format,
         }))

@@ -50,10 +50,11 @@ export default defineComponent({
                             !props.crop
                             && document.value?.imageWidth
                             && document.value?.imageHeight
-                            && hotspot.areaStartX
-                            && hotspot.areaEndX
-                            && hotspot.areaStartY
-                            && hotspot.areaEndY
+                            // An area may start at 0 (left / top edge), so check the type, not the value.
+                            && typeof hotspot.areaStartX === 'number'
+                            && typeof hotspot.areaEndX === 'number'
+                            && typeof hotspot.areaStartY === 'number'
+                            && typeof hotspot.areaEndY === 'number'
                         ) {
                             const x = hotspot.areaEndX - hotspot.areaStartX
                             const y = hotspot.areaEndY - hotspot.areaStartY

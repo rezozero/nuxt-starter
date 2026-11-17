@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
 import image from '~stories/assets/fixtures/documents/image-01.json'
+
+// Hotspot area starting at the left / top edges (0): the image is cropped to the area ratio.
+const imageWithHotspotArea = {
+    ...image,
+    hotspot: { x: 0.25, y: 0.5, areaStartX: 0, areaStartY: 0, areaEndX: 0.5, areaEndY: 1 },
+} as unknown as RoadizDocument
 </script>
 
 <template>
@@ -19,6 +25,9 @@ import image from '~stories/assets/fixtures/documents/image-01.json'
                 :document="(image as unknown as RoadizDocument)"
                 crop="200x400"
             />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Hotspot area">
+            <VRoadizImage :document="imageWithHotspotArea" />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Loading / eager">
             <VRoadizImage
