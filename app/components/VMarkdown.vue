@@ -53,10 +53,15 @@ export default defineComponent({
     setup(props, { slots }) {
         const root = ref<HTMLElement>()
         const $style = useCssModule()
+        // Vue's own hydration test: the server HTML is already in place and hydration never sets `innerHTML`, so
+        // parsing again would only cost CPU at load. Content changes after mount are parsed as usual.
+        let isHydrating = !!getCurrentInstance()?.vnode.el
+        onMounted(() => isHydrating = false)
+
         const parsedContent = computed(() => {
             const content = getSlotsInnerText(slots) || props.content
 
-            if (typeof content === 'undefined') return
+            if (typeof content === 'undefined' || isHydrating) return
 
             if (props.parsed) {
                 return content
