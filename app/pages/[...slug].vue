@@ -23,6 +23,20 @@ if (error.value) {
     showError(error.value)
 }
 
+// The layout only sets the locale on the first render (messages, common content, <html lang>…):
+// a page in another locale gets the same full reload as the language switch.
+const webResponseLocale = item.value?.translation?.locale
+const isOtherLocale = !!webResponseLocale && webResponseLocale !== useDocumentLocale().value
+
+// not while hydrating: the server already rendered this page, a locale the i18n config lacks would reload forever
+if (import.meta.client && !useNuxtApp().isHydrating && isOtherLocale) {
+    // the router already pushed this URL: a reload keeps one history entry, and the hash where
+    // assigning the same URL would only scroll to it
+    window.location.reload()
+    // keep the previous page displayed until the browser unloads it
+    await new Promise(() => {})
+}
+
 // Force redirect when web response URL is not matching current route path
 if (item.value?.url && item.value.url !== route.path) {
     await navigateTo({ path: item.value?.url }, { redirectCode: 301 })

@@ -40,6 +40,10 @@ if (route.name === 'slug') {
     }
 }
 
+// Once the web response has set the locale. Not in the page: landing on a page without a web response (e.g. a 404)
+// would leave it unset, and the next page would set it to its own locale, missing the change.
+useDocumentLocale()
+
 // Populate Roadiz common content after locale is set
 await useCommonContentFetch()
 
