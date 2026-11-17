@@ -1,9 +1,12 @@
+<script lang="ts" setup>
+const date = ref<Date | Date[] | null>(new Date())
+</script>
+
 <template>
     <NuxtStory>
         <div :class="$style.root">
-            <ClientOnly>
-                <VDatePicker />
-            </ClientOnly>
+            <VDatePicker v-model="date" />
+            <output :class="$style.output">{{ date }}</output>
         </div>
     </NuxtStory>
 </template>
@@ -12,5 +15,11 @@
 .root {
     max-width: 500px;
     margin: 0 auto;
+}
+
+.output {
+    display: block;
+    margin-top: 16px;
+    text-align: center;
 }
 </style>
