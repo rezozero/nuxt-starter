@@ -11,6 +11,7 @@ const props = defineProps({
     format: String,
     quality: String,
     sizes: [String, Object],
+    densities: String,
     fit: String,
     width: String,
     height: String,
@@ -30,6 +31,7 @@ const options = computed(() => {
     if (!pictureProps) return {}
 
     const picturePropsValue = toValue<VPictureProps>(pictureProps)
+    const densities = props.densities || picturePropsValue?.densities
 
     return {
         modifiers: {
@@ -46,7 +48,9 @@ const options = computed(() => {
         },
         provider: picturePropsValue?.provider,
         preset: picturePropsValue?.preset,
-        sizes: props.sizes || picturePropsValue?.sizes || $img.options.screens,
+        densities,
+        // Falling back to the screens would turn a densities-only source into a `w` srcset.
+        sizes: props.sizes || picturePropsValue?.sizes || (densities ? undefined : $img.options.screens),
     }
 })
 
@@ -102,23 +106,56 @@ const sources = computed(() => {
     })
 })
 
+// The browser keeps the first `<source>` that matches, but a preload fetches wherever its own `media`
+// matches: each link excludes the previous sources so only one fires per viewport, for the URL the `<img>`
+// will reuse.
+//   <source media="(min-width: 1024px)">  →  <link media="(min-width: 1024px)">
+//   <source>                              →  <link media="(not (min-width: 1024px))">
+// Relies on `setup` running in document order, true on the server where the links are rendered.
+const sourceMedias = inject<Array<string | undefined>>('pictureSourceMedias', [])
+const previousMedias = [...sourceMedias]
+
+sourceMedias.push(props.media)
+
+// `and` / `not` need parenthesized operands. Media types and comma lists are not supported.
+const toCondition = (media: string) => (/^\([^()]*\)$/.test(media) ? media : `(${media})`)
+
+// `undefined`: no restriction needed; `false`: an earlier source without media always wins, no preload.
+const getPreloadMedia = () => {
+    if (previousMedias.includes(undefined)) return false
+
+    const conditions = [
+        ...(props.media ? [toCondition(props.media)] : []),
+        ...(previousMedias as Array<string>).map(media => `(not ${toCondition(media)})`),
+    ]
+
+    return conditions.join(' and ') || undefined
+}
+
 // @see https://github.com/nuxt/image/blob/main/src/runtime/components/nuxt-picture.ts
 const picturePropsValue = pictureProps && toValue<VPictureProps>(pictureProps)
 const preload = props.preload || (typeof props.preload === 'undefined' && picturePropsValue?.preload)
+const preloadMedia = getPreloadMedia()
 
-if (preload) {
+if (preload && sources.value[0] && preloadMedia !== false) {
     const link: ResolvableLink = {
         rel: 'preload',
         as: 'image',
-        imagesrcset: sources.value[0]?.srcset,
+        imagesrcset: sources.value[0].srcset,
+        // A browser without the format skips the link, as it skips the `<source>`.
+        type: sources.value[0].type,
         nonce: props.nonce,
         ...(typeof preload !== 'boolean' && preload.fetchPriority
             ? { fetchpriority: preload.fetchPriority }
             : {}),
     }
 
-    if (sources.value?.[0]?.sizes) {
-        link.imagesizes = sources.value[0]?.sizes
+    if (sources.value[0].sizes) {
+        link.imagesizes = sources.value[0].sizes
+    }
+
+    if (preloadMedia) {
+        link.media = preloadMedia
     }
 
     useHead({ link: [link] })

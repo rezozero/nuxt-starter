@@ -21,9 +21,18 @@ export default defineComponent({
     setup(props, context) {
         // Provide props to children (<sources>)
         provide('pictureProps', props)
+        // Source medias in document order, so each preloads only where it wins (see `VPictureSource`).
+        provide('pictureSourceMedias', [] as Array<string | undefined>)
 
         const $style = useCssModule()
-        const imgFilteredProps = computed(() => pick(props, Object.keys(vImgProps)) as VImgProps)
+        // The sources preload; the `<img>` keeps only the priority, as `<source>` has no `fetchpriority`
+        // and the `<img>` makes the request for whichever source wins.
+        const imgFilteredProps = computed(() => ({
+            ...pick(props, Object.keys(vImgProps)),
+            preload: undefined,
+            fetchpriority:
+                props.fetchpriority || (typeof props.preload === 'object' ? props.preload.fetchPriority : undefined),
+        }) as VImgProps)
 
         return () =>
             h('picture', { class: $style.root }, [
