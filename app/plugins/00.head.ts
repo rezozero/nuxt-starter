@@ -1,4 +1,5 @@
 import { joinURL } from 'ufo'
+import { getConsentProvider } from '~/utils/consent/providers'
 
 // Use cdnUrl for head elements.
 // Nuxt doesn't support cdnUrl via config file.
@@ -22,5 +23,14 @@ export default defineNuxtPlugin({
                 }),
             ),
         })
+
+        // The CMP usually comes late, through a tag manager script
+        const consentPreconnect = getConsentProvider(config.public.consent?.provider)?.preconnect
+
+        if (consentPreconnect?.length) {
+            useHead({
+                link: consentPreconnect.map(link => ({ rel: 'preconnect', ...link })),
+            })
+        }
     },
 })

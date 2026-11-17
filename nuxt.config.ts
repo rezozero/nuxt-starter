@@ -83,6 +83,22 @@ export default defineNuxtConfig({
                 id: '',
                 debug: '',
             },
+            consent: {
+                // Consent management platform (CMP) in use, see `app/utils/consent/providers.ts` (e.g. `axeptio`).
+                // Empty: no consent bridge, embeds are never held back.
+                provider: '',
+                // Any link to this href reopens the consent settings (link field, Markdown…)
+                settingsHref: '#cookies',
+                // Embed platforms held back until the visitor grants their service:
+                // platform → service name in the CMP (e.g. Axeptio vendor), and name shown to the visitor.
+                embeds: {
+                    youtube: { service: 'youtube', name: 'YouTube' },
+                    vimeo: { service: 'vimeo', name: 'Vimeo' },
+                    deezer: { service: 'deezer', name: 'Deezer' },
+                    spotify: { service: 'spotify', name: 'Spotify' },
+                    soundcloud: { service: 'soundcloud', name: 'SoundCloud' },
+                },
+            },
             friendlyCaptcha: {
                 siteKey: '',
             },
