@@ -12,14 +12,25 @@ const defaultProps = {
 <template>
     <NuxtStory>
         <NuxtStoryVariant title="default">
-            <VVideoPlayer v-bind="defaultProps" />
+            <VVideoPlayer
+                v-bind="defaultProps"
+                :class="$style.player"
+            />
         </NuxtStoryVariant>
         <NuxtStoryVariant title="Autoplay">
             <VVideoPlayer
                 v-bind="defaultProps"
                 autoplay
+                muted
                 :controls="false"
+                :class="$style.player"
             />
         </NuxtStoryVariant>
     </NuxtStory>
 </template>
+
+<style lang="scss" module>
+.player {
+    max-width: 500px;
+}
+</style>

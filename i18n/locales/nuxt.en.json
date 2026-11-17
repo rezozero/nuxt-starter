@@ -1,5 +1,6 @@
 {
     "anchor_list.aria": "Anchor list",
+    "audio_player.iframe_title": "Audio player",
     "back_home": "Back to home",
     "breadcrumb.aria_label": "Breadcrumb",
     "breadcrumb.home_label": "Home",
@@ -50,11 +51,15 @@
     "pagination.next_page": "Next page",
     "pagination.page_%index%": "Page { index }",
     "pagination.previous_page": "Previous page",
+    "pause": "Pause",
+    "play": "Play",
     "refresh_page": "Refresh page",
     "see_less": "See less",
     "see_more": "See more",
     "skip_to.footer": "Skip to footer",
     "skip_to.list_label": "Skip to a section",
     "skip_to.main_content": "Skip to main content",
-    "watch_the_video": "Watch the video"
+    "video_player.iframe_title": "Video player",
+    "watch_the_video": "Watch the video",
+    "watch_the_video_title": "Watch the video {title}"
 }

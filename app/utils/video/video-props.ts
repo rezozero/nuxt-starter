@@ -29,6 +29,8 @@ export const videoSrc = {
 export const embedVideoProps = {
     embedPlatform: { type: String },
     embedId: { type: String },
+    // Accessible name of the embed <iframe> (RGAA 2.1).
+    title: { type: String },
     youtube: { type: Object as PropType<Record<string, string>> },
     vimeo: { type: Object as PropType<Record<string, string>> },
 }
