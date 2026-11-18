@@ -14,25 +14,29 @@
     @return true;
 }
 
+// Whether a theme key starts with one of the match prefixes.
+// A prefix, not a substring: 'color-content-' must not pull in `color-button-content-hover`.
+// Each key is emitted once, even when it matches several prefixes.
+@function theme-key-matches($key, $match) {
+    @each $prefix in $match {
+        @if string.index($key, $prefix) == 1 {
+            @return true;
+        }
+    }
+
+    @return false;
+}
+
 // Get css vars for a specific theme
-// Filtered by match, without the keys no source reads (see theme-key-kept)
+// Filtered by key prefix (a single prefix or a list of prefixes),
+// without the keys no source reads (see theme-key-kept)
 @mixin theme($theme-key, $match: null) {
     @if meta.variable-exists('themes') and map.has-key($themes, $theme-key) {
         $theme: map.get($themes, $theme-key);
 
         @each $key, $value in $theme {
-            @if theme-key-kept($key) {
-                @if not $match {
-                    --#{$key}: #{$value};
-                } @else if meta.type-of($match) == list {
-                    @each $match-value in $match {
-                        @if string.index($key, $match-value) {
-                            --#{$key}: #{$value};
-                        }
-                    }
-                } @else if string.index($key, $match) {
-                    --#{$key}: #{$value};
-                }
+            @if theme-key-kept($key) and (not $match or theme-key-matches($key, $match)) {
+                --#{$key}: #{$value};
             }
         }
     }
@@ -48,4 +52,3 @@
         }
     }
 }
-
