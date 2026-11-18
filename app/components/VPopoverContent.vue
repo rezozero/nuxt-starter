@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import { clearAllBodyScrollLocks, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import { getHtmlElement } from '~/utils/ref/get-html-element'
-
 const { positioningDisabled } = defineProps<{
     label?: string
     positioningDisabled?: boolean
@@ -11,42 +8,20 @@ const { positioningDisabled } = defineProps<{
 const open = defineModel<boolean>()
 
 const root = ref<HTMLDialogElement>()
+const { lockPageScroll } = usePageScrollLock({ withPaddingRight: true })
 
 onMounted(() => {
     nextTick(() => {
         if (!open.value) return
 
         if (positioningDisabled) {
-            disableScroll()
+            lockPageScroll()
 
             root.value?.showModal()
         }
         else root.value?.show()
     })
 })
-
-onBeforeUnmount(() => {
-    if (positioningDisabled) {
-        enableScroll()
-    }
-})
-
-function enableScroll() {
-    if (!root.value) return
-
-    const element = getHtmlElement(toValue(root.value))
-
-    if (element) enableBodyScroll(element)
-    else clearAllBodyScrollLocks()
-}
-
-function disableScroll() {
-    if (!root.value) return
-
-    const element = getHtmlElement(toValue(root.value))
-
-    if (element) disableBodyScroll(element, { reserveScrollBarGap: true })
-}
 
 watch(open, (value) => {
     if (!value) root.value?.close()
