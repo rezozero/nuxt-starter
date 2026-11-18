@@ -151,7 +151,7 @@ onBeforeUnmount(() => {
     color: var(--theme-color-content-primary);
     inset: 0;
 
-    @include theme-variants($match: 'surfaces-' 'content-' 'lines-' 'links-' 'control-');
+    @include theme-variants($match: 'color-surfaces-' 'color-content-' 'color-lines-' 'color-links-' 'color-control-');
 
     &::after {
         position: absolute;

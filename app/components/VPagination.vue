@@ -152,7 +152,7 @@ const { themeClass } = useTheme()
     justify-content: center;
     gap: px-to-rem(16) px-to-rem(24);
 
-    @include theme-variants('-pagination-')
+    @include theme-variants('color-pagination-')
 }
 
 .list {
