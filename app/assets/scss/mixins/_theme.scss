@@ -3,22 +3,27 @@
 @use "sass:string";
 @use "../variables/themes" as *;
 
+// Whether a theme key starts with one of the match prefixes.
+// A prefix, not a substring: 'color-content-' must not pull in `color-button-content-hover`.
+// Each key is emitted once, even when it matches several prefixes.
+@function theme-key-matches($key, $match) {
+    @each $prefix in $match {
+        @if string.index($key, $prefix) == 1 {
+            @return true;
+        }
+    }
+
+    @return false;
+}
+
 // Get css vars for a specific theme
-// Filtered by match
+// Filtered by key prefix (a single prefix or a list of prefixes)
 @mixin theme($theme-key, $match: null) {
     @if meta.variable-exists('themes') and map.has-key($themes, $theme-key) {
         $theme: map.get($themes, $theme-key);
 
         @each $key, $value in $theme {
-            @if not $match {
-                --theme-#{$key}: #{$value};
-            } @else if meta.type-of($match) == list {
-                @each $match-value in $match {
-                    @if string.index($key, $match-value) {
-                        --theme-#{$key}: #{$value};
-                    }
-                }
-            } @else if string.index($key, $match) {
+            @if not $match or theme-key-matches($key, $match) {
                 --theme-#{$key}: #{$value};
             }
         }

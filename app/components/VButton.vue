@@ -110,7 +110,7 @@ export default defineComponent({
     text-decoration: var(--v-button-text-decoration, none);
     user-select: none;
 
-    @include theme-variants('button');
+    @include theme-variants('color-button-');
     @include sizes(v-button.$vars, 'v-button');
 
     // PROPS STYLE

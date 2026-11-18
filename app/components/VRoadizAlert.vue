@@ -53,12 +53,12 @@ const { themeClass } = useThemeProvider({ preferredTheme: 'light' })
 @use "assets/scss/mixins/theme" as *;
 
 .root {
-    @include theme-variants('alert' 'surfaces-primary' 'content-primary');
+    @include theme-variants('color-alert-' 'color-surfaces-primary' 'color-content-primary');
 
     position: relative;
     z-index: 101;
-    background-color: var(--v-roadiz-alert-background, var(--surfaces-primary));
-    color: var(--content-primary, currentColor);
+    background-color: var(--v-roadiz-alert-background, var(--theme-color-surfaces-primary));
+    color: var(--theme-color-content-primary, currentColor);
     grid-auto-flow: dense;
     padding-block: 28px;
 }
