@@ -88,7 +88,9 @@ export default defineComponent({
                 src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
                 width: width.value,
                 height: height.value,
-                alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
+                // Always set an alt: an explicit one wins (`alt=""` included, which marks the image
+                // as decorative), then the document's, then the empty string.
+                alt: props.alt ?? document.value?.alt ?? '',
                 placeholder: document.value?.imageAverageColor,
                 provider: 'interventionRequest',
                 loading: props.loading ?? ('lazy' as const),
