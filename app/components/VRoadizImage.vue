@@ -6,6 +6,7 @@ import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
 import { vImgProps } from '~/components/VImg.vue'
 import { vPictureProps } from '~/components/VPicture.vue'
+import { supportsTransparency } from '~/utils/roadiz/document'
 
 export const vRoadizImageProps = {
     ...vPictureProps,
@@ -89,7 +90,7 @@ export default defineComponent({
                 width: width.value,
                 height: height.value,
                 alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
-                placeholder: document.value?.imageAverageColor,
+                placeholder: supportsTransparency(document.value) ? undefined : document.value?.imageAverageColor,
                 provider: 'interventionRequest',
                 loading: props.loading ?? ('lazy' as const),
             }
