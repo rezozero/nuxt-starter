@@ -1,50 +1,43 @@
 # How To Contribute
 
-The `main` branch is protected, and all changes must be made through pull requests.
+For prerequisites and setup, see [`README.md`](./README.md). Code rules are in [`docs/GUIDELINES.md`](./docs/GUIDELINES.md).
 
-## Prerequisites
+## Branches
 
-- Node `24.12.0`
-- PNPM `9.12.0`
+### This starter
 
-## Send a Pull Request
+The `main` branch is protected: all changes go through a pull request targeting `main`.
 
-### Commit Conventions
+### Client projects built from the starter
 
-We use [Conventional Commits](https://www.conventionalcommits.org/) for commit messages, which allows a changelog to be auto-generated based on the commits.  
-Please read the guide through if you aren't familiar with it already.  
-Note that `fix:` and `feat:` are for actual code changes (that might affect logic). For typo or document changes, use `docs:` or `chore:` instead:  
-`fix: typo` -> `docs: fix typo`
+Client projects follow the agency git flow (see `docs/methodologie/01-git-flow` in the `Rezo-Zero/documentation` repository):
 
-### Making the Pull Request
+- `main` and `develop` are protected. Merge requests target `develop`; only `hotfix/*` branches start from `main`.
+- Branches linked to an issue are named `{workItemId}-short-slug` (e.g. `123-fix-sso-login`).
+- `release/*` and `hotfix/*` are opened as a draft MR, then finished locally (`git flow … finish -s`, signed tag) — never with the Merge button.
 
-When sending a pull request, make sure your PR's title also follows the Commit Convention.  
+## Commit conventions
 
-If your PR fixes or resolves existing issues, please make sure you mention them in the PR description.  
-  
-It's ok to have multiple commits in a single PR; you don't need to rebase or force push for your changes as we will use Squash and Merge to squash the commits into one commit when merging.
+We use [Conventional Commits](https://www.conventionalcommits.org/), in English and in the imperative mood. The changelog is generated from them (`git cliff`): a message outside the convention does not appear in it.
 
-In general, please also make sure that there are no unrelated changes in a PR. For example, if your editor has made any changes to whitespace or formatting elsewhere in a file that you edited, please revert these so it is more obvious what your PR changes.   
-And please avoid including multiple unrelated features or fixes in a single PR. 
-If it is possible to separate them, it is better to have multiple PRs to review and merge separately. In general, a PR should do one thing only.
+`fix:` and `feat:` are for actual code changes. For typos or documentation, use `docs:` or `chore:` instead: `fix: typo` → `docs: fix typo`.
 
-## Checks expected in PRs
+## Pull / merge requests
 
-- `pnpm lint`
-- `pnpm lint:js` (if you touched JS/TS/Vue)
-- `pnpm lint:css` (if you touched styles)
+- The PR/MR title follows the commit convention: it becomes the commit message, as we always **squash and merge**.
+- One PR/MR = one topic. Revert unrelated whitespace or formatting changes.
+- Mention the issues it fixes or the story it implements (`Closes #123`).
+- It is reviewed by someone other than its author — whether written by a human or an AI agent.
+- CI must be green before merging.
 
-## Use ESLint
+## Checks before opening a PR/MR
 
-We use ESLint for both linting and formatting.
+- `pnpm lint` (also run by the pre-push hook) and `pnpm test`
+- Desktop and mobile check of the change
+- Accessibility (RGAA): contrast, visible focus, keyboard navigation, status messages, 200% zoom, 320px width
+- New or changed translation keys reported in Xilofone
 
-## No Prettier
+## Tooling
 
-Since ESLint is already configured to format the code, there is no need to duplicate the functionality with Prettier.   
-To format the code, you can run `pnpm lint-fix` or referring the ESLint section for IDE Setup.
-
-If you have Prettier installed in your editor, we recommend you disable it when working on the project to avoid conflict.
-
-## Package Manager
-
-We use [pnpm](https://pnpm.io/) as our package manager.
+- **Package manager:** [pnpm](https://pnpm.io/)
+- **Linting and formatting:** ESLint and Stylelint — run `pnpm lint-fix` to auto-fix. Prettier is not used; disable it in your editor to avoid conflicts.

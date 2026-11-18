@@ -28,7 +28,8 @@ siege.txt
 !.env.stories
 
 # IA agents
-.claude
+.claude/settings.local.json
+.claude/worktrees
 agents/screenshots
 
 # Nuxt stories
