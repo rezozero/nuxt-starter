@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
-import pick from 'lodash/pick'
+import { pick } from '~/utils/object/pick'
 import { isImage } from '~/utils/roadiz/document'
 import { commonVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'

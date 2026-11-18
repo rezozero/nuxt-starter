@@ -164,7 +164,6 @@ export default defineNuxtConfig({
                 '@gtm-support/vue-gtm',
                 '@unhead/schema-org/vue',
                 '@vue-a11y/skip-to',
-                'lodash/pick',
                 'lodash/throttle',
                 'plyr',
                 'tiny-emitter',

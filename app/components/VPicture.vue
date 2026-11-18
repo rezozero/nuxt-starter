@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { ExtractPropTypes, ImgHTMLAttributes, PropType } from 'vue'
 import type { VImgProps } from '~/components/VImg.vue'
-import pick from 'lodash/pick'
+import { pick } from '~/utils/object/pick'
 import VImg, { vImgProps } from '~/components/VImg.vue'
 import VPictureSource from '~/components/VPictureSource.vue'
 
