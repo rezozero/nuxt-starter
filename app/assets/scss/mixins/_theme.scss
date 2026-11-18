@@ -3,23 +3,36 @@
 @use "sass:string";
 @use "../variables/themes" as *;
 
+// Whether a source reads the theme key, as reported by the theme-keys module (build/theme-keys.ts),
+// which scans the sources for `--theme-<key>` reads in production builds.
+// Without the module (dev, a bare Sass compilation), every key is kept.
+@function theme-key-kept($key) {
+    @if meta.function-exists('theme-key-used') {
+        @return theme-key-used($key);
+    }
+
+    @return true;
+}
+
 // Get css vars for a specific theme
-// Filtered by match
+// Filtered by match, without the keys no source reads (see theme-key-kept)
 @mixin theme($theme-key, $match: null) {
     @if meta.variable-exists('themes') and map.has-key($themes, $theme-key) {
         $theme: map.get($themes, $theme-key);
 
         @each $key, $value in $theme {
-            @if not $match {
-                --theme-#{$key}: #{$value};
-            } @else if meta.type-of($match) == list {
-                @each $match-value in $match {
-                    @if string.index($key, $match-value) {
-                        --theme-#{$key}: #{$value};
+            @if theme-key-kept($key) {
+                @if not $match {
+                    --theme-#{$key}: #{$value};
+                } @else if meta.type-of($match) == list {
+                    @each $match-value in $match {
+                        @if string.index($key, $match-value) {
+                            --theme-#{$key}: #{$value};
+                        }
                     }
+                } @else if string.index($key, $match) {
+                    --theme-#{$key}: #{$value};
                 }
-            } @else if string.index($key, $match) {
-                --theme-#{$key}: #{$value};
             }
         }
     }
