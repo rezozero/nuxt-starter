@@ -29,19 +29,16 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
 
 <style lang="scss" module>
 .wrapper {
-    --v-player-video-position: absolute;
-    --v-player-video-width: 100%;
-    --v-player-video-height: 100%;
-    --v-player-height: 200px;
-
-    width: 100%;
-
     &--contain {
-        --v-player-video-object-fit: contain;
+        --v-video-player-object-fit: contain;
     }
 
     &--cover {
-        --v-player-video-object-fit: cover;
+        --v-video-player-object-fit: cover;
     }
+}
+
+.video {
+    height: 200px;
 }
 </style>

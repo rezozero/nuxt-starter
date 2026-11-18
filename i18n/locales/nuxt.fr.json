@@ -1,5 +1,6 @@
 {
 	"anchor_list.aria": "Liens de navigation rapide",
+	"audio_player.iframe_title": "Lecteur audio",
 	"back_home": "Retour à l'accueil",
 	"breadcrumb.aria_label": "Fil d'Ariane",
 	"breadcrumb.home_label": "Accueil",
@@ -50,11 +51,15 @@
 	"pagination.next_page": "Page suivante",
 	"pagination.page_%index%": "Page { index }",
 	"pagination.previous_page": "Page précédente",
+	"pause": "Pause",
+	"play": "Lecture",
 	"refresh_page": "Rafraîchir la page",
 	"see_less": "Voir moins",
 	"see_more": "Voir plus",
 	"skip_to.footer": "Aller au pied de page",
 	"skip_to.list_label": "Aller à une section",
 	"skip_to.main_content": "Aller au contenu principal",
-	"watch_the_video": "Voir la vidéo"
+	"video_player.iframe_title": "Lecteur vidéo",
+	"watch_the_video": "Voir la vidéo",
+	"watch_the_video_title": "Voir la vidéo {title}"
 }

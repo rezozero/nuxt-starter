@@ -20,8 +20,8 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
 }
 
 .wrapper {
-    --v-player-height: 100%;
-    --v-player-video-object-fit: cover;
+    --v-video-player-height: 100%;
+    --v-video-player-object-fit: cover;
 
     position: absolute;
     height: 100svh;

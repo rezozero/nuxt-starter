@@ -15,7 +15,15 @@ export default defineComponent({
         video: Object as PropType<Omit<VVideoProps, 'document'>>,
         placeholder: Boolean,
     },
-    setup(props, { slots }) {
+    setup(props, { slots, expose }) {
+        // Forwards the playback controls of the rendered media (`VRoadizVideo`), e.g. to pause
+        // the video of a slide left in a media viewer.
+        const mediaRef = ref<{ play?: () => void, pause?: () => void } | null>(null)
+        expose({
+            play: () => mediaRef.value?.play?.(),
+            pause: () => mediaRef.value?.pause?.(),
+        })
+
         const displayedDocument = computed(() => {
             return isPDF(props.document) ? props.document?.thumbnail : props.document
         })
@@ -56,7 +64,7 @@ export default defineComponent({
 
             if (mediaType.value === 'video') {
                 Object.assign(result, props.video)
-                Object.assign(result, { thumbnail: props.image })
+                Object.assign(result, { thumbnail: props.image, thumbnailPreload: props.image?.preload })
             }
             else if (mediaType.value === 'image') {
                 Object.assign(result, props.image)
@@ -65,7 +73,7 @@ export default defineComponent({
             return result
         })
 
-        return () => h(tag.value as Component | string, nodeProps.value, slots)
+        return () => h(tag.value as Component | string, { ...nodeProps.value, ref: mediaRef }, slots)
     },
 })
 </script>

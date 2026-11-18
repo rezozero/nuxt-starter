@@ -4,12 +4,12 @@ import video from '~stories/assets/fixtures/documents/youtube-01.json'
 
 <template>
     <NuxtStory :class="$style.root">
-        <VVideoPlayer
+        <VBackgroundVideo
             :embed-id="video.embedId"
-            :embed-platform="(video.embedPlatform as 'youtube')"
+            :embed-platform="video.embedPlatform"
+            :width="video.imageWidth"
+            :height="video.imageHeight"
             fit="cover"
-            background
-            :class="$style.video"
         />
     </NuxtStory>
 </template>
@@ -17,12 +17,8 @@ import video from '~stories/assets/fixtures/documents/youtube-01.json'
 <style lang="scss" module>
 .root {
     position: relative;
+    overflow: hidden;
     width: 100%;
-    height: 100%;
-}
-
-.video {
-    position: absolute;
-    inset: 0;
+    height: 100svh;
 }
 </style>
