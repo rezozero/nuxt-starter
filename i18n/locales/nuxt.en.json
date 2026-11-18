@@ -42,6 +42,7 @@
     "form.success": "Thanks, your message has been sent",
     "form.user_cookie_consent.button_label": "Allow",
     "form.user_cookie_consent.message": "To continue, please allow required cookies.",
+    "lang_switch.aria_label": "Language selection",
     "load_more": "Load more",
     "maintenance_page.body": "The site is under maintenance. Please come back later.",
     "maintenance_page.title": "Maintenance in progress",

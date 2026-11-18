@@ -42,6 +42,7 @@
 	"form.success": "Merci, votre message a bien été envoyé",
 	"form.user_cookie_consent.button_label": "Autoriser",
 	"form.user_cookie_consent.message": "Pour continuer, veuillez autoriser les cookies requis.",
+	"lang_switch.aria_label": "Choix de la langue",
 	"load_more": "Charger plus",
 	"maintenance_page.body": "Le site est en maintenance. Merci de revenir plus tard.",
 	"maintenance_page.title": "Maintenance en cours",
