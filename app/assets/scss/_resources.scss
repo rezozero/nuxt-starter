@@ -2,6 +2,9 @@
 // Be careful to NOT import any CSS file here, as it will be included in the final CSS bundle multiple times.
 // Include only SASS variables / mixins / functions.
 
+// variables
+@forward './variables/date-picker';
+
 // functions
 @forward "./functions/px-to-rem";
 @forward "./functions/px-to-em";
