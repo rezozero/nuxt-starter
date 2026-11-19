@@ -11,3 +11,9 @@ pnpm xilo
 ```
 
 If a translation key needs to be added or updated, make the change directly in the `nuxt.*.json` file **and explicitly instruct the developer to report the same change in the Xilofone interface**, otherwise it will be overwritten the next time they run `pnpm xilo`.
+
+## Modern Web Guidance
+
+This project's Baseline target is Baseline Widely available.
+
+The `modern-web-guidance` plugin is declared in `.claude/settings.json`; Claude Code offers to install it when the project is trusted.
