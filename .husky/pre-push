@@ -2,7 +2,7 @@
 . "$(dirname -- "$0")/common.sh"
 
 # Define reusable error message
-ERROR_MESSAGE="$(tput setaf 1)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0)"
+ERROR_MESSAGE="$(tput setaf 1 2>/dev/null || true)\nLinting failed. Please fix the errors using \"pnpm lint-fix\" and try again.\n$(tput sgr0 2>/dev/null || true)"
 
 # Run lint command with docker fallback
 run_lint() {
