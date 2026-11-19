@@ -30,6 +30,8 @@ export const vImgProps = {
     alt: { type: String },
     loading: { type: String as PropType<'lazy' | 'eager'>, default: 'lazy' },
     decoding: { type: String as PropType<'async' | 'auto' | 'sync'> },
+    // Defaults to `preload.fetchPriority`; separate because a `<picture>` passes it without the preload.
+    fetchpriority: { type: String as PropType<'auto' | 'high' | 'low'> },
     longdesc: { type: String },
 }
 
@@ -159,6 +161,8 @@ export default defineComponent({
                 loading: props.loading,
                 crossorigin: typeof props.crossorigin === 'string' ? props.crossorigin : undefined,
                 decoding: props.decoding,
+                fetchpriority:
+                    props.fetchpriority || (typeof props.preload === 'object' ? props.preload.fetchPriority : undefined),
                 longdesc: props.longdesc,
                 style: style.value,
                 class: [$style.root, loaded.value && $style['root--loaded']],
