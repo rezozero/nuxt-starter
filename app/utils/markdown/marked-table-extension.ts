@@ -1,9 +1,9 @@
 import type { MarkedExtension, Renderer, Token, Tokens } from 'marked'
 import { Lexer } from 'marked'
 
-// GFM has no caption syntax: contributors write `Tableau : My caption` on the paragraph right before the table,
-// or `Tableau masqué : My caption` to keep it for assistive technologies only
-const CAPTION_PATTERN = /^\s*Tableau(\s+masqu[ée])?\s*:\s*(\S.*)$/i
+// GFM has no caption syntax: contributors write `: My caption` on the paragraph right before the table
+// (Pandoc convention, language agnostic), or `:: My caption` to keep it for assistive technologies only
+const CAPTION_PATTERN = /^\s*(:{1,2})\s+(\S.*)$/
 
 interface TableCaption {
     text: string
@@ -20,7 +20,7 @@ function getCaption(token: Token): TableCaption | undefined {
     const match = CAPTION_PATTERN.exec(token.text)
     const text = match?.[2]?.trim()
 
-    if (text) return { text, hidden: !!match?.[1] }
+    if (text) return { text, hidden: match?.[1] === '::' }
 }
 
 // A cell fully wrapped in `**…**` is a header: the <th> carries the emphasis, so the <strong> is dropped
@@ -38,7 +38,7 @@ function renderCell(
     tokens = cell.tokens,
 ): string {
     const scopeAttribute = scope ? ` scope="${scope}"` : ''
-    const alignAttribute = cell.align ? ` style="text-align: ${cell.align}"` : ''
+    const alignAttribute = cell.align ? ` class="v-markdown-align-${cell.align}"` : ''
 
     return `<${tag}${scopeAttribute}${alignAttribute}>${renderer.parser.parseInline(tokens)}</${tag}>`
 }

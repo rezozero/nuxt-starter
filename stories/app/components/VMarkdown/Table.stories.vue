@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const withCaption = `Tableau : Tarifs des visites
+const withCaption = `: Tarifs des visites
 
 | Prestation | Durée | Tarif |
 | :--- | :--- | :--- |
@@ -7,7 +7,7 @@ const withCaption = `Tableau : Tarifs des visites
 | **Visite libre** | Environ 1 h | 8 € par personne |
 | **Atelier enfant** | 45 min | 5 € par enfant |`
 
-const centered = `Tableau masqué : Horaires d'ouverture
+const centered = `:: Horaires d'ouverture
 
 | Période | Ouverture | Fermeture | Dernier accès |
 | :--- | :---: | :---: | :---: |

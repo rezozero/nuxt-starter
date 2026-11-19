@@ -222,5 +222,17 @@ export default defineComponent({
         font-weight: 500;
         text-align: start;
     }
+
+    :global(.v-markdown-align-left) {
+        text-align: start;
+    }
+
+    :global(.v-markdown-align-center) {
+        text-align: center;
+    }
+
+    :global(.v-markdown-align-right) {
+        text-align: end;
+    }
 }
 </style>
