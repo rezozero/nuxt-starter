@@ -114,12 +114,13 @@ export default defineComponent({
                 },
             }
         })
-        const imageComponent = h(
-            isPicture.value ? VPicture : VImg,
-            imageComponentProps.value as Record<string, unknown>, slots.default,
-        )
-
         return () => {
+            // Created on each render so the child follows the props (document, sizes, crop…).
+            const imageComponent = h(
+                isPicture.value ? VPicture : VImg,
+                imageComponentProps.value as Record<string, unknown>, slots.default,
+            )
+
             if (copyright.value) {
                 // The copyright needs a wrapper element.
                 return h('figure', { class: [$style.root, $style['root--copyright']] }, [
