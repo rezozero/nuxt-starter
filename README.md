@@ -74,6 +74,8 @@ pnpm preview
 
 ## Lint and format style (CSS / SCSS / Vue files)
 pnpm lint:css
+## Type check (app, server and shared)
+pnpm typecheck
 ## Lint fix (script and style)
 pnpm lint-fix
 ```

@@ -32,3 +32,5 @@ jobs:
               run: pnpm lint:js
             - name: Lint styles
               run: pnpm lint:css
+            - name: Type check
+              run: pnpm typecheck
