@@ -41,6 +41,18 @@ const imageWithHotspotArea = {
                 blur="50"
             />
         </NuxtStoryVariant>
+        <NuxtStoryVariant title="Alt / explicit">
+            <VRoadizImage
+                :document="(image as unknown as RoadizDocument)"
+                alt="Explicit alternative text"
+            />
+        </NuxtStoryVariant>
+        <NuxtStoryVariant title="Alt / decorative">
+            <VRoadizImage
+                :document="(image as unknown as RoadizDocument)"
+                alt=""
+            />
+        </NuxtStoryVariant>
     </NuxtStory>
 </template>
 
