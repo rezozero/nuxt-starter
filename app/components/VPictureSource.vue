@@ -3,6 +3,7 @@ import type { MaybeRefOrGetter, PropType } from 'vue'
 import type { ImageOptions } from '@nuxt/image'
 import type { ResolvableLink } from '@unhead/vue'
 import type { VPictureProps } from '~/components/VPicture.vue'
+import { parseCrop } from '~/utils/image/crop'
 
 const props = defineProps({
     media: String,
@@ -26,6 +27,40 @@ const pictureProps = inject<MaybeRefOrGetter<VPictureProps>>('pictureProps')
 
 const $img = useImage()
 
+const parseSize = (input?: string | number): number | undefined => {
+    if (typeof input === 'number') return input
+    if (typeof input === 'string') {
+        const size = parseInt(input, 10)
+
+        return isNaN(size) ? undefined : size
+    }
+}
+
+// A source may only add its own modifiers on top of the ones carried by the parent `<picture>`,
+// so the crop has to be read after the merge, not from `props.modifiers` alone.
+const mergedModifiers = computed(() => ({
+    ...(pictureProps ? toValue<VPictureProps>(pictureProps)?.modifiers : undefined),
+    ...props.modifiers,
+}))
+
+const cropDimensions = computed(() => parseCrop(mergedModifiers.value.crop))
+
+// Intervention Request reads `crop` as an aspect ratio, never as a pixel box, and sizes the output
+// from `width` alone. The inherited picture dimensions are the document's intrinsic size, so pairing
+// them with a crop makes `getSizes()` derive every variant height from the photo ratio instead.
+const dimensions = computed(() => {
+    const picturePropsValue = pictureProps ? toValue<VPictureProps>(pictureProps) : undefined
+    const width = parseSize(props.width) ?? cropDimensions.value?.width ?? parseSize(picturePropsValue?.width)
+
+    if (cropDimensions.value) {
+        const { width: cropWidth, height: cropHeight } = cropDimensions.value
+
+        return [width, width && Math.round((width * cropHeight) / cropWidth)]
+    }
+
+    return [width, parseSize(props.height) ?? parseSize(picturePropsValue?.height)]
+})
+
 const options = computed(() => {
     if (!pictureProps) return {}
 
@@ -33,10 +68,11 @@ const options = computed(() => {
 
     return {
         modifiers: {
-            ...picturePropsValue?.modifiers,
-            ...props.modifiers,
-            width: props.width || picturePropsValue?.width,
-            height: props.height || picturePropsValue?.height,
+            ...mergedModifiers.value,
+            width: dimensions.value[0],
+            // A cropped image is already sized from `width` and the crop ratio, so an extra `height`
+            // can only shrink it back below the descriptor its srcset entry advertises.
+            height: cropDimensions.value ? undefined : dimensions.value[1],
             fit: props.fit || picturePropsValue?.modifiers?.fit,
             quality:
                 props.quality
@@ -48,21 +84,6 @@ const options = computed(() => {
         preset: picturePropsValue?.preset,
         sizes: props.sizes || picturePropsValue?.sizes || $img.options.screens,
     }
-})
-
-const dimensions = computed(() => {
-    const crop = options.value.modifiers?.crop
-    const result = [options.value.modifiers?.width, options.value.modifiers?.height]
-
-    // If the image has a crop modifier, set the width and height.
-    if (typeof crop === 'string' && crop.includes('x')) {
-        const [width, height] = crop.split('x')
-
-        if (width) result[0] = parseInt(width)
-        if (height) result[1] = parseInt(height)
-    }
-
-    return result
 })
 
 const sources = computed(() => {
