@@ -10,10 +10,14 @@ if (route.name === 'slug') {
 
     // init page data for components outside page
     const currentPage = useCurrentPage()
+    // Same title as the page head. When the layout remounts (leaving the error page), this is the only
+    // current page set: analytics (e.g. `app/plugins/00.mtm.client.ts`) track the page view with it.
+    const title = useRoadizMetaTitle(webResponse)
 
     currentPage.value = {
         webResponse: webResponse.value,
         alternateLinks: alternateLinks.value,
+        title: title.value || undefined,
     }
 
     useAlternateLinks(alternateLinks.value)

@@ -55,6 +55,14 @@ const { head: pageMetaHead } = usePageMeta({
 })
 
 useHead(pageMetaHead)
+
+// Read by tag managers on a full load, to tell an error page apart
+// (e.g. 404 tracking, see `app/plugins/00.mtm.client.ts`)
+useHead({
+    htmlAttrs: {
+        'data-status-code': error.statusCode,
+    },
+})
 </script>
 
 <template>

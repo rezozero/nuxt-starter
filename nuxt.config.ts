@@ -75,6 +75,10 @@ export default defineNuxtConfig({
                 containerID: '',
                 trackerUrl: '',
             },
+            // Matomo Tag Manager container script, see `app/plugins/00.mtm.client.ts`
+            matomoTagManager: {
+                src: '',
+            },
             googleTagManager: {
                 id: '',
                 debug: '',
