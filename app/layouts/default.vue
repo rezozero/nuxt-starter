@@ -54,6 +54,14 @@ await useCommonContentFetch()
 // Preview mode
 const { isActive: previewIsActive } = useRoadizPreview()
 
+// Consent: unmounted only once its leave animation ends (VModal then closes the dialog, which gives the focus back)
+const { isUnavailableDialogOpen: isConsentUnavailableDialogOpen } = useConsent()
+const isConsentUnavailableDialogMounted = ref(false)
+
+watch(isConsentUnavailableDialogOpen, (isOpen) => {
+    if (isOpen) isConsentUnavailableDialogMounted.value = true
+})
+
 // Meta data
 useSchemaOrg(computed(() => [
     defineWebSite(),
@@ -74,6 +82,10 @@ useSchemaOrg(computed(() => [
             <VRoadizAlertsContainer />
             <VLoadingIndicator />
             <NuxtRouteAnnouncer />
+            <LazyVConsentUnavailableDialog
+                v-if="isConsentUnavailableDialogMounted"
+                @after-leave="isConsentUnavailableDialogMounted = false"
+            />
         </ClientOnly>
         <!-- Using this layout in the error page requires to use an extra <div> -->
         <div id="main">

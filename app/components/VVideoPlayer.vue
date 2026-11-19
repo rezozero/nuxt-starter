@@ -21,6 +21,13 @@ function getUrl(src?: string): string | undefined {
 
 const isEmbed = computed(() => !!props.embedPlatform && !!props.embedId)
 
+// Embeds of a service the visitor has not granted are held back (`runtimeConfig.public.consent.embeds`)
+const {
+    service: consentService,
+    blocked: consentBlocked,
+    request: requestConsent,
+} = useEmbedConsent(() => isEmbed.value ? props.embedPlatform : undefined)
+
 const src = computed(() => {
     if (isEmbed.value) {
         let params: Record<string, string> = {}
@@ -210,11 +217,27 @@ function disposePlayer() {
 
 onMounted(createPlayer)
 onBeforeUnmount(disposePlayer)
+
+// Consent granted: the embed replaces its placeholder
+watch(consentBlocked, (blocked) => {
+    if (!blocked) nextTick(createPlayer)
+})
 </script>
 
 <template>
     <div
-        v-if="isEmbed"
+        v-if="isEmbed && consentBlocked"
+        :class="$style['iframe-wrapper']"
+    >
+        <!-- A background video is decoration: it waits for the consent given elsewhere instead of asking for it -->
+        <VEmbedConsent
+            v-if="!background && consentService"
+            :name="consentService.name"
+            @request="requestConsent"
+        />
+    </div>
+    <div
+        v-else-if="isEmbed"
         ref="playerComponent"
         :style="playerStyle"
         :class="$style['iframe-wrapper']"
