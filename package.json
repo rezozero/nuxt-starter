@@ -16,6 +16,7 @@
     "lint:js": "eslint .",
     "lint:css": "stylelint \"**/*.{vue,css,scss}\"",
     "test": "vitest run",
+    "test:watch": "vitest",
     "xilo": "node ./node_modules/@rezo-zero/xilofone-fetch/dist/index.js"
   },
   "devDependencies": {
