@@ -10,10 +10,14 @@ if (route.name === 'slug') {
 
     // init page data for components outside page
     const currentPage = useCurrentPage()
+    // Same title as the page head. When the layout remounts (leaving the error page), this is the only
+    // current page set: analytics (e.g. `app/plugins/00.mtm.client.ts`) track the page view with it.
+    const title = useRoadizMetaTitle(webResponse)
 
     currentPage.value = {
         webResponse: webResponse.value,
         alternateLinks: alternateLinks.value,
+        title: title.value || undefined,
     }
 
     useAlternateLinks(alternateLinks.value)
@@ -39,6 +43,10 @@ if (route.name === 'slug') {
         }
     }
 }
+
+// Once the web response has set the locale. Not in the page: landing on a page without a web response (e.g. a 404)
+// would leave it unset, and the next page would set it to its own locale, missing the change.
+useDocumentLocale()
 
 // Populate Roadiz common content after locale is set
 await useCommonContentFetch()
@@ -73,7 +81,11 @@ useSchemaOrg(computed(() => [
                 <NuxtPage />
             </slot>
         </div>
-        <VFooter id="footer" />
+        <!-- Always below the fold: its code is loaded and hydrated only when it nears the viewport -->
+        <LazyVFooter
+            id="footer"
+            hydrate-on-visible
+        />
         <LazyVRoadizPreview v-if="previewIsActive" />
     </div>
 </template>

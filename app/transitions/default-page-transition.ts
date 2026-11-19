@@ -20,9 +20,6 @@ const defaultPageTransition: TransitionProps = {
         const foreground = foregroundElement()
         document.body.appendChild(foreground)
 
-        // TODO: use native css overflow hidden on body
-        // disableBodyScroll(document.body, { reserveScrollBarGap: true })
-
         const animation = foreground.animate([{ opacity: '0' }, { opacity: '1' }], {
             duration: 200,
         })
@@ -46,7 +43,6 @@ const defaultPageTransition: TransitionProps = {
         })
 
         animation.onfinish = () => {
-            // enableBodyScroll(document.body)
             foreground.remove()
             done()
         }

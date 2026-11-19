@@ -3,6 +3,7 @@
 	"back_home": "Retour à l'accueil",
 	"breadcrumb.aria_label": "Fil d'Ariane",
 	"breadcrumb.home_label": "Accueil",
+	"captcha.turnstile.description": "Ce champ est protégé par Cloudflare Turnstile, un service de vérification anti-robot.",
 	"card.link_label": "En savoir plus",
 	"carousel.next_slide_aria": "Diapositive suivante",
 	"carousel.previous_slide_aria": "Diapositive précédente",
