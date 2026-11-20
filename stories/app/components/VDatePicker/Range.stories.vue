@@ -1,14 +1,15 @@
 <script lang="ts" setup>
-const datePickerValue = ref({
-    start: new Date(),
-    end: new Date(),
-})
+const datePickerValue = ref<Date | Date[] | null>([new Date(), new Date()])
 </script>
 
 <template>
     <NuxtStory>
         <div :class="$style.root">
-            <VDatePicker v-model.range="datePickerValue" />
+            <VDatePicker
+                v-model="datePickerValue"
+                range
+            />
+            <output :class="$style.output">{{ datePickerValue }}</output>
         </div>
     </NuxtStory>
 </template>
@@ -17,5 +18,11 @@ const datePickerValue = ref({
 .root {
     max-width: 500px;
     margin: 0 auto;
+}
+
+.output {
+    display: block;
+    margin-top: 16px;
+    text-align: center;
 }
 </style>

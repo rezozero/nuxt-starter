@@ -25,6 +25,13 @@ const isEmbed = computed(() => {
     return !!props.document?.embedId && !!props.document?.embedPlatform
 })
 
+// Embeds of a service the visitor has not granted are held back (`runtimeConfig.public.consent.embeds`)
+const {
+    service: consentService,
+    blocked: consentBlocked,
+    request: requestConsent,
+} = useEmbedConsent(() => isEmbed.value ? props.document?.embedPlatform : undefined)
+
 const embedSrc = computed(() => {
     if (!isEmbed.value) return
 
@@ -83,8 +90,13 @@ onMounted(() => {
 </script>
 
 <template>
+    <VEmbedConsent
+        v-if="isEmbed && consentBlocked && consentService"
+        :name="consentService.name"
+        @request="requestConsent"
+    />
     <iframe
-        v-if="isEmbed"
+        v-else-if="isEmbed"
         :src="embedSrc"
         :class="$style.iframe"
     />

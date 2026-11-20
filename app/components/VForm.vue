@@ -90,22 +90,24 @@ const errorsPerProperty = computed(() => {
 
     const apiCode = error.value?.response?._data?.code
     return Object.entries(errorsPerForm).map(([propertyPath, content]) => {
+        const message = (typeof content === 'string' ? content : content?.[propertyPath])
+
         return {
             propertyPath,
-            message: (typeof content === 'string' ? content : content?.[propertyPath]) || '',
+            message: !message ? '' : (te(message) ? t(message) : message),
             code: (typeof content === 'object' ? content?.code : apiCode) || '',
         } as Violation
     })
 })
 
 watch(errorsPerProperty, (violations) => {
-    if (!violations.length) return
+    // Falls back to the first invalid field when the API error doesn't carry a `propertyPath`
+    // matching a rendered field name (e.g. a form-level violation).
+    const target
+        = formEl.value?.querySelector<HTMLElement>(`[name="${violations[0]?.propertyPath}"]`)
+            || formEl.value?.querySelector<HTMLElement>(`[aria-invalid="true"]`)
 
-    const target = formEl.value?.querySelector(`[name="${violations[0]?.propertyPath}"]`)
-
-    if (target instanceof HTMLElement) {
-        target.focus()
-    }
+    target?.focus()
 })
 
 const errorMessage = computed(() => {
@@ -192,11 +194,21 @@ async function onSubmit(event: Event): Promise<void> {
         })
         .finally(() => {
             isPending.value = false
+            // A captcha token is single-use — get a fresh one ready before any next attempt.
+            provider.value?.reset?.()
         })
 }
 
 // SCHEMA
-const { data: loadedSchema } = typeof props.schema === 'string' ? await useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(props.schema)) : { data: null }
+const fetchSchema = (schemaUrl: string) => useRoadizFetch<JsonSchemaExtended>(useJoinApiUrl(schemaUrl), {
+    // The FormBlock may be lazily hydrated, once `nuxtApp.isHydrating` is false:
+    // the default handler would skip the SSR payload and fetch the schema again.
+    // Refreshes (`refresh()`, watch…) still fetch it.
+    // https://nuxt.com/docs/4.x/api/composables/use-async-data#params
+    // @see https://github.com/nuxt/nuxt/issues/33383
+    getCachedData: (key, nuxtApp, { cause }) => cause === 'initial' ? nuxtApp.payload.data[key] : undefined,
+})
+const { data: loadedSchema } = typeof props.schema === 'string' ? await fetchSchema(props.schema) : { data: null }
 
 const gdprContent = computed(() => {
     if (typeof props.gdpr === 'string' && props.gdpr.trim() !== '') {
@@ -290,14 +302,14 @@ const isDisabled = computed(() => props.disabled || isPending.value || displayUs
             :schema="formattedSchema"
         />
         <footer>
-            <LazyVStatusBanner
+            <LazyVStatusMessage
                 v-if="errorMessage"
                 status="error"
                 :message="errorMessage"
                 :class="$style.error"
                 role="alert"
             />
-            <LazyVStatusBanner
+            <LazyVStatusMessage
                 v-if="isSuccess"
                 status="success"
                 :message="successLabel || t('form.success')"

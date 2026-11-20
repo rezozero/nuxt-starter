@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALE_OBJECTS } from './app/constants/i18n'
 import { version } from './package.json'
 import { createHash } from 'node:crypto'
 
@@ -75,9 +75,29 @@ export default defineNuxtConfig({
                 containerID: '',
                 trackerUrl: '',
             },
+            // Matomo Tag Manager container script, see `app/plugins/00.mtm.client.ts`
+            matomoTagManager: {
+                src: '',
+            },
             googleTagManager: {
                 id: '',
                 debug: '',
+            },
+            consent: {
+                // Consent management platform (CMP) in use, see `app/utils/consent/providers.ts` (e.g. `axeptio`).
+                // Empty: no consent bridge, embeds are never held back.
+                provider: '',
+                // Any link to this href reopens the consent settings (link field, Markdown…)
+                settingsHref: '#cookies',
+                // Embed platforms held back until the visitor grants their service:
+                // platform → service name in the CMP (e.g. Axeptio vendor), and name shown to the visitor.
+                embeds: {
+                    youtube: { service: 'youtube', name: 'YouTube' },
+                    vimeo: { service: 'vimeo', name: 'Vimeo' },
+                    deezer: { service: 'deezer', name: 'Deezer' },
+                    spotify: { service: 'spotify', name: 'Spotify' },
+                    soundcloud: { service: 'soundcloud', name: 'SoundCloud' },
+                },
             },
             friendlyCaptcha: {
                 siteKey: '',
@@ -164,6 +184,7 @@ export default defineNuxtConfig({
                 '@gtm-support/vue-gtm',
                 '@unhead/schema-org/vue',
                 '@vue-a11y/skip-to',
+                '@vuepic/vue-datepicker',
                 'lodash/throttle',
                 'plyr',
                 'tiny-emitter',
@@ -243,9 +264,9 @@ export default defineNuxtConfig({
             useCookie: true,
         },
         defaultLocale: I18N_DEFAULT_LOCALE,
-        locales: I18N_LOCALES.map(locale => ({
-            code: locale,
-            file: `nuxt.${locale}.json`,
+        locales: I18N_LOCALE_OBJECTS.map(locale => ({
+            ...locale,
+            file: `nuxt.${locale.code}.json`,
         })),
         compilation: {
             strictMessage: false, // Message can contains HTML tag
