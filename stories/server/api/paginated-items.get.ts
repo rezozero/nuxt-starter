@@ -6,14 +6,6 @@ export default defineEventHandler((event) => {
     const page = Math.max(Number(query.page) || 1, 1)
     const itemsPerPage = Math.min(Math.max(Number(query.itemsPerPage) || 12, 1), 100)
 
-    if (query.search === 'error') {
-        throw createError({ statusCode: 500, statusMessage: 'Mocked server error' })
-    }
-
-    if (query.search === 'empty') {
-        return { 'hydra:member': [], 'hydra:totalItems': 0 }
-    }
-
     const start = (page - 1) * itemsPerPage
     const end = Math.min(start + itemsPerPage, TOTAL_ITEMS)
     const members = []

@@ -57,37 +57,5 @@ function toArticleCard(item: NSArticle): ArticleCard {
                 </template>
             </VRoadizPaginatedList>
         </NuxtStoryVariant>
-        <NuxtStoryVariant title="No result">
-            <VRoadizPaginatedList
-                url="/paginated-items"
-                :transform="toArticleCard"
-                :params="{ itemsPerPage: 6, search: 'empty' }"
-            >
-                <template #item="{ item }">
-                    <div>
-                        {{ item?.title }}
-                    </div>
-                </template>
-                <template #no-result>
-                    Aucun résultat
-                </template>
-            </VRoadizPaginatedList>
-        </NuxtStoryVariant>
-        <NuxtStoryVariant title="Error">
-            <VRoadizPaginatedList
-                url="/paginated-items"
-                :transform="toArticleCard"
-                :params="{ itemsPerPage: 6, search: 'error' }"
-            >
-                <template #item="{ item }">
-                    <div>
-                        {{ item?.title }}
-                    </div>
-                </template>
-                <template #error="{ error }">
-                    Une erreur est survenue ({{ error.statusCode }})
-                </template>
-            </VRoadizPaginatedList>
-        </NuxtStoryVariant>
     </NuxtStory>
 </template>
