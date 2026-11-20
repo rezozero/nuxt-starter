@@ -74,5 +74,8 @@
   "engines": {
     "node": "24.22.2"
   },
-  "packageManager": "pnpm@11.5.1"
+  "packageManager": "pnpm@11.5.1",
+  "browserslist": [
+    "baseline 2024"
+  ]
 }

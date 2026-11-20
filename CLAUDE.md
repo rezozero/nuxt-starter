@@ -14,4 +14,4 @@ If a translation key needs to be added or updated, make the change directly in t
 
 ## Browser support
 
-This project's Baseline target is Baseline Widely available.
+This project's browser target is `baseline 2024`, declared in the `browserslist` field of `package.json` (the build derives its Vite target from it).

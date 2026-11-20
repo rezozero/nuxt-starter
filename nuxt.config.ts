@@ -1,5 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
+import browserslistToEsbuild from 'browserslist-to-esbuild'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
 import { version } from './package.json'
 import { createHash } from 'node:crypto'
@@ -192,6 +193,8 @@ export default defineNuxtConfig({
             ],
         },
         build: {
+            // Vite ignores browserslist: derive the JS target from it (cssTarget follows build.target)
+            target: browserslistToEsbuild(),
             // If the generated svg-sprite file is under 4kb, the build process converts it to an inlined base64 file,
             // which breaks the use of icons.
             assetsInlineLimit: 0,
