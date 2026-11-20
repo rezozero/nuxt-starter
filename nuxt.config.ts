@@ -185,7 +185,6 @@ export default defineNuxtConfig({
                 '@unhead/schema-org/vue',
                 '@vue-a11y/skip-to',
                 '@vuepic/vue-datepicker',
-                'lodash/pick',
                 'lodash/throttle',
                 'plyr',
                 'tiny-emitter',

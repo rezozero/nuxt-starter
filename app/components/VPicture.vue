@@ -2,7 +2,7 @@
 import type { ExtractPropTypes, ImgHTMLAttributes, PropType, VNode } from 'vue'
 import type { VImgProps } from '~/components/VImg.vue'
 import { Fragment, isVNode } from 'vue'
-import pick from 'lodash/pick'
+import { pick } from '~/utils/object/pick'
 import VImg, { vImgProps } from '~/components/VImg.vue'
 import VPictureSource from '~/components/VPictureSource.vue'
 import { fitCrop, parseCrop } from '~/utils/image/crop'
