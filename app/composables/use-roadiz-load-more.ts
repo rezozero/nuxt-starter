@@ -1,4 +1,4 @@
-import type { HydraCollection, RoadizNodesSources, RoadizRequestParams } from '@roadiz/types'
+import type { HydraCollection, JsonLdObject, RoadizNodesSources, RoadizRequestParams } from '@roadiz/types'
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
 import type { Ref, ShallowRef } from 'vue'
 import { hash } from 'ohash'
@@ -16,7 +16,7 @@ const ITEMS_PER_PAGE = 12
 type CacheTagsContainer<T> = T & { cacheTags?: string }
 
 export async function useRoadizLoadMore<
-    ItemT extends RoadizNodesSources = RoadizNodesSources,
+    ItemT extends JsonLdObject = RoadizNodesSources,
     ParamsT extends RoadizRequestParams = RoadizRequestParams,
 >(options: UseLoadMoreOptions<ParamsT>) {
     type PageData = HydraCollection<ItemT>

@@ -38,9 +38,10 @@ const items = computed<(T | null)[]>(() => {
     }
 
     const members = data.value?.['hydra:member'] || []
+    const transform = props.transform
 
     // Without transform, T defaults to RawT
-    return props.transform ? members.map(props.transform) : members as unknown as T[]
+    return transform ? members.map(item => transform(item)) : members as unknown as T[]
 })
 
 const totalPages = computed(() => {
