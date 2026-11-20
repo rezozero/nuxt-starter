@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALE_OBJECTS } from './app/constants/i18n'
 import { version } from './package.json'
 import { createHash } from 'node:crypto'
 
@@ -265,9 +265,9 @@ export default defineNuxtConfig({
             useCookie: true,
         },
         defaultLocale: I18N_DEFAULT_LOCALE,
-        locales: I18N_LOCALES.map(locale => ({
-            code: locale,
-            file: `nuxt.${locale}.json`,
+        locales: I18N_LOCALE_OBJECTS.map(locale => ({
+            ...locale,
+            file: `nuxt.${locale.code}.json`,
         })),
         compilation: {
             strictMessage: false, // Message can contains HTML tag
