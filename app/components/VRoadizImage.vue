@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
-import pick from 'lodash/pick'
+import { pick } from '~/utils/object/pick'
 import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
 import { vImgProps } from '~/components/VImg.vue'
