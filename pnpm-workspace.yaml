@@ -2,6 +2,8 @@ packages:
   - stories
 
 minimumReleaseAgeExclude:
+  # Internal package on the private GitLab registry, unreachable without EVENTS_API_NPM_REGISTRY_URL
+  - '@events-api/javascript-sdk'
   - '@rezo-zero/nuxt-cache-control'
   - esbuild@0.28.1
 
