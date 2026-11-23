@@ -9,7 +9,7 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
             :class="[$style.wrapper, $style['wrapper--contain']]"
         >
             <VVideoPlayer
-                :src="video.relativePath"
+                :sources="[{ src: video.relativePath, type: video.mimeType }]"
                 background
                 :class="$style.video"
             />
@@ -19,7 +19,7 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
             :class="[$style.wrapper, $style['wrapper--cover']]"
         >
             <VVideoPlayer
-                :src="video.relativePath"
+                :sources="[{ src: video.relativePath, type: video.mimeType }]"
                 background
                 :class="$style.video"
             />

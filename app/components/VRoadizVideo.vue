@@ -3,14 +3,17 @@ import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
 import pick from 'lodash/pick'
 import type { VBackgroundVideo, VVideoPlayer } from '#components'
-import { isImage } from '~/utils/roadiz/document'
-import { commonVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
+import { getVideoSources, isImage } from '~/utils/roadiz/document'
+import { commonVideoProps, type VideoSource, videoAttributes } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 
 const props = defineProps({
     ...commonVideoProps,
     ...videoAttributes,
     document: { type: Object as PropType<RoadizDocument>, required: true },
+    // Native only: tried before the sources of `document`, which close the list as the fallback
+    // (e.g. a portrait video under a media query).
+    sources: Array as PropType<VideoSource[]>,
     thumbnail: { type: Object as PropType<RoadizDocument> },
     hideThumbnail: Boolean,
     // Called instead of playing inline when the thumbnail is clicked (e.g. to open a media viewer)
@@ -18,7 +21,7 @@ const props = defineProps({
     // Mounts the inline player behind the thumbnail, so that a click plays it right away
     preload: Boolean,
     // Preloads the thumbnail a background video shows until its first frame: as a header, it is the LCP.
-    thumbnailPreload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority: 'auto' | 'high' | 'low' }> },
+    thumbnailPreload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority?: 'auto' | 'high' | 'low' }> },
     showSpinner: { type: Boolean, default: true },
 })
 
@@ -101,8 +104,9 @@ const displayedThumbnail = computed(() => {
     return documents.find(document => isImage(document))
 })
 
-const filteredVideoProps = computed(() =>
-    pick(props, Object.keys({ ...commonVideoProps, ...videoAttributes, ...videoSrc })))
+const videoSources = computed(() => [...(props.sources || []), ...getVideoSources(props.document)])
+
+const filteredVideoProps = computed(() => pick(props, Object.keys({ ...commonVideoProps, ...videoAttributes })))
 
 const dimension = computed(() => {
     return {
@@ -120,9 +124,7 @@ const embedVideoAttrs = computed(() => {
         embedPlatform: props.document.embedPlatform,
         embedId: props.document.embedId,
         title: props.document.name,
-        src: props.document.relativePath,
-        altSources: props.document.altSources,
-        mimeType: props.document.mimeType,
+        sources: videoSources.value,
         ...dimension.value,
         ...getVideoAttrsValues(props, !!props?.background),
         ...filteredVideoProps.value,
@@ -146,9 +148,7 @@ const playButtonLabel = computed(() => props.document.name ? t('watch_the_video_
             :embed-platform="props.document.embedPlatform"
             :embed-id="props.document.embedId"
             :title="props.document.name"
-            :src="props.document.relativePath"
-            :alt-sources="props.document.altSources"
-            :mime-type="props.document.mimeType"
+            :sources="videoSources"
             v-bind="dimension"
             :fit="props.fit"
             :show-spinner="props.showSpinner"

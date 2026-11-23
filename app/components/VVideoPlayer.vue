@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { commonVideoProps, embedVideoProps, videoAttributes, videoSrc } from '~/utils/video/video-props'
+import { commonVideoProps, embedVideoProps, videoAttributes, videoSources } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'
 import { getEmbedSrc } from '~/utils/embed'
 
 const props = defineProps({
-    ...videoSrc,
+    ...videoSources,
     ...videoAttributes,
     ...embedVideoProps,
     ...commonVideoProps,
@@ -33,9 +33,9 @@ const embedTag = computed(() => {
 const { t } = useI18n()
 const iframeTitle = computed(() => props.title || t('video_player.iframe_title'))
 
-const src = computed(() => {
+const embedSrc = computed(() => {
     if (isEmbed.value) return getEmbedSrc(props.embedId as string, props.embedPlatform as string)
-    else return getUrl(props.src)
+    else return undefined
 })
 
 // The media element builds the embed URL from this source: YouTube parameters and Vimeo
@@ -43,30 +43,22 @@ const src = computed(() => {
 // in `setupEmbed()`, never as a `src` attribute: that would load a first Vimeo iframe without `dnt`.
 const embedSource = computed(() => {
     if (props.embedPlatform === 'youtube') {
-        return { src: src.value, engine: { youtube: { ...props.youtube } } }
+        return { src: embedSrc.value, engine: { youtube: { ...props.youtube } } }
     }
     if (props.embedPlatform === 'vimeo') {
         // Do Not Track (GDPR: no Vimeo cookies nor third-party analytics): Vimeo plays without
         // consent on this condition alone, so the CMS cannot turn it off.
-        return { src: src.value, engine: { vimeo: { ...props.vimeo, dnt: true } } }
+        return { src: embedSrc.value, engine: { vimeo: { ...props.vimeo, dnt: true } } }
     }
 
     return undefined
 })
 
 // Native video
-const videoSources = computed(() => {
+const nativeSources = computed(() => {
     if (isEmbed.value) return []
 
-    const altSources = (props.altSources || [])
-        .filter(file => !!file.relativePath)
-        .map((file) => {
-            return {
-                src: getUrl(String(file.relativePath)),
-                type: String(file.mimeType),
-            }
-        })
-    return [{ src: src.value, type: props.mimeType || 'video/mp4' }, ...altSources]
+    return (props.sources || []).map(source => ({ ...source, src: getUrl(source.src) }))
 })
 
 // Attributes
@@ -187,7 +179,7 @@ defineExpose({
         :class="[$style.root, $style['root--embed']]"
     >
         <iframe
-            :src="src"
+            :src="embedSrc"
             :title="iframeTitle"
             frameborder="0"
             allow="autoplay"
@@ -226,10 +218,11 @@ defineExpose({
                     @loadedmetadata="onLoadedMetadata"
                 >
                     <source
-                        v-for="source in videoSources"
+                        v-for="source in nativeSources"
                         :key="source.src"
                         :src="source.src"
                         :type="source.type"
+                        :media="source.media"
                     >
                 </video>
                 <VSpinner

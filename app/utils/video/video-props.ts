@@ -15,15 +15,15 @@ export const videoAttributes = {
     muted: { type: Boolean, default: undefined },
 }
 
-export interface videoFile {
-    relativePath?: string
-    mimeType?: string
+// A `<source>` of a native video: the browser plays the first whose `media` and `type` both match.
+export interface VideoSource {
+    src: string
+    type?: string
+    media?: string
 }
 
-export const videoSrc = {
-    src: { type: String },
-    mimeType: { type: String },
-    altSources: { type: Array as PropType<(videoFile)[]> },
+export const videoSources = {
+    sources: { type: Array as PropType<VideoSource[]> },
 }
 
 export const embedVideoProps = {

@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { getEmbedSrc } from '~/utils/embed'
-import { videoSrc } from '~/utils/video/video-props'
+import { videoSources } from '~/utils/video/video-props'
 
 // A muted looping video without controls, played natively or through a YouTube / Vimeo
 // embed driven by postMessage: no player library nor the platform SDKs, since nothing of their
 // UI would show.
 const props = defineProps({
-    ...videoSrc,
+    // Native only: an embed has a single player URL.
+    ...videoSources,
     embedPlatform: String,
     embedId: String,
     // Accessible name of the embed <iframe> (RGAA 2.1).
@@ -37,14 +38,10 @@ const { t } = useI18n()
 const iframeTitle = computed(() => props.title || t('video_player.iframe_title'))
 
 // Native video
-const videoSources = computed(() => {
+const nativeSources = computed(() => {
     if (isEmbed.value) return []
 
-    const altSources = (props.altSources || [])
-        .filter(file => !!file.relativePath)
-        .map(file => ({ src: getUrl(String(file.relativePath)), type: String(file.mimeType) }))
-
-    return [{ src: getUrl(props.src), type: props.mimeType || 'video/mp4' }, ...altSources]
+    return (props.sources || []).map(source => ({ ...source, src: getUrl(source.src) }))
 })
 
 const video = ref<HTMLVideoElement>()
@@ -89,6 +86,34 @@ const shouldLoad = computed(() =>
 watch(shouldLoad, async () => {
     await nextTick()
     video.value?.load()
+})
+
+// The `media` of a source is only read on load(), never on a viewport change: a phone turned
+// past the breakpoint would keep the video picked for the other orientation.
+const matchedMedia = ref<string>()
+
+watchEffect((onCleanup) => {
+    const medias = [...new Set(nativeSources.value.flatMap(({ media }) => media ? [media] : []))]
+    if (!import.meta.client || !medias.length) return
+
+    const queries = medias.map(media => window.matchMedia(media))
+    const update = () => (matchedMedia.value = queries.find(query => query.matches)?.media)
+
+    update()
+    queries.forEach(query => query.addEventListener('change', update))
+    onCleanup(() => queries.forEach(query => query.removeEventListener('change', update)))
+})
+
+// Paused through `pause()`, by the visitor or out of sight: the `autoplay` of a reload must not
+// resume it, the source is picked again on the next `play()`.
+let isHeld = false
+let isSourceOutdated = false
+
+watch(matchedMedia, () => {
+    if (!shouldLoad.value) return
+
+    if (isHeld) isSourceOutdated = true
+    else video.value?.load()
 })
 
 // Embed
@@ -198,11 +223,20 @@ function isPlaying() {
 }
 
 function play() {
-    if (isEmbed.value) playEmbed()
-    else video.value?.play().catch(() => {})
+    isHeld = false
+
+    if (isEmbed.value) return playEmbed()
+
+    if (isSourceOutdated) {
+        isSourceOutdated = false
+        video.value?.load()
+    }
+    video.value?.play().catch(() => {})
 }
 
 function pause() {
+    isHeld = true
+
     if (isEmbed.value) pauseEmbed()
     else video.value?.pause()
 }
@@ -295,10 +329,11 @@ defineExpose({
     >
         <template v-if="shouldLoad">
             <source
-                v-for="source in videoSources"
+                v-for="source in nativeSources"
                 :key="source.src"
                 :src="source.src"
                 :type="source.type"
+                :media="source.media"
             >
         </template>
     </video>
