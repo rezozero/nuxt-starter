@@ -2,7 +2,9 @@
 
 export function useRoadizPageTitle(title?: MaybeRefOrGetter<string>) {
     const commonContent = useCommonContent()
-    const siteName = computed(() => commonContent.data.value?.head?.siteName || useRuntimeConfig().public.site.name)
+    // Resolved in the setup context: the computed can be evaluated outside of it
+    const runtimeConfig = useRuntimeConfig()
+    const siteName = computed(() => commonContent.data.value?.head?.siteName || runtimeConfig.public.site.name)
 
     const { searchParamsLabel } = useCurrentPageSearchParams()
 

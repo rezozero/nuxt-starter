@@ -1,6 +1,5 @@
 import { joinURL } from 'ufo'
-import type { RoadizAlternateLink, RoadizDocument, RoadizNodesSources, RoadizWebResponse } from '@roadiz/types'
-import type { EventsApi } from '@events-api/javascript-sdk'
+import type { RoadizAlternateLink, RoadizDocument, RoadizWebResponse } from '@roadiz/types'
 import type { MaybeRefOrGetter } from 'vue'
 import { markdownToPlainText } from '~/utils/markdown/markdown-to-plain-text'
 
@@ -20,27 +19,7 @@ export async function useRoadizMeta(
     const noindex = computed(() => !!toValue(webResponse)?.head?.noIndex || previewIsActive.value)
 
     // -------------------- Title -------------------
-    const { getPageTitle } = useRoadizPageTitle()
-    const title = computed(() => {
-        // The API should always return a meta title.
-        // The meta title is set in the Roadiz back office for each page. The logic is:
-        // - a custom meta title is set in the back office for the page,
-        // - or the API build a meta title from the page title and the site name.
-        const metaTitle = toValue(webResponse)?.head?.metaTitle
-
-        if (metaTitle) {
-            return metaTitle
-        }
-
-        // In case it doesn't returned, we fallback to the page title or name (event).
-        const fallbackTitle = (item.value as RoadizNodesSources)?.title || (item.value as EventsApi.Event)?.name
-
-        if (fallbackTitle) {
-            return getPageTitle(fallbackTitle)
-        }
-
-        return ''
-    })
+    const title = useRoadizMetaTitle(webResponse)
 
     // -------------------- Alternate links -------------------
     const formattedAlternateLinks = computed(() => {

@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
-import pick from 'lodash/pick'
 import type { VBackgroundVideo, VVideoPlayer } from '#components'
+import { pick } from '~/utils/object/pick'
 import { getVideoSources, isImage } from '~/utils/roadiz/document'
 import { commonVideoProps, type VideoSource, videoAttributes } from '~/utils/video/video-props'
 import { getVideoAttrsValues } from '~/utils/video/video-attributes'

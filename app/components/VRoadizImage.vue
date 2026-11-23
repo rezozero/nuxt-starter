@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
 import type { PropType } from 'vue'
-import pick from 'lodash/pick'
+import { pick } from '~/utils/object/pick'
 import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
 import { vImgProps } from '~/components/VImg.vue'
@@ -50,10 +50,11 @@ export default defineComponent({
                             !props.crop
                             && document.value?.imageWidth
                             && document.value?.imageHeight
-                            && hotspot.areaStartX
-                            && hotspot.areaEndX
-                            && hotspot.areaStartY
-                            && hotspot.areaEndY
+                            // An area may start at 0 (left / top edge), so check the type, not the value.
+                            && typeof hotspot.areaStartX === 'number'
+                            && typeof hotspot.areaEndX === 'number'
+                            && typeof hotspot.areaStartY === 'number'
+                            && typeof hotspot.areaEndY === 'number'
                         ) {
                             const x = hotspot.areaEndX - hotspot.areaStartX
                             const y = hotspot.areaEndY - hotspot.areaStartY
@@ -88,7 +89,9 @@ export default defineComponent({
                 src: document.value?.thumbnail?.relativePath || document.value?.relativePath,
                 width: width.value,
                 height: height.value,
-                alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
+                // Always set an alt: an explicit one wins (`alt=""` included, which marks the image
+                // as decorative), then the document's, then the empty string.
+                alt: props.alt ?? document.value?.alt ?? '',
                 placeholder: document.value?.imageAverageColor,
                 provider: 'interventionRequest',
                 loading: props.loading ?? ('lazy' as const),
@@ -113,12 +116,13 @@ export default defineComponent({
                 },
             }
         })
-        const imageComponent = h(
-            isPicture.value ? VPicture : VImg,
-            imageComponentProps.value as Record<string, unknown>, slots.default,
-        )
-
         return () => {
+            // Created on each render so the child follows the props (document, sizes, crop…).
+            const imageComponent = h(
+                isPicture.value ? VPicture : VImg,
+                imageComponentProps.value as Record<string, unknown>, slots.default,
+            )
+
             if (copyright.value) {
                 // The copyright needs a wrapper element.
                 return h('figure', { class: [$style.root, $style['root--copyright']] }, [

@@ -33,6 +33,13 @@ const embedTag = computed(() => {
 const { t } = useI18n()
 const iframeTitle = computed(() => props.title || t('video_player.iframe_title'))
 
+// Embeds of a service the visitor has not granted are held back (`runtimeConfig.public.consent.embeds`)
+const {
+    service: consentService,
+    blocked: consentBlocked,
+    request: requestConsent,
+} = useEmbedConsent(() => isEmbed.value ? props.embedPlatform : undefined)
+
 const embedSrc = computed(() => {
     if (isEmbed.value) return getEmbedSrc(props.embedId as string, props.embedPlatform as string)
     else return undefined
@@ -173,9 +180,21 @@ defineExpose({
 </script>
 
 <template>
+    <div
+        v-if="isEmbed && consentBlocked"
+        :class="$style.root"
+    >
+        <!-- A background video is decoration: it waits for the consent given through the
+             banner instead of asking for it. -->
+        <VEmbedConsent
+            v-if="!background && consentService"
+            :name="consentService.name"
+            @request="requestConsent"
+        />
+    </div>
     <!-- A platform Video.js has no media element for plays in its own player -->
     <div
-        v-if="isEmbed && !embedTag"
+        v-else-if="isEmbed && !embedTag"
         :class="[$style.root, $style['root--embed']]"
     >
         <iframe

@@ -22,6 +22,13 @@ const isEmbed = computed(() => {
 const { t } = useI18n()
 const iframeTitle = computed(() => props.document?.name || t('audio_player.iframe_title'))
 
+// Embeds of a service the visitor has not granted are held back (`runtimeConfig.public.consent.embeds`)
+const {
+    service: consentService,
+    blocked: consentBlocked,
+    request: requestConsent,
+} = useEmbedConsent(() => isEmbed.value ? props.document?.embedPlatform : undefined)
+
 const embedSrc = computed(() => {
     if (!isEmbed.value) return
 
@@ -60,8 +67,13 @@ onMounted(() => {
 </script>
 
 <template>
+    <VEmbedConsent
+        v-if="isEmbed && consentBlocked && consentService"
+        :name="consentService.name"
+        @request="requestConsent"
+    />
     <iframe
-        v-if="isEmbed"
+        v-else-if="isEmbed"
         :src="embedSrc"
         :title="iframeTitle"
         :class="$style.iframe"
