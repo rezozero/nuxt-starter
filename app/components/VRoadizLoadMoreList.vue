@@ -1,15 +1,14 @@
-<script lang="ts" setup>
-import type { ComponentPublicInstance, PropType } from 'vue'
-import type { RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
+<script lang="ts" setup generic="RawT extends JsonLdObject = RoadizNodesSources, T = RawT">
+import type { ComponentPublicInstance } from 'vue'
+import type { JsonLdObject, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
 
-const props = defineProps({
-    url: {
-        type: String,
-        required: true,
-    },
-    params: Object as PropType<RoadizRequestNSParams>,
-    itemElements: Array as PropType<(ComponentPublicInstance | HTMLElement)[]>,
-})
+const props = defineProps<{
+    url: string
+    params?: RoadizRequestNSParams
+    itemElements?: (ComponentPublicInstance | HTMLElement)[]
+    // Maps each fetched item (RawT) to the item exposed in the slot (T), which also lets T be inferred
+    transform?: (item: RawT) => T
+}>()
 
 const list = ref<HTMLElement | undefined>()
 
@@ -17,7 +16,7 @@ const internalParams = computed(() => ({
     ...props.params,
 }))
 
-const { items, hasMoreItems, isPending } = await useRoadizLoadMore<RoadizNodesSources>({
+const { items: rawItems, hasMoreItems, isPending } = await useRoadizLoadMore<RawT>({
     url: props.url,
     element: list,
     params: internalParams,
@@ -27,6 +26,20 @@ const { itemBaseId } = useList({
     url: props.url,
     params: internalParams,
 })
+
+const items = computed<(T | null)[]>(() => {
+    const transform = props.transform
+
+    // Without transform, T defaults to RawT
+    if (!transform) return rawItems.value as unknown as (T | null)[]
+
+    return rawItems.value.map(item => item && transform(item))
+})
+
+defineSlots<{
+    'item': (props: { item: T | null, classNames: string | undefined, index: number }) => unknown
+    'no-result'?: () => unknown
+}>()
 </script>
 
 <template>
