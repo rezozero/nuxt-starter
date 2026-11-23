@@ -24,8 +24,9 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@sentry/nuxt/module',
         'nuxt-schema-org',
-        // Drops the theme custom properties no source reads (production builds only)
+        // Drops the theme custom properties no source reads (dev and build)
         [themeKeys, {
+            themesFile: fileURLToPath(new URL('./app/assets/scss/variables/_themes.scss', import.meta.url)),
             dirs: [
                 fileURLToPath(new URL('./app', import.meta.url)),
                 fileURLToPath(new URL('./stories/app', import.meta.url)),
