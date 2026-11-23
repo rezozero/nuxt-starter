@@ -147,8 +147,8 @@ onBeforeUnmount(() => {
     flex-direction: column;
     padding: var(--gutter);
     border: none;
-    background-color: var(--theme-color-surfaces-primary);
-    color: var(--theme-color-content-primary);
+    background-color: var(--color-surfaces-primary);
+    color: var(--color-content-primary);
     inset: 0;
 
     @include theme-variants($match: 'surfaces-' 'content-' 'lines-' 'links-' 'control-');
@@ -156,7 +156,7 @@ onBeforeUnmount(() => {
     &::after {
         position: absolute;
         z-index: -1;
-        background-color: var(--theme-color-surfaces-primary);
+        background-color: var(--color-surfaces-primary);
         content: '';
         inset: 0;
     }

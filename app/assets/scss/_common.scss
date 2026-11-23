@@ -5,7 +5,7 @@ body {
 }
 
 *:focus-visible {
-    outline: 2px solid var(--theme-color-content-primary, currentColor);
+    outline: 2px solid var(--color-content-primary, currentColor);
     outline-offset: 6px;
 }
 

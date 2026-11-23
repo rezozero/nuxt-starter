@@ -4,7 +4,7 @@
 @use "../variables/themes" as *;
 
 // Whether a source reads the theme key, as reported by the theme-keys module (build/theme-keys.ts),
-// which scans the sources for `--theme-<key>` reads.
+// which scans the sources for `--<key>` reads.
 // Without the module (disabled, a bare Sass compilation), every key is kept.
 @function theme-key-kept($key) {
     @if meta.function-exists('theme-key-used') {
@@ -23,15 +23,15 @@
         @each $key, $value in $theme {
             @if theme-key-kept($key) {
                 @if not $match {
-                    --theme-#{$key}: #{$value};
+                    --#{$key}: #{$value};
                 } @else if meta.type-of($match) == list {
                     @each $match-value in $match {
                         @if string.index($key, $match-value) {
-                            --theme-#{$key}: #{$value};
+                            --#{$key}: #{$value};
                         }
                     }
                 } @else if string.index($key, $match) {
-                    --theme-#{$key}: #{$value};
+                    --#{$key}: #{$value};
                 }
             }
         }

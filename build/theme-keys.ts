@@ -22,15 +22,12 @@ interface ThemeKeysOptions {
     dynamicNames?: PerMode<Level>
 }
 
-// The prefix the `theme()` mixin gives to the custom properties (`--theme-#{$key}`).
-// Set it to '' once the mixin emits `--#{$key}`.
-const PROPERTY_PREFIX = 'theme-'
 const SCANNED_EXTENSIONS = new Set(['.vue', '.scss', '.css', '.ts', '.js'])
 // A custom property name, but not a BEM modifier (`root--size`, `&--size`, `#{&}--size`)
 const PROPERTY_NAME = /(?<![\w&}-])--([\w-]+)/g
 // A `var()` whose name is built at compile time (`#{}`) or run time (`${}`)
 const DYNAMIC_VAR = /var\(\s*--([\w-]*)(?:#\{|\$\{)/g
-// A name built in a script: template literal (`--theme-${key}`) or concatenation ('--theme-' + key)
+// A name built in a script: template literal (`--color-${key}`) or concatenation ('--color-' + key)
 const DYNAMIC_NAME = /(?<![\w&}-])--([\w-]*)(?:\$\{|['"`]\s*\+)/g
 // A key of the themes map, not a nested map (`light: (`)
 const THEME_KEY = /^\s+([\w-]+):\s*[^\s(]/gm
@@ -52,7 +49,7 @@ function resolveMode<T extends boolean | string>(option: PerMode<T> | undefined,
  * The module scans the sources for `--key` references and provides the `theme-key-used($key)` Sass function
  * the mixin filters with (see `mixins/_theme.scss`). In dev, the scan is computed again when a source changes.
  *
- * A name built dynamically (`var(--theme-color-#{$name})`, `--theme-${name}`, `'--theme-' + name`) cannot be scanned,
+ * A name built dynamically (`var(--color-#{$name})`, `--color-${name}`, `'--color-' + name`) cannot be scanned,
  * and keeping every key starting with its static part would quietly cancel the pruning. Its keys are dropped, and
  * `dynamicNames` sets how it is reported: write the names out (which keeps them greppable) or list them in `safelist`.
  *
@@ -82,10 +79,6 @@ export default defineNuxtModule<ThemeKeysOptions>({
         let themeKeys: string[] = []
         let usedKeys = new Set<string>()
 
-        function getPropertyName(key: string) {
-            return PROPERTY_PREFIX + key
-        }
-
         function isScanned(file: string) {
             return SCANNED_EXTENSIONS.has(extname(file)) && roots.some(root => file.startsWith(root))
         }
@@ -109,7 +102,7 @@ export default defineNuxtModule<ThemeKeysOptions>({
 
             referencesByFile.forEach(names => names.forEach(name => references.add(name)))
 
-            return new Set(themeKeys.filter(key => safelistedKeys.has(key) || references.has(getPropertyName(key))))
+            return new Set(themeKeys.filter(key => safelistedKeys.has(key) || references.has(key)))
         }
 
         // A name is reported when it may read a theme key that is not safelisted.
@@ -119,7 +112,7 @@ export default defineNuxtModule<ThemeKeysOptions>({
                 return (dynamicNamesByFile.get(file) ?? [])
                     .filter((prefix) => {
                         return prefix && themeKeys.some((key) => {
-                            return !safelistedKeys.has(key) && getPropertyName(key).startsWith(prefix)
+                            return !safelistedKeys.has(key) && key.startsWith(prefix)
                         })
                     })
                     .map((prefix) => {
