@@ -8,8 +8,9 @@ export function isSvg(document: RoadizDocument | undefined): boolean {
     return document?.mimeType === 'image/svg+xml'
 }
 
-// Formats that may have an alpha channel: an average color placeholder would show through.
-const TRANSPARENT_MIME_TYPES = ['image/png', 'image/svg+xml', 'image/gif', 'image/webp', 'image/avif']
+// Formats that commonly carry an alpha channel: an average color placeholder would show through.
+// WebP and AVIF are deliberately left out: they are mostly used for opaque photos, where the placeholder is useful.
+const TRANSPARENT_MIME_TYPES = ['image/png', 'image/svg+xml', 'image/gif']
 
 export function supportsTransparency(document: RoadizDocument | undefined): boolean {
     return !!document?.mimeType && TRANSPARENT_MIME_TYPES.includes(document.mimeType)
