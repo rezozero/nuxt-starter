@@ -6,7 +6,10 @@ import interventionRequestProps from '~/utils/image/intervention-request-props'
 import { LazyVCopyright, VImg, VPicture } from '#components'
 import { vImgProps } from '~/components/VImg.vue'
 import { vPictureProps } from '~/components/VPicture.vue'
-import { supportsTransparency } from '~/utils/roadiz/document'
+
+// Formats usually transparent: the average color placeholder would show behind the image.
+// WebP and AVIF can be transparent too, but they are mostly opaque photos: they keep the placeholder.
+const NO_PLACEHOLDER_MIME_TYPES = ['image/png', 'image/svg+xml', 'image/gif']
 
 export const vRoadizImageProps = {
     ...vPictureProps,
@@ -82,6 +85,13 @@ export default defineComponent({
                 (typeof props.copyright === 'string' && props.copyright)
                 || (props.copyright === true && document.value?.copyright),
         )
+        const placeholder = computed(() => {
+            const mimeType = document.value?.mimeType
+
+            if (mimeType && NO_PLACEHOLDER_MIME_TYPES.includes(mimeType)) return undefined
+
+            return document.value?.imageAverageColor
+        })
         const $img = useImage()
         const imageComponentProps = computed(() => {
             const baseProps = {
@@ -90,7 +100,7 @@ export default defineComponent({
                 width: width.value,
                 height: height.value,
                 alt: document.value?.alt || '', // Always set alt (empty string), empty alt is for decorative images
-                placeholder: supportsTransparency(document.value) ? undefined : document.value?.imageAverageColor,
+                placeholder: placeholder.value,
                 provider: 'interventionRequest',
                 loading: props.loading ?? ('lazy' as const),
             }
