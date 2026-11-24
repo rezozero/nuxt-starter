@@ -348,6 +348,16 @@ export default defineNuxtConfig({
         allow: ['/'],
         disallow: ['/rz-admin', '/maintenance', '/api'],
     },
+    // The browser SDK is loaded by `app/plugins/sentry.client.ts`: drop what it does not use.
+    sentry: {
+        bundleSizeOptimizations: {
+            excludeDebugStatements: true,
+            excludeTracing: true,
+            excludeReplayIframe: true,
+            excludeReplayShadowDom: true,
+            excludeReplayWorker: true,
+        },
+    },
     // https://www.nuxtseo.com/sitemap/getting-started/installation
     sitemap: {
         enabled: !isGenerateMaintenance,
