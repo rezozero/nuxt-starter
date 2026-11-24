@@ -19,6 +19,7 @@ const perimeter = computed(() => radius.value * 2 * Math.PI)
         :width="size"
         :class="$style.root"
         :viewBox="`0 0 ${size} ${size}`"
+        aria-hidden="true"
         xmlns="http://www.w3.org/2000/svg"
     >
         <circle

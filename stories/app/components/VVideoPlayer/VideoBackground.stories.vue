@@ -9,7 +9,7 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
             :class="[$style.wrapper, $style['wrapper--contain']]"
         >
             <VVideoPlayer
-                :src="video.relativePath"
+                :sources="[{ src: video.relativePath, type: video.mimeType }]"
                 background
                 :class="$style.video"
             />
@@ -19,7 +19,7 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
             :class="[$style.wrapper, $style['wrapper--cover']]"
         >
             <VVideoPlayer
-                :src="video.relativePath"
+                :sources="[{ src: video.relativePath, type: video.mimeType }]"
                 background
                 :class="$style.video"
             />
@@ -29,19 +29,16 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
 
 <style lang="scss" module>
 .wrapper {
-    --v-player-video-position: absolute;
-    --v-player-video-width: 100%;
-    --v-player-video-height: 100%;
-    --v-player-height: 200px;
-
-    width: 100%;
-
     &--contain {
-        --v-player-video-object-fit: contain;
+        --v-video-player-object-fit: contain;
     }
 
     &--cover {
-        --v-player-video-object-fit: cover;
+        --v-video-player-object-fit: cover;
     }
+}
+
+.video {
+    height: 200px;
 }
 </style>
