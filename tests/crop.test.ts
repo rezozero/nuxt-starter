@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { fitCrop, parseCrop } from '../app/utils/image/crop'
+import { fitCrop, parseCrop } from '~/utils/image/crop'
 
 describe('parseCrop', () => {
     it('reads a crop as a ratio', () => {

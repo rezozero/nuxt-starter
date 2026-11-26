@@ -1,16 +1,15 @@
-<script  lang="ts" setup>
-import type { ComponentPublicInstance, PropType } from 'vue'
-import type { HydraCollection, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
+<script lang="ts" setup generic="RawT extends JsonLdObject = RoadizNodesSources, T = RawT">
+import type { ComponentPublicInstance } from 'vue'
+import type { HydraCollection, JsonLdObject, RoadizNodesSources, RoadizRequestNSParams } from '@roadiz/types'
 import { usePaginatedList } from '~/composables/use-paginated-list'
 
-const props = defineProps({
-    url: {
-        type: String,
-        required: true,
-    },
-    params: Object as PropType<RoadizRequestNSParams>,
-    itemElements: Array as PropType<(ComponentPublicInstance | HTMLElement)[]>,
-})
+const props = defineProps<{
+    url: string
+    params?: RoadizRequestNSParams
+    itemElements?: (ComponentPublicInstance | HTMLElement)[]
+    // Maps each fetched item (RawT) to the item exposed in the slot (T), which also lets T be inferred
+    transform?: (item: RawT) => T
+}>()
 
 const root = ref<HTMLElement | null>(null)
 const { page, isScrollingToTop } = usePaginatedList({
@@ -27,18 +26,22 @@ const { itemBaseId } = useList({
     params: internalParams,
 })
 
-const { data, status } = await useRoadizFetch<HydraCollection<RoadizNodesSources>>(props.url, {
+const { data, status } = await useRoadizFetch<HydraCollection<RawT>>(props.url, {
     params: internalParams,
     watch: [page],
     pick: ['hydra:member', 'hydra:totalItems'],
 })
 
-const items = computed(() => {
+const items = computed<(T | null)[]>(() => {
     if (status.value === 'pending' || isScrollingToTop.value) {
         return [...Array(itemsPerPage.value).keys()].map(() => null)
     }
 
-    return data.value?.['hydra:member'] || []
+    const members = data.value?.['hydra:member'] || []
+    const transform = props.transform
+
+    // Without transform, T defaults to RawT
+    return transform ? members.map(item => transform(item)) : members as unknown as T[]
 })
 
 const totalPages = computed(() => {
@@ -49,6 +52,11 @@ const totalPages = computed(() => {
 const hasMoreThanOnePage = computed(() => {
     return (totalPages.value > 1)
 })
+
+defineSlots<{
+    'item': (props: { item: T | null, classNames: string | undefined, index: number }) => unknown
+    'no-result'?: () => unknown
+}>()
 </script>
 
 <template>

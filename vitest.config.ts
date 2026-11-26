@@ -8,7 +8,8 @@ export default defineConfig({
     },
     resolve: {
         alias: {
-            // Same as the Nuxt `~` alias, for the app files imported by tests
+            // Same as the Nuxt `~~` / `~` aliases, for the files imported by tests
+            '~~': fileURLToPath(new URL('.', import.meta.url)),
             '~': fileURLToPath(new URL('./app', import.meta.url)),
         },
     },

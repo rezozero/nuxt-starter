@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import type { RoadizDocument } from '@roadiz/types'
-import type Plyr from 'plyr'
-import plyrIconsUrl from '~/assets/images/plyr-icons.svg?url'
-import '~/assets/scss/vendors/_plyr.scss'
 
 const props = defineProps<{
     document?: RoadizDocument
-    plyr?: Plyr.Options
 }>()
-
-const playerElement = ref<HTMLElement | null>(null)
-
-let player: Plyr | null = null
 
 const internalSrc = computed(() => {
     return props.document?.relativePath
@@ -24,6 +16,18 @@ const internalSrc = computed(() => {
 const isEmbed = computed(() => {
     return !!props.document?.embedId && !!props.document?.embedPlatform
 })
+
+// An embed <iframe> needs a name of its own (RGAA 2.1): the document title when
+// the CMS has one, a generic label otherwise.
+const { t } = useI18n()
+const iframeTitle = computed(() => props.document?.name || t('audio_player.iframe_title'))
+
+// Embeds of a service the visitor has not granted are held back (`runtimeConfig.public.consent.embeds`)
+const {
+    service: consentService,
+    blocked: consentBlocked,
+    request: requestConsent,
+} = useEmbedConsent(() => isEmbed.value ? props.document?.embedPlatform : undefined)
 
 const embedSrc = computed(() => {
     if (!isEmbed.value) return
@@ -57,48 +61,54 @@ const embedSrc = computed(() => {
     return getEmbedSrc(props.document?.embedId as string, platform, params)
 })
 
-const $style = useCssModule()
-
-async function createPlayer() {
-    if (player || !playerElement.value) return
-
-    const options: Plyr.Options = {
-        disableContextMenu: false,
-        iconUrl: (plyrIconsUrl as string),
-        iconPrefix: 'plyr-icon',
-        ...props.plyr,
-    }
-    const [PlyrClass] = await Promise.all([
-        import('plyr').then(module => module.default),
-        import('~/assets/scss/vendors/_plyr.scss'),
-    ])
-
-    player = new PlyrClass(playerElement.value, options)
-    player.elements.container?.classList.add($style['plyr-native-container'])
-}
-
 onMounted(() => {
-    if (playerElement.value && !isEmbed.value) createPlayer()
+    if (!isEmbed.value) import('~/utils/video/define-player-elements')
 })
 </script>
 
 <template>
+    <VEmbedConsent
+        v-if="isEmbed && consentBlocked && consentService"
+        :name="consentService.name"
+        @request="requestConsent"
+    />
     <iframe
-        v-if="isEmbed"
+        v-else-if="isEmbed"
         :src="embedSrc"
+        :title="iframeTitle"
         :class="$style.iframe"
     />
-    <audio
-        v-else
-        ref="playerElement"
-        controls
-        :class="$style.iframe"
-    >
-        <source
-            :src="internalSrc"
-            :type="document?.mimeType || 'audio/mpeg'"
-        >
-    </audio>
+    <media-i18n v-else>
+        <audio-player>
+            <media-container :class="$style.player">
+                <audio>
+                    <source
+                        :src="internalSrc"
+                        :type="document?.mimeType || 'audio/mpeg'"
+                    >
+                </audio>
+                <VPlayerControls audio />
+                <media-hotkey
+                    keys="Space"
+                    action="togglePaused"
+                />
+                <media-hotkey
+                    keys="m"
+                    action="toggleMuted"
+                />
+                <media-hotkey
+                    keys="ArrowLeft"
+                    action="seekStep"
+                    value="-10"
+                />
+                <media-hotkey
+                    keys="ArrowRight"
+                    action="seekStep"
+                    value="10"
+                />
+            </media-container>
+        </audio-player>
+    </media-i18n>
 </template>
 
 <style lang="scss" module>
@@ -106,7 +116,7 @@ onMounted(() => {
     border: 0;
 }
 
-.plyr-native-container {
-    --plyr-control-icon-size: 24px;
+.player {
+    display: block;
 }
 </style>

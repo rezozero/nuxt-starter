@@ -16,7 +16,7 @@ export const vImgProps = {
     provider: { type: null as unknown as PropType<string> },
     sizes: { type: [String, Object] as PropType<string | Record<string, unknown>> },
     densities: { type: String },
-    preload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority: 'auto' | 'high' | 'low' }> },
+    preload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority?: 'auto' | 'high' | 'low' }> },
     width: { type: [String, Number] as PropType<string | number> },
     height: { type: [String, Number] as PropType<string | number> },
     crossorigin: { type: [String, Boolean] as PropType<'anonymous' | 'use-credentials' | boolean> },

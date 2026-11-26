@@ -1,12 +1,39 @@
 import { fileURLToPath } from 'node:url'
 import svgLoader from 'vite-svg-loader'
-import { I18N_DEFAULT_LOCALE, I18N_LOCALES } from './app/constants/i18n'
+import { I18N_DEFAULT_LOCALE, I18N_LOCALE_OBJECTS } from './app/constants/i18n'
 import { version } from './package.json'
 import { createHash } from 'node:crypto'
+import themeKeys from './build/theme-keys'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
 const isGenerateMaintenance = isGenerate && process.argv.includes('--maintenance')
+
+// Video.js custom elements used in templates (see `app/utils/video/define-player-elements.ts`).
+// Listed one by one: a prefix rule would also hide a misspelled Vue component.
+const videoJsElements = new Set([
+    'audio-player',
+    'media-container',
+    'media-controls',
+    'media-controls-content',
+    'media-controls-group',
+    'media-fullscreen-button',
+    'media-gesture',
+    'media-hotkey',
+    'media-i18n',
+    'media-mute-button',
+    'media-play-button',
+    'media-slider-buffer',
+    'media-slider-fill',
+    'media-slider-thumb',
+    'media-slider-track',
+    'media-time',
+    'media-time-slider',
+    'media-volume-slider',
+    'video-player',
+    'vimeo-video',
+    'youtube-video',
+])
 
 export default defineNuxtConfig({
     modules: [
@@ -23,6 +50,14 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@sentry/nuxt/module',
         'nuxt-schema-org',
+        // Drops the theme custom properties no source reads (dev and build)
+        [themeKeys, {
+            themesFile: fileURLToPath(new URL('./app/assets/scss/variables/_themes.scss', import.meta.url)),
+            dirs: [
+                fileURLToPath(new URL('./app', import.meta.url)),
+                fileURLToPath(new URL('./stories/app', import.meta.url)),
+            ],
+        }],
     ],
     components: [
         '~/components',
@@ -44,6 +79,11 @@ export default defineNuxtConfig({
         },
     },
     css: ['~/assets/scss/main.scss'],
+    vue: {
+        compilerOptions: {
+            isCustomElement: tag => videoJsElements.has(tag),
+        },
+    },
     runtimeConfig: {
         // Server-only: overrides api.url for Node SSR context (e.g. internal cluster URL).
         // Never exposed to the browser bundle.
@@ -82,6 +122,22 @@ export default defineNuxtConfig({
             googleTagManager: {
                 id: '',
                 debug: '',
+            },
+            consent: {
+                // Consent management platform (CMP) in use, see `app/utils/consent/providers.ts` (e.g. `axeptio`).
+                // Empty: no consent bridge, embeds are never held back.
+                provider: '',
+                // Any link to this href reopens the consent settings (link field, Markdown…)
+                settingsHref: '#cookies',
+                // Embed platforms held back until the visitor grants their service:
+                // platform → service name in the CMP (e.g. Axeptio vendor), and name shown to the visitor.
+                embeds: {
+                    youtube: { service: 'youtube', name: 'YouTube' },
+                    vimeo: { service: 'vimeo', name: 'Vimeo' },
+                    deezer: { service: 'deezer', name: 'Deezer' },
+                    spotify: { service: 'spotify', name: 'Spotify' },
+                    soundcloud: { service: 'soundcloud', name: 'SoundCloud' },
+                },
             },
             friendlyCaptcha: {
                 siteKey: '',
@@ -168,10 +224,15 @@ export default defineNuxtConfig({
                 '@gtm-support/vue-gtm',
                 '@unhead/schema-org/vue',
                 '@vue-a11y/skip-to',
-                'lodash/pick',
+                '@vuepic/vue-datepicker',
                 'lodash/throttle',
-                'plyr',
                 'tiny-emitter',
+            ],
+            // Scanned from the players themselves (relative to `srcDir`), so that their Video.js imports
+            // are the only list: components are never reached from the app entry (`#components`).
+            entries: [
+                'components/VVideoPlayer.vue',
+                'components/VRoadizAudio.vue',
             ],
         },
         build: {
@@ -248,9 +309,9 @@ export default defineNuxtConfig({
             useCookie: true,
         },
         defaultLocale: I18N_DEFAULT_LOCALE,
-        locales: I18N_LOCALES.map(locale => ({
-            code: locale,
-            file: `nuxt.${locale}.json`,
+        locales: I18N_LOCALE_OBJECTS.map(locale => ({
+            ...locale,
+            file: `nuxt.${locale.code}.json`,
         })),
         compilation: {
             strictMessage: false, // Message can contains HTML tag

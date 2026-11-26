@@ -71,7 +71,7 @@ function setIndicatorPosition(index: number) {
 
     &::before {
         position: absolute;
-        background-color: var(--theme-colors-control-content-disabled, #ccc);
+        background-color: var(--colors-control-content-disabled, #ccc);
         content: '';
         inset: 0;
     }
@@ -85,7 +85,7 @@ function setIndicatorPosition(index: number) {
     position: relative;
     width: clamp(#{px-to-rem(22)}, var(--v-carousel-controls-thumb-width), 100%);
     height: 100%;
-    background-color: var(--theme-colors-control-content, currentColor);
+    background-color: var(--colors-control-content, currentColor);
     content: '';
     transform-origin: left;
     transition: 0.2s linear, 0.5s;
