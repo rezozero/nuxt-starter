@@ -1,10 +1,7 @@
 <script lang="ts" setup>
-import { clearAllBodyScrollLocks, disableBodyScroll, enableBodyScroll } from 'body-scroll-lock'
-import type { ComponentPublicInstance, MaybeRef } from 'vue'
 import { usePreferredReducedMotion } from '@vueuse/core'
 import { ease } from '~/utils/ease'
 import { isSafari } from '~/utils/browser/is-safari'
-import { getHtmlElement } from '~/utils/ref/get-html-element'
 import { reflow } from '~/utils/dom/reflow'
 
 export type VModalAlign = 'top-left'
@@ -18,7 +15,6 @@ export type VModalAlign = 'top-left'
 
 interface VModalProps {
     align?: VModalAlign
-    scrollableElement?: MaybeRef<HTMLElement | ComponentPublicInstance | null | undefined>
 }
 
 const props = defineProps<VModalProps>()
@@ -26,6 +22,7 @@ const isOpen = defineModel<boolean>()
 const emits = defineEmits(['enter', 'after-enter', 'leave', 'after-leave'])
 
 const root = ref<HTMLDialogElement | null>(null)
+const { lockPageScroll, unlockPageScroll } = usePageScrollLock({ withPaddingRight: true })
 
 let animations: Animation[] = []
 
@@ -39,18 +36,6 @@ function cancelAnimations() {
     if (!animations?.length) return
 
     animations.forEach(animation => animation.pause())
-}
-
-function disableScroll() {
-    const element = getHtmlElement(toValue(props.scrollableElement) || root.value)
-
-    if (element) disableBodyScroll(element, { reserveScrollBarGap: true })
-}
-
-function enableScroll() {
-    const element = getHtmlElement(toValue(props.scrollableElement) || root.value)
-    if (element) enableBodyScroll(element)
-    else clearAllBodyScrollLocks()
 }
 
 function initKeyUpListener() {
@@ -76,7 +61,7 @@ function enter() {
     const scrollY = window.scrollY
 
     root.value?.showModal()
-    disableScroll()
+    lockPageScroll()
     cancelAnimations()
     initKeyUpListener()
 
@@ -250,7 +235,7 @@ function afterLeave() {
     animations = []
 
     root.value?.close()
-    enableScroll()
+    unlockPageScroll()
     emits('after-leave')
 }
 

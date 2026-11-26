@@ -6,7 +6,7 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
     <NuxtStory :class="$style.root">
         <div :class="$style.wrapper">
             <VVideoPlayer
-                :src="video.relativePath"
+                :sources="[{ src: video.relativePath, type: video.mimeType }]"
                 fit="cover"
                 background
             />
@@ -20,8 +20,8 @@ import video from '~stories/assets/fixtures/documents/video-01.json'
 }
 
 .wrapper {
-    --v-player-height: 100%;
-    --v-player-video-object-fit: cover;
+    --v-video-player-height: 100%;
+    --v-video-player-object-fit: cover;
 
     position: absolute;
     height: 100svh;

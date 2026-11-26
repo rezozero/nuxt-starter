@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { useEventListener } from '@vueuse/core'
-import type Plyr from 'plyr'
 import { isVideo } from '~/utils/roadiz/document'
 
 const id = useId()
@@ -29,30 +28,17 @@ const description = computed(() => {
     return documents.value?.[slideIndex.value]?.description
 })
 
-const plyrInstances = ref<{ index: number, plyr: Plyr }[]>([])
+// Playback controls exposed by each slide media (`VRoadizMedia`)
+type PlayableMediaRef = { play?: () => void, pause?: () => void }
 
-function onPlyrReady(plyr: Plyr, index: number) {
-    const isAlreadyInit = plyrInstances.value.find(item => item.index === index)
+const mediaRefs: (PlayableMediaRef | null)[] = []
 
-    if (!isAlreadyInit) {
-        plyrInstances.value.push({
-            index,
-            plyr,
-        })
-    }
+function setMediaRef(element: unknown, index: number) {
+    mediaRefs[index] = element as PlayableMediaRef | null
 }
 
-watch(
-    slideIndex,
-    (currentSlideIndex) => {
-        const inertVideos = plyrInstances.value.find((item) => {
-            return item.index !== currentSlideIndex && !item.plyr.paused
-        })
-
-        if (inertVideos) inertVideos.plyr?.pause()
-    },
-    { flush: 'post' },
-)
+// pause the video of the slide left
+watch(slideIndex, (_index, oldIndex) => mediaRefs[oldIndex]?.pause?.())
 
 const root = ref<HTMLDialogElement | null>(null)
 
@@ -61,7 +47,6 @@ onMounted(() => {
 })
 
 onBeforeUnmount(() => {
-    plyrInstances.value = []
     root.value?.close()
 })
 </script>
@@ -98,6 +83,7 @@ onBeforeUnmount(() => {
                 :class="[...slideClass, $style.slide]"
             >
                 <VRoadizMedia
+                    :ref="(element) => setMediaRef(element, documentIndex)"
                     :class="[$style.media, isVideo(document) && $style['media--video']]"
                     :document="document"
                     :image="{
@@ -109,7 +95,6 @@ onBeforeUnmount(() => {
                         muted: slideIndex !== documentIndex,
                         playsinline: true,
                     }"
-                    @ready="(plyr: Plyr) => onPlyrReady(plyr, documentIndex)"
                 />
                 <div
                     v-if="document.description"
@@ -147,8 +132,8 @@ onBeforeUnmount(() => {
     flex-direction: column;
     padding: var(--gutter);
     border: none;
-    background-color: var(--theme-color-surfaces-primary);
-    color: var(--theme-color-content-primary);
+    background-color: var(--color-surfaces-primary);
+    color: var(--color-content-primary);
     inset: 0;
 
     @include theme-variants($match: 'surfaces-' 'content-' 'lines-' 'links-' 'control-');
@@ -156,7 +141,7 @@ onBeforeUnmount(() => {
     &::after {
         position: absolute;
         z-index: -1;
-        background-color: var(--theme-color-surfaces-primary);
+        background-color: var(--color-surfaces-primary);
         content: '';
         inset: 0;
     }
@@ -223,7 +208,7 @@ onBeforeUnmount(() => {
     -webkit-user-drag: none;
     user-select: none;
 
-    :global(.plyr--video) {
+    &--video {
         width: 100%;
     }
 }

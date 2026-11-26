@@ -2,6 +2,8 @@ import type { ReactiveHead } from '@unhead/vue'
 import type { MaybeRefOrGetter } from 'vue'
 import { truncate } from '~/utils/string/truncate'
 import { joinURL } from 'ufo'
+import { I18N_DEFAULT_LOCALE } from '~/constants/i18n'
+import { getOgLocale } from '~/utils/i18n/get-og-locale'
 
 export interface PageMetaAlternateLink {
     locale: string
@@ -48,14 +50,33 @@ export function usePageMeta(options: PageMetaOptions = {}) {
         const alternateLinks = toValue(options.alternateLinks)
         if (alternateLinks) {
             links.push(...alternateLinks.map(alternateLink => ({
-                hid: `alternate-${alternateLink.locale}`,
-                rel: 'alternate',
+                key: `alternate-${alternateLink.locale}`,
+                rel: 'alternate' as const,
                 hreflang: alternateLink.locale,
                 href: alternateLink.href,
             })))
         }
 
+        // The page for visitors whose language matches none of the alternates: the default locale one
+        const defaultLocaleLink = alternateLinks?.find(alternateLink => alternateLink.locale === I18N_DEFAULT_LOCALE)
+        if (defaultLocaleLink) {
+            links.push({
+                key: 'alternate-x-default',
+                rel: 'alternate',
+                hreflang: 'x-default',
+                href: defaultLocaleLink.href,
+            })
+        }
+
         return links
+    })
+
+    const ogLocale = computed(() => getOgLocale($i18n.locale.value, $i18n.locales.value))
+    const ogLocaleAlternates = computed(() => {
+        return (toValue(options.alternateLinks) || [])
+            .filter(alternateLink => alternateLink.locale !== $i18n.locale.value)
+            .map(alternateLink => getOgLocale(alternateLink.locale, $i18n.locales.value))
+            .filter(Boolean)
     })
 
     const head = computed(() => ({
@@ -80,6 +101,8 @@ export function usePageMeta(options: PageMetaOptions = {}) {
             { property: 'og:description', content: truncatedDescription.value },
             { property: 'og:image', content: image.value },
             { property: 'og:url', content: canonicalUrl.value },
+            { property: 'og:locale', content: ogLocale.value },
+            ...ogLocaleAlternates.value.map(content => ({ property: 'og:locale:alternate', content })),
             { name: 'twitter:card', content: 'summary_large_image' },
             { name: 'twitter:title', content: title.value },
             { name: 'twitter:description', content: truncatedDescription.value },

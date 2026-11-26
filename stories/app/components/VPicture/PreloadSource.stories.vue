@@ -18,6 +18,8 @@ const imageProps = {
                 :modifiers="{ crop: '400x600' }"
                 media="(max-width: 1024px)"
             />
+            <!-- Preloaded with media="(not (max-width: 1024px))", so only one image is preloaded per viewport -->
+            <VPictureSource />
         </VPicture>
     </NuxtStory>
 </template>

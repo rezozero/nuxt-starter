@@ -16,7 +16,7 @@ export const vImgProps = {
     provider: { type: null as unknown as PropType<string> },
     sizes: { type: [String, Object] as PropType<string | Record<string, unknown>> },
     densities: { type: String },
-    preload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority: 'auto' | 'high' | 'low' }> },
+    preload: { type: [Boolean, Object] as PropType<boolean | { fetchPriority?: 'auto' | 'high' | 'low' }> },
     width: { type: [String, Number] as PropType<string | number> },
     height: { type: [String, Number] as PropType<string | number> },
     crossorigin: { type: [String, Boolean] as PropType<'anonymous' | 'use-credentials' | boolean> },
@@ -30,6 +30,8 @@ export const vImgProps = {
     alt: { type: String },
     loading: { type: String as PropType<'lazy' | 'eager'>, default: 'lazy' },
     decoding: { type: String as PropType<'async' | 'auto' | 'sync'> },
+    // Defaults to `preload.fetchPriority`; separate because a `<picture>` passes it without the preload.
+    fetchpriority: { type: String as PropType<'auto' | 'high' | 'low'> },
     longdesc: { type: String },
 }
 
@@ -83,7 +85,9 @@ export default defineComponent({
         const modifiers = computed<ImageOptions['modifiers']>(() => ({
             ...props.modifiers,
             width: width.value,
-            height: height.value,
+            // Intervention Request reads `crop` as a ratio and sizes the image from `width` alone:
+            // a `height` could only shrink it.
+            height: props.modifiers?.crop ? undefined : height.value,
             quality: Number(props.quality || props.modifiers?.quality) || $img.options.quality,
             format: props.format || props.modifiers?.format,
         }))
@@ -157,6 +161,8 @@ export default defineComponent({
                 loading: props.loading,
                 crossorigin: typeof props.crossorigin === 'string' ? props.crossorigin : undefined,
                 decoding: props.decoding,
+                fetchpriority:
+                    props.fetchpriority || (typeof props.preload === 'object' ? props.preload.fetchPriority : undefined),
                 longdesc: props.longdesc,
                 style: style.value,
                 class: [$style.root, loaded.value && $style['root--loaded']],
