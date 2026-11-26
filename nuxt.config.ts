@@ -3,6 +3,7 @@ import svgLoader from 'vite-svg-loader'
 import { I18N_DEFAULT_LOCALE, I18N_LOCALE_OBJECTS } from './app/constants/i18n'
 import { version } from './package.json'
 import { createHash } from 'node:crypto'
+import themeKeys from './build/theme-keys'
 
 const isDev = process.env.NODE_ENV === 'development'
 const isGenerate = process.argv.includes('generate')
@@ -49,6 +50,14 @@ export default defineNuxtConfig({
         '@nuxt/icon',
         '@sentry/nuxt/module',
         'nuxt-schema-org',
+        // Drops the theme custom properties no source reads (dev and build)
+        [themeKeys, {
+            themesFile: fileURLToPath(new URL('./app/assets/scss/variables/_themes.scss', import.meta.url)),
+            dirs: [
+                fileURLToPath(new URL('./app', import.meta.url)),
+                fileURLToPath(new URL('./stories/app', import.meta.url)),
+            ],
+        }],
     ],
     components: [
         '~/components',
