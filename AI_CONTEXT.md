@@ -60,6 +60,7 @@ Useful commands:
 - Lint JS/TS: `pnpm lint:js`
 - Lint styles: `pnpm lint:css`
 - Lint fix: `pnpm lint-fix`
+- Type check: `pnpm typecheck` (`app/`, `server/`, `shared/`; the `stories/` layer is not checked yet)
 
 ## Workflow
 

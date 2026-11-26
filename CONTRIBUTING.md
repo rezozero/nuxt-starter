@@ -33,6 +33,7 @@ If it is possible to separate them, it is better to have multiple PRs to review 
 - `pnpm lint`
 - `pnpm lint:js` (if you touched JS/TS/Vue)
 - `pnpm lint:css` (if you touched styles)
+- `pnpm typecheck` (if you touched TS/Vue; `app/`, `server/` and `shared/` only, not `stories/`)
 
 ## Use ESLint
 
