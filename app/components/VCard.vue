@@ -91,8 +91,12 @@ const ctaProps = computed(() => {
                 v-if="ctaProps"
                 :class="$style.cta"
                 v-bind="ctaProps"
-                :aria-label="extendLinkEnabled ? undefined : title"
-            />
+            >
+                <VLinkLabel
+                    :label="ctaProps.label"
+                    :context="extendLinkEnabled ? undefined : title"
+                />
+            </VButton>
         </slot>
     </div>
 </template>
