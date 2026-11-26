@@ -1,5 +1,7 @@
 # CLAUDE.md
 
+@AGENTS.md
+
 ## Translations (i18n)
 
 Translation keys are managed via **Xilofone**, an external translation management service.
@@ -11,3 +13,4 @@ pnpm xilo
 ```
 
 If a translation key needs to be added or updated, make the change directly in the `nuxt.*.json` file **and explicitly instruct the developer to report the same change in the Xilofone interface**, otherwise it will be overwritten the next time they run `pnpm xilo`.
+

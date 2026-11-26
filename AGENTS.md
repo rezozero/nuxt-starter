@@ -1,4 +1,4 @@
-# AI Context — Nuxt Starter
+# AGENTS.md — Nuxt Starter
 
 This file captures project context, conventions, and best practices.
 It is a guide for human contributors and AI assistants.
@@ -25,6 +25,12 @@ Key modules:
 - Stories: @rezo-zero/nuxt-stories
 - Monitoring: Sentry
 - SEO: @nuxtjs/sitemap
+
+## Browser support
+
+- Target: `baseline 2024`, declared once in the `browserslist` field of `package.json`.
+- Autoprefixer reads it; `nuxt.config.ts` derives the Vite build target from it.
+- Only use web platform features within this target.
 
 ## Architecture
 
