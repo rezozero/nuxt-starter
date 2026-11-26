@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { useRoadizDetectBrowserLanguage } from '../app/composables/use-roadiz-detect-browser-language'
+import { useRoadizDetectBrowserLanguage } from '~/composables/use-roadiz-detect-browser-language'
 
 const alternateLinks = [
     { locale: 'fr', url: '/' },

@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { getApiUrl } from '../shared/utils/get-api-url'
+import { getApiUrl } from '~~/shared/utils/get-api-url'
 
 function stubConfig(config: { serverApiUrl?: string, api?: string, site?: string }) {
     vi.stubGlobal('useRuntimeConfig', () => ({

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mergeVaryHeader } from '../app/utils/http/merge-vary-header'
+import { mergeVaryHeader } from '~/utils/http/merge-vary-header'
 
 describe('mergeVaryHeader', () => {
     it('creates the header when none is set', () => {
