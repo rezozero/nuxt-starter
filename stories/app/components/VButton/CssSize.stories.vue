@@ -12,6 +12,11 @@
                 icon-name="check"
             />
             <VButton
+                label="XS"
+                :class="[$style.button, $style['button--xs']]"
+                icon-name="check"
+            />
+            <VButton
                 label="SM"
                 :class="[$style.button, $style['button--sm']]"
                 icon-name="check"
@@ -31,7 +36,13 @@
 </template>
 
 <style lang="scss" module>
+@use 'assets/scss/components/v-button';
+
 .button {
+    &--xs {
+        @include v-button.size('xs');
+    }
+
     &--sm {
         @include v-button.size('sm');
     }
@@ -45,7 +56,7 @@
     }
 
     &--responsive {
-        @include v-button.size('sm');
+        @include v-button.size('xs');
 
         @include media('>=lg') {
             @include v-button.size('md');
