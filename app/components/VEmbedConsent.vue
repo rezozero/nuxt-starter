@@ -45,8 +45,8 @@ const { unavailable } = useConsent()
 
     // Without a height from its container, it holds the embed's usual ratio
     aspect-ratio: var(--v-embed-consent-aspect-ratio, 16 / 9);
-    background-color: var(--theme-color-surfaces-primary);
-    color: var(--theme-color-content-primary);
+    background-color: var(--color-surfaces-primary);
+    color: var(--color-content-primary);
     gap: px-to-rem(16);
     text-align: center;
 }
