@@ -35,6 +35,10 @@ If it is possible to separate them, it is better to have multiple PRs to review 
 - `pnpm lint:css` (if you touched styles)
 - `pnpm typecheck` (if you touched TS/Vue; `app/`, `server/` and `shared/` only, not `stories/`)
 
+There is no Git hook: linting, unit tests and the Docker build are enforced by CI.
+This repository (the starter) uses GitHub Actions (`.github/workflows`), while projects created from it use `.gitlab-ci.yml`.
+Run these checks locally before pushing if you want faster feedback.
+
 ## Use ESLint
 
 We use ESLint for both linting and formatting.

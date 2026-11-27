@@ -8,9 +8,10 @@ include:
     - template: Jobs/Secret-Detection.gitlab-ci.yml
     - template: Jobs/Dependency-Scanning.gitlab-ci.yml
 
-test_audit:
-    image: node:24.21.0-alpine
-    stage: test
+# Shared setup for Node jobs (install dependencies with a cached pnpm store).
+# EVENTS_API_NPM_* variables are read from the project CI/CD variables when set.
+.node:
+    image: node:24.22.2-alpine
     interruptible: true
     rules:
         -   if: '$CI_COMMIT_BRANCH == "develop"'
@@ -24,6 +25,23 @@ test_audit:
         - corepack enable
         - pnpm config set store-dir .pnpm-store
         - pnpm install --frozen-lockfile
+
+test_lint:
+    extends: .node
+    stage: test
+    script:
+        - pnpm lint:js
+        - pnpm lint:css
+
+test_unit:
+    extends: .node
+    stage: test
+    script:
+        - pnpm test
+
+test_audit:
+    extends: .node
+    stage: test
     allow_failure: true
     script:
         - pnpm audit --audit-level=moderate --prod
